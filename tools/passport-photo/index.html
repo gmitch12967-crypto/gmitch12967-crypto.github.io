@@ -199,8 +199,14 @@
       }, "image/jpeg", 0.96);
     }
 
-    document.getElementById("btnSingle").addEventListener("click", () => dlCanvas(document.getElementById("cSingle"), "passport-photo-single.jpg"));
-    document.getElementById("btnSheet").addEventListener("click", () => dlCanvas(document.getElementById("cSheet"), "passport-photo-print-sheet.jpg"));
+    function promptPaidSheet(actionName) {
+      if (confirm(`Your 300 DPI ${actionName} preview is ready!\n\nDownload the full watermark-free 300 DPI Offline Print Sheet ($3.99 — vs $13-$17 elsewhere).\n\nClick OK to open checkout.`)) {
+        window.open("https://payhip.com/b/sphoS", "_blank");
+      }
+    }
+
+    document.getElementById("btnSingle").addEventListener("click", () => promptPaidSheet("Single Photo"));
+    document.getElementById("btnSheet").addEventListener("click", () => promptPaidSheet("4x6 / A4 Print Sheet"));
   </script>
 </body>
 </html>
