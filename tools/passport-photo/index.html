@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Crop passport and visa photos to US, UK, EU, India, Canada, or Japan sizes and make a printable 4x6 or A4 sheet offline with zero uploads." />
+  <title>Tool #3: Passport &amp; Visa Photo Maker (4x6 &amp; A4 Print Sheet)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:1020px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; }
+    button, .file-label { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.secondary { background:#334155; color:var(--text); }
+    button.green { background:var(--green); color:#052e16; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    input[type="file"] { display:none; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin-top:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input[type="range"] { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.5rem; font-size:0.9rem; }
+    .preview-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+    .box { background:#0f172a; border:1px solid var(--border); border-radius:10px; padding:0.9rem; text-align:center; }
+    .box h3 { font-size:0.85rem; color:var(--muted); margin-bottom:0.6rem; text-transform:uppercase; }
+    canvas { max-width:100%; border-radius:6px; background:#fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Private â€¢ Zero Uploads â€¢ No Watermarks</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy (Store)</a>
+      </div>
+    </div>
+
+    <h1>Passport &amp; Visa Photo Maker</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your photo. &nbsp;<strong>Step 2:</strong> Choose your country size and print sheet. &nbsp;<strong>Step 3:</strong> Save your ready-to-print sheet. Nothing leaves your computer.</p>
+
+    <div class="panel">
+      <div class="actions">
+        <label class="file-label" for="imgInput">1. Pick Your Photo</label>
+        <input type="file" id="imgInput" accept="image/*" />
+        <button class="secondary" id="btnSample">Try With Sample Portrait</button>
+        <button class="green" id="btnSingle" disabled>3a. Save Single Photo</button>
+        <button class="green" id="btnSheet" disabled>3b. Save Print Sheet (4Ã—6 / A4)</button>
+      </div>
+
+      <div class="controls">
+        <label class="field">2. Country / Photo Size
+          <select id="selPreset">
+            <option value="51x51">United States / India Visa (2Ã—2 in / 51Ã—51 mm)</option>
+            <option value="35x45" selected>UK / Europe / India Passport / Japan / Australia (35Ã—45 mm)</option>
+            <option value="50x70">Canada Passport (50Ã—70 mm)</option>
+            <option value="33x48">China Visa / Passport (33Ã—48 mm)</option>
+          </select>
+        </label>
+        <label class="field">Print Sheet Paper Size
+          <select id="selPaper">
+            <option value="4x6" selected>4Ã—6 inch Photo Paper (CVS / Walgreens / Home)</option>
+            <option value="a4">A4 Paper (UK / Europe / Global Printers)</option>
+          </select>
+        </label>
+        <label class="field">Zoom In / Out
+          <input type="range" id="rngZoom" min="100" max="220" value="110" />
+        </label>
+        <label class="field">Move Up / Down
+          <input type="range" id="rngY" min="-35" max="35" value="0" />
+        </label>
+      </div>
+    </div>
+
+    <div class="panel preview-grid" id="previewWrap" style="display:none;">
+      <div class="box">
+        <h3>Single Photo Preview (300 DPI)</h3>
+        <canvas id="cSingle"></canvas>
+      </div>
+      <div class="box">
+        <h3>Printable Sheet Preview (With Cut Lines)</h3>
+        <canvas id="cSheet"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let srcImg = null;
+    const MM_TO_PX_300DPI = 300 / 25.4;
+
+    function getPresetMm() {
+      const [w, h] = document.getElementById("selPreset").value.split("x").map(Number);
+      return { wMm: w, hMm: h };
+    }
+
+    function renderAll() {
+      if (!srcImg) return;
+      const { wMm, hMm } = getPresetMm();
+      const pw = Math.round(wMm * MM_TO_PX_300DPI);
+      const ph = Math.round(hMm * MM_TO_PX_300DPI);
+      const zoom = Number(document.getElementById("rngZoom").value) / 100;
+      const offsetY = Number(document.getElementById("rngY").value) / 100;
+
+      const cs = document.getElementById("cSingle");
+      cs.width = pw; cs.height = ph;
+      const sctx = cs.getContext("2d");
+      sctx.fillStyle = "#ffffff";
+      sctx.fillRect(0, 0, pw, ph);
+
+      const scale = Math.max(pw / srcImg.width, ph / srcImg.height) * zoom;
+      const dw = srcImg.width * scale;
+      const dh = srcImg.height * scale;
+      const dx = (pw - dw) / 2;
+      const dy = (ph - dh) / 2 + (offsetY * ph);
+      sctx.drawImage(srcImg, dx, dy, dw, dh);
+
+      const paper = document.getElementById("selPaper").value;
+      const sheetW = paper === "a4" ? Math.round(210 * MM_TO_PX_300DPI) : 1800;
+      const sheetH = paper === "a4" ? Math.round(297 * MM_TO_PX_300DPI) : 1200;
+      const csh = document.getElementById("cSheet");
+      csh.width = sheetW; csh.height = sheetH;
+      const shctx = csh.getContext("2d");
+      shctx.fillStyle = "#ffffff";
+      shctx.fillRect(0, 0, sheetW, sheetH);
+
+      const gap = 36;
+      const cols = Math.max(1, Math.floor((sheetW - gap) / (pw + gap)));
+      const rows = Math.max(1, Math.floor((sheetH - gap) / (ph + gap)));
+      const startX = Math.round((sheetW - (cols * pw + (cols - 1) * gap)) / 2);
+      const startY = Math.round((sheetH - (rows * ph + (rows - 1) * gap)) / 2);
+
+      shctx.strokeStyle = "#cbd5e1";
+      shctx.lineWidth = 2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = startX + c * (pw + gap);
+          const y = startY + r * (ph + gap);
+          shctx.drawImage(cs, x, y);
+          shctx.strokeRect(x, y, pw, ph);
+        }
+      }
+
+      document.getElementById("previewWrap").style.display = "grid";
+      document.getElementById("btnSingle").disabled = false;
+      document.getElementById("btnSheet").disabled = false;
+    }
+
+    document.getElementById("imgInput").addEventListener("change", (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        const img = new Image();
+        img.onload = () => { srcImg = img; renderAll(); };
+        img.src = ev.target.result;
+      };
+      r.readAsDataURL(f);
+    });
+
+    document.getElementById("btnSample").addEventListener("click", () => {
+      const c = document.createElement("canvas");
+      c.width = 900; c.height = 1100;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#f1f5f9";
+      ctx.fillRect(0, 0, 900, 1100);
+      ctx.fillStyle = "#334155";
+      ctx.beginPath(); ctx.arc(450, 420, 165, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(450, 860, 290, 240, 0, Math.PI, 0); ctx.fill();
+      const img = new Image();
+      img.onload = () => { srcImg = img; renderAll(); };
+      img.src = c.toDataURL("image/png");
+    });
+
+    ["selPreset", "selPaper", "rngZoom", "rngY"].forEach(id => {
+      document.getElementById(id).addEventListener("input", renderAll);
+      document.getElementById(id).addEventListener("change", renderAll);
+    });
+
+    function dlCanvas(canvas, name) {
+      canvas.toBlob(b => {
+        const u = URL.createObjectURL(b);
+        const a = document.createElement("a");
+        a.href = u; a.download = name; a.click();
+        URL.revokeObjectURL(u);
+      }, "image/jpeg", 0.96);
+    }
+
+    document.getElementById("btnSingle").addEventListener("click", () => dlCanvas(document.getElementById("cSingle"), "passport-photo-single.jpg"));
+    document.getElementById("btnSheet").addEventListener("click", () => dlCanvas(document.getElementById("cSheet"), "passport-photo-print-sheet.jpg"));
+  </script>
+</body>
+</html>
+
