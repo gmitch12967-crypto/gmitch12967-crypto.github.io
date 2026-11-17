@@ -108,44 +108,47 @@
   <div class="container">
     <div class="topbar">
       <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
-      <span class="privacy-pill">100% Local Processing • Zero Uploads • No Watermarks</span>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="privacy-pill">100% Local Processing • Zero Uploads • No Watermarks</span>
+        <a href="https://payhip.com/b/dhzAe" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Bundle ($2.99)</a>
+      </div>
     </div>
 
-    <h1>Zero-Upload Image Resizer &amp; Target-MB Shrinker</h1>
-    <p class="sub">Need to shrink a private ID scan, document photo, or picture under 1 MB or 2 MB for a portal? Everything runs locally inside your browser — your image never leaves your device.</p>
+    <h1>Shrink a Photo to Fit</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your photo. &nbsp;<strong>Step 2:</strong> Choose the size limit you need. &nbsp;<strong>Step 3:</strong> Click <em>Save Smaller Photo</em>. Your photo never leaves your computer.</p>
 
     <div class="panel">
       <div class="actions">
-        <label class="file-label" for="imgInput">Choose Image (JPG / PNG / WebP)</label>
+        <label class="file-label" for="imgInput">1. Pick Your Photo</label>
         <input type="file" id="imgInput" accept="image/*" />
-        <button class="secondary" id="btnSample">Load Sample Image</button>
-        <button class="green" id="btnDownload" disabled>Download Shrunk Image</button>
+        <button class="secondary" id="btnSample">Try With Sample Photo</button>
+        <button class="green" id="btnDownload" disabled>3. Save Smaller Photo</button>
       </div>
 
       <div class="controls">
-        <label class="field">Target Max File Size
+        <label class="field">2. Maximum File Size Needed
           <select id="selTarget">
-            <option value="200">Under 200 KB</option>
-            <option value="500">Under 500 KB</option>
-            <option value="1024" selected>Under 1 MB (1,024 KB)</option>
-            <option value="2048">Under 2 MB (2,048 KB)</option>
+            <option value="200">Under 200 KB (Very Small)</option>
+            <option value="500">Under 500 KB (Small)</option>
+            <option value="1024" selected>Under 1 MB (Most Forms)</option>
+            <option value="2048">Under 2 MB (Standard Limit)</option>
             <option value="5120">Under 5 MB</option>
           </select>
         </label>
 
-        <label class="field">Max Width / Height (px)
+        <label class="field">Photo Width / Height
           <select id="selDim">
-            <option value="0">Keep Original Dimensions</option>
-            <option value="1920" selected>Max 1920 px</option>
-            <option value="1280">Max 1280 px</option>
-            <option value="800">Max 800 px</option>
+            <option value="0">Keep Original Size</option>
+            <option value="1920" selected>Large (Max 1920 px)</option>
+            <option value="1280">Medium (Max 1280 px)</option>
+            <option value="800">Small (Max 800 px)</option>
           </select>
         </label>
 
-        <label class="field">Output Format
+        <label class="field">File Type
           <select id="selFmt">
-            <option value="image/jpeg" selected>JPEG (.jpg) — Best Portal Compatibility</option>
-            <option value="image/webp">WebP (.webp) — Smallest File Size</option>
+            <option value="image/jpeg" selected>JPG — Works Everywhere</option>
+            <option value="image/webp">WebP — Smallest File Size</option>
           </select>
         </label>
       </div>
@@ -154,8 +157,8 @@
     <div class="kpis">
       <div class="kpi"><div class="label">Original Size</div><div class="val" id="kOrig">—</div></div>
       <div class="kpi"><div class="label">New Size</div><div class="val" id="kNew" style="color:#22c55e;">—</div></div>
-      <div class="kpi"><div class="label">Saved</div><div class="val" id="kSaved">—</div></div>
-      <div class="kpi"><div class="label">Output Dimensions</div><div class="val" id="kDims">—</div></div>
+      <div class="kpi"><div class="label">Space Saved</div><div class="val" id="kSaved">—</div></div>
+      <div class="kpi"><div class="label">Photo Dimensions</div><div class="val" id="kDims">—</div></div>
     </div>
 
     <div class="panel preview-grid" id="previewWrap" style="display:none;">
