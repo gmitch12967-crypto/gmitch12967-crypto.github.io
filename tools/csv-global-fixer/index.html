@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fix broken European or international CSV files in Excel. Switch semicolons to commas and convert DD/MM/YYYY and MM/DD/YYYY dates offline." />
+  <title>Tool #4: International CSV &amp; Date Fixer (Commas, Semicolons, Dates)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:1020px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; }
+    button, .file-label { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.secondary { background:#334155; color:var(--text); }
+    button.green { background:var(--green); color:#052e16; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    input[type="file"] { display:none; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.5rem; font-size:0.9rem; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+    th, td { text-align:left; padding:0.6rem 0.75rem; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); font-size:0.8rem; text-transform:uppercase; }
+    .empty { color:var(--muted); text-align:center; padding:2rem 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Private â€¢ Zero Uploads</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy (Store)</a>
+      </div>
+    </div>
+
+    <h1>International CSV &amp; Date Fixer</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick a CSV that looks scrambled in Excel. &nbsp;<strong>Step 2:</strong> Choose your output separator (Comma or Semicolon) and date style. &nbsp;<strong>Step 3:</strong> Save your fixed file.</p>
+
+    <div class="panel">
+      <div class="actions">
+        <label class="file-label" for="csvInput">1. Pick Your CSV File</label>
+        <input type="file" id="csvInput" accept=".csv,.txt,text/csv" />
+        <button class="secondary" id="btnSample">Try With Sample European CSV</button>
+        <button class="green" id="btnExport" disabled>3. Save Fixed File</button>
+      </div>
+      <div class="controls">
+        <label class="field">Input Separator
+          <select id="selInSep">
+            <option value="auto" selected>Auto-Detect (Comma or Semicolon)</option>
+            <option value=";">Semicolon (;)</option>
+            <option value=",">Comma (,)</option>
+          </select>
+        </label>
+        <label class="field">Output Separator
+          <select id="selOutSep">
+            <option value="," selected>Comma (,) â€” US / UK / Global</option>
+            <option value=";">Semicolon (;) â€” European Excel</option>
+          </select>
+        </label>
+        <label class="field">Fix Dates To
+          <select id="selDateMode">
+            <option value="none">Keep Dates As-Is</option>
+            <option value="iso" selected>YYYY-MM-DD (Universal)</option>
+            <option value="dmy">DD/MM/YYYY (Europe / UK / Global)</option>
+            <option value="mdy">MM/DD/YYYY (United States)</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="panel table-wrap">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"><tr><td class="empty">Pick a CSV file or click <strong>Try With Sample European CSV</strong>.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let rawText = "";
+    let parsedRows = [];
+
+    function parseLine(line, sep) {
+      const out = []; let cur = "", q = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') { if (q && line[i+1] === '"') { cur += '"'; i++; } else q = !q; }
+        else if (ch === sep && !q) { out.push(cur.trim()); cur = ""; }
+        else cur += ch;
+      }
+      out.push(cur.trim());
+      return out;
+    }
+
+    function convertDate(val, mode) {
+      if (mode === "none") return val;
+      const m = val.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+      if (!m) return val;
+      let a = Number(m[1]), b = Number(m[2]), y = m[3];
+      let day, mon;
+      if (a > 12) { day = a; mon = b; }
+      else if (b > 12) { mon = a; day = b; }
+      else { day = a; mon = b; }
+      const dd = String(day).padStart(2, "0"), mm = String(mon).padStart(2, "0");
+      if (mode === "iso") return `${y}-${mm}-${dd}`;
+      if (mode === "dmy") return `${dd}/${mm}/${y}`;
+      if (mode === "mdy") return `${mm}/${dd}/${y}`;
+      return val;
+    }
+
+    function runFix() {
+      if (!rawText) return;
+      const lines = rawText.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lines.length === 0) return;
+      let inSep = document.getElementById("selInSep").value;
+      if (inSep === "auto") {
+        const semis = (lines[0].match(/;/g) || []).length;
+        const commas = (lines[0].match(/,/g) || []).length;
+        inSep = semis > commas ? ";" : ",";
+      }
+      const dMode = document.getElementById("selDateMode").value;
+      parsedRows = lines.map((l, idx) => {
+        const cols = parseLine(l, inSep);
+        return idx === 0 ? cols : cols.map(c => convertDate(c, dMode));
+      });
+      const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+      document.getElementById("thead").innerHTML = "<tr>" + parsedRows[0].map(h => `<th>${esc(h)}</th>`).join("") + "</tr>";
+      const body = parsedRows.slice(1, 101);
+      document.getElementById("tbody").innerHTML = body.map(r => "<tr>" + r.map(c => `<td>${esc(c)}</td>`).join("") + "</tr>").join("");
+      document.getElementById("btnExport").disabled = parsedRows.length < 2;
+    }
+
+    document.getElementById("csvInput").addEventListener("change", e => {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader(); r.onload = ev => { rawText = ev.target.result; runFix(); }; r.readAsText(f);
+    });
+
+    document.getElementById("btnSample").addEventListener("click", () => {
+      rawText = [
+        "Date;Description;Amount",
+        "25/11/2026;Berlin Client Invoice;450.00",
+        "02/12/2026;Office Supplies;32.50",
+        "19/12/2026;Madrid Design Work;180.00"
+      ].join("\n");
+      runFix();
+    });
+
+    ["selInSep", "selOutSep", "selDateMode"].forEach(id => document.getElementById(id).addEventListener("change", runFix));
+
+    document.getElementById("btnExport").addEventListener("click", () => {
+      const sep = document.getElementById("selOutSep").value;
+      const esc = v => { const s = String(v); return (s.includes(sep) || s.includes('"')) ? `"${s.replace(/"/g,'""')}"` : s; };
+      const csv = parsedRows.map(r => r.map(esc).join(sep)).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const u = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href = u; a.download = "fixed_international.csv"; a.click();
+      URL.revokeObjectURL(u);
+    });
+  </script>
+</body>
+</html>
+
