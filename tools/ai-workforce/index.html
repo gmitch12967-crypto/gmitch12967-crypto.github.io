@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Turn your favorite AI into the Boss of a multi-AI workforce with zero coding. Step-by-step guided mode (free, no keys) or auto-run mode with your own free API keys." />
+  <title>Tool #7: AI Workforce Boss (No-Code Multi-AI Team Builder)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --gold:#fbbf24; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:1020px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin-bottom:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, textarea, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.92rem; font-family:inherit; }
+    textarea { width:100%; min-height:90px; resize:vertical; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:0.85rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    .step-card { background:#0f172a; border:1px solid var(--border); border-radius:10px; padding:1rem; margin-bottom:0.9rem; }
+    .step-card h3 { font-size:1rem; color:var(--accent); margin-bottom:0.4rem; }
+    .step-card.boss h3 { color:var(--green); }
+    pre { white-space:pre-wrap; word-break:break-word; font-size:0.86rem; color:#cbd5e1; background:#111a2e; padding:0.75rem; border-radius:8px; margin:0.5rem 0; }
+    .tabs { display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .tab-btn { background:#111a2e; color:var(--muted); border:1px solid var(--border); padding:0.5rem 0.9rem; border-radius:8px; }
+    .tab-btn.active { background:var(--accent); color:#0f172a; border-color:var(--accent); }
+    .out-box { background:#0b1120; border:1px solid var(--border); border-radius:8px; padding:0.9rem; white-space:pre-wrap; font-size:0.9rem; color:#e2e8f0; margin-top:0.65rem; min-height:70px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">No Coding • Your Own AI as Boss</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($4.99)</a>
+      </div>
+    </div>
+
+    <h1>AI Workforce Boss (No-Code Team Builder)</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick which AI is your <em>Boss</em> and which AIs are your <em>Workers</em>. &nbsp;<strong>Step 2:</strong> Type your task once. &nbsp;<strong>Step 3:</strong> Run them together as a 3-step team (Draft → QA Check → Final Boss Answer) with zero coding.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="guided">Guided Step-by-Step Mode (Free, No API Keys)</button>
+      <button class="tab-btn" data-tab="auto">Auto-Run Mode (Bring Your Own Free API Keys)</button>
+    </div>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">Main AI ("The Boss" — Final Decision &amp; Polish)
+          <select id="selBoss">
+            <option value="ChatGPT|https://chatgpt.com/">ChatGPT</option>
+            <option value="Google Gemini|https://gemini.google.com/">Google Gemini</option>
+            <option value="Claude|https://claude.ai/">Claude</option>
+            <option value="Perplexity|https://www.perplexity.ai/">Perplexity</option>
+            <option value="Microsoft Copilot|https://copilot.microsoft.com/">Microsoft Copilot</option>
+          </select>
+        </label>
+        <label class="field">Worker #1 (First Draft Builder)
+          <select id="selW1">
+            <option value="Google Gemini|https://gemini.google.com/">Google Gemini (Free)</option>
+            <option value="GroqChat|https://groq.com/">GroqChat (Fast Free)</option>
+            <option value="DuckDuckGo AI|https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat">DuckDuckGo AI (Private Free)</option>
+            <option value="ChatGPT|https://chatgpt.com/">ChatGPT (Free)</option>
+          </select>
+        </label>
+        <label class="field">Worker #2 (QA Critic &amp; Fact-Checker)
+          <select id="selW2">
+            <option value="Perplexity|https://www.perplexity.ai/">Perplexity (Fact-Check)</option>
+            <option value="Claude|https://claude.ai/">Claude (Free)</option>
+            <option value="DuckDuckGo AI|https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat">DuckDuckGo AI (Private Free)</option>
+            <option value="Google Gemini|https://gemini.google.com/">Google Gemini (Free)</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field">What Do You Want Your AI Workforce To Do?
+        <textarea id="txtGoal" placeholder="Example: Write a polite, clear refund policy for my small online shop, check it for confusing wording, and give me the final ready-to-paste version."></textarea>
+      </label>
+
+      <div id="guidedControls" class="actions">
+        <button class="green" id="btnBuildSteps">Build My 3-Step AI Workforce</button>
+        <button class="secondary" id="btnSample">Try Sample Task</button>
+      </div>
+
+      <div id="autoControls" style="display:none;margin-top:1rem;">
+        <div class="controls">
+          <label class="field">Free Groq API Key (Optional — Saved Only in Your Browser)
+            <input type="password" id="keyGroq" placeholder="gsk_..." />
+          </label>
+          <label class="field">Free Gemini API Key (Optional — Saved Only in Your Browser)
+            <input type="password" id="keyGemini" placeholder="AIza..." />
+          </label>
+        </div>
+        <div class="actions">
+          <button class="green" id="btnRunAuto">Run 3-Step Workforce Automatically</button>
+        </div>
+        <div class="out-box" id="autoOut">Paste at least one free Groq or Gemini key above (keys stay 100% on your device) and click Run.</div>
+      </div>
+    </div>
+
+    <div class="panel" id="stepsWrap" style="display:none;">
+      <div class="step-card">
+        <h3>Step 1: Send to Worker #1 (<span id="lblW1"></span>) — Create First Draft</h3>
+        <pre id="pW1"></pre>
+        <div class="actions">
+          <button onclick="copyAndOpen('pW1','selW1')">Copy Step 1 &amp; Open Worker #1 →</button>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <h3>Step 2: Send to Worker #2 (<span id="lblW2"></span>) — Find Mistakes &amp; Missing Pieces</h3>
+        <pre id="pW2"></pre>
+        <div class="actions">
+          <button onclick="copyAndOpen('pW2','selW2')">Copy Step 2 &amp; Open Worker #2 →</button>
+        </div>
+      </div>
+
+      <div class="step-card boss">
+        <h3>Step 3: Send to Your Main AI — "The Boss" (<span id="lblBoss"></span>) — Final Polish</h3>
+        <pre id="pBoss"></pre>
+        <div class="actions">
+          <button class="green" onclick="copyAndOpen('pBoss','selBoss')">Copy Step 3 &amp; Open Boss AI →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="color:#cbd5e1;font-size:0.92rem;">
+      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">How This Works &amp; Why It's Better Than 1 AI Alone</h2>
+      <ul style="padding-left:1.25rem;display:grid;gap:0.35rem;">
+        <li><strong>Two heads + a Boss:</strong> Asking one AI often misses mistakes. Having Worker #1 draft, Worker #2 critique, and your Main AI ("The Boss") combine the best parts produces much stronger results.</li>
+        <li><strong>Free &amp; Private:</strong> In Guided Mode, no API keys or code are needed. In Auto-Run Mode, any free key you enter stays strictly in your own browser.</li>
+        <li><strong>Offline Edition ($4.99):</strong> Keep this entire no-code AI Workforce builder on your computer or USB forever — no monthly fees.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function selInfo(id) {
+      const [name, url] = document.getElementById(id).value.split("|");
+      return { name, url };
+    }
+
+    function buildSteps() {
+      const goal = document.getElementById("txtGoal").value.trim() || "Write a clear, helpful response to a customer question.";
+      const boss = selInfo("selBoss"), w1 = selInfo("selW1"), w2 = selInfo("selW2");
+
+      document.getElementById("lblW1").textContent = w1.name;
+      document.getElementById("lblW2").textContent = w2.name;
+      document.getElementById("lblBoss").textContent = boss.name;
+
+      document.getElementById("pW1").textContent =
+`You are Worker #1 (First Draft Specialist). Complete this task clearly, thoroughly, and in plain English:
+
+TASK:
+${goal}`;
+
+      document.getElementById("pW2").textContent =
+`You are Worker #2 (Quality & Fact-Check Auditor). Review the draft below against the original task. List every mistake, missing detail, unclear sentence, or weakness — do not rewrite it yet, just audit it strictly.
+
+ORIGINAL TASK:
+${goal}
+
+WORKER #1 DRAFT (paste Worker #1's reply here):
+[PASTE DRAFT HERE]`;
+
+      document.getElementById("pBoss").textContent =
+`You are THE BOSS (Final Decision Maker & Editor). Read the original task, Worker #1's draft, and Worker #2's critique. Fix every issue Worker #2 found, keep only accurate parts, and output the clean final version ready to use.
+
+ORIGINAL TASK:
+${goal}
+
+WORKER #1 DRAFT:
+[PASTE DRAFT HERE]
+
+WORKER #2 CRITIQUE:
+[PASTE CRITIQUE HERE]`;
+
+      document.getElementById("stepsWrap").style.display = "block";
+    }
+
+    function copyAndOpen(preId, selId) {
+      const txt = document.getElementById(preId).textContent;
+      navigator.clipboard.writeText(txt).catch(() => {});
+      window.open(selInfo(selId).url, "_blank", "noopener");
+    }
+
+    document.getElementById("btnBuildSteps").addEventListener("click", buildSteps);
+    document.getElementById("btnSample").addEventListener("click", () => {
+      document.getElementById("txtGoal").value = "Create a clear 1-page welcome & setup checklist for new customers buying my digital tools, written in friendly plain English.";
+      buildSteps();
+    });
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const isAuto = btn.dataset.tab === "auto";
+        document.getElementById("guidedControls").style.display = isAuto ? "none" : "flex";
+        document.getElementById("autoControls").style.display = isAuto ? "block" : "none";
+        if (isAuto) document.getElementById("stepsWrap").style.display = "none";
+      });
+    });
+
+    // Save/load user's own optional keys strictly in their own browser localStorage
+    const kg = document.getElementById("keyGroq"), kge = document.getElementById("keyGemini");
+    kg.value = localStorage.getItem("afg_user_groq") || "";
+    kge.value = localStorage.getItem("afg_user_gemini") || "";
+    kg.addEventListener("input", () => localStorage.setItem("afg_user_groq", kg.value.trim()));
+    kge.addEventListener("input", () => localStorage.setItem("afg_user_gemini", kge.value.trim()));
+
+    async function callGroq(key, sys, usr) {
+      const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+        body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "system", content: sys }, { role: "user", content: usr }] })
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error ? j.error.message : "Groq error");
+      return j.choices[0].message.content;
+    }
+
+    async function callGemini(key, sys, usr) {
+      const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + encodeURIComponent(key), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: sys + "\n\n" + usr }] }] })
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error ? j.error.message : "Gemini error");
+      return j.candidates[0].content.parts[0].text;
+    }
+
+    document.getElementById("btnRunAuto").addEventListener("click", async () => {
+      const out = document.getElementById("autoOut");
+      const gKey = kg.value.trim(), gemKey = kge.value.trim();
+      const goal = document.getElementById("txtGoal").value.trim();
+      if (!goal) { out.textContent = "Please type a task goal above first."; return; }
+      if (!gKey && !gemKey) { out.textContent = "Please paste your own free Groq or Gemini API key first (or switch to Guided Mode for zero-key use)."; return; }
+
+      const runStep = (sys, usr, preferGemini) => {
+        if (preferGemini && gemKey) return callGemini(gemKey, sys, usr);
+        if (gKey) return callGroq(gKey, sys, usr);
+        return callGemini(gemKey, sys, usr);
+      };
+
+      try {
+        out.textContent = "Step 1/3: Worker #1 is creating the first draft...";
+        const draft = await runStep("You are Worker #1 (First Draft Specialist).", goal, false);
+        out.textContent = "Step 2/3: Worker #2 is auditing the draft for mistakes...";
+        const critique = await runStep("You are Worker #2 (QA Critic). List every flaw or gap concisely.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft, true);
+        out.textContent = "Step 3/3: The Boss AI is reviewing both and writing the final answer...";
+        const finalAns = await runStep("You are THE BOSS. Combine the draft and fix every flaw from the critique into the final polished answer.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft + "\n\nCRITIQUE:\n" + critique, false);
+        out.textContent = "=== FINAL BOSS OUTPUT ===\n\n" + finalAns + "\n\n--- QA CRITIQUE USED ---\n" + critique;
+      } catch (err) {
+        out.textContent = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
