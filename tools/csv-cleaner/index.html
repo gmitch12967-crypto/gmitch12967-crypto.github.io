@@ -86,30 +86,33 @@
   <div class="container">
     <div class="topbar">
       <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
-      <span class="privacy-pill">100% Local Processing • Zero Uploads</span>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="privacy-pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/dhzAe" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Bundle ($2.99)</a>
+      </div>
     </div>
 
-    <h1>CSV Duplicate Remover &amp; Cleaner</h1>
-    <p class="sub">Upload any CSV file to instantly strip duplicate rows, trim extra whitespace, skip blank lines, and export a clean CSV — completely offline in your browser.</p>
+    <h1>Clean a Spreadsheet (CSV)</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your CSV file. &nbsp;<strong>Step 2:</strong> Review the cleaned preview below. &nbsp;<strong>Step 3:</strong> Click <em>Save Clean File</em>. Everything stays on your computer.</p>
 
     <div class="panel">
       <div class="actions">
-        <label class="file-label" for="csvInput">Choose CSV File</label>
+        <label class="file-label" for="csvInput">1. Pick Your CSV File</label>
         <input type="file" id="csvInput" accept=".csv,text/csv" />
-        <button class="secondary" id="btnSample">Load Sample CSV</button>
-        <button class="green" id="btnExport" disabled>Download Clean CSV</button>
+        <button class="secondary" id="btnSample">Try With Sample File</button>
+        <button class="green" id="btnExport" disabled>3. Save Clean File</button>
       </div>
       <div class="opts">
-        <label><input type="checkbox" id="chkDedupe" checked /> Remove duplicate rows</label>
-        <label><input type="checkbox" id="chkTrim" checked /> Trim extra spaces</label>
-        <label><input type="checkbox" id="chkCase" checked /> Case-insensitive duplicate match</label>
+        <label><input type="checkbox" id="chkDedupe" checked /> Remove repeat lines</label>
+        <label><input type="checkbox" id="chkTrim" checked /> Clean up extra spaces</label>
+        <label><input type="checkbox" id="chkCase" checked /> Treat CAPITAL and lowercase letters as the same</label>
       </div>
     </div>
 
     <div class="kpis">
-      <div class="kpi"><div class="label">Original Data Rows</div><div class="val" id="kOrig">0</div></div>
-      <div class="kpi"><div class="label">Clean Data Rows</div><div class="val" id="kClean">0</div></div>
-      <div class="kpi"><div class="label">Duplicates Removed</div><div class="val" id="kDupes" style="color:#22c55e;">0</div></div>
+      <div class="kpi"><div class="label">Lines Before</div><div class="val" id="kOrig">0</div></div>
+      <div class="kpi"><div class="label">Lines After</div><div class="val" id="kClean">0</div></div>
+      <div class="kpi"><div class="label">Repeats Removed</div><div class="val" id="kDupes" style="color:#22c55e;">0</div></div>
       <div class="kpi"><div class="label">Columns</div><div class="val" id="kCols">0</div></div>
     </div>
 
