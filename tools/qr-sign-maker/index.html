@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create forever-valid static QR codes and printable Wi-Fi or business signs with zero tracking, zero subscriptions, and zero watermarks." />
+  <title>Tool #5: Forever-Static QR &amp; Wi-Fi Sign Maker</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:980px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .layout { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.25rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); margin-bottom:0.9rem; }
+    input, select { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.95rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.7rem; margin-top:0.5rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    .sign-card { background:#ffffff; color:#0f172a; border-radius:12px; padding:1.75rem 1.25rem; text-align:center; }
+    .sign-card h2 { font-size:1.35rem; margin-bottom:0.35rem; }
+    .sign-card p { color:#475569; font-size:0.95rem; margin-bottom:1rem; word-break:break-word; }
+    .sign-card canvas { max-width:240px; width:100%; height:auto; image-rendering:pixelated; }
+    .sign-note { margin-top:0.8rem; font-size:0.8rem; color:#64748b; }
+    @media print {
+      body { background:#fff; padding:0; }
+      .topbar, h1, .sub, .controls-panel { display:none !important; }
+      .panel { border:none; background:#fff; }
+      .sign-card { border:2px solid #0f172a; max-width:420px; margin:2rem auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">Never Expires â€¢ Zero Tracking â€¢ No Watermarks</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy (Store)</a>
+      </div>
+    </div>
+
+    <h1>Forever-Static QR &amp; Wi-Fi Sign Maker</h1>
+    <p class="sub"><strong>Step 1:</strong> Choose Website Link or Guest Wi-Fi. &nbsp;<strong>Step 2:</strong> Type your info. &nbsp;<strong>Step 3:</strong> Print or save your sign. Your QR code points directly to your link and never expires.</p>
+
+    <div class="layout">
+      <div class="panel controls-panel">
+        <label class="field">1. What Is This QR Code For?
+          <select id="selType">
+            <option value="url" selected>Website / Menu / Google Review Link</option>
+            <option value="wifi">Guest Wi-Fi Login Card</option>
+          </select>
+        </label>
+
+        <label class="field">Sign Title (Printed Above QR)
+          <input type="text" id="txtTitle" value="Scan to Visit Our Website" maxlength="60" />
+        </label>
+
+        <div id="urlFields">
+          <label class="field">2. Website Address (URL)
+            <input type="text" id="txtUrl" value="https://gmitch12967-crypto.github.io/" maxlength="110" />
+          </label>
+        </div>
+
+        <div id="wifiFields" style="display:none;">
+          <label class="field">2a. Wi-Fi Network Name (SSID)
+            <input type="text" id="txtSsid" value="Guest_WiFi" maxlength="40" />
+          </label>
+          <label class="field">2b. Wi-Fi Password
+            <input type="text" id="txtPass" value="Welcome2026" maxlength="40" />
+          </label>
+          <label class="field">Security Type
+            <select id="selSec">
+              <option value="WPA" selected>WPA / WPA2 / WPA3 (Most Routers)</option>
+              <option value="WEP">WEP</option>
+              <option value="nopass">No Password (Open)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="green" id="btnSavePng">3a. Save QR Image (PNG)</button>
+          <button id="btnPrint">3b. Print Sign</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="sign-card">
+          <h2 id="previewTitle">Scan to Visit Our Website</h2>
+          <p id="previewSub">https://gmitch12967-crypto.github.io/</p>
+          <canvas id="qrCanvas" width="256" height="256"></canvas>
+          <div class="sign-note" id="previewNote">Point your phone camera at the code to open.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Compact self-contained QR Byte-mode encoder (Versions 1..6, ECC Level L) â€” zero external dependencies
+    const QR = (() => {
+      const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
+      let x = 1;
+      for (let i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x = (x << 1) ^ (x & 128 ? 0x11d : 0); }
+      for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+      const mul = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
+
+      function rsGen(n) {
+        let g = [1];
+        for (let i = 0; i < n; i++) {
+          const ng = new Array(g.length + 1).fill(0);
+          for (let j = 0; j < g.length; j++) { ng[j] ^= g[j]; ng[j + 1] ^= mul(g[j], EXP[i]); }
+          g = ng;
+        }
+        return g;
+      }
+      function rsRem(data, ecLen) {
+        const g = rsGen(ecLen), res = data.slice().concat(new Array(ecLen).fill(0));
+        for (let i = 0; i < data.length; i++) {
+          const c = res[i]; if (!c) continue;
+          for (let j = 0; j < g.length; j++) res[i + j] ^= mul(g[j], c);
+        }
+        return res.slice(data.length);
+      }
+
+      // Version 1..6 Level L: [size, dataBytes, ecBytes]
+      const SPECS = [
+        [21, 19, 7],
+        [25, 34, 10],
+        [29, 55, 15],
+        [33, 80, 20],
+        [37, 108, 26],
+        [41, 136, 36]
+      ];
+      const ALIGN = [[], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34]];
+
+      function encode(text) {
+        const bytes = Array.from(new TextEncoder().encode(text));
+        let vIdx = SPECS.findIndex(s => bytes.length + 2 <= s[1]);
+        if (vIdx < 0) vIdx = SPECS.length - 1;
+        const [size, dataCap, ecLen] = SPECS[vIdx];
+        const maxBytes = Math.min(bytes.length, dataCap - 2);
+
+        const bits = [];
+        const push = (val, n) => { for (let i = n - 1; i >= 0; i--) bits.push((val >> i) & 1); };
+        push(4, 4); // Byte mode
+        push(maxBytes, 8);
+        for (let i = 0; i < maxBytes; i++) push(bytes[i], 8);
+        push(0, Math.min(4, dataCap * 8 - bits.length));
+        while (bits.length % 8) bits.push(0);
+        const pad = [0xec, 0x11]; let pi = 0;
+        while (bits.length < dataCap * 8) { push(pad[pi++ % 2], 8); }
+
+        const dataBytes = [];
+        for (let i = 0; i < bits.length; i += 8) {
+          let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+          dataBytes.push(b);
+        }
+        const ecBytes = rsRem(dataBytes, ecLen);
+        const fullBits = [];
+        dataBytes.concat(ecBytes).forEach(b => { for (let i = 7; i >= 0; i--) fullBits.push((b >> i) & 1); });
+
+        const grid = Array.from({ length: size }, () => new Int8Array(size).fill(-1));
+        const resv = Array.from({ length: size }, () => new Uint8Array(size));
+        const setF = (r, c, v) => { if (r >= 0 && r < size && c >= 0 && c < size) { grid[r][c] = v; resv[r][c] = 1; } };
+
+        const finder = (r0, c0) => {
+          for (let r = -1; r <= 7; r++) for (let c = -1; c <= 7; c++) {
+            const on = (r >= 0 && r <= 6 && c >= 0 && c <= 6) && (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4));
+            setF(r0 + r, c0 + c, on ? 1 : 0);
+          }
+        };
+        finder(0, 0); finder(0, size - 7); finder(size - 7, 0);
+
+        for (let i = 8; i < size - 8; i++) { setF(6, i, i % 2 === 0 ? 1 : 0); setF(i, 6, i % 2 === 0 ? 1 : 0); }
+        setF(size - 8, 8, 1);
+
+        const al = ALIGN[vIdx];
+        if (al.length) {
+          const pos = al[1];
+          for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) {
+            setF(pos + r, pos + c, (Math.max(Math.abs(r), Math.abs(c)) !== 1) ? 1 : 0);
+          }
+        }
+
+        for (let i = 0; i < 9; i++) {
+          if (i !== 6) { resv[8][i] = 1; resv[i][8] = 1; }
+          if (i < 8) { resv[8][size - 1 - i] = 1; resv[size - 1 - i][8] = 1; }
+        }
+
+        let bi = 0, up = true;
+        for (let col = size - 1; col > 0; col -= 2) {
+          if (col === 6) col--;
+          for (let step = 0; step < size; step++) {
+            const r = up ? size - 1 - step : step;
+            for (let dc = 0; dc < 2; dc++) {
+              const c = col - dc;
+              if (!resv[r][c]) {
+                const bit = bi < fullBits.length ? fullBits[bi++] : 0;
+                grid[r][c] = bit ^ ((r + c) % 2 === 0 ? 1 : 0); // Mask 0
+              }
+            }
+          }
+          up = !up;
+        }
+
+        // Format info for ECC L (01) + Mask 0 (000) -> 0x77c4 (15 bits)
+        const fmt = 0x77c4;
+        for (let i = 0; i < 15; i++) {
+          const b = (fmt >> (14 - i)) & 1;
+          if (i < 6) grid[8][i] = b;
+          else if (i < 8) grid[8][i + 1] = b;
+          else grid[8][size - 15 + i] = b;
+          if (i < 8) grid[size - 1 - i][8] = b;
+          else if (i < 9) grid[15 - i][8] = b;
+          else grid[14 - i][8] = b;
+        }
+        return grid;
+      }
+      return { encode };
+    })();
+
+    function drawQr() {
+      const type = document.getElementById("selType").value;
+      const title = document.getElementById("txtTitle").value || "Scan Code";
+      let payload = "";
+      let sub = "";
+      if (type === "wifi") {
+        const ssid = document.getElementById("txtSsid").value || "Guest_WiFi";
+        const pass = document.getElementById("txtPass").value || "";
+        const sec = document.getElementById("selSec").value;
+        payload = `WIFI:T:${sec};S:${ssid};P:${sec === "nopass" ? "" : pass};;`;
+        sub = `Network: ${ssid}` + (sec === "nopass" ? " (Open)" : `  â€¢  Password: ${pass}`);
+        document.getElementById("previewNote").textContent = "Point your phone camera at the code to join Wi-Fi.";
+      } else {
+        payload = document.getElementById("txtUrl").value.trim() || "https://gmitch12967-crypto.github.io/";
+        sub = payload;
+        document.getElementById("previewNote").textContent = "Point your phone camera at the code to open.";
+      }
+      document.getElementById("previewTitle").textContent = title;
+      document.getElementById("previewSub").textContent = sub;
+
+      const grid = QR.encode(payload);
+      const canvas = document.getElementById("qrCanvas");
+      const n = grid.length, pad = 4, scale = Math.floor(256 / (n + pad * 2));
+      const sz = (n + pad * 2) * scale;
+      canvas.width = sz; canvas.height = sz;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, sz, sz);
+      ctx.fillStyle = "#000000";
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+        if (grid[r][c] === 1) ctx.fillRect((c + pad) * scale, (r + pad) * scale, scale, scale);
+      }
+    }
+
+    document.getElementById("selType").addEventListener("change", (e) => {
+      const isWifi = e.target.value === "wifi";
+      document.getElementById("urlFields").style.display = isWifi ? "none" : "block";
+      document.getElementById("wifiFields").style.display = isWifi ? "block" : "none";
+      if (isWifi && document.getElementById("txtTitle").value === "Scan to Visit Our Website")
+        document.getElementById("txtTitle").value = "Free Guest Wi-Fi";
+      if (!isWifi && document.getElementById("txtTitle").value === "Free Guest Wi-Fi")
+        document.getElementById("txtTitle").value = "Scan to Visit Our Website";
+      drawQr();
+    });
+
+    ["txtTitle", "txtUrl", "txtSsid", "txtPass", "selSec"].forEach(id => {
+      document.getElementById(id).addEventListener("input", drawQr);
+      document.getElementById(id).addEventListener("change", drawQr);
+    });
+
+    document.getElementById("btnSavePng").addEventListener("click", () => {
+      document.getElementById("qrCanvas").toBlob(b => {
+        const u = URL.createObjectURL(b);
+        const a = document.createElement("a"); a.href = u; a.download = "static-qr-code.png"; a.click();
+        URL.revokeObjectURL(u);
+      });
+    });
+
+    document.getElementById("btnPrint").addEventListener("click", () => window.print());
+    drawQr();
+  </script>
+</body>
+</html>
+
