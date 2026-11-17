@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Remove duplicate rows, trim spaces, and clean messy CSV files 100% privately in your browser with zero uploads." />
+  <title>Tool #1: CSV Duplicate Remover &amp; Cleaner — Offline Browser Tool</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem 1rem 3rem;
+      line-height: 1.5;
+    }
+    .container { max-width: 1050px; margin: 0 auto; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem; }
+    .back { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+    .privacy-pill {
+      background: rgba(34, 197, 94, 0.14);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.35rem; }
+    .sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    button, .file-label {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button.secondary { background: #334155; color: var(--text); }
+    button.green { background: var(--green); color: #052e16; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    input[type="file"] { display: none; }
+    .opts { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: 0.9rem; color: var(--muted); }
+    .opts label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+    .kpi .label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; }
+    .kpi .val { font-size: 1.35rem; font-weight: 700; margin-top: 0.2rem; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+    .empty { color: var(--muted); text-align: center; padding: 2rem 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <span class="privacy-pill">100% Local Processing • Zero Uploads</span>
+    </div>
+
+    <h1>CSV Duplicate Remover &amp; Cleaner</h1>
+    <p class="sub">Upload any CSV file to instantly strip duplicate rows, trim extra whitespace, skip blank lines, and export a clean CSV — completely offline in your browser.</p>
+
+    <div class="panel">
+      <div class="actions">
+        <label class="file-label" for="csvInput">Choose CSV File</label>
+        <input type="file" id="csvInput" accept=".csv,text/csv" />
+        <button class="secondary" id="btnSample">Load Sample CSV</button>
+        <button class="green" id="btnExport" disabled>Download Clean CSV</button>
+      </div>
+      <div class="opts">
+        <label><input type="checkbox" id="chkDedupe" checked /> Remove duplicate rows</label>
+        <label><input type="checkbox" id="chkTrim" checked /> Trim extra spaces</label>
+        <label><input type="checkbox" id="chkCase" checked /> Case-insensitive duplicate match</label>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="label">Original Data Rows</div><div class="val" id="kOrig">0</div></div>
+      <div class="kpi"><div class="label">Clean Data Rows</div><div class="val" id="kClean">0</div></div>
+      <div class="kpi"><div class="label">Duplicates Removed</div><div class="val" id="kDupes" style="color:#22c55e;">0</div></div>
+      <div class="kpi"><div class="label">Columns</div><div class="val" id="kCols">0</div></div>
+    </div>
+
+    <div class="panel table-wrap">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody">
+          <tr><td class="empty">Choose a CSV file or click <strong>Load Sample CSV</strong> to preview.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let rawText = "";
+    let headers = [];
+    let cleanRows = [];
+
+    function parseCsvLine(line) {
+      const out = [];
+      let cur = "", inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+          else inQuotes = !inQuotes;
+        } else if (ch === ',' && !inQuotes) {
+          out.push(cur);
+          cur = "";
+        } else {
+          cur += ch;
+        }
+      }
+      out.push(cur);
+      return out;
+    }
+
+    function runClean() {
+      if (!rawText) return;
+      const trimOn = document.getElementById("chkTrim").checked;
+      const dedupeOn = document.getElementById("chkDedupe").checked;
+      const ciOn = document.getElementById("chkCase").checked;
+
+      const lines = rawText.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lines.length === 0) return;
+
+      headers = parseCsvLine(lines[0]).map(h => trimOn ? h.trim() : h);
+      const seen = new Set();
+      cleanRows = [];
+      let origCount = 0;
+      let dupes = 0;
+
+      for (let i = 1; i < lines.length; i++) {
+        let cols = parseCsvLine(lines[i]);
+        if (cols.every(c => c.trim() === "")) continue;
+        origCount++;
+        if (trimOn) cols = cols.map(c => c.replace(/\s+/g, " ").trim());
+        while (cols.length < headers.length) cols.push("");
+
+        if (dedupeOn) {
+          const key = cols.map(c => ciOn ? c.toLowerCase() : c).join("\u0001");
+          if (seen.has(key)) { dupes++; continue; }
+          seen.add(key);
+        }
+        cleanRows.push(cols);
+      }
+
+      document.getElementById("kOrig").textContent = origCount;
+      document.getElementById("kClean").textContent = cleanRows.length;
+      document.getElementById("kDupes").textContent = dupes;
+      document.getElementById("kCols").textContent = headers.length;
+      document.getElementById("btnExport").disabled = cleanRows.length === 0;
+
+      const escHtml = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      document.getElementById("thead").innerHTML = "<tr>" + headers.map(h => `<th>${escHtml(h)}</th>`).join("") + "</tr>";
+      const preview = cleanRows.slice(0, 100);
+      document.getElementById("tbody").innerHTML = preview.length === 0
+        ? '<tr><td colspan="' + Math.max(1, headers.length) + '" class="empty">No rows found.</td></tr>'
+        : preview.map(r => "<tr>" + r.slice(0, headers.length).map(c => `<td>${escHtml(c)}</td>`).join("") + "</tr>").join("");
+    }
+
+    document.getElementById("csvInput").addEventListener("change", (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ev => { rawText = ev.target.result; runClean(); };
+      reader.readAsText(f);
+    });
+
+    document.getElementById("btnSample").addEventListener("click", () => {
+      rawText = [
+        "Name, Email , City, Status",
+        "Alice Johnson,  alice@example.com , Pittsburgh, Active",
+        "alice johnson, alice@example.com, pittsburgh, active",
+        "Bob Smith, bob@example.com,  Latrobe , Pending",
+        "   ,   ,   ,   ",
+        "Bob Smith, bob@example.com, Latrobe, Pending",
+        "Carol Davis, carol@example.com, Greensburg, Active"
+      ].join("\n");
+      runClean();
+    });
+
+    ["chkDedupe", "chkTrim", "chkCase"].forEach(id => {
+      document.getElementById(id).addEventListener("change", runClean);
+    });
+
+    document.getElementById("btnExport").addEventListener("click", () => {
+      const escCsv = v => `"${String(v).replace(/"/g, '""')}"`;
+      const out = [headers.map(escCsv).join(",")];
+      cleanRows.forEach(r => out.push(r.slice(0, headers.length).map(escCsv).join(",")));
+      const blob = new Blob([out.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cleaned_data.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
