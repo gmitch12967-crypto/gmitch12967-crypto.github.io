@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gmitch12967-crypto.github.io/sitemap.xml
