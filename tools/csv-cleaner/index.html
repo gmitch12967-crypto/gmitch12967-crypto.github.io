@@ -229,9 +229,17 @@
     });
 
     document.getElementById("btnExport").addEventListener("click", () => {
+      const FREE_CAP = 25;
+      const rowsToSave = cleanRows.slice(0, FREE_CAP);
+      if (cleanRows.length > FREE_CAP) {
+        if (confirm(`Free Online Trial saves up to ${FREE_CAP} lines (your file has ${cleanRows.length} clean lines).\n\nClick OK to get the Unlimited Offline Edition ($0.99), or Cancel to download the first ${FREE_CAP} lines.`)) {
+          window.open("https://payhip.com/b/XV7ZI", "_blank");
+          return;
+        }
+      }
       const escCsv = v => `"${String(v).replace(/"/g, '""')}"`;
       const out = [headers.map(escCsv).join(",")];
-      cleanRows.forEach(r => out.push(r.slice(0, headers.length).map(escCsv).join(",")));
+      rowsToSave.forEach(r => out.push(r.slice(0, headers.length).map(escCsv).join(",")));
       const blob = new Blob([out.join("\n")], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
