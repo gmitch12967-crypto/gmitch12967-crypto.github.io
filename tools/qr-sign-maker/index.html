@@ -282,15 +282,15 @@
       document.getElementById(id).addEventListener("change", drawQr);
     });
 
-    document.getElementById("btnSavePng").addEventListener("click", () => {
-      document.getElementById("qrCanvas").toBlob(b => {
-        const u = URL.createObjectURL(b);
-        const a = document.createElement("a"); a.href = u; a.download = "static-qr-code.png"; a.click();
-        URL.revokeObjectURL(u);
-      });
-    });
+    function promptPaidQr(actionName) {
+      if (confirm(`Your forever-static QR preview is live and ready to scan-test on screen!\n\nGet the Offline Edition ($2.99 — no subscriptions, unlimited PNG saves & printable signs).\n\nClick OK to open checkout for ${actionName}.`)) {
+        window.open("https://payhip.com/b/ZKEcf", "_blank");
+      }
+    }
 
-    document.getElementById("btnPrint").addEventListener("click", () => window.print());
+    document.getElementById("btnSavePng").addEventListener("click", () => promptPaidQr("PNG Download"));
+
+    document.getElementById("btnPrint").addEventListener("click", () => promptPaidQr("Printable Sign"));
     drawQr();
   </script>
 </body>
