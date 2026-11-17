@@ -3,50 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Evergreen, zero-server browser utilities that run 100% locally on your device. No sign-ups, no uploads, no subscriptions." />
-  <title>Evergreen Micro-Tools Library — Zero-Upload Browser Utilities</title>
+  <meta name="description" content="Fix everyday file, photo, spreadsheet, and QR code headaches without subscriptions, watermarks, or uploading your private files. Try free online or grab the offline copy." />
+  <meta property="og:title" content="Evergreen Micro-Tools — Private, Zero-Subscription Browser Utilities" />
+  <meta property="og:description" content="Clean CSVs, shrink photos under 1 MB, make passport print sheets, fix European Excel files, and build never-expiring QR signs. 100% private on your device." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gmitch12967-crypto.github.io/" />
+  <title>Evergreen Micro-Tools — Fix File, Photo &amp; QR Headaches Without Subscriptions</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --border: #334155;
+      --bg: #0b1120;
+      --surface: #111a2e;
+      --card: #16223a;
+      --border: #263656;
       --text: #f8fafc;
       --muted: #94a3b8;
       --accent: #38bdf8;
       --green: #22c55e;
+      --green-dark: #052e16;
+      --gold: #fbbf24;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
+      background: radial-gradient(circle at top center, #172542 0%, var(--bg) 55%);
       color: var(--text);
       line-height: 1.6;
       padding: 2rem 1rem 4rem;
     }
-    .container { max-width: 1020px; margin: 0 auto; }
-    header { text-align: center; margin-bottom: 2.5rem; }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    /* Hero */
+    header {
+      text-align: center;
+      padding: 2.25rem 1.5rem;
+      background: linear-gradient(145deg, rgba(22,34,58,0.95), rgba(15,23,42,0.95));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
     .badge {
       display: inline-block;
-      background: rgba(56, 189, 248, 0.15);
+      background: rgba(56, 189, 248, 0.14);
       color: var(--accent);
       border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 0.25rem 0.75rem;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 0.9rem;
+    }
+    h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; margin-bottom: 0.7rem; }
+    header p { color: var(--muted); max-width: 680px; margin: 0 auto 1.35rem; font-size: 1.02rem; }
+    .hero-cta { display: flex; justify-content: center; gap: 0.85rem; flex-wrap: wrap; }
+    .hero-btn {
+      display: inline-block;
+      padding: 0.75rem 1.3rem;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .hero-btn.primary { background: var(--green); color: var(--green-dark); }
+    .hero-btn.secondary { background: rgba(56,189,248,0.14); color: var(--accent); border: 1px solid rgba(56,189,248,0.4); }
+
+    /* Trust Strip */
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+    .trust-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+    }
+    .trust-item strong { display: block; color: var(--text); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .trust-item span { color: var(--muted); font-size: 0.86rem; }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .filter-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pill-btn {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.9rem;
       border-radius: 999px;
       font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      cursor: pointer;
     }
-    h1 { font-size: 2.1rem; margin-bottom: 0.5rem; }
-    header p { color: var(--muted); max-width: 650px; margin: 0 auto; }
+    .pill-btn.active { background: var(--accent); color: #0b1120; border-color: var(--accent); }
+
+    /* Cards */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
       gap: 1.25rem;
     }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 1.4rem;
       display: flex;
       flex-direction: column;
@@ -54,33 +122,52 @@
       transition: border-color 0.2s, transform 0.15s;
     }
     .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .status {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-    }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; gap: 0.5rem; }
+    .status { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
     .status.live { color: var(--green); }
-    .status.soon { color: #fbbf24; }
-    .card h2 { font-size: 1.15rem; margin-bottom: 0.5rem; }
-    .card p { color: var(--muted); font-size: 0.93rem; margin-bottom: 1.2rem; }
+    .status.soon { color: var(--gold); }
+    .price-tag {
+      background: rgba(34,197,94,0.15);
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.35);
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .card h2 { font-size: 1.22rem; margin-bottom: 0.5rem; }
+    .problem-box {
+      background: rgba(11, 17, 32, 0.6);
+      border-left: 3px solid var(--accent);
+      padding: 0.65rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      margin-bottom: 0.85rem;
+    }
+    .features {
+      list-style: none;
+      display: grid;
+      gap: 0.3rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .features li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+    .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .btn {
       display: inline-block;
       text-align: center;
-      background: var(--accent);
-      color: #0f172a;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
       font-weight: 700;
       text-decoration: none;
-      padding: 0.65rem 1rem;
-      border-radius: 8px;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
-    .btn.disabled {
-      background: #334155;
-      color: #94a3b8;
-      pointer-events: none;
-    }
+    .btn.try { background: var(--accent); color: #0b1120; }
+    .btn.buy { background: var(--green); color: var(--green-dark); }
+    .btn.disabled { background: #263656; color: #94a3b8; pointer-events: none; grid-column: span 2; }
+
     footer {
       text-align: center;
       margin-top: 3rem;
@@ -94,73 +181,170 @@
 <body>
   <div class="container">
     <header>
-      <div class="badge">Private • No Sign-Up • Runs Right on Your Device</div>
-      <h1>Everyday Micro-Tools Library</h1>
-      <p>Simple, fast tools that run right in this window. Nothing is uploaded, no account is needed, and your files stay on your computer.</p>
-      <div style="margin-top:1.15rem;">
-        <a class="btn" style="background:#22c55e;color:#052e16;" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Visit Offline Store (Payhip)</a>
+      <div class="badge">100% Private • Zero Uploads • No Monthly Subscriptions</div>
+      <h1>Everyday Tools That Just Work — No Paywalls or Watermarks</h1>
+      <p>Tired of websites that make you upload private IDs, slap watermarks on your work, or lock basic tools behind $15/month subscriptions? Try every tool free right here in your browser, or buy the offline copy once to keep forever.</p>
+      <div class="hero-cta">
+        <a class="hero-btn secondary" href="#tools">Browse All Tools ↓</a>
+        <a class="hero-btn primary" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Visit Offline Store (From $0.99)</a>
       </div>
     </header>
 
-    <div class="grid">
-      <div class="card">
+    <div class="trust-strip">
+      <div class="trust-item">
+        <strong>Your Files Stay Private</strong>
+        <span>Everything runs inside your own browser. Nothing is ever sent to a server.</span>
+      </div>
+      <div class="trust-item">
+        <strong>Pay Once, Keep Forever</strong>
+        <span>Use online free anytime, or grab a standalone offline copy starting at $0.99.</span>
+      </div>
+      <div class="trust-item">
+        <strong>Plain-English 1-2-3 Steps</strong>
+        <span>No confusing tech menus, no logins, and clear printing &amp; saving tips included.</span>
+      </div>
+    </div>
+
+    <div class="filter-bar" id="tools">
+      <div class="filter-pills">
+        <button class="pill-btn active" data-filter="all">All Tools (5 Live)</button>
+        <button class="pill-btn" data-filter="csv">Spreadsheets &amp; CSV</button>
+        <button class="pill-btn" data-filter="photo">Photos &amp; Printing</button>
+        <button class="pill-btn" data-filter="qr">QR &amp; Signs</button>
+      </div>
+    </div>
+
+    <div class="grid" id="toolGrid">
+      <div class="card" data-cat="csv">
         <div>
-          <div class="status live">● Tool #1 — Ready to Use</div>
+          <div class="card-head">
+            <span class="status live">● Tool #1 — Ready</span>
+            <span class="price-tag">Offline Copy $0.99</span>
+          </div>
           <h2>Clean a Spreadsheet (CSV)</h2>
-          <p>Remove repeat lines, blank lines, and extra spaces from any CSV file in seconds.</p>
+          <div class="problem-box"><strong>Fixes:</strong> Messy customer lists, bank exports, or contact sheets full of repeat lines, blank rows, and hidden spaces — without needing Excel formulas.</div>
+          <ul class="features">
+            <li>Removes repeat lines (even if CAPITAL letters differ)</li>
+            <li>Clears blank rows &amp; extra spaces in 1 click</li>
+            <li>Preview right away and save your clean file</li>
+          </ul>
         </div>
-        <a class="btn" href="./tools/csv-cleaner/index.html">Open Tool #1 →</a>
+        <div class="card-actions">
+          <a class="btn try" href="./tools/csv-cleaner/index.html">Try Free Online →</a>
+          <a class="btn buy" href="https://payhip.com/b/XV7ZI" target="_blank" rel="noopener">Buy Offline ($0.99)</a>
+        </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="photo">
         <div>
-          <div class="status live">● Tool #2 — Ready to Use</div>
+          <div class="card-head">
+            <span class="status live">● Tool #2 — Ready</span>
+            <span class="price-tag">Offline Copy $1.99</span>
+          </div>
           <h2>Shrink a Photo to Fit</h2>
-          <p>Make a photo smaller so it fits under a website's 1 MB or 2 MB upload limit — without sending your private photo anywhere.</p>
+          <div class="problem-box"><strong>Fixes:</strong> Website portals rejecting your ID scan, document picture, or photo for being over 1 MB or 2 MB — without uploading private photos anywhere.</div>
+          <ul class="features">
+            <li>Targets Under 200 KB, 500 KB, 1 MB, or 2 MB</li>
+            <li>Before &amp; after preview with exact space saved</li>
+            <li>Zero watermarks, zero quality guesswork</li>
+          </ul>
         </div>
-        <a class="btn" href="./tools/image-shrinker/index.html">Open Tool #2 →</a>
+        <div class="card-actions">
+          <a class="btn try" href="./tools/image-shrinker/index.html">Try Free Online →</a>
+          <a class="btn buy" href="https://payhip.com/b/7GxBD" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
+        </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="photo">
         <div>
-          <div class="status live">● Tool #3 — Ready to Use</div>
+          <div class="card-head">
+            <span class="status live">● Tool #3 — Ready</span>
+            <span class="price-tag">Offline Print Sheet $3.99</span>
+          </div>
           <h2>Passport &amp; Visa Photo Maker</h2>
-          <p>Crop photos to US, UK, EU, India, Canada, or Japan sizes and save a 4×6 or A4 print sheet — zero watermarks.</p>
+          <div class="problem-box"><strong>Fixes:</strong> The $13–$17 paywalls and watermarks on passport photo websites (and $15+ store counter fees).</div>
+          <ul class="features">
+            <li>Presets for US (2×2 in), UK/EU/India/Japan (35×45 mm), Canada &amp; China</li>
+            <li>Instant 4×6 inch or A4 printable sheet with cut lines</li>
+            <li>Zoom &amp; center sliders at crisp 300 DPI</li>
+          </ul>
         </div>
-        <a class="btn" href="./tools/passport-photo/index.html">Open Tool #3 →</a>
+        <div class="card-actions">
+          <a class="btn try" href="./tools/passport-photo/index.html">Try Free Online →</a>
+          <a class="btn buy" href="https://payhip.com/b/sphoS" target="_blank" rel="noopener">Buy Offline ($3.99)</a>
+        </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="csv">
         <div>
-          <div class="status live">● Tool #4 — Ready to Use</div>
+          <div class="card-head">
+            <span class="status live">● Tool #4 — Ready</span>
+            <span class="price-tag">Offline Copy $1.99</span>
+          </div>
           <h2>International CSV &amp; Date Fixer</h2>
-          <p>Fix scrambled European or global CSV files in Excel by switching commas, semicolons, and date formats.</p>
+          <div class="problem-box"><strong>Fixes:</strong> Excel scrambling European or global CSV files into one column because of semicolons (<code>;</code>) vs commas (<code>,</code>) and flipped dates.</div>
+          <ul class="features">
+            <li>Switches commas (<code>,</code>) and semicolons (<code>;</code>) cleanly</li>
+            <li>Converts DD/MM/YYYY, MM/DD/YYYY &amp; YYYY-MM-DD</li>
+            <li>Auto-detects messy incoming files</li>
+          </ul>
         </div>
-        <a class="btn" href="./tools/csv-global-fixer/index.html">Open Tool #4 →</a>
+        <div class="card-actions">
+          <a class="btn try" href="./tools/csv-global-fixer/index.html">Try Free Online →</a>
+          <a class="btn buy" href="https://payhip.com/b/WphlG" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
+        </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="qr">
         <div>
-          <div class="status live">● Tool #5 — Ready to Use</div>
+          <div class="card-head">
+            <span class="status live">● Tool #5 — Ready</span>
+            <span class="price-tag">Offline Copy $2.99</span>
+          </div>
           <h2>Forever-Static QR &amp; Wi-Fi Sign Maker</h2>
-          <p>Make printable QR codes and guest Wi-Fi signs that point directly to your link and never expire.</p>
+          <div class="problem-box"><strong>Fixes:</strong> The "QR code subscription trap" where free sites break your printed menus, flyers, or Wi-Fi signs unless you pay $10–$50/month.</div>
+          <ul class="features">
+            <li>Direct static codes that never expire &amp; never track</li>
+            <li>Supports website links and Guest Wi-Fi login cards</li>
+            <li>1-click PNG download or ready-to-print countertop sign</li>
+          </ul>
         </div>
-        <a class="btn" href="./tools/qr-sign-maker/index.html">Open Tool #5 →</a>
+        <div class="card-actions">
+          <a class="btn try" href="./tools/qr-sign-maker/index.html">Try Free Online →</a>
+          <a class="btn buy" href="https://payhip.com/b/ZKEcf" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
+        </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-cat="all">
         <div>
-          <div class="status soon">◐ Tool #6 — Coming Soon</div>
+          <div class="card-head">
+            <span class="status soon">◐ Tool #6 — Coming Soon</span>
+          </div>
           <h2>Offline Password Maker</h2>
-          <p>Create strong, easy-to-type passwords right in your browser without saving them anywhere online.</p>
+          <div class="problem-box"><strong>In Development:</strong> Create strong, easy-to-type passwords right in your browser without saving them anywhere online.</div>
         </div>
-        <a class="btn disabled" href="#">Coming Soon</a>
+        <div class="card-actions">
+          <a class="btn disabled" href="#">Coming Soon</a>
+        </div>
       </div>
     </div>
 
     <footer>
-      Evergreen Micro-Tools Library • Zero servers, zero cookies, 100% private.
+      Evergreen Micro-Tools Library • Zero servers, zero cookies, 100% private. • <a href="https://payhip.com/EvergreenMicroTools" style="color:var(--accent);text-decoration:none;">Payhip Store</a>
     </footer>
   </div>
+
+  <script>
+    document.querySelectorAll(".pill-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        document.querySelectorAll("#toolGrid .card").forEach(card => {
+          card.style.display = (f === "all" || card.dataset.cat === f || card.dataset.cat === "all") ? "flex" : "none";
+        });
+      });
+    });
+  </script>
 </body>
 </html>
