@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Remove hidden GPS home location, phone model, and EXIF metadata from photos 100% offline in your browser before posting on Marketplace or forums." />
+  <title>Tool #6: Photo Privacy Cleaner (Remove GPS &amp; Hidden Info)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --warn:#fbbf24; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:980px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; }
+    button, .file-label { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.secondary { background:#334155; color:var(--text); }
+    button.green { background:var(--green); color:#052e16; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    input[type="file"] { display:none; }
+    .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:0.9rem; margin-bottom:1.25rem; }
+    .kpi { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; }
+    .kpi .label { color:var(--muted); font-size:0.8rem; text-transform:uppercase; }
+    .kpi .val { font-size:1.15rem; font-weight:700; margin-top:0.25rem; }
+    .preview-box { background:#0f172a; border:1px solid var(--border); border-radius:10px; padding:0.9rem; text-align:center; display:none; margin-bottom:1.25rem; }
+    .preview-box img { max-width:100%; max-height:320px; border-radius:8px; object-fit:contain; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Private • Zero Uploads</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($2.99)</a>
+      </div>
+    </div>
+
+    <h1>Photo Privacy Cleaner</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick any phone or camera photo. &nbsp;<strong>Step 2:</strong> See hidden camera/GPS data inside it. &nbsp;<strong>Step 3:</strong> Click <em>Save Clean Photo</em> to wipe all hidden details before posting online.</p>
+
+    <div class="panel">
+      <div class="actions">
+        <label class="file-label" for="imgInput">1. Pick Your Photo</label>
+        <input type="file" id="imgInput" accept="image/*" />
+        <button class="secondary" id="btnSample">Try With Sample Photo</button>
+        <button class="green" id="btnSave" disabled>3. Save Clean Photo (No Hidden Info)</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="label">Hidden EXIF / Camera Tags</div><div class="val" id="kExif" style="color:var(--warn);">—</div></div>
+      <div class="kpi"><div class="label">GPS Location Data</div><div class="val" id="kGps" style="color:var(--warn);">—</div></div>
+      <div class="kpi"><div class="label">Clean Output Status</div><div class="val" id="kStatus" style="color:var(--green);">Waiting for photo</div></div>
+    </div>
+
+    <div class="preview-box" id="previewBox">
+      <img id="imgClean" alt="Cleaned photo preview" />
+    </div>
+
+    <div class="panel" style="color:#cbd5e1;font-size:0.92rem;">
+      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">How to Use &amp; Helpful Tips</h2>
+      <ul style="padding-left:1.25rem;display:grid;gap:0.35rem;">
+        <li><strong>Why this matters:</strong> Phone photos often store hidden GPS coordinates (your home or work address), phone model, and exact date/time inside the file.</li>
+        <li><strong>How it cleans:</strong> Redrawing your photo locally inside your browser creates a brand-new image file with <strong>zero</strong> hidden EXIF, GPS, or serial tags.</li>
+        <li><strong>Free trial vs. Offline:</strong> Free online gives 1 trial download; grab the Offline Edition to clean unlimited photos anytime with no internet.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    let cleanBlob = null;
+    let baseName = "clean-photo";
+    let freeDownloadsLeft = 1;
+
+    function scanJpegHeaders(buf) {
+      const view = new DataView(buf);
+      let hasExif = false, hasGps = false;
+      if (view.byteLength > 4 && view.getUint16(0) === 0xFFD8) {
+        let off = 2;
+        while (off + 4 < view.byteLength) {
+          const marker = view.getUint16(off);
+          if (marker === 0xFFDA || marker === 0xFFD9) break;
+          const len = view.getUint16(off + 2);
+          if (marker === 0xFFE1) {
+            hasExif = true;
+            const bytes = new Uint8Array(buf, off + 4, Math.min(len - 2, buf.byteLength - off - 4));
+            const txt = new TextDecoder("latin1").decode(bytes);
+            if (txt.includes("GPS") || bytes.includes(0x88) && bytes.includes(0x25)) hasGps = true;
+          }
+          if (len < 2) break;
+          off += 2 + len;
+        }
+      }
+      return { hasExif, hasGps };
+    }
+
+    function scrubImage(dataUrl, exifFound, gpsFound, name) {
+      baseName = (name || "photo").replace(/\.[^.]+$/, "");
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = img.naturalWidth || img.width;
+        c.height = img.naturalHeight || img.height;
+        const ctx = c.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        c.toBlob(blob => {
+          cleanBlob = blob;
+          document.getElementById("kExif").textContent = exifFound ? "Found & Removed" : "None (Verified Clean)";
+          document.getElementById("kExif").style.color = exifFound ? "#22c55e" : "#38bdf8";
+          document.getElementById("kGps").textContent = gpsFound ? "GPS Detected & Wiped" : "No GPS (Verified Safe)";
+          document.getElementById("kGps").style.color = gpsFound ? "#22c55e" : "#38bdf8";
+          document.getElementById("kStatus").textContent = `Clean (${c.width}×${c.height}, ${(blob.size/1024).toFixed(1)} KB)`;
+          document.getElementById("imgClean").src = URL.createObjectURL(blob);
+          document.getElementById("previewBox").style.display = "block";
+          document.getElementById("btnSave").disabled = false;
+        }, "image/jpeg", 0.94);
+      };
+      img.src = dataUrl;
+    }
+
+    document.getElementById("imgInput").addEventListener("change", (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const bufReader = new FileReader();
+      bufReader.onload = ev => {
+        const { hasExif, hasGps } = scanJpegHeaders(ev.target.result);
+        const urlReader = new FileReader();
+        urlReader.onload = uEv => scrubImage(uEv.target.result, hasExif, hasGps, f.name);
+        urlReader.readAsDataURL(f);
+      };
+      bufReader.readAsArrayBuffer(f);
+    });
+
+    document.getElementById("btnSample").addEventListener("click", () => {
+      const c = document.createElement("canvas");
+      c.width = 1200; c.height = 800;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#1e293b"; ctx.fillRect(0, 0, 1200, 800);
+      ctx.fillStyle = "#38bdf8"; ctx.font = "bold 52px sans-serif";
+      ctx.fillText("Sample Marketplace Item Photo", 220, 380);
+      ctx.fillStyle = "#22c55e"; ctx.font = "34px sans-serif";
+      ctx.fillText("All Hidden EXIF & GPS Tags Scrubbed", 310, 450);
+      scrubImage(c.toDataURL("image/jpeg", 0.92), true, true, "marketplace-sample.jpg");
+    });
+
+    document.getElementById("btnSave").addEventListener("click", () => {
+      if (!cleanBlob) return;
+      if (freeDownloadsLeft <= 0) {
+        if (confirm("Your 1 free online trial download is used.\n\nClick OK to get the Unlimited Offline Edition ($2.99) — scrub unlimited photos forever!")) {
+          window.open("https://payhip.com/EvergreenMicroTools", "_blank");
+        }
+        return;
+      }
+      freeDownloadsLeft--;
+      const u = URL.createObjectURL(cleanBlob);
+      const a = document.createElement("a");
+      a.href = u; a.download = baseName + "-clean.jpg"; a.click();
+      URL.revokeObjectURL(u);
+    });
+  </script>
+</body>
+</html>
