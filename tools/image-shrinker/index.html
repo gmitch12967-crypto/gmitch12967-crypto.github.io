@@ -295,8 +295,16 @@
       document.getElementById(id).addEventListener("change", processImage);
     });
 
+    let freeDownloadsLeft = 1;
     document.getElementById("btnDownload").addEventListener("click", () => {
       if (!outputBlob) return;
+      if (freeDownloadsLeft <= 0) {
+        if (confirm("Your 1 free online trial download is used.\n\nClick OK to get the Unlimited Offline Edition ($1.99) — shrink unlimited private photos forever!")) {
+          window.open("https://payhip.com/b/7GxBD", "_blank");
+        }
+        return;
+      }
+      freeDownloadsLeft--;
       const ext = document.getElementById("selFmt").value === "image/webp" ? "webp" : "jpg";
       const url = URL.createObjectURL(outputBlob);
       const a = document.createElement("a");
