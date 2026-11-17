@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Instant plain-English answers and troubleshooting for Evergreen Micro-Tools offline editions, CSV files, passport photo printing, and QR signs." />
+  <title>Help &amp; Quick Fixes — Evergreen Micro-Tools</title>
+  <style>
+    :root { --bg:#0b1120; --card:#16223a; --border:#263656; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; padding:1.5rem 1rem 4rem; }
+    .container { max-width:920px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; }
+    h1 { font-size:1.9rem; margin-bottom:0.4rem; }
+    .sub { color:var(--muted); margin-bottom:1.25rem; }
+    .search-box {
+      width:100%;
+      background:#111a2e;
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:0.8rem 1rem;
+      font-size:1rem;
+      margin-bottom:1rem;
+    }
+    .pills { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+    .pill {
+      background:#111a2e; color:var(--muted); border:1px solid var(--border);
+      padding:0.4rem 0.85rem; border-radius:999px; font-size:0.85rem; font-weight:600; cursor:pointer;
+    }
+    .pill.active { background:var(--accent); color:#0b1120; border-color:var(--accent); }
+    .faq-list { display:grid; gap:0.9rem; }
+    .faq { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.1rem 1.25rem; }
+    .faq h2 { font-size:1.05rem; color:var(--accent); margin-bottom:0.45rem; }
+    .faq p { color:#cbd5e1; font-size:0.94rem; }
+    .empty { color:var(--muted); text-align:center; padding:2rem; display:none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="./index.html">← Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="color:var(--green);">Payhip Store →</a>
+    </div>
+
+    <h1>Help &amp; Quick Fixes</h1>
+    <p class="sub">Type a word below (like <em>zip</em>, <em>Excel</em>, <em>passport</em>, <em>QR</em>, or <em>payment</em>) to jump straight to the answer.</p>
+
+    <input type="text" id="txtSearch" class="search-box" placeholder="Search for help (e.g., How do I open the zip? Passport size wrong?)..." />
+
+    <div class="pills">
+      <button class="pill active" data-cat="all">All Topics</button>
+      <button class="pill" data-cat="zip">Offline ZIP Setup</button>
+      <button class="pill" data-cat="csv">CSV &amp; Excel</button>
+      <button class="pill" data-cat="photo">Photos &amp; Passport</button>
+      <button class="pill" data-cat="qr">QR &amp; Wi-Fi</button>
+      <button class="pill" data-cat="pay">Payments &amp; Downloads</button>
+    </div>
+
+    <div class="faq-list" id="faqList">
+      <div class="faq" data-cat="zip">
+        <h2>How do I open my Offline Edition .zip file?</h2>
+        <p><strong>Windows:</strong> Right-click the <code>.zip</code> file, click <strong>Extract All...</strong>, open the new folder, and double-click the <code>.html</code> file inside. It opens right in Chrome or Edge with no internet needed.<br/><strong>Mac:</strong> Double-click the <code>.zip</code> file to unzip it, then double-click the <code>.html</code> file to open it in Safari or Chrome.</p>
+      </div>
+
+      <div class="faq" data-cat="zip">
+        <h2>Why does it open in my web browser if it works offline?</h2>
+        <p>Your browser (Chrome, Edge, Safari, or Firefox) can open local <code>.html</code> files straight from your computer's hard drive or USB stick with Wi-Fi completely turned off. Nothing is installed and nothing is sent online.</p>
+      </div>
+
+      <div class="faq" data-cat="photo">
+        <h2>My printed Passport / Visa photo came out slightly too big or too small</h2>
+        <p>When printing the 4×6 inch or A4 sheet, make sure your printer dialog is set to <strong>Actual Size (100% scale)</strong> — <strong>not</strong> "Fit to Page" or "Shrink to Fit." If you print at CVS or Walgreens on 4×6 photo paper, pick the 4×6 sheet option and uncheck auto-crop if shown.</p>
+      </div>
+
+      <div class="faq" data-cat="photo">
+        <h2>A website still says my photo is too big after shrinking</h2>
+        <p>Pick a smaller limit under <strong>2. Maximum File Size Needed</strong> (for example, switch from <em>Under 2 MB</em> to <em>Under 500 KB</em> or <em>Under 200 KB</em>) and choose <strong>JPG</strong> format, then save again.</p>
+      </div>
+
+      <div class="faq" data-cat="photo">
+        <h2>Does Photo Privacy Cleaner really remove my GPS home location?</h2>
+        <p>Yes. It redraws your image pixels into a brand-new JPEG inside your browser, which strips out all hidden EXIF tags, GPS coordinates, camera serial numbers, and timestamps.</p>
+      </div>
+
+      <div class="faq" data-cat="csv">
+        <h2>Excel opened my CSV with everything crammed into Column A</h2>
+        <p>Open <strong>Tool #4 (International CSV &amp; Date Fixer)</strong>. If you are in Europe or Latin America, set <strong>Output Separator</strong> to <strong>Semicolon (;)</strong>. If you are in the US or UK, set it to <strong>Comma (,)</strong>. Then save and double-click the new file in Excel.</p>
+      </div>
+
+      <div class="faq" data-cat="csv">
+        <h2>Only 100 lines show on screen in Tool #1 — did it lose my other lines?</h2>
+        <p>No! To keep your browser fast on big spreadsheets, only the first 100 lines are previewed on screen. When you click <strong>Save Clean File</strong>, every clean line in your file is saved (up to 25 lines in the free online trial, or unlimited lines in the Offline Edition).</p>
+      </div>
+
+      <div class="faq" data-cat="qr">
+        <h2>Will my QR code ever expire or ask for a monthly fee later?</h2>
+        <p>Never. Your real website URL or Wi-Fi password is encoded directly into the QR squares with zero redirect servers. Even if our website disappeared years from now, your printed QR codes will still scan forever.</p>
+      </div>
+
+      <div class="faq" data-cat="qr">
+        <h2>My Guest Wi-Fi QR code didn't connect automatically</h2>
+        <p>Double-check exact uppercase/lowercase spelling for your <strong>Wi-Fi Network Name (SSID)</strong> and <strong>Password</strong>, and make sure Security Type matches your router (usually <strong>WPA / WPA2 / WPA3</strong>). Test it with your phone camera right on screen before printing.</p>
+      </div>
+
+      <div class="faq" data-cat="pay">
+        <h2>How do I re-download a tool I already bought on Payhip?</h2>
+        <p>Check the receipt email Payhip sent right after checkout — it includes your permanent download link. You can also sign into Payhip's Customer Portal at <code>https://payhip.com/EvergreenMicroTools/b-account</code> using the same email you used at checkout.</p>
+      </div>
+    </div>
+    <div class="empty" id="emptyMsg">No matching help topic found — try a shorter keyword like <em>zip</em>, <em>Excel</em>, <em>passport</em>, or <em>QR</em>.</div>
+  </div>
+
+  <script>
+    let activeCat = "all";
+    function filterFaqs() {
+      const q = document.getElementById("txtSearch").value.trim().toLowerCase();
+      let shown = 0;
+      document.querySelectorAll(".faq").forEach(el => {
+        const matchCat = (activeCat === "all" || el.dataset.cat === activeCat);
+        const matchText = (!q || el.textContent.toLowerCase().includes(q));
+        const ok = matchCat && matchText;
+        el.style.display = ok ? "block" : "none";
+        if (ok) shown++;
+      });
+      document.getElementById("emptyMsg").style.display = shown === 0 ? "block" : "none";
+    }
+    document.getElementById("txtSearch").addEventListener("input", filterFaqs);
+    document.querySelectorAll(".pill").forEach(p => {
+      p.addEventListener("click", () => {
+        document.querySelectorAll(".pill").forEach(x => x.classList.remove("active"));
+        p.classList.add("active");
+        activeCat = p.dataset.cat;
+        filterFaqs();
+      });
+    });
+  </script>
+</body>
+</html>
