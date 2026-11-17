@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -107,10 +107,10 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
-        <span class="privacy-pill">100% Local Processing • Zero Uploads • No Watermarks</span>
-        <a href="https://payhip.com/b/dhzAe" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Bundle ($2.99)</a>
+        <span class="privacy-pill">100% Local Processing â€¢ Zero Uploads â€¢ No Watermarks</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy (Store)</a>
       </div>
     </div>
 
@@ -147,18 +147,18 @@
 
         <label class="field">File Type
           <select id="selFmt">
-            <option value="image/jpeg" selected>JPG — Works Everywhere</option>
-            <option value="image/webp">WebP — Smallest File Size</option>
+            <option value="image/jpeg" selected>JPG â€” Works Everywhere</option>
+            <option value="image/webp">WebP â€” Smallest File Size</option>
           </select>
         </label>
       </div>
     </div>
 
     <div class="kpis">
-      <div class="kpi"><div class="label">Original Size</div><div class="val" id="kOrig">—</div></div>
-      <div class="kpi"><div class="label">New Size</div><div class="val" id="kNew" style="color:#22c55e;">—</div></div>
-      <div class="kpi"><div class="label">Space Saved</div><div class="val" id="kSaved">—</div></div>
-      <div class="kpi"><div class="label">Photo Dimensions</div><div class="val" id="kDims">—</div></div>
+      <div class="kpi"><div class="label">Original Size</div><div class="val" id="kOrig">â€”</div></div>
+      <div class="kpi"><div class="label">New Size</div><div class="val" id="kNew" style="color:#22c55e;">â€”</div></div>
+      <div class="kpi"><div class="label">Space Saved</div><div class="val" id="kSaved">â€”</div></div>
+      <div class="kpi"><div class="label">Photo Dimensions</div><div class="val" id="kDims">â€”</div></div>
     </div>
 
     <div class="panel preview-grid" id="previewWrap" style="display:none;">
@@ -180,7 +180,7 @@
     let outputBlob = null;
 
     function fmtBytes(b) {
-      if (!b && b !== 0) return "—";
+      if (!b && b !== 0) return "â€”";
       if (b < 1024) return b + " B";
       if (b < 1024 * 1024) return (b / 1024).toFixed(1) + " KB";
       return (b / (1024 * 1024)).toFixed(2) + " MB";
@@ -233,7 +233,7 @@
       document.getElementById("kNew").textContent = fmtBytes(outputBlob.size);
       const pct = sourceBytes > 0 ? Math.max(0, Math.round((1 - outputBlob.size / sourceBytes) * 100)) : 0;
       document.getElementById("kSaved").textContent = pct + "% smaller";
-      document.getElementById("kDims").textContent = bestW + " × " + bestH;
+      document.getElementById("kDims").textContent = bestW + " Ã— " + bestH;
 
       const outUrl = URL.createObjectURL(outputBlob);
       document.getElementById("imgOut").src = outUrl;
@@ -299,3 +299,4 @@
   </script>
 </body>
 </html>
+
