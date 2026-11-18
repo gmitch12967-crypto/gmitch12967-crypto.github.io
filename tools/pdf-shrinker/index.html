@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shrink oversized PDFs under 500 KB, 1 MB, or 2 MB for visa, court, job, and school portals 100% locally in your browser." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #18: PDF Size Shrinker (Under 1 MB / 2 MB)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:920px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.65rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .status { font-size:0.9rem; color:#cbd5e1; margin-top:0.9rem; background:#0f172a; border:1px solid var(--border); border-radius:8px; padding:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($4.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>PDF Size Shrinker (Under 1 MB / 2 MB)</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your oversized PDF. &nbsp;<strong>Step 2:</strong> Choose the portal size limit. &nbsp;<strong>Step 3:</strong> Shrink &amp; save — your private documents never leave your device.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">1. Choose PDF File
+          <input type="file" id="pdfFile" accept="application/pdf,.pdf" />
+        </label>
+        <label class="field">2. Target Maximum File Size
+          <select id="selTarget">
+            <option value="500">Under 500 KB (Strict Portal Limit)</option>
+            <option value="1000" selected>Under 1 MB (Standard Portal Limit)</option>
+            <option value="2000">Under 2 MB (Visa / Job / Court Limit)</option>
+            <option value="5000">Under 5 MB (Email Limit)</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="btnShrink" disabled>Shrink &amp; Save Smaller PDF</button>
+      </div>
+      <div class="status" id="status">No PDF selected yet. Free online trial shrinks up to 2 pages per PDF.</div>
+    </div>
+  </div>
+
+  <script src="pdf.min.js"></script>
+  <script src="../pdf-combiner/pdf-lib.min.js"></script>
+  <script>
+    const FREE_PAGE_CAP = 2;
+    let selectedFile = null;
+    const statusEl = document.getElementById("status");
+    const btnShrink = document.getElementById("btnShrink");
+
+    document.getElementById("pdfFile").addEventListener("change", e => {
+      selectedFile = e.target.files[0] || null;
+      btnShrink.disabled = !selectedFile;
+      if (selectedFile) {
+        statusEl.textContent = `Loaded ${selectedFile.name} (${(selectedFile.size / 1024).toFixed(0)} KB). Ready to shrink.`;
+      }
+    });
+
+    async function renderPagesToPdf(pdf, pageCount, scale, quality) {
+      const outDoc = await PDFLib.PDFDocument.create();
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      for (let i = 1; i <= pageCount; i++) {
+        const page = await pdf.getPage(i);
+        const vp = page.getViewport({ scale });
+        canvas.width = Math.max(1, Math.round(vp.width));
+        canvas.height = Math.max(1, Math.round(vp.height));
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+        const jpgBytes = await fetch(canvas.toDataURL("image/jpeg", quality)).then(r => r.arrayBuffer());
+        const jpgImg = await outDoc.embedJpg(jpgBytes);
+        const outPage = outDoc.addPage([vp.width / scale, vp.height / scale]);
+        outPage.drawImage(jpgImg, { x: 0, y: 0, width: vp.width / scale, height: vp.height / scale });
+      }
+      return await outDoc.save();
+    }
+
+    btnShrink.addEventListener("click", async () => {
+      if (!selectedFile) return;
+      btnShrink.disabled = true;
+      try {
+        const targetBytes = parseInt(document.getElementById("selTarget").value, 10) * 1024;
+        const raw = new Uint8Array(await selectedFile.arrayBuffer());
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "";
+        const pdf = await pdfjsLib.getDocument({ data: raw, disableWorker: true }).promise;
+        const total = pdf.numPages;
+        const count = Math.min(total, FREE_PAGE_CAP);
+        const capped = total > FREE_PAGE_CAP;
+
+        statusEl.textContent = `Shrinking ${count} page(s) locally...`;
+        const presets = [
+          { scale: 1.5, q: 0.78 },
+          { scale: 1.25, q: 0.65 },
+          { scale: 1.05, q: 0.55 },
+          { scale: 0.9, q: 0.45 },
+          { scale: 0.75, q: 0.36 }
+        ];
+        let bestBytes = null;
+        for (const p of presets) {
+          bestBytes = await renderPagesToPdf(pdf, count, p.scale, p.q);
+          if (bestBytes.length <= targetBytes) break;
+        }
+
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([bestBytes], { type: "application/pdf" }));
+        a.download = selectedFile.name.replace(/\.pdf$/i, "") + "_shrunk.pdf";
+        a.click();
+
+        const kb = (bestBytes.length / 1024).toFixed(0);
+        statusEl.textContent = `Done! Saved ${kb} KB (${count} page(s)).` +
+          (capped ? ` (Free online trial capped at ${FREE_PAGE_CAP} of ${total} pages — get the $4.99 Offline Edition for unlimited pages.)` : "");
+      } catch (err) {
+        statusEl.textContent = "Error: " + err.message;
+      } finally {
+        btnShrink.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
