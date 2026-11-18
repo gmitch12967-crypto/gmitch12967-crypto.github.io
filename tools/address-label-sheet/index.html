@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Print clean 30-up mailing labels or shipping labels from a plain list of addresses right in your browser with zero uploads." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #17: Print-Ready Shipping &amp; Address Label Sheet</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:960px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    textarea, select { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.65rem; font-size:0.9rem; font-family:inherit; }
+    textarea { min-height:140px; resize:vertical; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.secondary { background:#334155; color:var(--text); }
+    .sheet { background:#ffffff; color:#0f172a; border-radius:8px; padding:0.5in 0.2in; margin-top:1rem; display:grid; gap:0.12in; }
+    .sheet.cols3 { grid-template-columns:repeat(3,1fr); }
+    .sheet.cols2 { grid-template-columns:repeat(2,1fr); }
+    .label-box { border:1px dashed #cbd5e1; border-radius:4px; padding:0.12in; min-height:0.95in; font-size:12px; line-height:1.35; display:flex; flex-direction:column; justify-content:center; }
+    .ret { font-size:10px; color:#475569; border-bottom:1px solid #e2e8f0; padding-bottom:3px; margin-bottom:4px; }
+    @media print {
+      body { background:#ffffff; padding:0; }
+      .no-print { display:none !important; }
+      .sheet { margin:0; }
+      .label-box { border-color:transparent; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar no-print">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($1.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1 class="no-print">Print-Ready Shipping &amp; Address Label Sheet</h1>
+    <p class="sub no-print"><strong>Step 1:</strong> Paste addresses separated by a blank line. &nbsp;<strong>Step 2:</strong> Choose label sheet layout. &nbsp;<strong>Step 3:</strong> Print or save as PDF — works with Avery-style sticker sheets or plain paper.</p>
+
+    <div class="panel no-print">
+      <div class="cols">
+        <label class="field">Addresses (separate each address with a blank line)
+          <textarea id="txtAddrs" placeholder="Jane Doe&#10;123 Main St&#10;Austin, TX 78701&#10;&#10;Alex Smith&#10;456 Oak Ave&#10;Denver, CO 80202"></textarea>
+        </label>
+        <div style="display:flex;flex-direction:column;gap:0.85rem;">
+          <label class="field">Optional Return Address (shown at top of each label)
+            <textarea id="txtReturn" style="min-height:80px;" placeholder="Your Name / Shop&#10;789 Elm Rd, Portland OR 97201"></textarea>
+          </label>
+          <label class="field">Sheet Layout
+            <select id="selLayout">
+              <option value="cols3">30-Up Standard Mailing Labels (3 columns)</option>
+              <option value="cols2">10-Up Large Shipping Labels (2 columns)</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="secondary" id="btnSample">Load Sample Labels</button>
+        <button id="btnPrint">Print / Save Label Sheet PDF</button>
+      </div>
+      <p id="status" style="font-size:0.88rem;color:var(--muted);margin-top:0.75rem;">Free online trial previews &amp; prints up to 2 labels per sheet.</p>
+    </div>
+
+    <div class="sheet cols3" id="sheet"></div>
+  </div>
+
+  <script>
+    const FREE_LABEL_CAP = 2;
+
+    function esc(s) {
+      return s.replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    function renderLabels() {
+      const sheet = document.getElementById("sheet");
+      sheet.className = "sheet " + document.getElementById("selLayout").value;
+      const raw = document.getElementById("txtAddrs").value.trim();
+      const blocks = raw ? raw.split(/\r?\n\s*\r?\n/).map(b => b.trim()).filter(Boolean) : [];
+      const ret = document.getElementById("txtReturn").value.trim();
+
+      const capped = blocks.length > FREE_LABEL_CAP;
+      const shown = blocks.slice(0, FREE_LABEL_CAP);
+
+      sheet.innerHTML = shown.map(b => `
+        <div class="label-box">
+          ${ret ? `<div class="ret">${esc(ret).replace(/\n/g, "<br>")}</div>` : ""}
+          <div>${esc(b).replace(/\n/g, "<br>")}</div>
+        </div>`).join("") || `<div class="label-box" style="color:#94a3b8;">Type or paste addresses above to preview labels.</div>`;
+
+      document.getElementById("status").textContent = capped
+        ? `Showing first ${FREE_LABEL_CAP} of ${blocks.length} labels (Free online trial cap — get the $1.99 Offline Edition for full 30-up sheets).`
+        : `${shown.length} label(s) ready to print.`;
+    }
+
+    ["txtAddrs","txtReturn","selLayout"].forEach(id => document.getElementById(id).addEventListener("input", renderLabels));
+    document.getElementById("btnSample").addEventListener("click", () => {
+      document.getElementById("txtReturn").value = "Evergreen Craft Shop\n100 Market St, Suite 2\nSeattle, WA 98101";
+      document.getElementById("txtAddrs").value = "Jordan Taylor\n42 Pinehurst Rd\nColumbus, OH 43215\n\nMorgan Lee\n885 Sunset Blvd\nTampa, FL 33602";
+      renderLabels();
+    });
+    document.getElementById("btnPrint").addEventListener("click", () => window.print());
+
+    renderLabels();
+  </script>
+</body>
+</html>
