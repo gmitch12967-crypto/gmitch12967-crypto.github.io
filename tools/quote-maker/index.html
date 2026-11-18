@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create a clean 1-page PDF job quote or estimate with deposit terms, expiration date, and customer approval line locally." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #20: Professional Job Quote &amp; Estimate Maker</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:960px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.3rem; font-size:0.84rem; color:var(--muted); }
+    input, textarea, select { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; font-family:inherit; }
+    .item-row { display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:0.5rem; margin-top:0.5rem; align-items:center; }
+    @media (max-width:600px) { .item-row { grid-template-columns:1fr 1fr; } }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    .sheet { background:#ffffff; color:#0f172a; border-radius:10px; padding:2rem; margin-top:1.25rem; }
+    .sheet table { width:100%; border-collapse:collapse; margin-top:1.25rem; }
+    .sheet th, .sheet td { border-bottom:1px solid #e2e8f0; padding:0.55rem 0.4rem; text-align:left; font-size:0.92rem; }
+    .sheet th.num, .sheet td.num { text-align:right; }
+    @media print {
+      body { background:#ffffff; padding:0; }
+      .no-print { display:none !important; }
+      .sheet { margin:0; padding:0.5in; border-radius:0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar no-print">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Signups</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($4.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1 class="no-print">Professional Job Quote &amp; Estimate Maker</h1>
+    <p class="sub no-print"><strong>Step 1:</strong> Enter your business, customer, and job items. &nbsp;<strong>Step 2:</strong> Set deposit % &amp; valid-until days. &nbsp;<strong>Step 3:</strong> Print or save a clean PDF quote.</p>
+
+    <div class="panel no-print">
+      <div class="grid">
+        <label class="field">Quote # <input id="qNum" value="EST-201" /></label>
+        <label class="field">Valid For (Days) <input id="qDays" type="number" value="14" min="1" /></label>
+        <label class="field">Deposit Required (%) <input id="qDep" type="number" value="50" min="0" max="100" /></label>
+        <label class="field">Currency <select id="qCur"><option value="$">$</option><option value="€">€</option><option value="£">£</option></select></label>
+        <label class="field">From (Your Business) <textarea id="qFrom" rows="2" placeholder="Your Business Name&#10;Phone • License/City"></textarea></label>
+        <label class="field">Prepared For (Customer) <textarea id="qTo" rows="2" placeholder="Customer Name&#10;Job Address / Phone"></textarea></label>
+      </div>
+      <div style="margin-top:1rem;">
+        <strong style="font-size:0.9rem;">Scope &amp; Line Items</strong>
+        <div id="itemsWrap"></div>
+        <div class="actions">
+          <button class="secondary" id="btnAdd">+ Add Line Item</button>
+          <button class="green" id="btnPrint">Print / Save Quote PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet" id="sheet"></div>
+  </div>
+
+  <script>
+    let freeUsesLeft = 1;
+    let items = [{ desc: "Labor & Materials", qty: 1, price: 250 }];
+
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    function renderInputs() {
+      const wrap = document.getElementById("itemsWrap");
+      wrap.innerHTML = "";
+      items.forEach((it, idx) => {
+        const row = document.createElement("div");
+        row.className = "item-row";
+        row.innerHTML = `<input type="text" value="${esc(it.desc)}" /><input type="number" min="0" step="any" value="${it.qty}" /><input type="number" min="0" step="any" value="${it.price}" /><button class="secondary" type="button">✕</button>`;
+        const [dIn, qIn, pIn, delBtn] = row.children;
+        dIn.addEventListener("input", () => { items[idx].desc = dIn.value; renderSheet(); });
+        qIn.addEventListener("input", () => { items[idx].qty = parseFloat(qIn.value) || 0; renderSheet(); });
+        pIn.addEventListener("input", () => { items[idx].price = parseFloat(pIn.value) || 0; renderSheet(); });
+        delBtn.addEventListener("click", () => { if (items.length > 1) { items.splice(idx, 1); renderInputs(); renderSheet(); } });
+        wrap.appendChild(row);
+      });
+    }
+
+    function renderSheet() {
+      const cur = document.getElementById("qCur").value;
+      const num = document.getElementById("qNum").value;
+      const days = parseInt(document.getElementById("qDays").value, 10) || 14;
+      const depPct = Math.max(0, Math.min(100, parseFloat(document.getElementById("qDep").value) || 0));
+      const from = esc(document.getElementById("qFrom").value || "Your Business Name").replace(/\n/g, "<br>");
+      const to = esc(document.getElementById("qTo").value || "Customer Name").replace(/\n/g, "<br>");
+      let total = 0;
+      const rows = items.map(it => {
+        const sub = (it.qty || 0) * (it.price || 0);
+        total += sub;
+        return `<tr><td>${esc(it.desc)}</td><td class="num">${it.qty}</td><td class="num">${cur}${it.price.toFixed(2)}</td><td class="num">${cur}${sub.toFixed(2)}</td></tr>`;
+      }).join("");
+      const depAmt = total * (depPct / 100);
+      const today = new Date();
+      const exp = new Date(today.getTime() + days * 86400000);
+
+      document.getElementById("sheet").innerHTML = `
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div><h2 style="font-size:1.55rem;">JOB QUOTE / ESTIMATE</h2><p style="color:#475569;font-size:0.9rem;">#${esc(num)} • Issued: ${today.toLocaleDateString()} • Valid Until: ${exp.toLocaleDateString()}</p></div>
+          <div style="text-align:right;font-size:0.92rem;"><strong>From:</strong><br>${from}</div>
+        </div>
+        <div style="margin-top:1rem;font-size:0.92rem;"><strong>Prepared For:</strong><br>${to}</div>
+        <table><thead><tr><th>Work / Item</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th></tr></thead><tbody>${rows}</tbody></table>
+        <div style="text-align:right;margin-top:1rem;">
+          <div style="font-size:1.2rem;font-weight:700;">Estimated Total: ${cur}${total.toFixed(2)}</div>
+          ${depPct > 0 ? `<div style="font-size:0.95rem;color:#334155;">Deposit to Schedule (${depPct}%): <strong>${cur}${depAmt.toFixed(2)}</strong></div>` : ""}
+        </div>
+        <div style="margin-top:2rem;border-top:1px solid #cbd5e1;padding-top:0.85rem;display:flex;justify-content:space-between;gap:1rem;font-size:0.88rem;color:#475569;">
+          <span>Customer Acceptance Signature: ___________________________</span>
+          <span>Date: ______________</span>
+        </div>`;
+    }
+
+    ["qNum","qDays","qDep","qCur","qFrom","qTo"].forEach(id => document.getElementById(id).addEventListener("input", renderSheet));
+    document.getElementById("btnAdd").addEventListener("click", () => { items.push({ desc: "Additional Item", qty: 1, price: 50 }); renderInputs(); renderSheet(); });
+    document.getElementById("btnPrint").addEventListener("click", () => {
+      if (freeUsesLeft <= 0) { alert("Free online trial includes 1 PDF print/save. Get the Offline Edition ($4.99) for unlimited quotes!"); return; }
+      window.print();
+      freeUsesLeft--;
+    });
+    renderInputs();
+    renderSheet();
+  </script>
+</body>
+</html>
