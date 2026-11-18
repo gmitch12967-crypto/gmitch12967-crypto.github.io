@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Put the front and back of any ID, driver's license, or insurance card neatly onto one printable Letter or A4 page locally." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #11: Front &amp; Back ID Card on 1 Printable Page</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:940px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    .preview-wrap { margin-top:1rem; text-align:center; background:#0b1120; padding:1rem; border-radius:10px; border:1px solid var(--border); }
+    canvas { max-width:100%; height:auto; max-height:520px; background:#ffffff; border-radius:4px; }
+    @media print {
+      body * { visibility:hidden; }
+      #sheetCanvas, #sheetCanvas * { visibility:visible; }
+      #sheetCanvas { position:fixed; left:0; top:0; width:100%; max-height:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($2.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Front &amp; Back ID Card on 1 Printable Page</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick the front and back photos of your ID or insurance card. &nbsp;<strong>Step 2:</strong> Rotate if needed. &nbsp;<strong>Step 3:</strong> Print or save one clean page — your ID never leaves your device.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">Front of Card
+          <input type="file" id="fFront" accept="image/*" />
+        </label>
+        <label class="field">Back of Card
+          <input type="file" id="fBack" accept="image/*" />
+        </label>
+        <label class="field">Paper Size
+          <select id="selPaper">
+            <option value="letter">US Letter (8.5 × 11 in)</option>
+            <option value="a4">A4 (210 × 297 mm)</option>
+          </select>
+        </label>
+        <label class="field">Card Size on Page
+          <select id="selScale">
+            <option value="1">Actual Card Size (3.375 × 2.125 in)</option>
+            <option value="1.5">Large Easy-to-Read (1.5×)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="secondary" id="btnRotFront">Rotate Front 90°</button>
+        <button class="secondary" id="btnRotBack">Rotate Back 90°</button>
+        <button class="green" id="btnSave">Save Printable PNG</button>
+        <button id="btnPrint">Print Page</button>
+      </div>
+
+      <div class="preview-wrap">
+        <canvas id="sheetCanvas" width="1275" height="1650"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let imgFront = null, imgBack = null, rotFront = 0, rotBack = 0;
+    let freeUsesLeft = 1;
+    const canvas = document.getElementById("sheetCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function loadImg(file, cb) {
+      if (!file) return;
+      const r = new FileReader();
+      r.onload = () => { const i = new Image(); i.onload = () => cb(i); i.src = r.result; };
+      r.readAsDataURL(file);
+    }
+
+    document.getElementById("fFront").addEventListener("change", e => loadImg(e.target.files[0], i => { imgFront = i; drawSheet(); }));
+    document.getElementById("fBack").addEventListener("change", e => loadImg(e.target.files[0], i => { imgBack = i; drawSheet(); }));
+    document.getElementById("selPaper").addEventListener("change", drawSheet);
+    document.getElementById("selScale").addEventListener("change", drawSheet);
+    document.getElementById("btnRotFront").addEventListener("click", () => { rotFront = (rotFront + 90) % 360; drawSheet(); });
+    document.getElementById("btnRotBack").addEventListener("click", () => { rotBack = (rotBack + 90) % 360; drawSheet(); });
+
+    function drawCard(img, rot, label, cx, cy, boxW, boxH) {
+      ctx.save();
+      ctx.strokeStyle = "#cbd5e1";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(cx - boxW / 2, cy - boxH / 2, boxW, boxH);
+      ctx.fillStyle = "#475569";
+      ctx.font = "bold 22px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(label, cx, cy - boxH / 2 - 14);
+
+      if (img) {
+        const swap = rot === 90 || rot === 270;
+        const iw = swap ? img.height : img.width;
+        const ih = swap ? img.width : img.height;
+        const s = Math.min((boxW - 12) / iw, (boxH - 12) / ih);
+        ctx.translate(cx, cy);
+        ctx.rotate((rot * Math.PI) / 180);
+        ctx.drawImage(img, -(img.width * s) / 2, -(img.height * s) / 2, img.width * s, img.height * s);
+      } else {
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "20px sans-serif";
+        ctx.fillText("Choose image above", cx, cy + 6);
+      }
+      ctx.restore();
+    }
+
+    function drawSheet() {
+      const isA4 = document.getElementById("selPaper").value === "a4";
+      canvas.width = isA4 ? 1240 : 1275;  // 150 DPI
+      canvas.height = isA4 ? 1754 : 1650;
+      const scale = parseFloat(document.getElementById("selScale").value);
+      const boxW = Math.round(3.375 * 150 * scale);
+      const boxH = Math.round(2.125 * 150 * scale);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      drawCard(imgFront, rotFront, "FRONT", cx, canvas.height * 0.30, boxW, boxH);
+      drawCard(imgBack, rotBack, "BACK", cx, canvas.height * 0.68, boxW, boxH);
+    }
+
+    document.getElementById("btnSave").addEventListener("click", () => {
+      if (freeUsesLeft <= 0) {
+        alert("Free online trial includes 1 sheet download. Get the Offline Edition ($2.99) for unlimited sheets!");
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "ID_Card_Front_Back_Sheet.png";
+      a.click();
+      freeUsesLeft--;
+    });
+
+    document.getElementById("btnPrint").addEventListener("click", () => {
+      if (freeUsesLeft <= 0) {
+        alert("Free online trial includes 1 print/save. Get the Offline Edition ($2.99) for unlimited prints!");
+        return;
+      }
+      window.print();
+      freeUsesLeft--;
+    });
+
+    drawSheet();
+  </script>
+</body>
+</html>
