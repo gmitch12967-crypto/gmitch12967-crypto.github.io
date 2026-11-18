@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Turn any bank or credit card CSV export into instant category totals and a clean tax summary CSV 100% locally." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #16: Bank CSV to Instant Expense Totals</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:960px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1rem; margin:1rem 0; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; font-size:0.9rem; }
+    th, td { border-bottom:1px solid var(--border); padding:0.55rem 0.5rem; text-align:left; }
+    th.num, td.num { text-align:right; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Never Connects to Your Bank</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($2.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Bank CSV to Instant Expense Totals</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick the CSV you downloaded from your bank or card. &nbsp;<strong>Step 2:</strong> Match the Description &amp; Amount columns. &nbsp;<strong>Step 3:</strong> See instant totals and save a clean summary CSV.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">1. Choose Bank / Card CSV
+          <input type="file" id="csvFile" accept=".csv,text/csv" />
+        </label>
+        <label class="field">Description / Merchant Column
+          <select id="selDesc"></select>
+        </label>
+        <label class="field">Amount Column
+          <select id="selAmt"></select>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="secondary" id="btnSample">Try Sample Bank CSV</button>
+        <button id="btnCalc" disabled>Calculate Totals</button>
+        <button class="green" id="btnExport" disabled>Save Summary CSV</button>
+      </div>
+      <div class="status" id="status">Free online trial processes up to 25 rows.</div>
+      <div id="tableWrap"></div>
+    </div>
+  </div>
+
+  <script>
+    const FREE_ROW_CAP = 25;
+    let rows = [];
+    let summaryRows = [];
+
+    function parseCsv(text) {
+      const lines = text.split(/\r?\n/).filter(l => l.trim());
+      return lines.map(line => {
+        const cols = []; let cur = "", q = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') { if (q && line[i+1] === '"') { cur += '"'; i++; } else q = !q; }
+          else if (ch === ',' && !q) { cols.push(cur.trim()); cur = ""; }
+          else cur += ch;
+        }
+        cols.push(cur.trim());
+        return cols;
+      });
+    }
+
+    function categorize(desc) {
+      const d = desc.toLowerCase();
+      if (/grocery|market|trader|kroger|walmart|aldi|whole foods|cafe|coffee|restaurant|pizza|uber eats|doordash/.test(d)) return "Groceries & Food";
+      if (/shell|chevron|exxon|gas|fuel|uber|lyft|parking|auto|tire/.test(d)) return "Gas & Auto";
+      if (/electric|water|gas bill|comcast|verizon|at&t|t-mobile|internet|utility/.test(d)) return "Utilities & Phone";
+      if (/netflix|spotify|apple|google|amazon prime|adobe|subscription/.test(d)) return "Subscriptions";
+      if (/amazon|target|home depot|lowes|best buy|costco/.test(d)) return "Shopping & Supplies";
+      if (/payroll|deposit|refund|transfer in|venmo|zelle/.test(d)) return "Income / Credits";
+      return "Other Expenses";
+    }
+
+    function loadParsed(parsed) {
+      if (parsed.length < 2) return;
+      rows = parsed;
+      const headers = parsed[0];
+      const sDesc = document.getElementById("selDesc");
+      const sAmt = document.getElementById("selAmt");
+      sDesc.innerHTML = ""; sAmt.innerHTML = "";
+      headers.forEach((h, i) => {
+        sDesc.add(new Option(h || `Column ${i+1}`, i));
+        sAmt.add(new Option(h || `Column ${i+1}`, i));
+      });
+      const dGuess = headers.findIndex(h => /desc|merchant|memo|name/i.test(h));
+      const aGuess = headers.findIndex(h => /amount|total|debit|value/i.test(h));
+      if (dGuess >= 0) sDesc.value = dGuess;
+      if (aGuess >= 0) sAmt.value = aGuess;
+      document.getElementById("btnCalc").disabled = false;
+      calculate();
+    }
+
+    function calculate() {
+      const dIdx = parseInt(document.getElementById("selDesc").value, 10);
+      const aIdx = parseInt(document.getElementById("selAmt").value, 10);
+      const data = rows.slice(1);
+      const capped = data.length > FREE_ROW_CAP;
+      const slice = data.slice(0, FREE_ROW_CAP);
+
+      const totals = {};
+      for (const r of slice) {
+        const desc = r[dIdx] || "";
+        const rawNum = String(r[aIdx] || "0").replace(/[^0-9.\-]/g, "");
+        const amt = parseFloat(rawNum) || 0;
+        const cat = amt > 0 && !/refund/i.test(desc) ? "Income / Credits" : categorize(desc);
+        if (!totals[cat]) totals[cat] = { count: 0, sum: 0 };
+        totals[cat].count++;
+        totals[cat].sum += amt;
+      }
+
+      const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+      summaryRows = Object.entries(totals).map(([cat, v]) => ({ cat, count: v.count, sum: v.sum }));
+      document.getElementById("tableWrap").innerHTML = `
+        <table>
+          <thead><tr><th>Category</th><th class="num">Items</th><th class="num">Net Total</th></tr></thead>
+          <tbody>${summaryRows.map(r => `<tr><td>${esc(r.cat)}</td><td class="num">${r.count}</td><td class="num">${r.sum.toFixed(2)}</td></tr>`).join("")}</tbody>
+        </table>`;
+      document.getElementById("btnExport").disabled = summaryRows.length === 0;
+      document.getElementById("status").textContent =
+        `Summarized ${slice.length} row(s).` +
+        (capped ? ` (Free online trial capped at ${FREE_ROW_CAP} rows — get the $2.99 Offline Edition for unlimited rows.)` : "");
+    }
+
+    document.getElementById("csvFile").addEventListener("change", async e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      loadParsed(parseCsv(await f.text()));
+    });
+    document.getElementById("btnCalc").addEventListener("click", calculate);
+    document.getElementById("btnSample").addEventListener("click", () => {
+      loadParsed(parseCsv("Date,Description,Amount\n2026-10-01,TRADER JOES #12,-64.20\n2026-10-03,SHELL OIL,-42.10\n2026-10-05,PAYROLL DEPOSIT,1850.00\n2026-10-07,NETFLIX.COM,-15.99\n2026-10-10,HOME DEPOT,-88.50"));
+    });
+    document.getElementById("btnExport").addEventListener("click", () => {
+      const csv = "Category,Items,Net Total\n" + summaryRows.map(r => `"${r.cat}",${r.count},${r.sum.toFixed(2)}`).join("\n");
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+      a.download = "Expense_Summary.csv";
+      a.click();
+    });
+  </script>
+</body>
+</html>
