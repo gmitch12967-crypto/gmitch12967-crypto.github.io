@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -41,9 +41,9 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
-        <span class="pill">Never Expires â€¢ Zero Tracking â€¢ No Watermarks</span>
+        <span class="pill">Never Expires • Zero Tracking • No Watermarks</span>
         <a href="https://payhip.com/b/ZKEcf" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($2.99)</a>
       </div>
     </div>
@@ -113,7 +113,7 @@
   </div>
 
   <script>
-    // Compact self-contained QR Byte-mode encoder (Versions 1..6, ECC Level L) â€” zero external dependencies
+    // Compact self-contained QR Byte-mode encoder (Versions 1..6, ECC Level L) — zero external dependencies
     const QR = (() => {
       const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
       let x = 1;
@@ -246,7 +246,7 @@
         const pass = document.getElementById("txtPass").value || "";
         const sec = document.getElementById("selSec").value;
         payload = `WIFI:T:${sec};S:${ssid};P:${sec === "nopass" ? "" : pass};;`;
-        sub = `Network: ${ssid}` + (sec === "nopass" ? " (Open)" : `  â€¢  Password: ${pass}`);
+        sub = `Network: ${ssid}` + (sec === "nopass" ? " (Open)" : `  •  Password: ${pass}`);
         document.getElementById("previewNote").textContent = "Point your phone camera at the code to join Wi-Fi.";
       } else {
         payload = document.getElementById("txtUrl").value.trim() || "https://gmitch12967-crypto.github.io/";
