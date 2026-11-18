@@ -115,16 +115,34 @@
       gap: 1.25rem;
     }
     .card {
-      background: var(--card);
+      background: linear-gradient(180deg, rgba(30,41,59,0.92) 0%, var(--card) 100%);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-top: 4px solid var(--accent);
+      border-radius: 16px;
       padding: 1.4rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: border-color 0.2s, transform 0.15s;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+      transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
     }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card[data-cat="photo"] { border-top-color: #22c55e; }
+    .card[data-cat="csv"] { border-top-color: #a78bfa; }
+    .card[data-cat="qr"] { border-top-color: #f472b6; }
+    .card[data-cat="ai"] { border-top-color: #fbbf24; }
+    .card[data-cat="docs"] { border-top-color: #38bdf8; }
+    .card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 18px 34px rgba(15,23,42,0.55); }
+    .search-input {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.48rem 1rem;
+      font-size: 0.88rem;
+      min-width: 230px;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56,189,248,0.18); }
     .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; gap: 0.5rem; }
     .status { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
     .status.live { color: var(--green); }
@@ -211,12 +229,14 @@
 
     <div class="filter-bar" id="tools">
       <div class="filter-pills">
-        <button class="pill-btn active" data-filter="all">All Tools (7 Live)</button>
-        <button class="pill-btn" data-filter="csv">Spreadsheets &amp; CSV</button>
-        <button class="pill-btn" data-filter="photo">Photos &amp; Privacy</button>
+        <button class="pill-btn active" data-filter="all">All Tools (22 Live)</button>
+        <button class="pill-btn" data-filter="docs">PDF &amp; Docs</button>
+        <button class="pill-btn" data-filter="photo">Photos &amp; Print</button>
+        <button class="pill-btn" data-filter="csv">Spreadsheets &amp; Email</button>
         <button class="pill-btn" data-filter="qr">QR &amp; Signs</button>
         <button class="pill-btn" data-filter="ai">AI Workforce</button>
       </div>
+      <input type="search" id="searchBox" class="search-input" placeholder="Search tools (PDF, HEIC, CSV, Resume...)" />
     </div>
 
     <div class="grid" id="toolGrid">
@@ -376,7 +396,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/pdf-combiner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/gs3rw" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/gs3rw" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
         </div>
       </div>
 
@@ -396,7 +416,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/pdf-signer/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/jD9d4" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/jD9d4" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
         </div>
       </div>
 
@@ -416,7 +436,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/heic-jpg-converter/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/cop3A" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/cop3A" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
         </div>
       </div>
 
@@ -436,7 +456,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/id-card-sheet/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/6nwE7" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/6nwE7" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
         </div>
       </div>
 
@@ -456,7 +476,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/photo-redactor/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/sHVTN" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/sHVTN" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
         </div>
       </div>
 
@@ -476,7 +496,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/receipt-cleaner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/9TRJ7" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/9TRJ7" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
         </div>
       </div>
 
@@ -496,7 +516,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/invoice-maker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/9fGU4" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/9fGU4" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
         </div>
       </div>
 
@@ -516,7 +536,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/text-diff/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/ZRTUc" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/ZRTUc" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
         </div>
       </div>
 
@@ -536,7 +556,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/bank-csv-summary/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/lp8h7" target="_blank" rel="noopener">Buy Offline (.99)</a>
+          <a class="btn buy" href="https://payhip.com/b/lp8h7" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
         </div>
       </div>
 
@@ -556,11 +576,7 @@
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/address-label-sheet/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/Upjbf" target="_blank" rel="noopener">Buy Offline (.99)</a>
-        </div>
-      </div>
-        <div class="card-actions">
-          <a class="btn disabled" href="#">Coming Soon</a>
+          <a class="btn buy" href="https://payhip.com/b/Upjbf" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
         </div>
       </div>
     </div>
@@ -571,16 +587,24 @@
   </div>
 
   <script>
+    let activeCat = "all";
+    function applyFilters() {
+      const q = (document.getElementById("searchBox").value || "").trim().toLowerCase();
+      document.querySelectorAll("#toolGrid .card").forEach(card => {
+        const catOk = activeCat === "all" || card.dataset.cat === activeCat;
+        const textOk = !q || card.textContent.toLowerCase().includes(q);
+        card.style.display = (catOk && textOk) ? "flex" : "none";
+      });
+    }
     document.querySelectorAll(".pill-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        const f = btn.dataset.filter;
-        document.querySelectorAll("#toolGrid .card").forEach(card => {
-          card.style.display = (f === "all" || card.dataset.cat === f || card.dataset.cat === "all") ? "flex" : "none";
-        });
+        activeCat = btn.dataset.filter;
+        applyFilters();
       });
     });
+    document.getElementById("searchBox").addEventListener("input", applyFilters);
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js").catch(() => {});
     }
