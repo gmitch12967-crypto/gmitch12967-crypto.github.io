@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Permanently black out account numbers, addresses, and sensitive info on screenshots or IDs locally in your browser." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #12: Permanent Blackout Redactor</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:940px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; align-items:center; }
+    input[type="file"], select { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.5rem 0.75rem; font-size:0.9rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .canvas-wrap { margin-top:1rem; text-align:center; background:#0b1120; padding:0.75rem; border-radius:10px; border:1px solid var(--border); overflow:auto; }
+    canvas { max-width:100%; height:auto; touch-action:none; cursor:crosshair; border-radius:4px; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($1.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Permanent Blackout Redactor</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your screenshot or photo. &nbsp;<strong>Step 2:</strong> Drag over names, account numbers, or addresses to permanently erase those pixels. &nbsp;<strong>Step 3:</strong> Save a safe-to-share PNG.</p>
+
+    <div class="panel">
+      <div class="actions" style="margin-top:0;">
+        <input type="file" id="fileInput" accept="image/*" />
+        <select id="selColor">
+          <option value="#000000">Solid Blackout</option>
+          <option value="#ffffff">Solid Whiteout</option>
+        </select>
+        <button class="secondary" id="btnUndo" disabled>Undo Last Box</button>
+        <button class="secondary" id="btnReset" disabled>Clear Boxes</button>
+        <button class="green" id="btnSave" disabled>Save Redacted PNG</button>
+      </div>
+      <div class="status" id="status">Pick an image to start. Hidden pixels are permanently overwritten (not a removable layer). Free trial: 1 download.</div>
+      <div class="canvas-wrap">
+        <canvas id="canvas" width="720" height="420"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let baseImg = null;
+    let boxes = [];
+    let dragStart = null;
+    let dragCurr = null;
+    let freeDownloadsLeft = 1;
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const btnUndo = document.getElementById("btnUndo");
+    const btnReset = document.getElementById("btnReset");
+    const btnSave = document.getElementById("btnSave");
+
+    document.getElementById("fileInput").addEventListener("change", e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          baseImg = img;
+          boxes = [];
+          canvas.width = img.width;
+          canvas.height = img.height;
+          btnSave.disabled = false;
+          redraw();
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    });
+
+    function getPt(e) {
+      const rect = canvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: (cx - rect.left) * (canvas.width / rect.width), y: (cy - rect.top) * (canvas.height / rect.height) };
+    }
+
+    function redraw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (baseImg) ctx.drawImage(baseImg, 0, 0);
+      for (const b of boxes) {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+      }
+      if (dragStart && dragCurr) {
+        ctx.fillStyle = document.getElementById("selColor").value;
+        ctx.fillRect(dragStart.x, dragStart.y, dragCurr.x - dragStart.x, dragCurr.y - dragStart.y);
+      }
+      btnUndo.disabled = boxes.length === 0;
+      btnReset.disabled = boxes.length === 0;
+    }
+
+    const onDown = e => { if (!baseImg) return; e.preventDefault(); dragStart = getPt(e); dragCurr = dragStart; };
+    const onMove = e => { if (!dragStart) return; e.preventDefault(); dragCurr = getPt(e); redraw(); };
+    const onUp = () => {
+      if (!dragStart) return;
+      const w = dragCurr.x - dragStart.x, h = dragCurr.y - dragStart.y;
+      if (Math.abs(w) > 4 && Math.abs(h) > 4) {
+        boxes.push({ x: dragStart.x, y: dragStart.y, w, h, color: document.getElementById("selColor").value });
+      }
+      dragStart = null; dragCurr = null;
+      redraw();
+    };
+
+    canvas.addEventListener("mousedown", onDown); canvas.addEventListener("mousemove", onMove); window.addEventListener("mouseup", onUp);
+    canvas.addEventListener("touchstart", onDown, { passive: false }); canvas.addEventListener("touchmove", onMove, { passive: false }); window.addEventListener("touchend", onUp);
+
+    btnUndo.addEventListener("click", () => { boxes.pop(); redraw(); });
+    btnReset.addEventListener("click", () => { boxes = []; redraw(); });
+
+    btnSave.addEventListener("click", () => {
+      if (!baseImg) return;
+      if (freeDownloadsLeft <= 0) {
+        alert("Your 1 free online trial download is used. Get the Offline Edition ($1.99) for unlimited redactions!");
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "Redacted_Safe_Image.png";
+      a.click();
+      freeDownloadsLeft--;
+      document.getElementById("status").textContent = "Saved Redacted_Safe_Image.png with all selected areas permanently erased.";
+    });
+  </script>
+</body>
+</html>
