@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Turn your favorite AI into the Boss of a multi-AI workforce with zero coding. Step-by-step guided mode (free, no keys) or auto-run mode with your own free API keys." />
+    <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
   <title>Tool #7: AI Workforce Boss (No-Code Multi-AI Team Builder)</title>
   <style>
     :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --gold:#fbbf24; }
@@ -37,24 +40,32 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
-        <span class="pill">No Coding • Your Own AI as Boss</span>
-        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($4.99)</a>
+        <span class="pill">No Coding â€¢ Your Own AI as Boss</span>
+        <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Full Offline Blueprint ($19.99)</a>
       </div>
     </div>
 
-    <h1>AI Workforce Boss (No-Code Team Builder)</h1>
-    <p class="sub"><strong>Step 1:</strong> Pick which AI is your <em>Boss</em> and which AIs are your <em>Workers</em>. &nbsp;<strong>Step 2:</strong> Type your task once. &nbsp;<strong>Step 3:</strong> Run them together as a 3-step team (Draft → QA Check → Final Boss Answer) with zero coding.</p>
+    <h1>AI Workforce Boss â€” Build Your Own AI Team</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your purpose and your Main AI (<em>The Boss</em>). &nbsp;<strong>Step 2:</strong> Type your goal. &nbsp;<strong>Step 3:</strong> Click <em>Copy Master Boss Prompt &amp; Open My AI</em> â€” paste it once, and your AI will assemble its own workforce and guide you step by step.</p>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="guided">Guided Step-by-Step Mode (Free, No API Keys)</button>
-      <button class="tab-btn" data-tab="auto">Auto-Run Mode (Bring Your Own Free API Keys)</button>
+      <button class="tab-btn active" data-tab="guided">1-Paste Master Boss Prompt (Recommended)</button>
+      <button class="tab-btn" data-tab="auto">Auto-Run With Your Own Free API Keys</button>
     </div>
 
     <div class="panel">
       <div class="controls">
-        <label class="field">Main AI ("The Boss" — Final Decision &amp; Polish)
+        <label class="field">Your Workforce Purpose
+          <select id="selPurpose">
+            <option value="Writing & Content|Drafts articles, emails, and guides, audits tone/clarity, and polishes the final copy.">Writing &amp; Content Team</option>
+            <option value="Small Business Ops|Creates SOPs, checklists, and customer replies, checks for missing policies, and finalizes.">Small Business Operations</option>
+            <option value="Research & Fact-Check|Summarizes topics, cross-checks claims for gaps, and produces a verified brief.">Research &amp; Fact-Checking</option>
+            <option value="Custom Goal|Adapts Worker 1, QA Critic, and Boss roles to any custom goal you type below.">Custom Purpose (Your Choice)</option>
+          </select>
+        </label>
+        <label class="field">Main AI ("The Boss" â€” Final Decision &amp; Polish)
           <select id="selBoss">
             <option value="ChatGPT|https://chatgpt.com/">ChatGPT</option>
             <option value="Google Gemini|https://gemini.google.com/">Google Gemini</option>
@@ -91,54 +102,79 @@
       </div>
 
       <div id="autoControls" style="display:none;margin-top:1rem;">
+        <p style="font-size:0.86rem;color:#94a3b8;margin-bottom:0.75rem;">Connect your own <strong>Free</strong> or <strong>Paid</strong> AI keys below (saved strictly on your own device â€” never sent anywhere else):</p>
         <div class="controls">
-          <label class="field">Free Groq API Key (Optional — Saved Only in Your Browser)
+          <label class="field">Groq API Key (Free or Paid)
             <input type="password" id="keyGroq" placeholder="gsk_..." />
           </label>
-          <label class="field">Free Gemini API Key (Optional — Saved Only in Your Browser)
+          <label class="field">Google Gemini Key (Free or Paid)
             <input type="password" id="keyGemini" placeholder="AIza..." />
+          </label>
+          <label class="field">OpenAI Key (Paid GPT-4o / o3)
+            <input type="password" id="keyOpenAi" placeholder="sk-..." />
+          </label>
+          <label class="field">OpenRouter Key (Free or Paid Models)
+            <input type="password" id="keyOr" placeholder="sk-or-..." />
           </label>
         </div>
         <div class="actions">
           <button class="green" id="btnRunAuto">Run 3-Step Workforce Automatically</button>
         </div>
-        <div class="out-box" id="autoOut">Paste at least one free Groq or Gemini key above (keys stay 100% on your device) and click Run.</div>
+        <div class="out-box" id="autoOut">Paste any Free or Paid AI key above (Groq, Gemini, OpenAI, or OpenRouter) and click Run.</div>
       </div>
     </div>
 
     <div class="panel" id="stepsWrap" style="display:none;">
-      <div class="step-card">
-        <h3>Step 1: Send to Worker #1 (<span id="lblW1"></span>) — Create First Draft</h3>
-        <pre id="pW1"></pre>
-        <div class="actions">
-          <button onclick="copyAndOpen('pW1','selW1')">Copy Step 1 &amp; Open Worker #1 →</button>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <h3>Step 2: Send to Worker #2 (<span id="lblW2"></span>) — Find Mistakes &amp; Missing Pieces</h3>
-        <pre id="pW2"></pre>
-        <div class="actions">
-          <button onclick="copyAndOpen('pW2','selW2')">Copy Step 2 &amp; Open Worker #2 →</button>
-        </div>
-      </div>
-
       <div class="step-card boss">
-        <h3>Step 3: Send to Your Main AI — "The Boss" (<span id="lblBoss"></span>) — Final Polish</h3>
-        <pre id="pBoss"></pre>
+        <h3>Master Boss Prompt â€” Paste This Once Into Your Main AI (<span id="lblBossMain"></span>)</h3>
+        <p style="font-size:0.86rem;color:#94a3b8;margin-bottom:0.4rem;">This instructs your chosen AI to become the Boss, assemble its own Worker &amp; QA roles for your purpose, and walk you through setup step by step.</p>
+        <pre id="pMaster"></pre>
         <div class="actions">
-          <button class="green" onclick="copyAndOpen('pBoss','selBoss')">Copy Step 3 &amp; Open Boss AI →</button>
+          <button class="green" onclick="copyAndOpen('pMaster','selBoss')">3. Copy Master Boss Prompt &amp; Open <span id="lblBossBtn"></span> â†’</button>
         </div>
       </div>
+
+      <details style="margin-top:0.75rem;">
+        <summary style="cursor:pointer;color:#38bdf8;font-weight:700;font-size:0.92rem;">Optional: Run Each Worker Manually in Separate Chats (Steps 1â€“3)</summary>
+        <div style="margin-top:0.75rem;">
+          <div class="step-card">
+            <h3>Step 1: Send to Worker #1 (<span id="lblW1"></span>) â€” Create First Draft</h3>
+            <pre id="pW1"></pre>
+            <div class="actions">
+              <button onclick="copyAndOpen('pW1','selW1')">Copy Step 1 &amp; Open Worker #1 â†’</button>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3>Step 2: Send to Worker #2 (<span id="lblW2"></span>) â€” Find Mistakes &amp; Missing Pieces</h3>
+            <pre id="pW2"></pre>
+            <div class="actions">
+              <button onclick="copyAndOpen('pW2','selW2')">Copy Step 2 &amp; Open Worker #2 â†’</button>
+            </div>
+          </div>
+
+          <div class="step-card boss">
+            <h3>Step 3: Send to Your Main AI â€” "The Boss" (<span id="lblBoss"></span>) â€” Final Polish</h3>
+            <pre id="pBoss"></pre>
+            <div class="actions">
+              <button class="green" onclick="copyAndOpen('pBoss','selBoss')">Copy Step 3 &amp; Open Boss AI â†’</button>
+            </div>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="panel" style="color:#cbd5e1;font-size:0.92rem;">
-      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">How This Works &amp; Why It's Better Than 1 AI Alone</h2>
-      <ul style="padding-left:1.25rem;display:grid;gap:0.35rem;">
-        <li><strong>Two heads + a Boss:</strong> Asking one AI often misses mistakes. Having Worker #1 draft, Worker #2 critique, and your Main AI ("The Boss") combine the best parts produces much stronger results.</li>
-        <li><strong>Free &amp; Private:</strong> In Guided Mode, no API keys or code are needed. In Auto-Run Mode, any free key you enter stays strictly in your own browser.</li>
-        <li><strong>Offline Edition ($4.99):</strong> Keep this entire no-code AI Workforce builder on your computer or USB forever — no monthly fees.</li>
-      </ul>
+      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">Full Numbered Blueprint: Build Your Own AI Workforce (7 Steps)</h2>
+      <ol style="padding-left:1.35rem;display:grid;gap:0.4rem;">
+        <li><strong>Pick Your Purpose:</strong> Choose what your AI team will handle (Writing, Small Business Ops, Research, or Custom).</li>
+        <li><strong>Appoint "The Boss":</strong> Choose your strongest AI (ChatGPT, Claude, Gemini, or Perplexity) to make final decisions.</li>
+        <li><strong>Assign Worker #1 (Builder):</strong> Pick a fast free AI to create the first draft without worrying about perfection.</li>
+        <li><strong>Assign Worker #2 (QA Critic):</strong> Pick a second, separate AI so it catches blind spots the first AI missed.</li>
+        <li><strong>Give Every Worker One Clear Role:</strong> Never ask one prompt to draft, audit, and finalize at the same time â€” split the roles.</li>
+        <li><strong>Send Draft + Critique to The Boss:</strong> Paste both replies into your Boss AI so it fixes every flaw and produces the final result.</li>
+        <li><strong>Optional Upgrade (Auto-Run):</strong> Once comfortable, paste your own free Groq or Gemini keys in the Auto-Run tab to chain all 3 roles in 1 click.</li>
+      </ol>
     </div>
   </div>
 
@@ -149,21 +185,39 @@
     }
 
     function buildSteps() {
+      const [purposeName, purposeDesc] = selInfo("selPurpose");
       const goal = document.getElementById("txtGoal").value.trim() || "Write a clear, helpful response to a customer question.";
       const boss = selInfo("selBoss"), w1 = selInfo("selW1"), w2 = selInfo("selW2");
 
       document.getElementById("lblW1").textContent = w1.name;
       document.getElementById("lblW2").textContent = w2.name;
       document.getElementById("lblBoss").textContent = boss.name;
+      document.getElementById("lblBossMain").textContent = boss.name;
+      document.getElementById("lblBossBtn").textContent = boss.name;
+
+      document.getElementById("pMaster").textContent =
+`You are now THE BOSS (Lead Manager & Coordinator) of my personal AI Workforce.
+
+MY PURPOSE: ${purposeName} (${purposeDesc})
+MY GOAL: ${goal}
+
+YOUR INSTRUCTIONS AS THE BOSS:
+1. ASSEMBLE YOUR WORKFORCE: Design a clear 3-worker team tailored to my goal:
+   - Worker 1 (Researcher / Planner)
+   - Worker 2 (Builder / Writer â€” using ${w1.name} or your own drafting step)
+   - Worker 3 (Independent QA Auditor â€” using ${w2.name} or a strict separate check to catch every flaw)
+2. GUIDE ME STEP BY STEP: Give me plain-English, numbered steps (Step 1, Step 2, Step 3...) telling me exactly how to set up and run this workforce with zero coding.
+3. KEEP IT SIMPLE & SAFE: Never ask me to buy paid subscriptions unless I ask, never invent fake facts, and ask me one simple question at a time whenever you need my input.
+4. START RIGHT NOW: Present the team roster you assembled, explain Step 1 to me, and begin executing Worker 1's plan.`;
 
       document.getElementById("pW1").textContent =
-`You are Worker #1 (First Draft Specialist). Complete this task clearly, thoroughly, and in plain English:
+`You are Worker #1 (First Draft Specialist for ${purposeName}). ${purposeDesc} Complete this task clearly and in plain English:
 
 TASK:
 ${goal}`;
 
       document.getElementById("pW2").textContent =
-`You are Worker #2 (Quality & Fact-Check Auditor). Review the draft below against the original task. List every mistake, missing detail, unclear sentence, or weakness — do not rewrite it yet, just audit it strictly.
+`You are Worker #2 (Quality & Fact-Check Auditor). Review the draft below against the original task. List every mistake, missing detail, unclear sentence, or weakness â€” do not rewrite it yet, just audit it strictly.
 
 ORIGINAL TASK:
 ${goal}
@@ -210,20 +264,24 @@ WORKER #2 CRITIQUE:
     });
 
     // Save/load user's own optional keys strictly in their own browser localStorage
-    const kg = document.getElementById("keyGroq"), kge = document.getElementById("keyGemini");
+    const kg = document.getElementById("keyGroq"), kge = document.getElementById("keyGemini"), koa = document.getElementById("keyOpenAi"), kor = document.getElementById("keyOr");
     kg.value = localStorage.getItem("afg_user_groq") || "";
     kge.value = localStorage.getItem("afg_user_gemini") || "";
+    koa.value = localStorage.getItem("afg_user_openai") || "";
+    kor.value = localStorage.getItem("afg_user_or") || "";
     kg.addEventListener("input", () => localStorage.setItem("afg_user_groq", kg.value.trim()));
     kge.addEventListener("input", () => localStorage.setItem("afg_user_gemini", kge.value.trim()));
+    koa.addEventListener("input", () => localStorage.setItem("afg_user_openai", koa.value.trim()));
+    kor.addEventListener("input", () => localStorage.setItem("afg_user_or", kor.value.trim()));
 
-    async function callGroq(key, sys, usr) {
-      const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    async function callOpenAiCompat(url, key, model, sys, usr) {
+      const r = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
-        body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "system", content: sys }, { role: "user", content: usr }] })
+        body: JSON.stringify({ model, messages: [{ role: "system", content: sys }, { role: "user", content: usr }] })
       });
       const j = await r.json();
-      if (!r.ok) throw new Error(j.error ? j.error.message : "Groq error");
+      if (!r.ok) throw new Error(j.error ? j.error.message : "API error");
       return j.choices[0].message.content;
     }
 
@@ -240,24 +298,27 @@ WORKER #2 CRITIQUE:
 
     document.getElementById("btnRunAuto").addEventListener("click", async () => {
       const out = document.getElementById("autoOut");
-      const gKey = kg.value.trim(), gemKey = kge.value.trim();
+      const gKey = kg.value.trim(), gemKey = kge.value.trim(), oaKey = koa.value.trim(), orKey = kor.value.trim();
       const goal = document.getElementById("txtGoal").value.trim();
       if (!goal) { out.textContent = "Please type a task goal above first."; return; }
-      if (!gKey && !gemKey) { out.textContent = "Please paste your own free Groq or Gemini API key first (or switch to Guided Mode for zero-key use)."; return; }
+      if (!gKey && !gemKey && !oaKey && !orKey) { out.textContent = "Please paste at least one Free or Paid API key above first (or use the 1-Paste Master Boss Prompt)."; return; }
 
-      const runStep = (sys, usr, preferGemini) => {
-        if (preferGemini && gemKey) return callGemini(gemKey, sys, usr);
-        if (gKey) return callGroq(gKey, sys, usr);
+      const runStep = (sys, usr, roleIdx) => {
+        if (roleIdx === 2 && oaKey) return callOpenAiCompat("https://api.openai.com/v1/chat/completions", oaKey, "gpt-4o-mini", sys, usr);
+        if (roleIdx === 1 && gemKey) return callGemini(gemKey, sys, usr);
+        if (gKey) return callOpenAiCompat("https://api.groq.com/openai/v1/chat/completions", gKey, "llama-3.3-70b-versatile", sys, usr);
+        if (orKey) return callOpenAiCompat("https://openrouter.ai/api/v1/chat/completions", orKey, "openai/gpt-4o-mini", sys, usr);
+        if (oaKey) return callOpenAiCompat("https://api.openai.com/v1/chat/completions", oaKey, "gpt-4o-mini", sys, usr);
         return callGemini(gemKey, sys, usr);
       };
 
       try {
         out.textContent = "Step 1/3: Worker #1 is creating the first draft...";
-        const draft = await runStep("You are Worker #1 (First Draft Specialist).", goal, false);
+        const draft = await runStep("You are Worker #1 (First Draft Specialist).", goal, 0);
         out.textContent = "Step 2/3: Worker #2 is auditing the draft for mistakes...";
-        const critique = await runStep("You are Worker #2 (QA Critic). List every flaw or gap concisely.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft, true);
+        const critique = await runStep("You are Worker #2 (QA Critic). List every flaw or gap concisely.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft, 1);
         out.textContent = "Step 3/3: The Boss AI is reviewing both and writing the final answer...";
-        const finalAns = await runStep("You are THE BOSS. Combine the draft and fix every flaw from the critique into the final polished answer.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft + "\n\nCRITIQUE:\n" + critique, false);
+        const finalAns = await runStep("You are THE BOSS. Combine the draft and fix every flaw from the critique into the final polished answer.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft + "\n\nCRITIQUE:\n" + critique, 2);
         out.textContent = "=== FINAL BOSS OUTPUT ===\n\n" + finalAns + "\n\n--- QA CRITIQUE USED ---\n" + critique;
       } catch (err) {
         out.textContent = "Error: " + err.message;
@@ -266,3 +327,4 @@ WORKER #2 CRITIQUE:
   </script>
 </body>
 </html>
+
