@@ -8,6 +8,9 @@
   <meta property="og:description" content="Clean CSVs, shrink photos under 1 MB, make passport print sheets, fix European Excel files, and build never-expiring QR signs. 100% private on your device." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://gmitch12967-crypto.github.io/" />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-256.png" />
   <title>Evergreen Micro-Tools — Fix File, Photo &amp; QR Headaches Without Subscriptions</title>
   <style>
     :root {
@@ -341,19 +344,19 @@
         <div>
           <div class="card-head">
             <span class="status live">● Tool #7 — Ready</span>
-            <span class="price-tag">Offline Copy $4.99</span>
+            <span class="price-tag">Offline Blueprint $19.99</span>
           </div>
           <h2>AI Workforce Boss (No-Code Team)</h2>
-          <div class="problem-box"><strong>Fixes:</strong> Single AI answers missing mistakes — lets you make your main AI the "Boss" over Worker &amp; QA AIs with zero coding.</div>
+          <div class="problem-box"><strong>Fixes:</strong> Single AI answers missing mistakes — gives you a full 7-step blueprint to make your main AI the "Boss" over Worker &amp; QA AIs for any purpose.</div>
           <ul class="features">
-            <li>Guided 3-step mode works free with ChatGPT, Gemini, Claude &amp; Perplexity</li>
+            <li>Pick your own purpose (Writing, Small-Biz Ops, Research, Custom)</li>
+            <li>Full 7-step numbered blueprint + zero-code copy/launch prompts</li>
             <li>Optional Auto-Run mode with your own free Groq/Gemini keys</li>
-            <li>1-click copy &amp; launch — zero coding required</li>
           </ul>
         </div>
         <div class="card-actions">
           <a class="btn try" href="./tools/ai-workforce/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Offline ($4.99)</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Blueprint ($19.99)</a>
         </div>
       </div>
 
@@ -387,6 +390,9 @@
         });
       });
     });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    }
   </script>
 </body>
 </html>
