@@ -45,4 +45,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/pdf-combiner/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/pdf-signer/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/heic-jpg-converter/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/id-card-sheet/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/photo-redactor/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/receipt-cleaner/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/invoice-maker/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/text-diff/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/bank-csv-summary/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gmitch12967-crypto.github.io/tools/address-label-sheet/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 </urlset>
