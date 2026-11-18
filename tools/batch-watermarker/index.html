@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Stamp diagonal or corner text watermarks onto client proof photos locally in your browser with zero uploads." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #22: Bulk Client-Proof Watermarker</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:940px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .results { display:grid; gap:0.65rem; margin-top:1rem; }
+    .row { display:flex; justify-content:space-between; align-items:center; gap:0.75rem; background:#0f172a; border:1px solid var(--border); border-radius:8px; padding:0.65rem 0.85rem; flex-wrap:wrap; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.55rem 0.95rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.85rem; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($4.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Bulk Client-Proof Watermarker</h1>
+    <p class="sub"><strong>Step 1:</strong> Type your watermark text. &nbsp;<strong>Step 2:</strong> Pick your style &amp; photos. &nbsp;<strong>Step 3:</strong> Save protected proofs locally — zero Photoshop or subscriptions.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">Watermark Text
+          <input type="text" id="txtWm" value="PROOF — DO NOT COPY" />
+        </label>
+        <label class="field">Style
+          <select id="selStyle">
+            <option value="diag">Tiled Diagonal Across Photo (Strongest)</option>
+            <option value="center">Large Center Stamp</option>
+            <option value="corner">Bottom-Right Corner Stamp</option>
+          </select>
+        </label>
+        <label class="field">Choose Photos (1 or Many)
+          <input type="file" id="fileIn" accept="image/*" multiple />
+        </label>
+      </div>
+      <div class="status" id="status">Free online trial includes 1 watermarked photo download.</div>
+      <div class="results" id="results"></div>
+    </div>
+  </div>
+
+  <script>
+    let freeDownloadsLeft = 1;
+
+    function watermarkImage(file, text, style) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onerror = () => reject(new Error("Could not read file"));
+        r.onload = () => {
+          const img = new Image();
+          img.onerror = () => reject(new Error("Invalid image"));
+          img.onload = () => {
+            const c = document.createElement("canvas");
+            c.width = img.width; c.height = img.height;
+            const ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            const baseSize = Math.max(22, Math.round(Math.min(c.width, c.height) * 0.055));
+            ctx.font = `bold ${baseSize}px sans-serif`;
+            ctx.fillStyle = "rgba(255,255,255,0.42)";
+            ctx.strokeStyle = "rgba(0,0,0,0.28)";
+            ctx.lineWidth = Math.max(2, baseSize * 0.06);
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            if (style === "diag") {
+              ctx.save();
+              ctx.translate(c.width / 2, c.height / 2);
+              ctx.rotate(-Math.PI / 6);
+              const stepX = Math.max(260, ctx.measureText(text).width + 90);
+              const stepY = baseSize * 3.2;
+              for (let y = -c.height; y <= c.height; y += stepY) {
+                for (let x = -c.width; x <= c.width; x += stepX) {
+                  ctx.strokeText(text, x, y);
+                  ctx.fillText(text, x, y);
+                }
+              }
+              ctx.restore();
+            } else if (style === "center") {
+              ctx.strokeText(text, c.width / 2, c.height / 2);
+              ctx.fillText(text, c.width / 2, c.height / 2);
+            } else {
+              ctx.textAlign = "right";
+              ctx.textBaseline = "bottom";
+              ctx.strokeText(text, c.width - 24, c.height - 20);
+              ctx.fillText(text, c.width - 24, c.height - 20);
+            }
+            c.toBlob(blob => resolve(blob), "image/jpeg", 0.9);
+          };
+          img.src = r.result;
+        };
+        r.readAsDataURL(file);
+      });
+    }
+
+    document.getElementById("fileIn").addEventListener("change", async e => {
+      const files = [...e.target.files];
+      if (!files.length) return;
+      const results = document.getElementById("results");
+      results.innerHTML = "";
+      const text = document.getElementById("txtWm").value.trim() || "PROOF";
+      const style = document.getElementById("selStyle").value;
+      document.getElementById("status").textContent = "Applying watermarks locally...";
+
+      for (const f of files) {
+        const blob = await watermarkImage(f, text, style);
+        const url = URL.createObjectURL(blob);
+        const outName = f.name.replace(/\.[^.]+$/, "") + "_proof.jpg";
+        const row = document.createElement("div");
+        row.className = "row";
+        const label = document.createElement("strong");
+        label.textContent = outName;
+        const btn = document.createElement("button");
+        btn.textContent = "Save Proof JPG";
+        btn.addEventListener("click", () => {
+          if (freeDownloadsLeft <= 0) {
+            alert("Your 1 free online trial download is used. Get the Offline Edition ($4.99) for unlimited batch proofs!");
+            return;
+          }
+          const a = document.createElement("a");
+          a.href = url; a.download = outName; a.click();
+          freeDownloadsLeft--;
+        });
+        row.appendChild(label);
+        row.appendChild(btn);
+        results.appendChild(row);
+      }
+      document.getElementById("status").textContent = `${files.length} proof(s) ready!`;
+    });
+  </script>
+</body>
+</html>
