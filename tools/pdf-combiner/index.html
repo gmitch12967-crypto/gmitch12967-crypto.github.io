@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Combine, split, reorder, and rotate PDF pages 100% inside your own browser without uploading private files anywhere." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #8: Combine or Split Private PDFs (No Upload)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --red:#ef4444; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:960px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .drop { border:2px dashed var(--border); border-radius:10px; padding:1.5rem; text-align:center; cursor:pointer; background:#0f172a; }
+    .drop:hover { border-color:var(--accent); }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; align-items:center; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    button.danger { background:#7f1d1d; color:#fecaca; }
+    button.sm { padding:0.35rem 0.6rem; font-size:0.8rem; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .page-list { display:grid; gap:0.5rem; margin-top:1rem; max-height:360px; overflow:auto; }
+    .page-row { display:flex; justify-content:space-between; align-items:center; gap:0.6rem; background:#0f172a; border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.8rem; flex-wrap:wrap; }
+    .page-title { font-size:0.9rem; font-weight:600; }
+    .page-meta { font-size:0.8rem; color:var(--muted); }
+    input[type="text"] { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.75rem; font-size:0.9rem; min-width:190px; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($2.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Combine or Split Private PDFs</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick 1 or more PDFs. &nbsp;<strong>Step 2:</strong> Reorder, rotate, or remove pages you don't need. &nbsp;<strong>Step 3:</strong> Save your new PDF — nothing ever leaves your device.</p>
+
+    <div class="panel">
+      <div class="drop" id="dropZone">
+        <p style="font-weight:700;margin-bottom:0.35rem;">Tap to Choose PDF Files (or Drag &amp; Drop Here)</p>
+        <p style="font-size:0.85rem;color:var(--muted);">Add multiple PDFs to merge them, or add one PDF to split/remove pages.</p>
+        <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple style="display:none" />
+      </div>
+
+      <div class="actions">
+        <input type="text" id="txtRange" placeholder="Keep pages e.g. 1-3, 5 (optional)" />
+        <button class="secondary" id="btnApplyRange" disabled>Keep Only Listed Pages</button>
+        <button class="secondary" id="btnClear" disabled>Clear All</button>
+        <button class="green" id="btnSave" disabled>Save New PDF</button>
+      </div>
+      <div class="status" id="status">No PDFs loaded yet. Free online trial exports up to 3 pages per PDF.</div>
+
+      <div class="page-list" id="pageList"></div>
+    </div>
+  </div>
+
+  <script src="pdf-lib.min.js"></script>
+  <script>
+    const FREE_PAGE_CAP = 3;
+    const loadedDocs = [];
+    let pages = []; // { docIdx, pageIdx, fileName, origPageNum, rot }
+
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const pageList = document.getElementById("pageList");
+    const statusEl = document.getElementById("status");
+    const btnSave = document.getElementById("btnSave");
+    const btnClear = document.getElementById("btnClear");
+    const btnApplyRange = document.getElementById("btnApplyRange");
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.style.borderColor = "#38bdf8"; });
+    dropZone.addEventListener("dragleave", () => { dropZone.style.borderColor = ""; });
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.style.borderColor = "";
+      if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length) addFiles(fileInput.files);
+      fileInput.value = "";
+    });
+
+    async function addFiles(fileList) {
+      statusEl.textContent = "Reading PDF(s) locally...";
+      for (const file of fileList) {
+        try {
+          const bytes = new Uint8Array(await file.arrayBuffer());
+          const pdfDoc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+          const docIdx = loadedDocs.length;
+          loadedDocs.push({ name: file.name, doc: pdfDoc });
+          const count = pdfDoc.getPageCount();
+          for (let i = 0; i < count; i++) {
+            pages.push({ docIdx, pageIdx: i, fileName: file.name, origPageNum: i + 1, rot: 0 });
+          }
+        } catch (err) {
+          alert("Could not open " + file.name + ": " + err.message);
+        }
+      }
+      renderPages();
+    }
+
+    function renderPages() {
+      pageList.innerHTML = "";
+      const hasPages = pages.length > 0;
+      btnSave.disabled = !hasPages;
+      btnClear.disabled = !hasPages;
+      btnApplyRange.disabled = !hasPages;
+      statusEl.textContent = hasPages
+        ? `${pages.length} total page(s) ready. Free online trial saves up to ${FREE_PAGE_CAP} pages.`
+        : "No PDFs loaded yet. Free online trial exports up to 3 pages per PDF.";
+
+      pages.forEach((p, idx) => {
+        const row = document.createElement("div");
+        row.className = "page-row";
+        row.innerHTML = `
+          <div>
+            <div class="page-title">#${idx + 1} — ${escapeHtml(p.fileName)} (Page ${p.origPageNum})</div>
+            <div class="page-meta">${p.rot ? "Rotated +" + p.rot + "°" : "Original orientation"}</div>
+          </div>
+          <div style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+            <button class="secondary sm" ${idx === 0 ? "disabled" : ""} onclick="movePage(${idx},-1)">↑</button>
+            <button class="secondary sm" ${idx === pages.length - 1 ? "disabled" : ""} onclick="movePage(${idx},1)">↓</button>
+            <button class="secondary sm" onclick="rotatePage(${idx})">↻ 90°</button>
+            <button class="danger sm" onclick="removePage(${idx})">✕</button>
+          </div>`;
+        pageList.appendChild(row);
+      });
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    window.movePage = (idx, dir) => {
+      const target = idx + dir;
+      if (target < 0 || target >= pages.length) return;
+      [pages[idx], pages[target]] = [pages[target], pages[idx]];
+      renderPages();
+    };
+    window.rotatePage = (idx) => {
+      pages[idx].rot = (pages[idx].rot + 90) % 360;
+      renderPages();
+    };
+    window.removePage = (idx) => {
+      pages.splice(idx, 1);
+      renderPages();
+    };
+
+    btnClear.addEventListener("click", () => {
+      loadedDocs.length = 0;
+      pages = [];
+      renderPages();
+    });
+
+    btnApplyRange.addEventListener("click", () => {
+      const raw = document.getElementById("txtRange").value.trim();
+      if (!raw) return;
+      const keep = [];
+      for (const part of raw.split(",")) {
+        const m = part.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+        if (!m) continue;
+        const a = parseInt(m[1], 10), b = m[2] ? parseInt(m[2], 10) : a;
+        const step = a <= b ? 1 : -1;
+        for (let n = a; step > 0 ? n <= b : n >= b; n += step) {
+          if (n >= 1 && n <= pages.length) keep.push(pages[n - 1]);
+        }
+      }
+      if (!keep.length) { alert("No valid page numbers matched (example: 1-3, 5)."); return; }
+      pages = keep;
+      renderPages();
+    });
+
+    btnSave.addEventListener("click", async () => {
+      if (!pages.length) return;
+      let toExport = pages;
+      if (pages.length > FREE_PAGE_CAP) {
+        if (!confirm(`Free Online Trial exports up to ${FREE_PAGE_CAP} pages (you selected ${pages.length} pages).\n\nClick OK to save the first ${FREE_PAGE_CAP} pages, or Cancel to adjust your page list.`)) {
+          return;
+        }
+        toExport = pages.slice(0, FREE_PAGE_CAP);
+      }
+
+      statusEl.textContent = "Building your PDF locally...";
+      const outDoc = await PDFLib.PDFDocument.create();
+      for (const p of toExport) {
+        const [copied] = await outDoc.copyPages(loadedDocs[p.docIdx].doc, [p.pageIdx]);
+        if (p.rot) {
+          const curAngle = copied.getRotation().angle || 0;
+          copied.setRotation(PDFLib.degrees((curAngle + p.rot) % 360));
+        }
+        outDoc.addPage(copied);
+      }
+      const outBytes = await outDoc.save();
+      const blob = new Blob([outBytes], { type: "application/pdf" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "Combined_Clean_PDF.pdf";
+      a.click();
+      statusEl.textContent = `Saved Combined_Clean_PDF.pdf (${toExport.length} page(s)) — 100% locally!`;
+    });
+  </script>
+</body>
+</html>
