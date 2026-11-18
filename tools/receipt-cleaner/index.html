@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Turn dark, shadowy phone photos of paper receipts, bills, or forms into crisp white printable scans locally in your browser." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #13: Shadow-Free Receipt &amp; Document Cleaner</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:940px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin:1rem 0; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .preview-wrap { margin-top:1rem; text-align:center; background:#0b1120; padding:0.75rem; border-radius:10px; border:1px solid var(--border); }
+    canvas { max-width:100%; height:auto; max-height:520px; border-radius:4px; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($1.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Shadow-Free Receipt &amp; Document Cleaner</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick a phone photo of a receipt, bill, or form. &nbsp;<strong>Step 2:</strong> Choose scan style. &nbsp;<strong>Step 3:</strong> Save a crisp white, ink-saving scan — zero uploads.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">1. Choose Receipt or Document Photo
+          <input type="file" id="fileInput" accept="image/*" />
+        </label>
+        <label class="field">Scan Mode
+          <select id="selMode">
+            <option value="bw">Crisp Black &amp; White (Best for Receipts/Text)</option>
+            <option value="bright">Clean Color (White Paper, Keep Stamps/Logos)</option>
+          </select>
+        </label>
+        <label class="field">Shadow Removal Strength
+          <select id="selStrength">
+            <option value="128">Balanced (Recommended)</option>
+            <option value="105">Lighter Text / Heavy Shadows</option>
+            <option value="150">Stronger Dark Ink</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="green" id="btnSave" disabled>Save Clean Scan PNG</button>
+      </div>
+      <div class="status" id="status">Pick a photo to clean up shadows and gray backgrounds. Free trial: 1 download.</div>
+      <div class="preview-wrap"><canvas id="outCanvas" width="600" height="400"></canvas></div>
+    </div>
+  </div>
+
+  <script>
+    let srcImg = null, freeDownloadsLeft = 1;
+    const canvas = document.getElementById("outCanvas");
+    const ctx = canvas.getContext("2d");
+
+    document.getElementById("fileInput").addEventListener("change", e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          srcImg = img;
+          processScan();
+          document.getElementById("btnSave").disabled = false;
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    });
+
+    document.getElementById("selMode").addEventListener("change", () => { if (srcImg) processScan(); });
+    document.getElementById("selStrength").addEventListener("change", () => { if (srcImg) processScan(); });
+
+    function processScan() {
+      canvas.width = srcImg.width;
+      canvas.height = srcImg.height;
+      ctx.drawImage(srcImg, 0, 0);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const d = imgData.data;
+      const mode = document.getElementById("selMode").value;
+      const thresh = parseInt(document.getElementById("selStrength").value, 10);
+
+      for (let i = 0; i < d.length; i += 4) {
+        const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+        if (mode === "bw") {
+          const v = lum > thresh ? 255 : Math.max(0, Math.round((lum / thresh) * 90));
+          d[i] = d[i + 1] = d[i + 2] = v;
+        } else {
+          if (lum > thresh + 18) {
+            d[i] = d[i + 1] = d[i + 2] = 255;
+          } else {
+            d[i] = Math.max(0, Math.min(255, Math.round((d[i] - 20) * 1.15)));
+            d[i + 1] = Math.max(0, Math.min(255, Math.round((d[i + 1] - 20) * 1.15)));
+            d[i + 2] = Math.max(0, Math.min(255, Math.round((d[i + 2] - 20) * 1.15)));
+          }
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+      document.getElementById("status").textContent = "Clean scan ready! Click Save Clean Scan PNG.";
+    }
+
+    document.getElementById("btnSave").addEventListener("click", () => {
+      if (!srcImg) return;
+      if (freeDownloadsLeft <= 0) {
+        alert("Your 1 free online trial download is used. Get the Offline Edition ($1.99) to clean unlimited receipts & scans!");
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "Clean_Receipt_Scan.png";
+      a.click();
+      freeDownloadsLeft--;
+    });
+  </script>
+</body>
+</html>
