@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Convert iPhone HEIC, WebP, AVIF, and PNG photos to standard JPG locally in your browser with zero uploads." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #10: Convert iPhone HEIC &amp; WebP Photos to JPG</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:900px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .drop { border:2px dashed var(--border); border-radius:10px; padding:1.5rem; text-align:center; cursor:pointer; background:#0f172a; }
+    .drop:hover { border-color:var(--accent); }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .results { display:grid; gap:0.65rem; margin-top:1rem; }
+    .row { display:flex; justify-content:space-between; align-items:center; gap:0.75rem; background:#0f172a; border:1px solid var(--border); border-radius:8px; padding:0.65rem 0.85rem; flex-wrap:wrap; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.85rem; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($1.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Convert iPhone HEIC &amp; WebP Photos to JPG</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your `.HEIC`, `.WebP`, `.AVIF`, or `.PNG` photo. &nbsp;<strong>Step 2:</strong> Choose output quality. &nbsp;<strong>Step 3:</strong> Save a normal `.JPG` that works everywhere — zero uploads.</p>
+
+    <div class="panel">
+      <div class="drop" id="dropZone">
+        <p style="font-weight:700;margin-bottom:0.35rem;">Tap to Choose Photos (HEIC, WebP, PNG, AVIF)</p>
+        <p style="font-size:0.85rem;color:var(--muted);">Everything converts right inside your browser with zero internet uploads.</p>
+        <input type="file" id="fileInput" accept=".heic,.heif,.webp,.png,.avif,.bmp,image/*" multiple style="display:none" />
+      </div>
+
+      <div class="controls">
+        <label class="field">Output Format
+          <select id="selFmt">
+            <option value="image/jpeg">Standard JPG (.jpg) — Works Everywhere</option>
+            <option value="image/png">Lossless PNG (.png)</option>
+          </select>
+        </label>
+        <label class="field">JPG Quality
+          <select id="selQual">
+            <option value="0.92">High Quality (92%)</option>
+            <option value="0.82">Balanced (82%)</option>
+            <option value="0.7">Smaller File (70%)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="status" id="status">Free online trial includes 1 photo download.</div>
+      <div class="results" id="results"></div>
+    </div>
+  </div>
+
+  <script src="heic2any.min.js"></script>
+  <script>
+    let freeDownloadsLeft = 1;
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const results = document.getElementById("results");
+    const statusEl = document.getElementById("status");
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.style.borderColor = "#38bdf8"; });
+    dropZone.addEventListener("dragleave", () => { dropZone.style.borderColor = ""; });
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.style.borderColor = "";
+      if (e.dataTransfer.files.length) convertFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length) convertFiles(fileInput.files);
+      fileInput.value = "";
+    });
+
+    async function convertFiles(files) {
+      results.innerHTML = "";
+      const fmt = document.getElementById("selFmt").value;
+      const ext = fmt === "image/png" ? "png" : "jpg";
+      const qual = parseFloat(document.getElementById("selQual").value);
+      statusEl.textContent = "Converting locally...";
+
+      for (const file of files) {
+        try {
+          let outBlob;
+          const isHeic = /\.heic$|\.heif$/i.test(file.name) || /heic|heif/i.test(file.type);
+          if (isHeic) {
+            const res = await heic2any({ blob: file, toType: fmt, quality: qual });
+            outBlob = Array.isArray(res) ? res[0] : res;
+          } else {
+            const bmp = await createImageBitmap(file);
+            const c = document.createElement("canvas");
+            c.width = bmp.width;
+            c.height = bmp.height;
+            const ctx = c.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, c.width, c.height);
+            ctx.drawImage(bmp, 0, 0);
+            outBlob = await new Promise(res => c.toBlob(res, fmt, qual));
+          }
+          const outName = file.name.replace(/\.[^.]+$/, "") + "." + ext;
+          const url = URL.createObjectURL(outBlob);
+          const row = document.createElement("div");
+          row.className = "row";
+          const kb = Math.round(outBlob.size / 1024);
+          const info = document.createElement("div");
+          const strong = document.createElement("strong");
+          strong.textContent = outName;
+          const meta = document.createElement("span");
+          meta.style.cssText = "color:#94a3b8;font-size:0.84rem;";
+          meta.textContent = ` (${kb} KB)`;
+          info.appendChild(strong);
+          info.appendChild(meta);
+          row.appendChild(info);
+          const btn = document.createElement("button");
+          btn.textContent = "Save " + ext.toUpperCase();
+          btn.addEventListener("click", () => {
+            if (freeDownloadsLeft <= 0) {
+              alert("Your 1 free online trial download is used. Get the Offline Edition ($1.99) to convert unlimited photos forever!");
+              return;
+            }
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = outName;
+            a.click();
+            freeDownloadsLeft--;
+          });
+          row.appendChild(btn);
+          results.appendChild(row);
+        } catch (err) {
+          alert("Could not convert " + file.name + ": " + err.message);
+        }
+      }
+      statusEl.textContent = "Conversion complete! Click Save to download.";
+    }
+  </script>
+</body>
+</html>
