@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Remove hidden GPS home location, phone model, and EXIF metadata from photos 100% offline in your browser before posting on Marketplace or forums." />
+    <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
   <title>Tool #6: Photo Privacy Cleaner (Remove GPS &amp; Hidden Info)</title>
   <style>
     :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --warn:#fbbf24; }
@@ -33,9 +36,9 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
-        <span class="pill">100% Private • Zero Uploads</span>
+        <span class="pill">100% Private â€¢ Zero Uploads</span>
         <a href="https://payhip.com/b/B1iYM" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($2.99)</a>
       </div>
     </div>
@@ -53,8 +56,8 @@
     </div>
 
     <div class="kpis">
-      <div class="kpi"><div class="label">Hidden EXIF / Camera Tags</div><div class="val" id="kExif" style="color:var(--warn);">—</div></div>
-      <div class="kpi"><div class="label">GPS Location Data</div><div class="val" id="kGps" style="color:var(--warn);">—</div></div>
+      <div class="kpi"><div class="label">Hidden EXIF / Camera Tags</div><div class="val" id="kExif" style="color:var(--warn);">â€”</div></div>
+      <div class="kpi"><div class="label">GPS Location Data</div><div class="val" id="kGps" style="color:var(--warn);">â€”</div></div>
       <div class="kpi"><div class="label">Clean Output Status</div><div class="val" id="kStatus" style="color:var(--green);">Waiting for photo</div></div>
     </div>
 
@@ -114,7 +117,7 @@
           document.getElementById("kExif").style.color = exifFound ? "#22c55e" : "#38bdf8";
           document.getElementById("kGps").textContent = gpsFound ? "GPS Detected & Wiped" : "No GPS (Verified Safe)";
           document.getElementById("kGps").style.color = gpsFound ? "#22c55e" : "#38bdf8";
-          document.getElementById("kStatus").textContent = `Clean (${c.width}×${c.height}, ${(blob.size/1024).toFixed(1)} KB)`;
+          document.getElementById("kStatus").textContent = `Clean (${c.width}Ã—${c.height}, ${(blob.size/1024).toFixed(1)} KB)`;
           document.getElementById("imgClean").src = URL.createObjectURL(blob);
           document.getElementById("previewBox").style.display = "block";
           document.getElementById("btnSave").disabled = false;
@@ -151,7 +154,7 @@
     document.getElementById("btnSave").addEventListener("click", () => {
       if (!cleanBlob) return;
       if (freeDownloadsLeft <= 0) {
-        if (confirm("Your 1 free online trial download is used.\n\nClick OK to get the Unlimited Offline Edition ($2.99) — scrub unlimited photos forever!")) {
+        if (confirm("Your 1 free online trial download is used.\n\nClick OK to get the Unlimited Offline Edition ($2.99) â€” scrub unlimited photos forever!")) {
           window.open("https://payhip.com/b/B1iYM", "_blank");
         }
         return;
@@ -165,3 +168,4 @@
   </script>
 </body>
 </html>
+
