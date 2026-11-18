@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Check your resume against any job description for missing ATS keywords and formatting red flags 100% locally with zero subscriptions." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #19: ATS Resume Keyword &amp; Format Fixer</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --amber:#f59e0b; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:980px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    textarea { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.65rem; font-size:0.88rem; min-height:190px; resize:vertical; font-family:inherit; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.65rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.secondary { background:#334155; color:var(--text); }
+    .tags { display:flex; flex-wrap:wrap; gap:0.45rem; margin-top:0.5rem; }
+    .tag { padding:0.25rem 0.6rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    .tag.ok { background:rgba(34,197,94,0.18); color:#86efac; border:1px solid rgba(34,197,94,0.35); }
+    .tag.miss { background:rgba(245,158,11,0.18); color:#fcd34d; border:1px solid rgba(245,158,11,0.35); }
+    .score { font-size:1.4rem; font-weight:800; color:var(--accent); margin-bottom:0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($9.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>ATS Resume Keyword &amp; Format Fixer</h1>
+    <p class="sub"><strong>Step 1:</strong> Paste your resume text on the left. &nbsp;<strong>Step 2:</strong> Paste the job posting on the right. &nbsp;<strong>Step 3:</strong> Spot missing keywords &amp; formatting traps before applying.</p>
+
+    <div class="panel">
+      <div class="cols">
+        <label class="field">Your Resume Text
+          <textarea id="txtResume" placeholder="Paste your resume text here..."></textarea>
+        </label>
+        <label class="field">Target Job Description
+          <textarea id="txtJob" placeholder="Paste the job posting requirements here..."></textarea>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="btnCheck">Check ATS Match</button>
+        <button class="secondary" id="btnSample">Load Sample Resume &amp; Job</button>
+      </div>
+    </div>
+
+    <div class="panel" id="resultPanel" style="display:none;">
+      <div class="score" id="scoreLine"></div>
+      <p id="capNote" style="font-size:0.86rem;color:var(--muted);margin-bottom:0.85rem;"></p>
+      <div style="margin-bottom:1rem;">
+        <strong style="font-size:0.9rem;color:#86efac;">Matched Keywords</strong>
+        <div class="tags" id="matchedTags"></div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <strong style="font-size:0.9rem;color:#fcd34d;">Missing Keywords to Add (Where Honest)</strong>
+        <div class="tags" id="missingTags"></div>
+      </div>
+      <div>
+        <strong style="font-size:0.9rem;color:#38bdf8;">ATS Format Checks</strong>
+        <ul id="formatChecks" style="padding-left:1.25rem;margin-top:0.4rem;font-size:0.88rem;color:#cbd5e1;display:grid;gap:0.25rem;"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const FREE_KW_CAP = 10;
+    const STOP = new Set("a,an,the,and,or,but,if,then,with,for,from,into,onto,of,in,on,at,to,by,is,are,was,were,be,been,being,have,has,had,do,does,did,will,would,can,could,should,may,might,must,we,you,they,our,your,their,this,that,these,those,as,all,any,more,most,other,some,such,no,not,only,own,same,so,than,too,very,just,also,well,work,working,role,team,job,years,year,experience,ability,strong,skills,required,preferred,including,within,across,using".split(","));
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    function extractKeywords(text) {
+      const counts = new Map();
+      const words = (text.toLowerCase().match(/[a-z0-9][a-z0-9+#.\-]{1,}/g) || []);
+      for (const w of words) {
+        const clean = w.replace(/[.\-]+$/, "");
+        if (clean.length < 3 || STOP.has(clean) || /^\d+$/.test(clean)) continue;
+        counts.set(clean, (counts.get(clean) || 0) + 1);
+      }
+      return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(e => e[0]);
+    }
+
+    function runCheck() {
+      const resText = document.getElementById("txtResume").value;
+      const jobText = document.getElementById("txtJob").value;
+      if (!resText.trim() || !jobText.trim()) { alert("Please paste both your resume and the job description."); return; }
+
+      const allKw = extractKeywords(jobText);
+      const capped = allKw.length > FREE_KW_CAP;
+      const kwList = allKw.slice(0, FREE_KW_CAP);
+      const resLower = resText.toLowerCase();
+
+      const matched = [], missing = [];
+      for (const kw of kwList) {
+        if (resLower.includes(kw)) matched.push(kw);
+        else missing.push(kw);
+      }
+      const pct = kwList.length ? Math.round((matched.length / kwList.length) * 100) : 0;
+
+      document.getElementById("scoreLine").textContent = `ATS Keyword Match: ${pct}% (${matched.length} of ${kwList.length} checked)`;
+      document.getElementById("capNote").textContent = capped
+        ? `Free online trial checks top ${FREE_KW_CAP} of ${allKw.length} job keywords. Get the $9.99 Offline Edition to check all keywords forever.`
+        : `Checked all ${kwList.length} key terms found in the job posting.`;
+
+      document.getElementById("matchedTags").innerHTML = matched.map(k => `<span class="tag ok">${esc(k)}</span>`).join("") || '<span style="color:#94a3b8;font-size:0.85rem;">None matched yet.</span>';
+      document.getElementById("missingTags").innerHTML = missing.map(k => `<span class="tag miss">${esc(k)}</span>`).join("") || '<span style="color:#86efac;font-size:0.85rem;">All checked keywords matched!</span>';
+
+      const flags = [];
+      if (!/@/.test(resText)) flags.push("Missing email address — ATS systems need a plain-text email.");
+      if (!/\d{3}[-.\s)]*\d{3}[-.\s]*\d{4}/.test(resText)) flags.push("No standard phone number detected.");
+      if (/[|│┃╔╗╚╝]/.test(resText)) flags.push("Table/box characters detected — replace multi-column tables with simple bullet lines.");
+      if (!/(experience|employment|work history)/i.test(resText)) flags.push("Add a clear 'Experience' section heading so ATS parsers map your roles.");
+      if (!/(education|skills)/i.test(resText)) flags.push("Add clear 'Skills' and 'Education' headings.");
+      if (!flags.length) flags.push("No common ATS formatting red flags detected!");
+
+      document.getElementById("formatChecks").innerHTML = flags.map(f => `<li>${esc(f)}</li>`).join("");
+      document.getElementById("resultPanel").style.display = "block";
+    }
+
+    document.getElementById("btnCheck").addEventListener("click", runCheck);
+    document.getElementById("btnSample").addEventListener("click", () => {
+      document.getElementById("txtResume").value = "Jordan Avery | jordan@example.com | (555) 234-5678\nEXPERIENCE\nCustomer Support Lead — Handled Zendesk tickets, onboarding checklists, and refund troubleshooting.\nSKILLS: Excel, CSV reporting, customer communication, documentation.";
+      document.getElementById("txtJob").value = "Operations Coordinator needed with strong Excel, CSV reporting, onboarding, Zendesk, Shopify, inventory tracking, SOP documentation, and vendor scheduling.";
+      runCheck();
+    });
+  </script>
+</body>
+</html>
