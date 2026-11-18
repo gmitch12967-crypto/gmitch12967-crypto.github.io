@@ -102,79 +102,49 @@
       </div>
 
       <div id="autoControls" style="display:none;margin-top:1rem;">
-        <p style="font-size:0.86rem;color:#94a3b8;margin-bottom:0.75rem;">Connect your own <strong>Free</strong> or <strong>Paid</strong> AI keys below (saved strictly on your own device â€” never sent anywhere else):</p>
+        <p style="font-size:0.86rem;color:#94a3b8;margin-bottom:0.75rem;">Preview of Auto-Run Mode (included in the <strong>Offline Edition — $19.99</strong>): connect your own <strong>Free</strong> or <strong>Paid</strong> AI keys stored strictly on your own device with zero subscriptions.</p>
         <div class="controls">
           <label class="field">Groq API Key (Free or Paid)
-            <input type="password" id="keyGroq" placeholder="gsk_..." />
+            <input type="password" id="keyGroq" placeholder="gsk_... (Offline Edition)" disabled />
           </label>
           <label class="field">Google Gemini Key (Free or Paid)
-            <input type="password" id="keyGemini" placeholder="AIza..." />
+            <input type="password" id="keyGemini" placeholder="AIza... (Offline Edition)" disabled />
           </label>
           <label class="field">OpenAI Key (Paid GPT-4o / o3)
-            <input type="password" id="keyOpenAi" placeholder="sk-..." />
+            <input type="password" id="keyOpenAi" placeholder="sk-... (Offline Edition)" disabled />
           </label>
           <label class="field">OpenRouter Key (Free or Paid Models)
-            <input type="password" id="keyOr" placeholder="sk-or-..." />
+            <input type="password" id="keyOr" placeholder="sk-or-... (Offline Edition)" disabled />
           </label>
         </div>
         <div class="actions">
-          <button class="green" id="btnRunAuto">Run 3-Step Workforce Automatically</button>
+          <button class="green" id="btnRunAuto">Unlock Auto-Run Mode ($19.99) →</button>
         </div>
-        <div class="out-box" id="autoOut">Paste any Free or Paid AI key above (Groq, Gemini, OpenAI, or OpenRouter) and click Run.</div>
+        <div class="out-box" id="autoOut">Auto-Run Mode chains Worker #1, QA Critic #2, and The Boss automatically using your own Free or Paid API keys. Available in the Offline Edition ($19.99).</div>
       </div>
     </div>
 
     <div class="panel" id="stepsWrap" style="display:none;">
       <div class="step-card boss">
-        <h3>Master Boss Prompt â€” Paste This Once Into Your Main AI (<span id="lblBossMain"></span>)</h3>
-        <p style="font-size:0.86rem;color:#94a3b8;margin-bottom:0.4rem;">This instructs your chosen AI to become the Boss, assemble its own Worker &amp; QA roles for your purpose, and walk you through setup step by step.</p>
+        <h3>Master Boss Prompt Preview — For Your Main AI (<span id="lblBossMain"></span>)</h3>
+        <p style="font-size:0.86rem;color:#94a3b8;margin-bottom:0.4rem;">Free online preview shows how your custom goal is framed. Get the Offline Edition for the complete 1-Paste Master Boss Prompt + manual Step 1–3 prompts + Auto-Run Mode.</p>
         <pre id="pMaster"></pre>
         <div class="actions">
-          <button class="green" onclick="copyAndOpen('pMaster','selBoss')">3. Copy Master Boss Prompt &amp; Open <span id="lblBossBtn"></span> â†’</button>
+          <button class="green" onclick="unlockFullBlueprint()">Unlock Full Master Boss Prompt &amp; Offline Builder ($19.99) →</button>
         </div>
       </div>
-
-      <details style="margin-top:0.75rem;">
-        <summary style="cursor:pointer;color:#38bdf8;font-weight:700;font-size:0.92rem;">Optional: Run Each Worker Manually in Separate Chats (Steps 1â€“3)</summary>
-        <div style="margin-top:0.75rem;">
-          <div class="step-card">
-            <h3>Step 1: Send to Worker #1 (<span id="lblW1"></span>) â€” Create First Draft</h3>
-            <pre id="pW1"></pre>
-            <div class="actions">
-              <button onclick="copyAndOpen('pW1','selW1')">Copy Step 1 &amp; Open Worker #1 â†’</button>
-            </div>
-          </div>
-
-          <div class="step-card">
-            <h3>Step 2: Send to Worker #2 (<span id="lblW2"></span>) â€” Find Mistakes &amp; Missing Pieces</h3>
-            <pre id="pW2"></pre>
-            <div class="actions">
-              <button onclick="copyAndOpen('pW2','selW2')">Copy Step 2 &amp; Open Worker #2 â†’</button>
-            </div>
-          </div>
-
-          <div class="step-card boss">
-            <h3>Step 3: Send to Your Main AI â€” "The Boss" (<span id="lblBoss"></span>) â€” Final Polish</h3>
-            <pre id="pBoss"></pre>
-            <div class="actions">
-              <button class="green" onclick="copyAndOpen('pBoss','selBoss')">Copy Step 3 &amp; Open Boss AI â†’</button>
-            </div>
-          </div>
-        </div>
-      </details>
     </div>
 
     <div class="panel" style="color:#cbd5e1;font-size:0.92rem;">
-      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">Full Numbered Blueprint: Build Your Own AI Workforce (7 Steps)</h2>
+      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">7-Step Workforce Blueprint (Free Preview: Steps 1–2)</h2>
       <ol style="padding-left:1.35rem;display:grid;gap:0.4rem;">
         <li><strong>Pick Your Purpose:</strong> Choose what your AI team will handle (Writing, Small Business Ops, Research, or Custom).</li>
         <li><strong>Appoint "The Boss":</strong> Choose your strongest AI (ChatGPT, Claude, Gemini, or Perplexity) to make final decisions.</li>
-        <li><strong>Assign Worker #1 (Builder):</strong> Pick a fast free AI to create the first draft without worrying about perfection.</li>
-        <li><strong>Assign Worker #2 (QA Critic):</strong> Pick a second, separate AI so it catches blind spots the first AI missed.</li>
-        <li><strong>Give Every Worker One Clear Role:</strong> Never ask one prompt to draft, audit, and finalize at the same time â€” split the roles.</li>
-        <li><strong>Send Draft + Critique to The Boss:</strong> Paste both replies into your Boss AI so it fixes every flaw and produces the final result.</li>
-        <li><strong>Optional Upgrade (Auto-Run):</strong> Once comfortable, paste your own free Groq or Gemini keys in the Auto-Run tab to chain all 3 roles in 1 click.</li>
       </ol>
+      <div style="margin-top:0.85rem;padding:0.9rem;border-radius:10px;background:#0f172a;border:1px dashed #334155;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
+        <span style="color:#94a3b8;font-size:0.88rem;">🔒 <strong>Steps 3–7</strong> (Worker assignment, QA Critic separation, Boss synthesis, &amp; Auto-Run setup) are included in the Offline Edition.</span>
+        <a href="https://payhip.com/b/KhIx6" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.45rem 0.9rem;border-radius:8px;font-size:0.85rem;font-weight:700;text-decoration:none;">Get Full 7-Step Blueprint ($19.99) →</a>
+      </div>
     </div>
   </div>
 
@@ -189,61 +159,22 @@
       const goal = document.getElementById("txtGoal").value.trim() || "Write a clear, helpful response to a customer question.";
       const boss = selInfo("selBoss"), w1 = selInfo("selW1"), w2 = selInfo("selW2");
 
-      document.getElementById("lblW1").textContent = w1.name;
-      document.getElementById("lblW2").textContent = w2.name;
-      document.getElementById("lblBoss").textContent = boss.name;
       document.getElementById("lblBossMain").textContent = boss.name;
-      document.getElementById("lblBossBtn").textContent = boss.name;
 
       document.getElementById("pMaster").textContent =
 `You are now THE BOSS (Lead Manager & Coordinator) of my personal AI Workforce.
 
 MY PURPOSE: ${purposeName} (${purposeDesc})
 MY GOAL: ${goal}
+TEAM SELECTED: Boss (${boss.name}), Worker #1 (${w1.name}), QA Critic (${w2.name})
 
-YOUR INSTRUCTIONS AS THE BOSS:
-1. ASSEMBLE YOUR WORKFORCE: Design a clear 3-worker team tailored to my goal:
-   - Worker 1 (Researcher / Planner)
-   - Worker 2 (Builder / Writer â€” using ${w1.name} or your own drafting step)
-   - Worker 3 (Independent QA Auditor â€” using ${w2.name} or a strict separate check to catch every flaw)
-2. GUIDE ME STEP BY STEP: Give me plain-English, numbered steps (Step 1, Step 2, Step 3...) telling me exactly how to set up and run this workforce with zero coding.
-3. KEEP IT SIMPLE & SAFE: Never ask me to buy paid subscriptions unless I ask, never invent fake facts, and ask me one simple question at a time whenever you need my input.
-4. START RIGHT NOW: Present the team roster you assembled, explain Step 1 to me, and begin executing Worker 1's plan.`;
-
-      document.getElementById("pW1").textContent =
-`You are Worker #1 (First Draft Specialist for ${purposeName}). ${purposeDesc} Complete this task clearly and in plain English:
-
-TASK:
-${goal}`;
-
-      document.getElementById("pW2").textContent =
-`You are Worker #2 (Quality & Fact-Check Auditor). Review the draft below against the original task. List every mistake, missing detail, unclear sentence, or weakness â€” do not rewrite it yet, just audit it strictly.
-
-ORIGINAL TASK:
-${goal}
-
-WORKER #1 DRAFT (paste Worker #1's reply here):
-[PASTE DRAFT HERE]`;
-
-      document.getElementById("pBoss").textContent =
-`You are THE BOSS (Final Decision Maker & Editor). Read the original task, Worker #1's draft, and Worker #2's critique. Fix every issue Worker #2 found, keep only accurate parts, and output the clean final version ready to use.
-
-ORIGINAL TASK:
-${goal}
-
-WORKER #1 DRAFT:
-[PASTE DRAFT HERE]
-
-WORKER #2 CRITIQUE:
-[PASTE CRITIQUE HERE]`;
+[Preview Mode — The full 4-part Boss Assembly, QA Audit rules, & Step-by-Step Human Setup Instructions are included in the Offline Edition ($19.99).]`;
 
       document.getElementById("stepsWrap").style.display = "block";
     }
 
-    function copyAndOpen(preId, selId) {
-      const txt = document.getElementById(preId).textContent;
-      navigator.clipboard.writeText(txt).catch(() => {});
-      window.open(selInfo(selId).url, "_blank", "noopener");
+    function unlockFullBlueprint() {
+      window.open("https://payhip.com/b/KhIx6", "_blank", "noopener");
     }
 
     document.getElementById("btnBuildSteps").addEventListener("click", buildSteps);
@@ -263,65 +194,9 @@ WORKER #2 CRITIQUE:
       });
     });
 
-    // Save/load user's own optional keys strictly in their own browser localStorage
-    const kg = document.getElementById("keyGroq"), kge = document.getElementById("keyGemini"), koa = document.getElementById("keyOpenAi"), kor = document.getElementById("keyOr");
-    kg.value = localStorage.getItem("afg_user_groq") || "";
-    kge.value = localStorage.getItem("afg_user_gemini") || "";
-    koa.value = localStorage.getItem("afg_user_openai") || "";
-    kor.value = localStorage.getItem("afg_user_or") || "";
-    kg.addEventListener("input", () => localStorage.setItem("afg_user_groq", kg.value.trim()));
-    kge.addEventListener("input", () => localStorage.setItem("afg_user_gemini", kge.value.trim()));
-    koa.addEventListener("input", () => localStorage.setItem("afg_user_openai", koa.value.trim()));
-    kor.addEventListener("input", () => localStorage.setItem("afg_user_or", kor.value.trim()));
-
-    async function callOpenAiCompat(url, key, model, sys, usr) {
-      const r = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
-        body: JSON.stringify({ model, messages: [{ role: "system", content: sys }, { role: "user", content: usr }] })
-      });
-      const j = await r.json();
-      if (!r.ok) throw new Error(j.error ? j.error.message : "API error");
-      return j.choices[0].message.content;
-    }
-
-    async function callGemini(key, sys, usr) {
-      const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + encodeURIComponent(key), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: sys + "\n\n" + usr }] }] })
-      });
-      const j = await r.json();
-      if (!r.ok) throw new Error(j.error ? j.error.message : "Gemini error");
-      return j.candidates[0].content.parts[0].text;
-    }
-
-    document.getElementById("btnRunAuto").addEventListener("click", async () => {
-      const out = document.getElementById("autoOut");
-      const gKey = kg.value.trim(), gemKey = kge.value.trim(), oaKey = koa.value.trim(), orKey = kor.value.trim();
-      const goal = document.getElementById("txtGoal").value.trim();
-      if (!goal) { out.textContent = "Please type a task goal above first."; return; }
-      if (!gKey && !gemKey && !oaKey && !orKey) { out.textContent = "Please paste at least one Free or Paid API key above first (or use the 1-Paste Master Boss Prompt)."; return; }
-
-      const runStep = (sys, usr, roleIdx) => {
-        if (roleIdx === 2 && oaKey) return callOpenAiCompat("https://api.openai.com/v1/chat/completions", oaKey, "gpt-4o-mini", sys, usr);
-        if (roleIdx === 1 && gemKey) return callGemini(gemKey, sys, usr);
-        if (gKey) return callOpenAiCompat("https://api.groq.com/openai/v1/chat/completions", gKey, "llama-3.3-70b-versatile", sys, usr);
-        if (orKey) return callOpenAiCompat("https://openrouter.ai/api/v1/chat/completions", orKey, "openai/gpt-4o-mini", sys, usr);
-        if (oaKey) return callOpenAiCompat("https://api.openai.com/v1/chat/completions", oaKey, "gpt-4o-mini", sys, usr);
-        return callGemini(gemKey, sys, usr);
-      };
-
-      try {
-        out.textContent = "Step 1/3: Worker #1 is creating the first draft...";
-        const draft = await runStep("You are Worker #1 (First Draft Specialist).", goal, 0);
-        out.textContent = "Step 2/3: Worker #2 is auditing the draft for mistakes...";
-        const critique = await runStep("You are Worker #2 (QA Critic). List every flaw or gap concisely.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft, 1);
-        out.textContent = "Step 3/3: The Boss AI is reviewing both and writing the final answer...";
-        const finalAns = await runStep("You are THE BOSS. Combine the draft and fix every flaw from the critique into the final polished answer.", "TASK:\n" + goal + "\n\nDRAFT:\n" + draft + "\n\nCRITIQUE:\n" + critique, 2);
-        out.textContent = "=== FINAL BOSS OUTPUT ===\n\n" + finalAns + "\n\n--- QA CRITIQUE USED ---\n" + critique;
-      } catch (err) {
-        out.textContent = "Error: " + err.message;
+    document.getElementById("btnRunAuto").addEventListener("click", () => {
+      if (confirm("Auto-Run Mode is included in the Offline Blueprint & Builder ($19.99) — connect your own Free or Paid API keys 100% on your device with zero subscriptions.\n\nClick OK to get the Offline Edition.")) {
+        window.open("https://payhip.com/b/KhIx6", "_blank", "noopener");
       }
     });
   </script>
