@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Deduplicate email lists, catch common domain typos like @gmial.com, and remove invalid addresses 100% locally in your browser." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #21: Subscriber Email List Cleaner &amp; Typo Fixer</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:940px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    textarea { width:100%; min-height:170px; background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.7rem; font-size:0.9rem; font-family:inherit; resize:vertical; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--accent); color:#0f172a; border:none; padding:0.65rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.green { background:var(--green); color:#052e16; }
+    button.secondary { background:#334155; color:var(--text); }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
+    pre { white-space:pre-wrap; background:#0b1120; border:1px solid var(--border); border-radius:8px; padding:0.8rem; margin-top:0.85rem; font-size:0.88rem; max-height:240px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <span style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;">Offline Edition ($4.99 — Coming Soon)</span>
+      </div>
+    </div>
+
+    <h1>Subscriber Email List Cleaner &amp; Typo Fixer</h1>
+    <p class="sub"><strong>Step 1:</strong> Paste emails (or load a `.txt`/`.csv` list). &nbsp;<strong>Step 2:</strong> Clean duplicates, fix common typos (`@gmial.com`, `@yaho.com`), and drop invalid syntax. &nbsp;<strong>Step 3:</strong> Save a clean list so you stop paying for dead contacts.</p>
+
+    <div class="panel">
+      <input type="file" id="fileIn" accept=".csv,.txt,text/plain,text/csv" style="margin-bottom:0.75rem;color:var(--muted);" />
+      <textarea id="txtIn" placeholder="Paste one email per line or comma-separated..."></textarea>
+      <div class="actions">
+        <button id="btnClean">Clean &amp; Deduplicate</button>
+        <button class="secondary" id="btnSample">Load Sample List</button>
+        <button class="green" id="btnSave" disabled>Save Clean CSV</button>
+      </div>
+      <div class="status" id="status">Free online trial saves up to 25 clean emails.</div>
+      <pre id="outPre">Clean emails will appear here.</pre>
+    </div>
+  </div>
+
+  <script>
+    const FREE_EMAIL_CAP = 25;
+    const TYPOS = { "gmial.com":"gmail.com", "gmai.com":"gmail.com", "gmal.com":"gmail.com", "yaho.com":"yahoo.com", "yahooo.com":"yahoo.com", "hotmal.com":"hotmail.com", "outlok.com":"outlook.com", "iclod.com":"icloud.com" };
+    let cleanList = [];
+
+    document.getElementById("fileIn").addEventListener("change", async e => {
+      const f = e.target.files[0];
+      if (f) document.getElementById("txtIn").value = await f.text();
+    });
+
+    function runClean() {
+      const raw = document.getElementById("txtIn").value;
+      const tokens = raw.split(/[\r\n,;]+/).map(s => s.trim().toLowerCase()).filter(Boolean);
+      const seen = new Set();
+      let typosFixed = 0, invalidDropped = 0, dupesDropped = 0;
+      cleanList = [];
+
+      for (let em of tokens) {
+        em = em.replace(/^["']|["']$/g, "");
+        const parts = em.split("@");
+        if (parts.length !== 2 || !parts[0] || !parts[1].includes(".")) { invalidDropped++; continue; }
+        if (TYPOS[parts[1]]) { em = parts[0] + "@" + TYPOS[parts[1]]; typosFixed++; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { invalidDropped++; continue; }
+        if (seen.has(em)) { dupesDropped++; continue; }
+        seen.add(em);
+        cleanList.push(em);
+      }
+
+      const capped = cleanList.length > FREE_EMAIL_CAP;
+      const shown = cleanList.slice(0, FREE_EMAIL_CAP);
+      document.getElementById("outPre").textContent = shown.join("\n") || "(No valid emails found)";
+      document.getElementById("btnSave").disabled = shown.length === 0;
+      document.getElementById("status").textContent =
+        `Kept ${cleanList.length} valid unique email(s) • Removed ${dupesDropped} duplicate(s) & ${invalidDropped} invalid • Fixed ${typosFixed} typo(s).` +
+        (capped ? ` (Free online trial saves up to ${FREE_EMAIL_CAP} emails — get the $4.99 Offline Edition for unlimited lists.)` : "");
+    }
+
+    document.getElementById("btnClean").addEventListener("click", runClean);
+    document.getElementById("btnSample").addEventListener("click", () => {
+      document.getElementById("txtIn").value = "alex@gmail.com\nALEX@gmail.com\nsam@gmial.com\npat@yaho.com\nnot-an-email\njordan@outlook.com";
+      runClean();
+    });
+    document.getElementById("btnSave").addEventListener("click", () => {
+      const toSave = cleanList.slice(0, FREE_EMAIL_CAP);
+      const csv = "Email\n" + toSave.join("\n");
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+      a.download = "Clean_Email_List.csv";
+      a.click();
+    });
+  </script>
+</body>
+</html>
