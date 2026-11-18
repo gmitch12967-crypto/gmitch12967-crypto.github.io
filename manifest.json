@@ -1,0 +1,13 @@
+{
+  "name": "Evergreen Micro-Tools",
+  "short_name": "EvergreenTools",
+  "description": "Private, zero-upload browser tools for CSVs, photos, passport print sheets, QR signs, and AI workflows.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#0b1120",
+  "icons": [
+    { "src": "./icon-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
