@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -40,15 +40,15 @@
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">â† Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
-        <span class="pill">No Coding â€¢ Your Own AI as Boss</span>
+        <span class="pill">No Coding • Your Own AI as Boss</span>
         <a href="https://payhip.com/b/KhIx6" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Full Offline Blueprint ($19.99)</a>
       </div>
     </div>
 
-    <h1>AI Workforce Boss â€” Build Your Own AI Team</h1>
-    <p class="sub"><strong>Step 1:</strong> Pick your purpose and your Main AI (<em>The Boss</em>). &nbsp;<strong>Step 2:</strong> Type your goal. &nbsp;<strong>Step 3:</strong> Click <em>Copy Master Boss Prompt &amp; Open My AI</em> â€” paste it once, and your AI will assemble its own workforce and guide you step by step.</p>
+    <h1>AI Workforce Boss — Build Your Own AI Team</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your purpose and your Main AI (<em>The Boss</em>). &nbsp;<strong>Step 2:</strong> Type your goal. &nbsp;<strong>Step 3:</strong> Click <em>Build My 3-Step AI Workforce</em> to preview your custom team setup.</p>
 
     <div class="tabs">
       <button class="tab-btn active" data-tab="guided">1-Paste Master Boss Prompt (Recommended)</button>
@@ -65,7 +65,7 @@
             <option value="Custom Goal|Adapts Worker 1, QA Critic, and Boss roles to any custom goal you type below.">Custom Purpose (Your Choice)</option>
           </select>
         </label>
-        <label class="field">Main AI ("The Boss" â€” Final Decision &amp; Polish)
+        <label class="field">Main AI ("The Boss" — Final Decision &amp; Polish)
           <select id="selBoss">
             <option value="ChatGPT|https://chatgpt.com/">ChatGPT</option>
             <option value="Google Gemini|https://gemini.google.com/">Google Gemini</option>
@@ -155,7 +155,7 @@
     }
 
     function buildSteps() {
-      const [purposeName, purposeDesc] = selInfo("selPurpose");
+      const { name: purposeName, url: purposeDesc } = selInfo("selPurpose");
       const goal = document.getElementById("txtGoal").value.trim() || "Write a clear, helpful response to a customer question.";
       const boss = selInfo("selBoss"), w1 = selInfo("selW1"), w2 = selInfo("selW2");
 
