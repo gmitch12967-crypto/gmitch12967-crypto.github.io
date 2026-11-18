@@ -10,6 +10,7 @@
   <meta property="og:url" content="https://gmitch12967-crypto.github.io/" />
   <meta name="theme-color" content="#0b1120" />
   <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/png" href="./icon-256.png" />
   <link rel="apple-touch-icon" href="./icon-256.png" />
   <title>Evergreen Micro-Tools — Fix File, Photo &amp; QR Headaches Without Subscriptions</title>
   <style>
@@ -156,6 +157,20 @@
       font-size: 0.78rem;
       font-weight: 700;
     }
+    .title-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.55rem; }
+    .title-row h2 { margin-bottom: 0; font-size: 1.15rem; line-height: 1.25; }
+    .app-icon {
+      width: 44px; height: 44px; flex: 0 0 44px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, rgba(56,189,248,0.28), rgba(34,197,94,0.22));
+      border: 1px solid rgba(56,189,248,0.45);
+      box-shadow: 0 6px 16px rgba(56,189,248,0.2);
+      color: #7dd3fc;
+    }
+    .card[data-cat="photo"] .app-icon { background: linear-gradient(135deg, rgba(34,197,94,0.3), rgba(20,184,166,0.22)); border-color: rgba(34,197,94,0.5); box-shadow: 0 6px 16px rgba(34,197,94,0.2); color: #86efac; }
+    .card[data-cat="csv"] .app-icon { background: linear-gradient(135deg, rgba(167,139,250,0.32), rgba(56,189,248,0.2)); border-color: rgba(167,139,250,0.5); box-shadow: 0 6px 16px rgba(167,139,250,0.2); color: #ddd6fe; }
+    .card[data-cat="qr"] .app-icon { background: linear-gradient(135deg, rgba(244,114,182,0.3), rgba(168,85,247,0.22)); border-color: rgba(244,114,182,0.5); box-shadow: 0 6px 16px rgba(244,114,182,0.2); color: #fbcfe8; }
+    .card[data-cat="ai"] .app-icon { background: linear-gradient(135deg, rgba(251,191,36,0.32), rgba(249,115,22,0.22)); border-color: rgba(251,191,36,0.55); box-shadow: 0 6px 16px rgba(251,191,36,0.24); color: #fde68a; }
     .card h2 { font-size: 1.22rem; margin-bottom: 0.5rem; }
     .problem-box {
       background: rgba(11, 17, 32, 0.6);
@@ -246,7 +261,7 @@
             <span class="status live">● Tool #1 — Ready</span>
             <span class="price-tag">Offline Copy $0.99</span>
           </div>
-          <h2>Clean a Spreadsheet (CSV)</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span><h2>Clean a Spreadsheet (CSV)</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Messy customer lists, bank exports, or contact sheets full of repeat lines, blank rows, and hidden spaces — without needing Excel formulas.</div>
           <ul class="features">
             <li>Removes repeat lines (even if CAPITAL letters differ)</li>
@@ -266,7 +281,7 @@
             <span class="status live">● Tool #2 — Ready</span>
             <span class="price-tag">Offline Copy $1.99</span>
           </div>
-          <h2>Shrink a Photo to Fit</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 14l3-3 4 4 3-3"/></svg></span><h2>Shrink a Photo to Fit</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Website portals rejecting your ID scan, document picture, or photo for being over 1 MB or 2 MB — without uploading private photos anywhere.</div>
           <ul class="features">
             <li>Targets Under 200 KB, 500 KB, 1 MB, or 2 MB</li>
@@ -286,7 +301,7 @@
             <span class="status live">● Tool #3 — Ready</span>
             <span class="price-tag">Offline Print Sheet $3.99</span>
           </div>
-          <h2>Passport &amp; Visa Photo Maker</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8 17c1.2-2 6.8-2 8 0"/></svg></span><h2>Passport &amp; Visa Photo Maker</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> The $13–$17 paywalls and watermarks on passport photo websites (and $15+ store counter fees).</div>
           <ul class="features">
             <li>Presets for US (2×2 in), UK/EU/India/Japan (35×45 mm), Canada &amp; China</li>
@@ -306,7 +321,7 @@
             <span class="status live">● Tool #4 — Ready</span>
             <span class="price-tag">Offline Copy $1.99</span>
           </div>
-          <h2>International CSV &amp; Date Fixer</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><h2>International CSV &amp; Date Fixer</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Excel scrambling European or global CSV files into one column because of semicolons (<code>;</code>) vs commas (<code>,</code>) and flipped dates.</div>
           <ul class="features">
             <li>Switches commas (<code>,</code>) and semicolons (<code>;</code>) cleanly</li>
@@ -326,7 +341,7 @@
             <span class="status live">● Tool #5 — Ready</span>
             <span class="price-tag">Offline Copy $2.99</span>
           </div>
-          <h2>Forever-Static QR &amp; Wi-Fi Sign Maker</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg></span><h2>Forever-Static QR &amp; Wi-Fi Sign Maker</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> The "QR code subscription trap" where free sites break your printed menus, flyers, or Wi-Fi signs unless you pay $10–$50/month.</div>
           <ul class="features">
             <li>Direct static codes that never expire &amp; never track</li>
@@ -346,7 +361,7 @@
             <span class="status live">● Tool #6 — Ready</span>
             <span class="price-tag">Offline Copy $2.99</span>
           </div>
-          <h2>Photo Privacy Cleaner</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span><h2>Photo Privacy Cleaner</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Phone photos leaking your hidden home GPS location, camera model, and date when posted on Marketplace, Craigslist, or forums.</div>
           <ul class="features">
             <li>Scans &amp; wipes all hidden EXIF and GPS location data</li>
@@ -366,7 +381,7 @@
             <span class="status live">● Tool #7 — Ready</span>
             <span class="price-tag">Offline Blueprint $19.99</span>
           </div>
-          <h2>AI Workforce Boss (No-Code Team)</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span><h2>AI Workforce Boss (No-Code Team)</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Single AI answers missing mistakes — gives you a full 7-step blueprint to make your main AI the "Boss" over Worker &amp; QA AIs for any purpose.</div>
           <ul class="features">
             <li>Pick your own purpose (Writing, Small-Biz Ops, Research, Custom)</li>
@@ -386,7 +401,7 @@
             <span class="status live">● Tool #8 — Ready</span>
             <span class="price-tag">Offline $2.99</span>
           </div>
-          <h2>Combine or Split Private PDFs</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6"/></svg></span><h2>Combine or Split Private PDFs</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Having to upload private tax, lease, or ID PDFs to random websites just to merge, split, or rotate pages.</div>
           <ul class="features">
             <li>Merge multiple PDFs or keep only specific page ranges</li>
@@ -406,7 +421,7 @@
             <span class="status live">● Tool #9 — Ready</span>
             <span class="price-tag">Offline $2.99</span>
           </div>
-          <h2>Sign &amp; Date Any PDF Locally</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><h2>Sign &amp; Date Any PDF Locally</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Adobe paywalls and account signups just to sign and date a permission slip, lease, or W-9.</div>
           <ul class="features">
             <li>Draw with mouse/finger or stamp a typed signature</li>
@@ -426,7 +441,7 @@
             <span class="status live">● Tool #10 — Ready</span>
             <span class="price-tag">Offline $1.99</span>
           </div>
-          <h2>Convert iPhone HEIC &amp; WebP to JPG</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-5L5 19"/></svg></span><h2>Convert iPhone HEIC &amp; WebP to JPG</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Job portals and Windows apps rejecting iPhone <code>.HEIC</code> or saved <code>.WebP</code> photos.</div>
           <ul class="features">
             <li>Converts HEIC, WebP, AVIF, and PNG to standard JPG</li>
@@ -446,7 +461,7 @@
             <span class="status live">● Tool #11 — Ready</span>
             <span class="price-tag">Offline $2.99</span>
           </div>
-          <h2>Front &amp; Back ID Card on 1 Page</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h4M7 13h10M7 16h6"/></svg></span><h2>Front &amp; Back ID Card on 1 Page</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Struggling in Word to put both sides of an ID or insurance card onto one printable Letter/A4 page.</div>
           <ul class="features">
             <li>Auto-fits front and back at actual card size (or 1.5×)</li>
@@ -466,7 +481,7 @@
             <span class="status live">● Tool #12 — Ready</span>
             <span class="price-tag">Offline $1.99</span>
           </div>
-          <h2>Permanent Blackout Redactor</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 12h10" stroke-width="4"/></svg></span><h2>Permanent Blackout Redactor</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Semi-transparent phone markers that let strangers brighten a screenshot and read your private info underneath.</div>
           <ul class="features">
             <li>Permanently overwrites pixels with solid black or white</li>
@@ -486,7 +501,7 @@
             <span class="status live">● Tool #13 — Ready</span>
             <span class="price-tag">Offline $1.99</span>
           </div>
-          <h2>Shadow-Free Receipt &amp; Scan Cleaner</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v18l3-2 3 2 3-2 3 2 2-2V3H5z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><h2>Shadow-Free Receipt &amp; Scan Cleaner</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Dark, shadowy phone photos of paper receipts, bills, or forms that waste ink when printed.</div>
           <ul class="features">
             <li>Turns gray backgrounds crisp white and sharpens text</li>
@@ -506,7 +521,7 @@
             <span class="status live">● Tool #14 — Ready</span>
             <span class="price-tag">Offline $2.99</span>
           </div>
-          <h2>1-Minute Invoice &amp; Receipt Maker</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 11v6M9 14h6"/></svg></span><h2>1-Minute Invoice &amp; Receipt Maker</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Accounting software signups and watermarks when you just need a clean 1-page PDF invoice or receipt.</div>
           <ul class="features">
             <li>Live preview with auto-calculated line totals</li>
@@ -526,7 +541,7 @@
             <span class="status live">● Tool #15 — Ready</span>
             <span class="price-tag">Offline $2.99</span>
           </div>
-          <h2>Spot What Changed in 2 Contracts</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 5h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M12 3v18"/></svg></span><h2>Spot What Changed in 2 Contracts</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Reading 5 pages word-by-word to spot sneaky edits in a revised lease, contract, or letter.</div>
           <ul class="features">
             <li>Highlights every added line in green and removed in red</li>
@@ -546,7 +561,7 @@
             <span class="status live">● Tool #16 — Ready</span>
             <span class="price-tag">Offline $2.99</span>
           </div>
-          <h2>Bank CSV to Expense Totals</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span><h2>Bank CSV to Expense Totals</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Having to link your bank login to paid apps just to total up a downloaded bank CSV for taxes or budgeting.</div>
           <ul class="features">
             <li>Auto-groups spending into everyday tax categories</li>
@@ -566,7 +581,7 @@
             <span class="status live">● Tool #17 — Ready</span>
             <span class="price-tag">Offline $1.99</span>
           </div>
-          <h2>Shipping &amp; Address Label Sheet</h2>
+          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 12h18M12 4v16"/></svg></span><h2>Shipping &amp; Address Label Sheet</h2></div>
           <div class="problem-box"><strong>Fixes:</strong> Paying for bloated label software just to print 30-up mailing or shipping labels from a plain list.</div>
           <ul class="features">
             <li>Supports 30-up mailing and 10-up shipping layouts</li>
