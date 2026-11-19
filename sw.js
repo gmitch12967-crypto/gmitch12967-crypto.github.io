@@ -1,4 +1,4 @@
-const CACHE = "evergreen-tools-v1";
+const CACHE = "evergreen-tools-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -11,8 +11,7 @@ const ASSETS = [
   "./tools/passport-photo/index.html",
   "./tools/csv-global-fixer/index.html",
   "./tools/qr-sign-maker/index.html",
-  "./tools/photo-privacy-cleaner/index.html",
-  "./tools/ai-workforce/index.html"
+  "./tools/photo-privacy-cleaner/index.html"
 ];
 
 self.addEventListener("install", (e) => {
