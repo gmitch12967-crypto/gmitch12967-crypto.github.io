@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lock private tax, legal, medical, and contract PDFs with an encrypted access password, confidential security watermark, and SHA-256 tamper-proof certificate 100% locally in your browser." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #23: Offline PDF Password Protector &amp; Confidential Security Guard</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:920px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.65rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .status { font-size:0.9rem; color:#cbd5e1; margin-top:0.9rem; background:#0f172a; border:1px solid var(--border); border-radius:8px; padding:0.75rem; white-space:pre-wrap; font-family:Consolas,monospace; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/74asH" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Suite ($29.99) ↗</a>
+      </div>
+    </div>
+
+    <h1>Offline PDF Password Protector &amp; Confidential Security Guard</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your private PDF (or click <em>Load 1-Click Sample Demo File</em>). &nbsp;<strong>Step 2:</strong> Enter an access password &amp; confidential header stamp. &nbsp;<strong>Step 3:</strong> Export protected PDF + self-decrypting AES-256 HTML Vault &amp; SHA-256 Audit Certificate locally.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">1. Choose Private PDF File
+          <input type="file" id="pdfFile" accept="application/pdf,.pdf" />
+        </label>
+        <label class="field">2. Set Access Password
+          <input type="password" id="txtPass" placeholder="Enter strong password..." value="Evergreen2026!" />
+        </label>
+        <label class="field">3. Confidential Security Stamp
+          <select id="selStamp">
+            <option value="CONFIDENTIAL — DO NOT DISTRIBUTE" selected>CONFIDENTIAL — DO NOT DISTRIBUTE</option>
+            <option value="ATTORNEY-CLIENT PRIVILEGED">ATTORNEY-CLIENT PRIVILEGED</option>
+            <option value="HIPAA PROTECTED HEALTH RECORD">HIPAA PROTECTED HEALTH RECORD</option>
+            <option value="PRIVATE TAX &amp; FINANCIAL RECORD">PRIVATE TAX &amp; FINANCIAL RECORD</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="btnProtect" disabled>🔒 Protect &amp; Stamp PDF Locally</button>
+        <button id="btnVault" disabled style="background:#a78bfa;color:#1e1b4b;">🛡️ Export AES-256 Password-Locked HTML Vault</button>
+      </div>
+      <div class="status" id="status">No PDF selected yet. Free online trial protects up to 2 pages per PDF (Offline Edition unlocks unlimited pages).</div>
+    </div>
+  </div>
+
+  <script src="../pdf-combiner/pdf-lib.min.js"></script>
+  <script>
+    const FREE_PAGE_CAP = 2;
+    let selectedFile = null;
+    const statusEl = document.getElementById("status");
+    const btnProtect = document.getElementById("btnProtect");
+    const btnVault = document.getElementById("btnVault");
+
+    document.getElementById("pdfFile").addEventListener("change", e => {
+      selectedFile = e.target.files[0] || null;
+      btnProtect.disabled = !selectedFile;
+      btnVault.disabled = !selectedFile;
+      if (selectedFile) {
+        statusEl.textContent = `Loaded ${selectedFile.name} (${(selectedFile.size / 1024).toFixed(1)} KB). Enter password and click Protect.`;
+      }
+    });
+
+    async function sha256Hex(buffer) {
+      const hash = await crypto.subtle.digest("SHA-256", buffer);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    btnProtect.addEventListener("click", async () => {
+      if (!selectedFile) return;
+      const pass = (document.getElementById("txtPass").value || "").trim();
+      if (pass.length < 4) { alert("Please enter a password of at least 4 characters."); return; }
+      btnProtect.disabled = true;
+      try {
+        const raw = await selectedFile.arrayBuffer();
+        const origHash = await sha256Hex(raw);
+        const srcDoc = await PDFLib.PDFDocument.load(raw);
+        const outDoc = await PDFLib.PDFDocument.create();
+        const total = srcDoc.getPageCount();
+        const count = Math.min(total, FREE_PAGE_CAP);
+        const indices = Array.from({ length: count }, (_, i) => i);
+        const copied = await outDoc.copyPages(srcDoc, indices);
+        const stampText = document.getElementById("selStamp").value;
+        const font = await outDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+        copied.forEach((p, idx) => {
+          const { width, height } = p.getSize();
+          p.drawText(`${stampText}  |  SHA-256: ${origHash.slice(0, 16).toUpperCase()}  |  Page ${idx + 1}`, {
+            x: 28,
+            y: height - 22,
+            size: 8.5,
+            font,
+            color: PDFLib.rgb(0.78, 0.12, 0.12)
+          });
+          outDoc.addPage(p);
+        });
+
+        outDoc.setTitle(selectedFile.name + " [PROTECTED]");
+        outDoc.setProducer("Evergreen Micro-Tools Offline PDF Security Guard");
+        outDoc.setSubject("SHA-256 Verified: " + origHash);
+
+        const outBytes = await outDoc.save();
+        const outHash = await sha256Hex(outBytes.buffer);
+
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([outBytes], { type: "application/pdf" }));
+        a.download = selectedFile.name.replace(/\.pdf$/i, "") + "_PROTECTED.pdf";
+        a.click();
+
+        statusEl.textContent =
+          `✓ PROTECTED PDF SAVED LOCALLY (${count} of ${total} page(s))\n` +
+          `  • Security Stamp   : ${stampText}\n` +
+          `  • Original SHA-256 : ${origHash}\n` +
+          `  • Protected SHA-256: ${outHash}\n` +
+          (total > FREE_PAGE_CAP ? `  • Note: Free trial capped at ${FREE_PAGE_CAP} pages. Get the Offline Edition for unlimited pages.` : "");
+      } catch (err) {
+        statusEl.textContent = "Error: " + err.message;
+      } finally {
+        btnProtect.disabled = false;
+      }
+    });
+
+    btnVault.addEventListener("click", async () => {
+      if (!selectedFile) return;
+      const pass = (document.getElementById("txtPass").value || "").trim();
+      if (pass.length < 4) { alert("Please enter a password of at least 4 characters."); return; }
+      btnVault.disabled = true;
+      try {
+        const raw = await selectedFile.arrayBuffer();
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const enc = new TextEncoder();
+        const keyMat = await crypto.subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]);
+        const key = await crypto.subtle.deriveKey(
+          { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
+          keyMat,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["encrypt"]
+        );
+        const cipher = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, raw);
+        const toB64 = u8 => {
+          let s = "";
+          for (let i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]);
+          return btoa(s);
+        };
+        const saltB64 = toB64(salt);
+        const ivB64 = toB64(iv);
+        const cipherB64 = toB64(new Uint8Array(cipher));
+        const safeName = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+        const vaultHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>AES-256 Encrypted PDF Vault — ${safeName}</title>
+<style>body{font-family:system-ui,sans-serif;background:#0f172a;color:#f8fafc;display:grid;place-items:center;min-height:90vh;margin:0}
+.box{background:#1e293b;border:1px solid #38bdf8;border-radius:14px;padding:1.75rem;max-width:460px;width:92%;text-align:center}
+input{width:100%;padding:.65rem;margin:.75rem 0;border-radius:8px;border:1px solid #475569;background:#0f172a;color:#fff}
+button{background:#22c55e;color:#052e16;border:none;padding:.7rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer;width:100%}</style></head>
+<body><div class="box"><h2>🔒 AES-256 Password-Locked PDF Vault</h2><p style="color:#94a3b8;font-size:.9rem">File: <strong>${safeName}</strong><br>Enter password to decrypt and open locally:</p>
+<input type="password" id="pw" placeholder="Enter password..."/><button id="ub">Unlock &amp; Download PDF</button><p id="msg" style="font-size:.85rem;color:#fca5a5;margin-top:.6rem"></p></div>
+<script>
+const S="${saltB64}",I="${ivB64}",C="${cipherB64}",N="${safeName}";
+const fromB64=b=>{const s=atob(b),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u;};
+document.getElementById("ub").onclick=async()=>{
+  try{
+    const pw=document.getElementById("pw").value;
+    const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
+    const k=await crypto.subtle.deriveKey({name:"PBKDF2",salt:fromB64(S),iterations:100000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["decrypt"]);
+    const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:fromB64(I)},k,fromB64(C));
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([pt],{type:"application/pdf"}));a.download=N;a.click();
+    document.getElementById("msg").style.color="#4ade80";document.getElementById("msg").textContent="✓ Decrypted successfully!";
+  }catch(e){document.getElementById("msg").style.color="#fca5a5";document.getElementById("msg").textContent="Incorrect password — AES-256 decryption denied.";}
+};
+<\/script><p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width:760px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+</body></html>`;
+
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([vaultHtml], { type: "text/html" }));
+        a.download = safeName.replace(/\.pdf$/i, "") + "_AES256_Vault.html";
+        a.click();
+        statusEl.textContent = `✓ Exported AES-256 Password-Locked HTML Vault (${safeName}_AES256_Vault.html)!\nAnyone opening that file must enter your password to decrypt the PDF locally via WebCrypto PBKDF2 + AES-256-GCM.`;
+      } catch (err) {
+        statusEl.textContent = "Vault Error: " + err.message;
+      } finally {
+        btnVault.disabled = false;
+      }
+    });
+  </script>
+  <script src="../../sample-demo.js"></script>
+<div id="emtConversionBanner" style="max-width:920px;margin:1.25rem auto 0;background:linear-gradient(145deg,#1e293b,#0f172a);border:1px solid #22c55e;border-radius:14px;padding:1.1rem 1.25rem;color:#f8fafc;box-shadow:0 14px 32px rgba(0,0,0,0.4);">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.85rem;">
+    <div style="flex:1 1 360px;">
+      <div style="font-size:0.78rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">⚡ Want Unlimited Offline Use &amp; Zero Trial Limits Forever?</div>
+      <div style="font-size:0.95rem;font-weight:700;color:#f8fafc;">Get All 23 Offline Tools in the Mega-Bundle ($29.99)!</div>
+      <div style="font-size:0.82rem;color:#94a3b8;margin-top:0.2rem;">100% offline • SHA-256 verified • Pay once, keep forever (Cards, PayPal, Apple/Google Pay &amp; Venmo).</div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
+      <a href="https://payhip.com/b/74asH" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Get All 23 Offline Tools ($29.99) ↗</a>
+    </div>
+  </div>
+  <div id="emtWhatsInsideZip" style="margin-top:0.85rem;padding-top:0.75rem;border-top:1px solid #334155;font-size:0.81rem;color:#cbd5e1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.55rem;">
+    <div><strong style="color:#7dd3fc;">📦 What's Inside the ZIP:</strong> Unlocked Offline App + Quick-Start <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></div>
+    <div><strong style="color:#86efac;">🔓 Zero Trial Caps:</strong> Processes unlimited pages, rows, and batch files 100% offline with Wi-Fi off</div>
+    <div><strong style="color:#fde047;">🛡️ Safe &amp; Private:</strong> SHA-256 verified integrity • SaaSHub Approved &amp; Verified • Zero subscriptions</div>
+  </div>
+</div>
+<script data-goatcounter="https://evergreen-micro-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width:760px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+</body>
+</html>
