@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Convert and trim WAV, MP3, M4A, OGG, and voice memo audio files 100% locally in your browser using Web Audio API with zero cloud uploads." />
+  <meta name="theme-color" content="#0b1120" />
+  <link rel="manifest" href="../../manifest.json" />
+  <link rel="apple-touch-icon" href="../../icon-256.png" />
+  <title>Tool #24: Offline Audio Converter &amp; Voice Note Trimmer</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:920px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    select, input { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.7rem; font-size:0.9rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.65rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .status { font-size:0.9rem; color:#cbd5e1; margin-top:0.9rem; background:#0f172a; border:1px solid var(--border); border-radius:8px; padding:0.75rem; white-space:pre-wrap; font-family:Consolas,monospace; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/74asH" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Suite ($29.99) ↗</a>
+      </div>
+    </div>
+
+    <h1>Offline Audio Converter &amp; Voice Note Trimmer</h1>
+    <p class="sub"><strong>Step 1:</strong> Choose an audio file (MP3, WAV, M4A, OGG, WebM) or generate a 1-Click Sample Tone. &nbsp;<strong>Step 2:</strong> Set start/end trim seconds, sample rate, &amp; volume normalize. &nbsp;<strong>Step 3:</strong> Export crisp PCM WAV audio locally.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">1. Choose Audio File
+          <input type="file" id="audioFile" accept="audio/*,.mp3,.wav,.m4a,.ogg,.aac,.flac,.webm" />
+        </label>
+        <label class="field">2. Trim Start (Seconds)
+          <input type="number" id="numStart" value="0" min="0" step="0.1" />
+        </label>
+        <label class="field">3. Trim End (Seconds, 0 = Full)
+          <input type="number" id="numEnd" value="0" min="0" step="0.1" />
+        </label>
+        <label class="field">4. Output Format &amp; Channels
+          <select id="selFormat">
+            <option value="44100-2" selected>Studio WAV (44.1 kHz Stereo)</option>
+            <option value="22050-1">Compact Voice Memo WAV (22.05 kHz Mono)</option>
+            <option value="16000-1">Transcription / AI Speech WAV (16 kHz Mono)</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="btnSampleTone" type="button" style="background:#38bdf8;color:#082f49;">⚡ Generate 1-Click Sample Audio</button>
+        <button id="btnConvert" disabled>🎵 Convert, Trim &amp; Save Audio Locally</button>
+      </div>
+      <audio id="player" controls style="width:100%;margin-top:1rem;display:none;"></audio>
+      <div class="status" id="status">No audio loaded yet. Free online trial exports up to 30 seconds per clip (Offline Edition unlocks unlimited duration).</div>
+    </div>
+  </div>
+
+  <script>
+    const FREE_SEC_CAP = 30;
+    let decodedBuffer = null;
+    let loadedName = "sample_audio";
+    const statusEl = document.getElementById("status");
+    const btnConvert = document.getElementById("btnConvert");
+    const player = document.getElementById("player");
+
+    function encodeWavFromBuffer(audioBuffer, targetRate, targetChannels, startSec, endSec, normalizePeak) {
+      const srcRate = audioBuffer.sampleRate;
+      const startSample = Math.max(0, Math.floor(startSec * srcRate));
+      const endSample = Math.min(audioBuffer.length, Math.floor(endSec * srcRate));
+      const frameCount = Math.max(1, endSample - startSample);
+      const ratio = srcRate / targetRate;
+      const outFrames = Math.max(1, Math.floor(frameCount / ratio));
+      const ch0 = audioBuffer.getChannelData(0);
+      const ch1 = audioBuffer.numberOfChannels > 1 ? audioBuffer.getChannelData(1) : ch0;
+
+      let peak = 0.001;
+      for (let i = startSample; i < endSample; i++) {
+        const a = Math.abs(ch0[i]);
+        if (a > peak) peak = a;
+      }
+      const gain = normalizePeak ? Math.min(2.5, 0.95 / peak) : 1.0;
+
+      const bytesPerSample = 2;
+      const blockAlign = targetChannels * bytesPerSample;
+      const dataSize = outFrames * blockAlign;
+      const buf = new ArrayBuffer(44 + dataSize);
+      const view = new DataView(buf);
+      const writeStr = (off, s) => { for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i)); };
+
+      writeStr(0, "RIFF");
+      view.setUint32(4, 36 + dataSize, true);
+      writeStr(8, "WAVE");
+      writeStr(12, "fmt ");
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, targetChannels, true);
+      view.setUint32(24, targetRate, true);
+      view.setUint32(28, targetRate * blockAlign, true);
+      view.setUint16(32, blockAlign, true);
+      view.setUint16(34, 16, true);
+      writeStr(36, "data");
+      view.setUint32(40, dataSize, true);
+
+      let offset = 44;
+      for (let i = 0; i < outFrames; i++) {
+        const srcIdx = Math.min(audioBuffer.length - 1, startSample + Math.floor(i * ratio));
+        let sL = Math.max(-1, Math.min(1, ch0[srcIdx] * gain));
+        view.setInt16(offset, sL < 0 ? sL * 0x8000 : sL * 0x7FFF, true);
+        offset += 2;
+        if (targetChannels === 2) {
+          let sR = Math.max(-1, Math.min(1, ch1[srcIdx] * gain));
+          view.setInt16(offset, sR < 0 ? sR * 0x8000 : sR * 0x7FFF, true);
+          offset += 2;
+        }
+      }
+      return new Blob([buf], { type: "audio/wav" });
+    }
+
+    document.getElementById("audioFile").addEventListener("change", async e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      loadedName = f.name.replace(/\.[^.]+$/, "");
+      statusEl.textContent = `Decoding ${f.name} locally...`;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        decodedBuffer = await ctx.decodeAudioData(await f.arrayBuffer());
+        document.getElementById("numStart").value = "0";
+        document.getElementById("numEnd").value = decodedBuffer.duration.toFixed(1);
+        btnConvert.disabled = false;
+        statusEl.textContent = `Loaded ${f.name} | Duration: ${decodedBuffer.duration.toFixed(2)}s | Channels: ${decodedBuffer.numberOfChannels} | Sample Rate: ${decodedBuffer.sampleRate} Hz.`;
+      } catch (err) {
+        statusEl.textContent = "Decode error: " + err.message;
+      }
+    });
+
+    document.getElementById("btnSampleTone").addEventListener("click", () => {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const dur = 4.0;
+      const rate = 44100;
+      const buf = ctx.createBuffer(2, rate * dur, rate);
+      const notes = [261.63, 329.63, 392.00, 523.25];
+      for (let ch = 0; ch < 2; ch++) {
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < d.length; i++) {
+          const t = i / rate;
+          const freq = notes[Math.min(3, Math.floor(t))];
+          const env = Math.exp(-2.5 * (t % 1.0));
+          d[i] = Math.sin(2 * Math.PI * freq * t) * 0.45 * env;
+        }
+      }
+      decodedBuffer = buf;
+      loadedName = "evergreen_sample_chime";
+      document.getElementById("numStart").value = "0";
+      document.getElementById("numEnd").value = "4.0";
+      btnConvert.disabled = false;
+      statusEl.textContent = "✓ Generated 4.0-second Stereo Sample Audio Chime (44.1 kHz). Click 'Convert, Trim & Save Audio Locally'!";
+    });
+
+    btnConvert.addEventListener("click", () => {
+      if (!decodedBuffer) return;
+      const [rateStr, chStr] = document.getElementById("selFormat").value.split("-");
+      const targetRate = parseInt(rateStr, 10);
+      const targetCh = parseInt(chStr, 10);
+      let sSec = parseFloat(document.getElementById("numStart").value) || 0;
+      let eSec = parseFloat(document.getElementById("numEnd").value) || decodedBuffer.duration;
+      if (eSec <= sSec) eSec = decodedBuffer.duration;
+      const capped = (eSec - sSec) > FREE_SEC_CAP;
+      if (capped) eSec = sSec + FREE_SEC_CAP;
+
+      const wavBlob = encodeWavFromBuffer(decodedBuffer, targetRate, targetCh, sSec, eSec, true);
+      const url = URL.createObjectURL(wavBlob);
+      player.src = url;
+      player.style.display = "block";
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${loadedName}_${targetRate}Hz.wav`;
+      a.click();
+
+      statusEl.textContent =
+        `✓ Exported ${loadedName}_${targetRate}Hz.wav (${(wavBlob.size / 1024).toFixed(1)} KB | ${(eSec - sSec).toFixed(1)}s | ${targetRate} Hz | ${targetCh === 2 ? "Stereo" : "Mono"}, Peak-Normalized)\n` +
+        (capped ? `Note: Free trial capped at ${FREE_SEC_CAP}s. Get the Offline Edition for unlimited audio length.` : "");
+    });
+  </script>
+<div id="emtConversionBanner" style="max-width:920px;margin:1.25rem auto 0;background:linear-gradient(145deg,#1e293b,#0f172a);border:1px solid #22c55e;border-radius:14px;padding:1.1rem 1.25rem;color:#f8fafc;box-shadow:0 14px 32px rgba(0,0,0,0.4);">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.85rem;">
+    <div style="flex:1 1 360px;">
+      <div style="font-size:0.78rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">⚡ Want Unlimited Offline Use &amp; Zero Trial Limits Forever?</div>
+      <div style="font-size:0.95rem;font-weight:700;color:#f8fafc;">Get All 25 Offline Tools in the Mega-Bundle ($29.99)!</div>
+      <div style="font-size:0.82rem;color:#94a3b8;margin-top:0.2rem;">100% offline • SHA-256 verified • Pay once, keep forever (Cards, PayPal, Apple/Google Pay &amp; Venmo).</div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
+      <a href="https://payhip.com/b/74asH" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Get Offline Mega-Bundle ($29.99) ↗</a>
+    </div>
+  </div>
+  <div id="emtWhatsInsideZip" style="margin-top:0.85rem;padding-top:0.75rem;border-top:1px solid #334155;font-size:0.81rem;color:#cbd5e1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.55rem;">
+    <div><strong style="color:#7dd3fc;">📦 What's Inside the ZIP:</strong> Unlocked Offline App + Quick-Start <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></div>
+    <div><strong style="color:#86efac;">🔓 Zero Trial Caps:</strong> Converts &amp; trims unlimited audio duration 100% offline with Wi-Fi off</div>
+    <div><strong style="color:#fde047;">🛡️ Safe &amp; Private:</strong> SHA-256 verified integrity • SaaSHub Approved &amp; Verified • Zero subscriptions</div>
+  </div>
+</div>
+<script data-goatcounter="https://evergreen-micro-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
