@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gmitch12967-crypto.github.io/</loc>
@@ -70,4 +70,5 @@
   <url><loc>https://gmitch12967-crypto.github.io/tools/pdf-password-protector/index.html</loc></url>
   <url><loc>https://gmitch12967-crypto.github.io/tools/audio-converter/index.html</loc></url>
   <url><loc>https://gmitch12967-crypto.github.io/tools/video-joiner/index.html</loc></url>
+  <url><loc>https://gmitch12967-crypto.github.io/guides/partner-guide.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
