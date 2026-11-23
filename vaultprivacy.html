@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultPrivacy™ — Zero-Cloud HIPAA & Legal Redaction Workstation</title>
+  <meta name="description" content="Permanent, zero-cloud PDF and photo redaction. Black out SSNs, medical records, and strip EXIF GPS metadata 100% inside your browser memory." />
+  <style>
+    :root { --bg:#0b1120; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --red:#ef4444; --green:#22c55e; --shield:#0ea5e9; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .nav { display:flex; justify-content:space-between; align-items:center; padding:1.25rem 2rem; border-bottom:1px solid var(--border); background:#0f172a; }
+    .logo { font-size:1.25rem; font-weight:800; color:var(--text); text-decoration:none; display:flex; align-items:center; gap:0.5rem; }
+    .badge-hipaa { background:rgba(14,165,233,0.15); color:var(--shield); border:1px solid rgba(14,165,233,0.4); padding:0.25rem 0.65rem; border-radius:999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; }
+    .hero { max-width:920px; margin:0 auto; padding:4rem 1.5rem 2.5rem; text-align:center; }
+    .pill { display:inline-block; background:rgba(34,197,94,0.12); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.35rem 0.9rem; border-radius:999px; font-size:0.85rem; font-weight:700; margin-bottom:1.5rem; }
+    h1 { font-size:2.6rem; font-weight:900; line-height:1.2; margin-bottom:1.25rem; letter-spacing:-0.02em; }
+    .sub { font-size:1.15rem; color:var(--muted); max-width:760px; margin:0 auto 2rem; }
+    .cta-box { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-bottom:2rem; }
+    .btn-buy { background:var(--green); color:#052e16; text-decoration:none; font-weight:800; font-size:1.05rem; padding:0.85rem 1.8rem; border-radius:10px; transition:transform 0.15s; }
+    .btn-buy:hover { transform:translateY(-2px); }
+    .btn-try { background:var(--card); color:var(--text); border:1px solid var(--border); text-decoration:none; font-weight:700; font-size:1.05rem; padding:0.85rem 1.8rem; border-radius:10px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; max-width:1100px; margin:3rem auto; padding:0 1.5rem; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.75rem; }
+    .card h3 { font-size:1.25rem; margin-bottom:0.6rem; color:var(--accent); display:flex; align-items:center; gap:0.5rem; }
+    .card p { color:var(--muted); font-size:0.92rem; }
+    .banner-danger { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:1.5rem; max-width:920px; margin:2rem auto; }
+    .banner-danger h4 { color:var(--red); font-size:1.1rem; margin-bottom:0.4rem; }
+    .banner-danger p { font-size:0.9rem; color:#fca5a5; }
+    .aff-section { background:#0f172a; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:3.5rem 1.5rem; margin-top:4rem; }
+    .aff-wrap { max-width:1100px; margin:0 auto; }
+    .aff-wrap h2 { text-align:center; margin-bottom:0.5rem; font-size:1.75rem; }
+    .aff-sub { text-align:center; color:var(--muted); margin-bottom:2.5rem; }
+    .aff-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; }
+    .aff-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; }
+    .aff-card h4 { font-size:1.1rem; margin-bottom:0.35rem; color:var(--text); }
+    .aff-card p { font-size:0.85rem; color:var(--muted); margin-bottom:1rem; }
+    .aff-link { display:inline-block; color:var(--accent); font-weight:700; font-size:0.85rem; text-decoration:none; }
+    .footer { text-align:center; padding:2rem 1.5rem; color:var(--muted); font-size:0.82rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="logo" href="index.html">🛡️ VaultPrivacy™ <span class="badge-hipaa">Zero-Cloud Client</span></a>
+    <div>
+      <a href="https://payhip.com/b/74asH" class="btn-buy" style="font-size:0.85rem;padding:0.45rem 1rem;">Get Offline Workstation ($19)</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="pill">🔒 100% In-Browser Memory • Zero Server Uploads • Single Purchase</span>
+    <h1>Never Upload Confidential Documents To Public Cloud Servers Again</h1>
+    <p class="sub">Free online PDF editors upload your client's Social Security Numbers, medical records, and tax filings to remote servers. VaultPrivacy permanently redacts sensitive data inside your computer's local memory.</p>
+    <div class="cta-box">
+      <a href="https://payhip.com/b/74asH" class="btn-buy" target="_blank" rel="noopener">Buy Lifetime License ($19.00) →</a>
+      <a href="./tools/hipaa-pii-redactor/index.html" class="btn-try">Launch Free Online Demo</a>
+    </div>
+  </header>
+
+  <div class="banner-danger">
+    <h4>⚠️ The Public Cloud Redaction Trap</h4>
+    <p>Blacking out text with a black highlighter on your computer or using free online converters does not delete underlying data layers. Bots and search scrapers can copy/paste underneath black boxes. VaultPrivacy flattens, scrubs, and destroys underlying vector and metadata layers permanently.</p>
+  </div>
+
+  <section class="grid">
+    <div class="card">
+      <h3>📄 HIPAA & SSN Auto-Blackout</h3>
+      <p>Instantly flags and permanently blackouts Social Security Numbers, phone numbers, email addresses, and patient identifiers on PDF forms.</p>
+    </div>
+    <div class="card">
+      <h3>🛰️ Photo GPS & EXIF Scrubber</h3>
+      <p>Strips embedded hardware serial numbers, camera sensor IDs, and exact satellite GPS coordinates from court and evidence photos.</p>
+    </div>
+    <div class="card">
+      <h3>🎭 Face & Vehicle Plate Blur</h3>
+      <p>Pixelate or black out bystander faces, minor identities, and vehicle registration plates before sharing legal files or public disclosures.</p>
+    </div>
+    <div class="card">
+      <h3>🔐 256-Bit AES Encryption</h3>
+      <p>Encrypt confidential contracts with military-grade passwords before sending via email so only authorized recipients can open them.</p>
+    </div>
+  </section>
+
+  <!-- STRATEGIC AFFILIATE PARTNER VAULT -->
+  <section class="aff-section">
+    <div class="aff-wrap">
+      <h2>Recommended Security & Privacy Stack</h2>
+      <p class="aff-sub">Vetted zero-knowledge services recommended for legal practitioners, healthcare staff, and privacy professionals.</p>
+      <div class="aff-grid">
+        <div class="aff-card">
+          <h4>ProtonMail & Proton Drive</h4>
+          <p>End-to-end encrypted Swiss email and cloud storage. Protect privileged attorney-client correspondence from subpoenas.</p>
+          <a class="aff-link" href="https://proton.me/" target="_blank" rel="noopener">Explore Proton Secure Suite →</a>
+        </div>
+        <div class="aff-card">
+          <h4>1Password Business</h4>
+          <p>Zero-knowledge team password manager. Enforce 2FA and secure vault sharing across legal and accounting staff.</p>
+          <a class="aff-link" href="https://1password.com/" target="_blank" rel="noopener">Get 1Password for Teams →</a>
+        </div>
+        <div class="aff-card">
+          <h4>NordVPN Threat Protection</h4>
+          <p>Hardware-level traffic encryption and malicious domain blocking when traveling or connecting on public Wi-Fi.</p>
+          <a class="aff-link" href="https://nordvpn.com/" target="_blank" rel="noopener">View NordVPN Partner Plans →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 VaultPrivacy™ — Sovereign Digital Privacy. No subscriptions. Single purchase license.</p>
+    <p style="margin-top:0.4rem;font-size:0.75rem;">Disclosure: Partner links may provide a commission to support independent software development at no additional cost to you.</p>
+  </footer>
+</body>
+</html>
