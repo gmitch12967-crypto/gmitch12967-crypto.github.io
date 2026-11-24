@@ -265,8 +265,26 @@
         <a class="hero-btn secondary" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Individual Tools (From $0.99)</a>
         <a class="hero-btn secondary" href="./help.html">Help &amp; FAQ</a>
         <button type="button" id="emtShareBtn" class="hero-btn secondary" style="cursor:pointer;">Share Library ↗</button>
+        <button type="button" id="pwaInstallBtn" style="display:none;background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;border:none;padding:0.4rem 0.95rem;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;align-items:center;gap:0.4rem;box-shadow:0 4px 12px rgba(2,132,199,0.35);">
+          <span>📱</span> Install as Desktop / Mobile App
+        </button>
       </div>
     </header>
+
+      <!-- 🎁 100% Free VIP Lead Capture Box -->
+      <section style="background: radial-gradient(circle at center, #1e293b, #0f172a); border: 2px dashed #0284c7; border-radius: 16px; padding: 2rem 1.5rem; margin: 2rem 0; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">100% Free Gift</span>
+        <h2 style="font-size: 1.5rem; color: #fff; margin: 0.6rem 0 0.4rem;">Get 3 Free Offline Desktop Tools + VIP Privacy Guides</h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; max-width: 600px; margin: 0 auto 1.25rem;">Enter your email to receive direct offline ZIP downloads of our top micro-tools, plus new tool releases every Tuesday. Zero spam, zero trackers.</p>
+        
+        <form id="leadForm" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; max-width: 520px; margin: 0 auto;">
+          <input type="email" id="leadEmail" placeholder="Enter your best email address..." required style="flex: 1; min-width: 260px; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 0.75rem 1rem; color: #fff; font-size: 0.95rem; outline: none;" />
+          <button type="submit" style="background: #22c55e; color: #052e16; border: none; padding: 0.75rem 1.4rem; border-radius: 8px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: transform 0.15s; white-space: nowrap;">⚡ Send My Free Tools</button>
+        </form>
+        <div id="leadSuccess" style="display: none; color: #4ade80; font-weight: 700; margin-top: 1rem; font-size: 0.95rem;">
+          ✅ You're on the VIP list! Check your inbox shortly for your offline tool package.
+        </div>
+      </section>
 
     <div class="trust-strip">
       <div class="trust-item">
@@ -977,7 +995,58 @@
       trust1Title: "Your Files Stay Private",
       trust1Desc: "Everything runs inside your own browser. Nothing is ever sent to a server.",
       trust2Title: "Pay Once, Keep Forever",
-      trust2Desc: "Use online free anytime, or grab an offline copy from </body>.99 (Cards, Apple Pay, Google Pay, PayPal & Venmo accepted).",
+      trust2Desc: "Use online free anytime, or grab an offline copy from <script>
+/* PWA 1-Click Install Engine & Lead Capture Storage */
+(function() {
+  var deferredPrompt = null;
+  var installBtn = document.getElementById("pwaInstallBtn");
+
+  window.addEventListener("beforeinstallprompt", function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) {
+      installBtn.style.display = "inline-flex";
+    }
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener("click", function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice) {
+          if (choice.outcome === "accepted") {
+            installBtn.style.display = "none";
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
+      }
+    });
+  }
+
+  // Lead Form Capture Handler (Saves locally + triggers confirmation)
+  var leadForm = document.getElementById("leadForm");
+  var leadEmail = document.getElementById("leadEmail");
+  var leadSuccess = document.getElementById("leadSuccess");
+
+  if (leadForm && leadEmail) {
+    leadForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var email = leadEmail.value.trim();
+      if (email) {
+        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
+        leads.push({ email: email, date: new Date().toISOString() });
+        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
+
+        leadForm.style.display = "none";
+        leadSuccess.style.display = "block";
+      }
+    });
+  }
+})();
+</script>
+</body>.99 (Cards, Apple Pay, Google Pay, PayPal & Venmo accepted).",
       contrastTitle: "Why Pay $240 - $360 Every Year for Basic Tools?",
       contrastSub: "Compare predatory recurring subscriptions against owning your software forever.",
       btnTry: "Try Free Online →",
@@ -988,7 +1057,58 @@
       trust1Title: "Sus Archivos Permanecen Privados",
       trust1Desc: "Todo se ejecuta dentro de su propio navegador. No se envía ningún dato a servidores.",
       trust2Title: "Pague Una Vez, Consérvelo Siempre",
-      trust2Desc: "Úselo gratis en línea o compre una copia sin conexión desde </body>.99 (Se aceptan tarjetas, Apple Pay, Google Pay y PayPal).",
+      trust2Desc: "Úselo gratis en línea o compre una copia sin conexión desde <script>
+/* PWA 1-Click Install Engine & Lead Capture Storage */
+(function() {
+  var deferredPrompt = null;
+  var installBtn = document.getElementById("pwaInstallBtn");
+
+  window.addEventListener("beforeinstallprompt", function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) {
+      installBtn.style.display = "inline-flex";
+    }
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener("click", function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice) {
+          if (choice.outcome === "accepted") {
+            installBtn.style.display = "none";
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
+      }
+    });
+  }
+
+  // Lead Form Capture Handler (Saves locally + triggers confirmation)
+  var leadForm = document.getElementById("leadForm");
+  var leadEmail = document.getElementById("leadEmail");
+  var leadSuccess = document.getElementById("leadSuccess");
+
+  if (leadForm && leadEmail) {
+    leadForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var email = leadEmail.value.trim();
+      if (email) {
+        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
+        leads.push({ email: email, date: new Date().toISOString() });
+        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
+
+        leadForm.style.display = "none";
+        leadSuccess.style.display = "block";
+      }
+    });
+  }
+})();
+</script>
+</body>.99 (Se aceptan tarjetas, Apple Pay, Google Pay y PayPal).",
       contrastTitle: "¿Por qué pagar $240 - $360 al año por herramientas básicas?",
       contrastSub: "Compare suscripciones recurrentes abusivas contra ser dueño de su software para siempre.",
       btnTry: "Probar Gratis en Línea →",
@@ -1021,7 +1141,58 @@
       trust1Title: "ファイルは完全に非公開",
       trust1Desc: "すべての処理はお使いのブラウザ内で完結します。データが外部サーバーに送信されることはありません。",
       trust2Title: "一度の購入で永久所有",
-      trust2Desc: "オンラインでいつでも無料で使えるほか、</body>.99からオフライン版を購入可能（カード、Apple Pay、Google Pay、PayPal対応）。",
+      trust2Desc: "オンラインでいつでも無料で使えるほか、<script>
+/* PWA 1-Click Install Engine & Lead Capture Storage */
+(function() {
+  var deferredPrompt = null;
+  var installBtn = document.getElementById("pwaInstallBtn");
+
+  window.addEventListener("beforeinstallprompt", function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) {
+      installBtn.style.display = "inline-flex";
+    }
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener("click", function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice) {
+          if (choice.outcome === "accepted") {
+            installBtn.style.display = "none";
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
+      }
+    });
+  }
+
+  // Lead Form Capture Handler (Saves locally + triggers confirmation)
+  var leadForm = document.getElementById("leadForm");
+  var leadEmail = document.getElementById("leadEmail");
+  var leadSuccess = document.getElementById("leadSuccess");
+
+  if (leadForm && leadEmail) {
+    leadForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var email = leadEmail.value.trim();
+      if (email) {
+        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
+        leads.push({ email: email, date: new Date().toISOString() });
+        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
+
+        leadForm.style.display = "none";
+        leadSuccess.style.display = "block";
+      }
+    });
+  }
+})();
+</script>
+</body>.99からオフライン版を購入可能（カード、Apple Pay、Google Pay、PayPal対応）。",
       contrastTitle: "なぜ基本的なツールに毎年240〜360ドルも払い続けるのですか？",
       contrastSub: "高額な定期購入と、買い切り永久所有の違いを比較してください。",
       btnTry: "オンラインで無料試用 →",
@@ -1084,7 +1255,59 @@
   });
 })();
 </script>
+<script>
+/* PWA 1-Click Install Engine & Lead Capture Storage */
+(function() {
+  var deferredPrompt = null;
+  var installBtn = document.getElementById("pwaInstallBtn");
+
+  window.addEventListener("beforeinstallprompt", function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) {
+      installBtn.style.display = "inline-flex";
+    }
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener("click", function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice) {
+          if (choice.outcome === "accepted") {
+            installBtn.style.display = "none";
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
+      }
+    });
+  }
+
+  // Lead Form Capture Handler (Saves locally + triggers confirmation)
+  var leadForm = document.getElementById("leadForm");
+  var leadEmail = document.getElementById("leadEmail");
+  var leadSuccess = document.getElementById("leadSuccess");
+
+  if (leadForm && leadEmail) {
+    leadForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var email = leadEmail.value.trim();
+      if (email) {
+        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
+        leads.push({ email: email, date: new Date().toISOString() });
+        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
+
+        leadForm.style.display = "none";
+        leadSuccess.style.display = "block";
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
+
 
 
