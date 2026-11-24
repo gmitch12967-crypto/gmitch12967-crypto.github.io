@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Check your resume against any job description for missing ATS keywords and formatting red flags 100% locally with zero subscriptions." />
+  <meta name="keywords" content="ats resume checker, offline ats resume checker, zero-upload tool, private browser utility, client-side ats resume checker, free micro-tool" />
+
   <meta name="theme-color" content="#0b1120" />
   <link rel="manifest" href="../../manifest.json" />
   <link rel="apple-touch-icon" href="../../icon-256.png" />
@@ -30,15 +32,26 @@
     .tag.ok { background:rgba(34,197,94,0.18); color:#86efac; border:1px solid rgba(34,197,94,0.35); }
     .tag.miss { background:rgba(245,158,11,0.18); color:#fcd34d; border:1px solid rgba(245,158,11,0.35); }
     .score { font-size:1.4rem; font-weight:800; color:var(--accent); margin-bottom:0.5rem; }
+  
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      body { padding: 1rem 0.75rem 2rem; font-size: 15px; }
+      .container { width: 100%; max-width: 100%; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .actions, .btn-group { flex-direction: column; width: 100%; }
+      button, .btn { width: 100%; min-height: 44px; justify-content: center; text-align: center; }
+      input, select, textarea { width: 100%; font-size: 16px; }
+      .panel { padding: 1rem; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">? Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
         <span class="pill">100% Local Processing • Zero Uploads</span>
-        <a href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($9.99) ↗</a>
+        <a href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($9.99) ?</a>
       </div>
     </div>
 
@@ -55,6 +68,8 @@
         </label>
       </div>
       <div class="actions">
+        <button type="button" id="loadSampleBtn" style="background:#38bdf8;color:#0b1120;border:none;padding:0.65rem 1.1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;">⚡ Load Sample Demo</button>
+        <button type="button" id="copyMissingBtn" style="background:#334155;color:#f8fafc;border:none;padding:0.65rem 1.1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;">📋 Copy Missing Keywords</button>
         <button id="btnCheck">Check ATS Match</button>
         <button class="secondary" id="btnSample">Load Sample Resume &amp; Job</button>
       </div>
@@ -125,7 +140,7 @@
       const flags = [];
       if (!/@/.test(resText)) flags.push("Missing email address — ATS systems need a plain-text email.");
       if (!/\d{3}[-.\s)]*\d{3}[-.\s]*\d{4}/.test(resText)) flags.push("No standard phone number detected.");
-      if (/[|│┃╔╗╚╝]/.test(resText)) flags.push("Table/box characters detected — replace multi-column tables with simple bullet lines.");
+      if (/[|¦?++++]/.test(resText)) flags.push("Table/box characters detected — replace multi-column tables with simple bullet lines.");
       if (!/(experience|employment|work history)/i.test(resText)) flags.push("Add a clear 'Experience' section heading so ATS parsers map your roles.");
       if (!/(education|skills)/i.test(resText)) flags.push("Add clear 'Skills' and 'Education' headings.");
       if (!flags.length) flags.push("No common ATS formatting red flags detected!");
@@ -146,7 +161,7 @@
   <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
       <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
-      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">?</button>
     </div>
     <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
     <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
@@ -177,7 +192,7 @@
   document.getElementById("emtCopyShare").addEventListener("click", () => {
     navigator.clipboard.writeText(adText).catch(() => {});
     const c = document.getElementById("emtCopyShare");
-    c.textContent = "✓ Copied!";
+    c.textContent = "? Copied!";
     setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
   });
 })();
@@ -197,20 +212,53 @@
 <script src="../../sample-demo.js"></script><div id="emtConversionBanner" style="max-width:920px;margin:1.25rem auto 0;background:linear-gradient(145deg,#1e293b,#0f172a);border:1px solid #22c55e;border-radius:14px;padding:1.1rem 1.25rem;color:#f8fafc;box-shadow:0 14px 32px rgba(0,0,0,0.4);">
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.85rem;">
     <div style="flex:1 1 360px;">
-      <div style="font-size:0.78rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">⚡ Want Unlimited Offline Use &amp; Zero Trial Limits Forever?</div>
+      <div style="font-size:0.78rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">? Want Unlimited Offline Use &amp; Zero Trial Limits Forever?</div>
       <div style="font-size:0.95rem;font-weight:700;color:#f8fafc;">Grab this tool's Unlimited Offline Edition ($9.99) or get All 22 Offline Tools in the Mega-Bundle ($29.99)!</div>
       <div style="font-size:0.82rem;color:#94a3b8;margin-top:0.2rem;">100% offline • Authenticode-signed • SHA-256 verified • Pay once, keep forever (Cards, PayPal, Apple/Google Pay &amp; Venmo).</div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
-      <a href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Buy This Offline Tool ($9.99) ↗</a>
-      <a href="https://payhip.com/b/74asH" target="_blank" rel="noopener" style="background:#38bdf8;color:#082f49;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">All 22 Tools Bundle ($29.99) ↗</a>
+      <a href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Buy This Offline Tool ($9.99) ?</a>
+      <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#38bdf8;color:#082f49;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Browse All Single Tools ?</a>
     </div>
   </div>
   <div id="emtWhatsInsideZip" style="margin-top:0.85rem;padding-top:0.75rem;border-top:1px solid #334155;font-size:0.81rem;color:#cbd5e1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.55rem;">
-    <div><strong style="color:#7dd3fc;">📦 What's Inside the ZIP:</strong> Unlocked Offline App + Quick-Start <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></div>
-    <div><strong style="color:#86efac;">🔓 Zero Trial Caps:</strong> Processes unlimited pages, rows, and batch files 100% offline with Wi-Fi off</div>
-    <div><strong style="color:#fde047;">🛡️ Safe &amp; Private:</strong> SHA-256 verified integrity • SaaSHub Approved &amp; Verified • Zero subscriptions</div>
+    <div><strong style="color:#7dd3fc;">?? What's Inside the ZIP:</strong> Unlocked Offline App + Quick-Start <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></div>
+    <div><strong style="color:#86efac;">?? Zero Trial Caps:</strong> Processes unlimited pages, rows, and batch files 100% offline with Wi-Fi off</div>
+    <div><strong style="color:#fde047;">??? Safe &amp; Private:</strong> SHA-256 verified integrity • SaaSHub Approved &amp; Verified • Zero subscriptions</div>
   </div>
 </div>
+<script>
+(function() {
+  window.addEventListener("load", function() {
+    var sampleBtn = document.getElementById("loadSampleBtn");
+    var copyBtn = document.getElementById("copyMissingBtn");
+    var textareas = document.querySelectorAll("textarea");
+    if (sampleBtn && textareas.length >= 2) {
+      sampleBtn.onclick = function() {
+        textareas[0].value = "Senior Software Engineer with 6+ years of experience in JavaScript, React, Node.js, and cloud systems. Proven track record of architecting scalable web applications, reducing API response times by 35%, and leading cross-functional agile teams. Skilled in PostgreSQL, Docker, Git, REST APIs, and automated CI/CD testing pipelines.";
+        textareas[1].value = "We are seeking a Senior Full-Stack Engineer with deep experience in React, TypeScript, Node.js, AWS cloud architecture, Kubernetes, and GraphQL. The ideal candidate will spearhead microservice migrations, mentor junior developers, optimize PostgreSQL databases, and lead automated unit testing using Jest and Cypress.";
+        var scanBtn = document.querySelector(".actions button:first-child");
+        if (scanBtn) scanBtn.click();
+      };
+    }
+    if (copyBtn) {
+      copyBtn.onclick = function() {
+        var miss = Array.from(document.querySelectorAll(".tag.miss")).map(function(el){ return el.innerText.trim(); });
+        if (miss.length > 0) {
+          navigator.clipboard.writeText(miss.join(", ")).then(function() {
+            var old = copyBtn.innerText;
+            copyBtn.innerText = "✅ Copied " + miss.length + " Keywords!";
+            setTimeout(function() { copyBtn.innerText = old; }, 2000);
+          });
+        } else {
+          alert("Click 'Compare & Score Resume' first to find missing keywords!");
+        }
+      };
+    }
+  });
+})();
+</script>
 </body>
 </html>
+
+
