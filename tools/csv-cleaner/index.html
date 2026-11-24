@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Remove duplicate rows, trim spaces, and clean messy CSV files 100% privately in your browser with zero uploads." />
+  <meta name="keywords" content="csv cleaner, offline csv cleaner, zero-upload tool, private browser utility, client-side csv cleaner, free micro-tool" />
+
     <meta name="theme-color" content="#0b1120" />
   <link rel="manifest" href="../../manifest.json" />
   <link rel="apple-touch-icon" href="../../icon-256.png" />
@@ -83,16 +85,52 @@
     th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); }
     th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
     .empty { color: var(--muted); text-align: center; padding: 2rem 1rem; }
+  
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      body { padding: 1rem 0.75rem 2rem; font-size: 15px; }
+      .container { width: 100%; max-width: 100%; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .actions, .btn-group { flex-direction: column; width: 100%; }
+      button, .btn { width: 100%; min-height: 44px; justify-content: center; text-align: center; }
+      input, select, textarea { width: 100%; font-size: 16px; }
+      .panel { padding: 1rem; }
+    }
+  
+    /* 2026 Modern Light Theme Support */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --green: #16a34a;
+    }
+    [data-theme="light"] textarea,
+    [data-theme="light"] input[type="text"],
+    [data-theme="light"] input[type="number"],
+    [data-theme="light"] select,
+    [data-theme="light"] .drop,
+    [data-theme="light"] .page-row,
+    [data-theme="light"] .box {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .panel {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="topbar">
-      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <a class="back" href="../../index.html">? Back to Evergreen Micro-Tools Library</a>
       <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
         <span class="privacy-pill">100% Local Processing • Zero Uploads</span>
         <a href="https://payhip.com/b/XV7ZI" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($0.99)</a>
-        <button type="button" id="emtShareBtn" style="background:rgba(56,189,248,0.16);color:#7dd3fc;border:1px solid rgba(56,189,248,0.45);padding:0.3rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;">Share Tool ↗</button>
+        <button type="button" id="emtShareBtn" style="background:rgba(56,189,248,0.16);color:#7dd3fc;border:1px solid rgba(56,189,248,0.45);padding:0.3rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;">Share Tool ?</button>
       </div>
     </div>
 
@@ -101,6 +139,7 @@
 
     <div class="panel">
       <div class="actions">
+        <button type="button" id="loadCsvSampleBtn" style="background:#38bdf8;color:#0b1120;border:none;padding:0.65rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;">⚡ Load Sample CSV</button>
         <label class="file-label" for="csvInput">1. Pick Your CSV File</label>
         <input type="file" id="csvInput" accept=".csv,text/csv" />
         <button class="secondary" id="btnSample">Try With Sample File</button>
@@ -258,7 +297,7 @@
   <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
       <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
-      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">?</button>
     </div>
     <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
     <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
@@ -289,12 +328,12 @@
   document.getElementById("emtCopyShare").addEventListener("click", () => {
     navigator.clipboard.writeText(adText).catch(() => {});
     const c = document.getElementById("emtCopyShare");
-    c.textContent = "✓ Copied!";
+    c.textContent = "? Copied!";
     setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
   });
 })();
 </script>
-<script data-goatcounter="https://evergreen-micro-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
 <script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href*=\"payhip.com\"]"):null;if(a&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:"payhip-click/"+a.href.split("/").pop(),title:"Payhip Click",event:true});}});</script>
 <script type="text/javascript">
   var vglnk = {key: '272f3e8fd876ec37f62dc544f6c77859'};
@@ -309,23 +348,111 @@
 <script src="../../sample-demo.js"></script><div id="emtConversionBanner" style="max-width:920px;margin:1.25rem auto 0;background:linear-gradient(145deg,#1e293b,#0f172a);border:1px solid #22c55e;border-radius:14px;padding:1.1rem 1.25rem;color:#f8fafc;box-shadow:0 14px 32px rgba(0,0,0,0.4);">
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.85rem;">
     <div style="flex:1 1 360px;">
-      <div style="font-size:0.78rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">⚡ Want Unlimited Offline Use &amp; Zero Trial Limits Forever?</div>
+      <div style="font-size:0.78rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.2rem;">? Want Unlimited Offline Use &amp; Zero Trial Limits Forever?</div>
       <div style="font-size:0.95rem;font-weight:700;color:#f8fafc;">Grab this tool's Unlimited Offline Edition ($0.99) or get All 22 Offline Tools in the Mega-Bundle ($29.99)!</div>
       <div style="font-size:0.82rem;color:#94a3b8;margin-top:0.2rem;">100% offline • Authenticode-signed • SHA-256 verified • Pay once, keep forever (Cards, PayPal, Apple/Google Pay &amp; Venmo).</div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
-      <a href="https://payhip.com/b/XV7ZI" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Buy This Offline Tool ($0.99) ↗</a>
-      <a href="https://payhip.com/b/74asH" target="_blank" rel="noopener" style="background:#38bdf8;color:#082f49;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">All 22 Tools Bundle ($29.99) ↗</a>
+      <a href="https://payhip.com/b/XV7ZI" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Buy This Offline Tool ($0.99) ?</a>
+      <a href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="background:#38bdf8;color:#082f49;padding:0.6rem 1rem;border-radius:9px;font-weight:700;text-decoration:none;font-size:0.86rem;white-space:nowrap;">Browse All Single Tools ?</a>
     </div>
   </div>
   <div id="emtWhatsInsideZip" style="margin-top:0.85rem;padding-top:0.75rem;border-top:1px solid #334155;font-size:0.81rem;color:#cbd5e1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.55rem;">
-    <div><strong style="color:#7dd3fc;">📦 What's Inside the ZIP:</strong> Unlocked Offline App + Quick-Start <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></div>
-    <div><strong style="color:#86efac;">🔓 Zero Trial Caps:</strong> Processes unlimited pages, rows, and batch files 100% offline with Wi-Fi off</div>
-    <div><strong style="color:#fde047;">🛡️ Safe &amp; Private:</strong> SHA-256 verified integrity • SaaSHub Approved &amp; Verified • Zero subscriptions</div>
+    <div><strong style="color:#7dd3fc;">?? What's Inside the ZIP:</strong> Unlocked Offline App + Quick-Start <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></div>
+    <div><strong style="color:#86efac;">?? Zero Trial Caps:</strong> Processes unlimited pages, rows, and batch files 100% offline with Wi-Fi off</div>
+    <div><strong style="color:#fde047;">??? Safe &amp; Private:</strong> SHA-256 verified integrity • SaaSHub Approved &amp; Verified • Zero subscriptions</div>
   </div>
 </div>
+<script>
+(function() {
+  window.addEventListener("load", function() {
+    var b = document.getElementById("loadCsvSampleBtn");
+    var ta = document.querySelector("textarea");
+    if (b && ta) {
+      b.onclick = function() {
+        ta.value = "First Name,Last Name,Email,Phone,Company\nJohn,Doe,john.doe@example.com,(555) 019-2834,Acme Corp\nJane,Smith,jane.smith@example.com,,Globex Inc\nBob,Johnson,bob@invalid-domain,,Initech\nJohn,Doe,john.doe@example.com,(555) 019-2834,Acme Corp\nAlice,Williams,alice@initech.co,555-0199,Initech\n";
+        var scrub = document.querySelector(".actions button:first-child");
+        if (scrub) scrub.click();
+      };
+    }
+  });
+})();
+</script>
+<script>
+/* 2026 Modern Engine: Air-Gapped Draft Autosave & Theme Switcher */
+(function() {
+  var toolKey = "emt_draft_" + (window.location.pathname.split("/").slice(-2)[0] || "tool");
+  
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("emt_theme", theme);
+    var btn = document.getElementById("themeToggleBtn");
+    if (btn) btn.innerText = theme === "light" ? "☀️ Light" : "🌙 Dark";
+  }
+
+  window.addEventListener("DOMContentLoaded", function() {
+    // 1. Theme Initialization
+    var savedTheme = localStorage.getItem("emt_theme") || "dark";
+    applyTheme(savedTheme);
+    var toggleBtn = document.getElementById("themeToggleBtn");
+    if (toggleBtn) {
+      toggleBtn.onclick = function() {
+        var curr = document.documentElement.getAttribute("data-theme") || "dark";
+        applyTheme(curr === "dark" ? "light" : "dark");
+      };
+    }
+
+    // 2. Draft Auto-Save & Recovery
+    var inputs = document.querySelectorAll("textarea, input[type='text']:not([readonly])");
+    try {
+      var saved = localStorage.getItem(toolKey);
+      if (saved) {
+        var data = JSON.parse(saved);
+        var restored = false;
+        inputs.forEach(function(el, i) {
+          if (data[i] && !el.value) {
+            el.value = data[i];
+            restored = true;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+        if (restored) {
+          showToast("⚡ Unsaved draft restored from your last session");
+        }
+      }
+    } catch(e) {}
+
+    var saveTimer = null;
+    inputs.forEach(function(el) {
+      el.addEventListener("input", function() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function() {
+          var data = {};
+          inputs.forEach(function(t, i) { if (t.value) data[i] = t.value; });
+          localStorage.setItem(toolKey, JSON.stringify(data));
+        }, 1200);
+      });
+    });
+
+    function showToast(msg) {
+      var toast = document.createElement("div");
+      toast.style.cssText = "position:fixed;bottom:24px;right:24px;background:#0284c7;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 25px rgba(0,0,0,0.4);z-index:99999;transition:opacity 0.3s;display:flex;align-items:center;gap:0.5rem;";
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() {
+        toast.style.opacity = "0";
+        setTimeout(function() { toast.remove(); }, 300);
+      }, 3500);
+    }
+  });
+})();
+</script>
+<!-- emt_modern_engine -->
 </body>
 </html>
+
+
+
 
 
 
