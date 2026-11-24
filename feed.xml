@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Evergreen Micro-Tools &amp; Sovereign Software Workstation</title>
+  <link>https://gmitch12967-crypto.github.io/</link>
+  <description>100% offline, zero-telemetry browser-sandboxed productivity tools. Single-product purchases, no subscriptions.</description>
+  <language>en-us</language>
+  <lastBuildDate>Mon, 23 Nov 2026 19:20:00 -0500</lastBuildDate>
+  <atom:link href="https://gmitch12967-crypto.github.io/feed.xml" rel="self" type="application/rss+xml" />
+
+  <item>
+    <title>PDF Sovereign: Offline Document Manipulation Toolkit</title>
+    <link>https://gmitch12967-crypto.github.io/</link>
+    <guid>https://gmitch12967-crypto.github.io/#pdf-sovereign</guid>
+    <description>Merge, split, compress, watermark, and extract text locally in your browser memory without uploading confidential files to cloud servers.</description>
+    <pubDate>Mon, 23 Nov 2026 12:00:00 -0500</pubDate>
+  </item>
+
+  <item>
+    <title>VaultPrivacy: Client-Side HIPAA &amp; Legal Metadata Redaction</title>
+    <link>https://gmitch12967-crypto.github.io/vaultprivacy.html</link>
+    <guid>https://gmitch12967-crypto.github.io/vaultprivacy.html</guid>
+    <description>Zero-cloud HIPAA Safe Harbor redaction and EXIF photo metadata scrubber that removes GPS coordinates and hardware IDs locally.</description>
+    <pubDate>Mon, 23 Nov 2026 12:00:00 -0500</pubDate>
+  </item>
+
+  <item>
+    <title>JobMatch Pro: On-Device ATS Resume Keyword Scanner</title>
+    <link>https://gmitch12967-crypto.github.io/jobmatch.html</link>
+    <guid>https://gmitch12967-crypto.github.io/jobmatch.html</guid>
+    <description>Compare resumes against job descriptions, extract missing keywords, and score ATS compatibility with zero cloud data retention.</description>
+    <pubDate>Mon, 23 Nov 2026 12:00:00 -0500</pubDate>
+  </item>
+
+  <item>
+    <title>Paperless Contractor: Offline Invoice &amp; Job Estimating Toolkit</title>
+    <link>https://gmitch12967-crypto.github.io/contractor.html</link>
+    <guid>https://gmitch12967-crypto.github.io/contractor.html</guid>
+    <description>Mobile-friendly, offline estimate and invoice generator for independent contractors and tradespeople. Zero monthly software fees.</description>
+    <pubDate>Mon, 23 Nov 2026 12:00:00 -0500</pubDate>
+  </item>
+</channel>
+</rss>
