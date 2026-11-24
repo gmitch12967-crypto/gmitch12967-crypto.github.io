@@ -43,6 +43,31 @@
       input, select, textarea { width: 100%; font-size: 16px; }
       .panel { padding: 1rem; }
     }
+  
+    /* 2026 Modern Light Theme Support */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --green: #16a34a;
+    }
+    [data-theme="light"] textarea,
+    [data-theme="light"] input[type="text"],
+    [data-theme="light"] input[type="number"],
+    [data-theme="light"] select,
+    [data-theme="light"] .drop,
+    [data-theme="light"] .page-row,
+    [data-theme="light"] .box {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .panel {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
   </style>
 </head>
 <body>
@@ -197,7 +222,7 @@
   });
 })();
 </script>
-<script data-goatcounter="https://evergreen-micro-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
 <script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href*=\"payhip.com\"]"):null;if(a&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:"payhip-click/"+a.href.split("/").pop(),title:"Payhip Click",event:true});}});</script>
 <script type="text/javascript">
   var vglnk = {key: '272f3e8fd876ec37f62dc544f6c77859'};
@@ -258,7 +283,78 @@
   });
 })();
 </script>
+<script>
+/* 2026 Modern Engine: Air-Gapped Draft Autosave & Theme Switcher */
+(function() {
+  var toolKey = "emt_draft_" + (window.location.pathname.split("/").slice(-2)[0] || "tool");
+  
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("emt_theme", theme);
+    var btn = document.getElementById("themeToggleBtn");
+    if (btn) btn.innerText = theme === "light" ? "☀️ Light" : "🌙 Dark";
+  }
+
+  window.addEventListener("DOMContentLoaded", function() {
+    // 1. Theme Initialization
+    var savedTheme = localStorage.getItem("emt_theme") || "dark";
+    applyTheme(savedTheme);
+    var toggleBtn = document.getElementById("themeToggleBtn");
+    if (toggleBtn) {
+      toggleBtn.onclick = function() {
+        var curr = document.documentElement.getAttribute("data-theme") || "dark";
+        applyTheme(curr === "dark" ? "light" : "dark");
+      };
+    }
+
+    // 2. Draft Auto-Save & Recovery
+    var inputs = document.querySelectorAll("textarea, input[type='text']:not([readonly])");
+    try {
+      var saved = localStorage.getItem(toolKey);
+      if (saved) {
+        var data = JSON.parse(saved);
+        var restored = false;
+        inputs.forEach(function(el, i) {
+          if (data[i] && !el.value) {
+            el.value = data[i];
+            restored = true;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+        if (restored) {
+          showToast("⚡ Unsaved draft restored from your last session");
+        }
+      }
+    } catch(e) {}
+
+    var saveTimer = null;
+    inputs.forEach(function(el) {
+      el.addEventListener("input", function() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function() {
+          var data = {};
+          inputs.forEach(function(t, i) { if (t.value) data[i] = t.value; });
+          localStorage.setItem(toolKey, JSON.stringify(data));
+        }, 1200);
+      });
+    });
+
+    function showToast(msg) {
+      var toast = document.createElement("div");
+      toast.style.cssText = "position:fixed;bottom:24px;right:24px;background:#0284c7;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 25px rgba(0,0,0,0.4);z-index:99999;transition:opacity 0.3s;display:flex;align-items:center;gap:0.5rem;";
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() {
+        toast.style.opacity = "0";
+        setTimeout(function() { toast.remove(); }, 300);
+      }, 3500);
+    }
+  });
+})();
+</script>
+<!-- emt_modern_engine -->
 </body>
 </html>
+
 
 
