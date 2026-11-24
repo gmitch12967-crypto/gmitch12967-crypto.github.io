@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Workforce Pro™ — Zero-Subscription Desktop Command Center ($99.99)</title>
+  <meta name="description" content="Break free from $20-$40/mo AI subscriptions. Native Win32 desktop command center with 14 pre-trained enterprise roles, 168 worker slots, and free high-speed models at 34 MB RAM." />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --purple: #a855f7;
+      --gold: #f59e0b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --green: #16a34a;
+      --purple: #7c3aed;
+      --gold: #d97706;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.2s, color 0.2s; }
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); background: var(--card); }
+    .logo { font-size: 1.25rem; font-weight: 800; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+    .theme-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+    .hero { max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem 2rem; text-align: center; }
+    .pill { display: inline-block; background: rgba(56, 189, 248, 0.12); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.35); padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.5rem; }
+    h1 { font-size: 2.8rem; font-weight: 900; line-height: 1.2; margin-bottom: 1.25rem; letter-spacing: -0.02em; }
+    .sub { font-size: 1.2rem; color: var(--muted); max-width: 760px; margin: 0 auto 2.5rem; }
+    .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn { padding: 0.9rem 1.8rem; border-radius: 8px; font-weight: 700; font-size: 1.05rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.15s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #38bdf8); color: #fff; border: none; box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35); }
+    .btn-bundle { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none; box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1080px; margin: 2rem auto; padding: 0 1.5rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; text-align: left; }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; display: inline-block; }
+    .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.95rem; color: var(--muted); }
+
+    .comparison { max-width: 900px; margin: 4rem auto; padding: 2rem 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+    .comparison table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 1.5rem; }
+    .comparison th, .comparison td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    .comparison th { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .pricing-tier { max-width: 960px; margin: 4rem auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; padding: 0 1.5rem; }
+    .price-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 2rem; text-align: left; position: relative; }
+    .price-box.featured { border-color: var(--purple); box-shadow: 0 0 25px rgba(168, 85, 247, 0.2); }
+    .badge { position: absolute; top: -12px; right: 20px; background: var(--purple); color: #fff; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+    .price { font-size: 2.5rem; font-weight: 900; margin: 1rem 0; color: var(--text); }
+    .price span { font-size: 1rem; font-weight: 500; color: var(--muted); }
+    .features-list { list-style: none; margin: 1.5rem 0 2rem; }
+    .features-list li { margin-bottom: 0.75rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; }
+    .features-list li::before { content: "✓"; color: var(--green); font-weight: 800; }
+
+    .calculator { max-width: 700px; margin: 3rem auto; padding: 2rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+    .calc-val { font-size: 2rem; font-weight: 900; color: var(--green); margin: 0.5rem 0; }
+
+    footer { text-align: center; padding: 3rem 1.5rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 5rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="logo">⚡ AI Workforce Pro™</a>
+    <div>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light Mode</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <span class="pill">PERPETUAL LIFETIME LICENSE • $0 MONTHLY SUBSCRIPTIONS</span>
+    <h1>Fire Your Monthly AI Bills.<br><span style="color:var(--accent);">Own Your Autonomous Workforce.</span></h1>
+    <p class="sub">Tired of paying $20/mo to OpenAI, $20/mo to Anthropic, and $15/mo for wrappers? AI Workforce Pro is a native Win32 command center running 14 enterprise personas with 168 worker slots and free multi-model routing at just 34 MB RAM.</p>
+    <div class="btn-row">
+      <a href="#pricing" class="btn btn-primary">Get Standalone ($99.99)</a>
+      <a href="#bundle" class="btn btn-bundle">👑 Sovereign Power Bundle ($199.99)</a>
+      <a href="sample-demo.js" class="btn btn-outline" download>Download Spec</a>
+    </div>
+  </section>
+
+  <div class="calculator">
+    <h3>💡 Zero-Subscription Savings Calculator</h3>
+    <p style="color:var(--muted); font-size:0.9rem; margin-top:0.25rem;">Compare your current AI subscriptions against a one-time lifetime license:</p>
+    <div class="calc-val" id="calcSavings">$720.00 Saved in Year 1</div>
+    <p style="font-size:0.85rem; color:var(--muted);">Based on standard ChatGPT Plus ($20/mo) + Claude Pro ($20/mo) + API wrappers ($20/mo) = $720/year.</p>
+  </div>
+
+  <section class="grid">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>14 Autonomous Personas</h3>
+      <p>Senior Software Engineer, Root-Cause Debugger, 24/7 Support Agent, Launch Promoter, SEO Architect, Multi-Language Localizer, and Air-Gap Security Sentinel pre-configured for batch execution.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚀</div>
+      <h3>168 Free Worker Slots</h3>
+      <p>Direct integration with 4 zero-key Pollinations engines, Groq 120B (300+ tok/s), Gemini Flash (1M token context), and GitHub Models. Zero credit card or billing required.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>Ultralight Win32 Native</h3>
+      <p>No bloated Electron. Launches in 0.2 seconds and uses only 34 MB of RAM (1/20th of typical AI apps). Keeps your PC cold and lightning responsive.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>Air-Gap Privacy Guarantee</h3>
+      <p>Your business logic, prompts, and code never pass through third-party telemetry servers. Everything executes directly from your desktop.</p>
+    </div>
+  </section>
+
+  <section class="comparison">
+    <h2 style="text-align:center; font-size:1.8rem; margin-bottom:0.5rem;">SaaS AI Wrappers vs. AI Workforce Pro</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Typical Cloud SaaS</th>
+          <th>AI Workforce Pro™</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cost Model</strong></td>
+          <td style="color:#ef4444;">$240–$600+ every year</td>
+          <td style="color:var(--green); font-weight:700;">One-time lifetime purchase</td>
+        </tr>
+        <tr>
+          <td><strong>RAM Consumption</strong></td>
+          <td>600 MB – 1.8 GB (Electron)</td>
+          <td style="color:var(--green); font-weight:700;">~34 MB (Native Win32)</td>
+        </tr>
+        <tr>
+          <td><strong>Autonomous Roles</strong></td>
+          <td>1 Generic Assistant</td>
+          <td style="color:var(--green); font-weight:700;">14 Specialized Roles</td>
+        </tr>
+        <tr>
+          <td><strong>Worker Concurrency</strong></td>
+          <td>1 Thread (Rate Limited)</td>
+          <td style="color:var(--green); font-weight:700;">24 Threads / 168 Slots</td>
+        </tr>
+        <tr>
+          <td><strong>Data Privacy</strong></td>
+          <td>Trained on cloud models</td>
+          <td style="color:var(--green); font-weight:700;">100% Local / Zero Logging</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="pricing-tier" id="pricing">
+    <div class="price-box">
+      <h3>AI Workforce Pro™ Standalone</h3>
+      <p style="color:var(--muted); font-size:0.9rem;">The sovereign AI desktop command center.</p>
+      <div class="price">$99.99 <span>one-time</span></div>
+      <ul class="features-list">
+        <li>14 Pre-Trained Enterprise Roles</li>
+        <li>168 Free Worker Slots with Fast Routing</li>
+        <li>Pollinations + Groq 120B + Gemini Flash Support</li>
+        <li>Native Win32 Binary (34 MB RAM)</li>
+        <li>🎁 Bonus #1: Zero-Subscription AI Vault Guide</li>
+        <li>🎁 Bonus #2: 100+ Master Prompt Templates</li>
+      </ul>
+      <a href="https://payhip.com" class="btn btn-primary" style="width:100%; justify-content:center;">Buy Standalone ($99.99)</a>
+    </div>
+
+    <div class="price-box featured" id="bundle">
+      <div class="badge">Most Popular • Save $49.97</div>
+      <h3>👑 Sovereign Power Bundle™</h3>
+      <p style="color:var(--muted); font-size:0.9rem;">The complete 4-app autonomous operator workstation.</p>
+      <div class="price">$199.99 <span>lifetime ($249.96 value)</span></div>
+      <ul class="features-list">
+        <li><strong>AI Workforce Pro™ Command Center</strong> ($99.99 value)</li>
+        <li><strong>Gemini PC Care™ Ultralight Optimizer</strong> ($49.99 value) — 1MB thermal & RAM guard</li>
+        <li><strong>Referral & Affiliate Tracker Pro™</strong> ($49.99 value) — Offline revenue ledger</li>
+        <li><strong>AirGap Redact Pro™ Privacy Sentinel</strong> ($49.99 value) — PII & credential cleaner</li>
+        <li><strong>Unified 1-Click System Launcher</strong> (`LAUNCH_ALL_SYSTEMS.bat`)</li>
+        <li><strong>Full Commercial Operator Manual</strong></li>
+      </ul>
+      <a href="https://payhip.com" class="btn btn-bundle" style="width:100%; justify-content:center;">Get The Power Bundle ($199.99)</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Sovereign Software Workstation. 100% Offline, Privacy-First Native Windows Applications.</p>
+    <p style="margin-top:0.5rem;"><a href="index.html" style="color:var(--accent); text-decoration:none;">Back to Main Storefront</a> • <a href="vaultprivacy.html" style="color:var(--muted); text-decoration:none;">VaultPrivacy</a> • <a href="jobmatch.html" style="color:var(--muted); text-decoration:none;">JobMatch Pro</a></p>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      document.getElementById('themeBtn').textContent = next === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode';
+    }
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.getElementById('themeBtn').textContent = '🌙 Dark Mode';
+    }
+  </script>
+</body>
+</html>
