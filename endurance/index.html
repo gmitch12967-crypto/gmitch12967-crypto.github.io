@@ -768,6 +768,51 @@
         console.log('SW registration error:', err);
       });
     }
+
+    // Auto-show Bottom Sheet on mobile
+    setTimeout(() => {
+      if (!window.matchMedia('(display-mode: standalone)').matches && window.navigator.standalone !== true) {
+        const sheet = document.getElementById('pwaInstallSheet');
+        if (sheet) sheet.style.display = 'block';
+      }
+    }, 1200);
+
+    function dismissInstallSheet() {
+      const sheet = document.getElementById('pwaInstallSheet');
+      if (sheet) sheet.style.display = 'none';
+    }
+  </script>
+
+  <!-- Floating PWA Install Bottom Sheet -->
+  <div id="pwaInstallSheet" style="display:none; position:fixed; bottom:75px; left:12px; right:12px; background:rgba(15,23,42,0.98); border:1px solid rgba(56,189,248,0.4); border-radius:18px; padding:16px; box-shadow:0 12px 35px rgba(0,0,0,0.6); z-index:99999; backdrop-filter:blur(16px); animation:slideUp 0.35s ease-out;">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+      <img src="./icon-192.png" style="width:48px; height:48px; border-radius:12px; box-shadow:0 4px 14px rgba(56,189,248,0.4);">
+      <div style="flex:1;">
+        <div style="font-weight:800; font-size:0.95rem; color:#fff;">Install App to Home Screen</div>
+        <div style="font-size:0.75rem; color:#94a3b8;">1-Click launch for your phone with zero delay</div>
+      </div>
+      <button onclick="dismissInstallSheet()" style="background:none; border:none; color:#64748b; font-size:1.2rem; cursor:pointer; padding:4px;">✕</button>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button id="pwaSheetBtn" onclick="triggerPwaInstall()" style="flex:1; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:12px; padding:12px; font-weight:800; font-size:0.85rem; cursor:pointer; box-shadow:0 4px 15px rgba(2,132,199,0.4);">
+        📲 Download &amp; Add App Icon
+      </button>
+      <button onclick="dismissInstallSheet()" style="background:rgba(255,255,255,0.08); color:#94a3b8; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px 14px; font-size:0.8rem; font-weight:600; cursor:pointer;">
+        Later
+      </button>
+    </div>
+    <div id="pwaInstructions" style="display:none; margin-top:12px; padding:10px; background:rgba(2,132,199,0.12); border:1px solid rgba(56,189,248,0.25); border-radius:10px; font-size:0.75rem; color:#e2e8f0; line-height:1.4;">
+      👉 <strong>To add to your Galaxy S10+:</strong><br>
+      Tap the browser menu (<strong>⋮</strong> in Chrome or <strong>≡</strong> in Samsung Internet) ➔ tap <strong>Add to Home screen</strong> (or <strong>Install App</strong>).
+    </div>
+  </div>
+
+  <style>
+  @keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  </style>
   </script>
 </body>
 </html>
