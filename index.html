@@ -671,6 +671,23 @@
     }
     footer a { color: #38bdf8; text-decoration: none; }
   </style>
+  <script>
+    // Force purge old service worker and stale browser cache on mobile
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let reg of registrations) {
+          reg.unregister();
+        }
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(keys => {
+        keys.forEach(k => {
+          if (!k.includes('v4-headline-99')) caches.delete(k);
+        });
+      });
+    }
+  </script>
   <script data-goatcounter="https://gmitch12967-crypto.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -816,33 +833,33 @@
     </div>
 
     <!-- Product Grid -->
-    <div class="product-grid" id="productGrid">      <!-- Product Card: AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber) -->
-      <article class="product-card" data-cat="privacy" data-title="AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)" data-fixes="Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.">
+    <div class="product-grid" id="productGrid">      <!-- Product Card: AI Workforce Pro™ Command Center (24-Worker Autonomous Pool) -->
+      <article class="product-card" data-cat="business" data-title="AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)" data-fixes="Exhausting expensive AI subscription credits (-/mo) and overheating your laptop CPU with heavy background automation tasks.">
         <div class="card-top">
-          <span class="cat-badge">Privacy & Security</span>
-          <span class="price-badge">$49.99</span>
+          <span class="cat-badge">Headline Flagship</span>
+          <span class="price-badge">$99.99</span>
         </div>
         <div class="card-header-row">
-          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
           <div class="card-title-group">
-            <h3>AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)</h3>
+            <h3>AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)</h3>
             <span class="sub-label">✓ Standalone Lifetime Edition</span>
           </div>
         </div>
         <div class="problem-box">
-          <strong>Fixes:</strong> Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.
+          <strong>Fixes:</strong> Exhausting expensive AI subscription credits (-/mo) and overheating your laptop CPU with heavy background automation tasks.
         </div>
         <ul class="features-list">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Scrubs all 18 HIPAA Safe-Harbor identifiers (45 CFR 164.514) 100% locally</li>
-<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Reversible local token vault + cryptographically signed SHA-256 Compliance Certificate</li>
-<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero cloud uploads — 100% air-gapped browser execution</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Dispatches background tasks to a 24-worker free cloud pool (.00 cost)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero laptop battery or RAM consumption (<1% local usage)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 30-second automated baton relay with instant failover</li>
 
         </ul>
         
         <!-- QR Code Ad Box (Instant Phone Scan) -->
         <div class="qr-ad-box">
-          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)', 'https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html')">
-            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html" width="72" height="72"></canvas>
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html" width="72" height="72"></canvas>
           </div>
           <div class="qr-info">
             <h5>
@@ -850,13 +867,13 @@
               Scan with Phone
             </h5>
             <p>Point phone camera to open product &amp; live interactive demo</p>
-            <button type="button" class="btn-qr-expand" onclick="openQrModal('AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)', 'https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html')">🔍 Enlarge QR</button>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">🔍 Enlarge QR</button>
           </div>
         </div>
 
         <div class="card-actions">
-          <a class="btn try" href="./tools/hipaa-pii-redactor/index.html">Try Free Online &rarr;</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($49.99)</a>
+          <a class="btn try" href="./tools/ats-resume-checker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($99.99)</a>
         </div>
       </article>      <!-- Product Card: Sovereign PC Care (1-Click Desktop Maintenance & AI) -->
       <article class="product-card" data-cat="privacy" data-title="Sovereign PC Care (1-Click Desktop Maintenance & AI)" data-fixes="Sluggish Windows laptops, cluttered temp caches, invasive background trackers, and confusing maintenance tasks that risk deleting your personal files.">
@@ -900,33 +917,33 @@
           <a class="btn try" href="./tools/photo-privacy-cleaner/index.html">Try Free Online &rarr;</a>
           <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($29.99)</a>
         </div>
-      </article>      <!-- Product Card: AI Workforce Pro™ Command Center (24-Worker Autonomous Pool) -->
-      <article class="product-card" data-cat="business" data-title="AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)" data-fixes="Exhausting expensive AI subscription credits (-/mo) and overheating your laptop CPU with heavy background automation tasks.">
+      </article>      <!-- Product Card: AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber) -->
+      <article class="product-card" data-cat="privacy" data-title="AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)" data-fixes="Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.">
         <div class="card-top">
-          <span class="cat-badge">Business & Automation</span>
-          <span class="price-badge">$99.99</span>
+          <span class="cat-badge">Privacy & Security</span>
+          <span class="price-badge">$49.99</span>
         </div>
         <div class="card-header-row">
-          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div class="card-title-group">
-            <h3>AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)</h3>
+            <h3>AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)</h3>
             <span class="sub-label">✓ Standalone Lifetime Edition</span>
           </div>
         </div>
         <div class="problem-box">
-          <strong>Fixes:</strong> Exhausting expensive AI subscription credits (-/mo) and overheating your laptop CPU with heavy background automation tasks.
+          <strong>Fixes:</strong> Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.
         </div>
         <ul class="features-list">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Dispatches background tasks to a 24-worker free cloud pool (.00 cost)</li>
-<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero laptop battery or RAM consumption (<1% local usage)</li>
-<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 30-second automated baton relay with instant failover</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Scrubs all 18 HIPAA Safe-Harbor identifiers (45 CFR 164.514) 100% locally</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Reversible local token vault + cryptographically signed SHA-256 Compliance Certificate</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero cloud uploads — 100% air-gapped browser execution</li>
 
         </ul>
         
         <!-- QR Code Ad Box (Instant Phone Scan) -->
         <div class="qr-ad-box">
-          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">
-            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html" width="72" height="72"></canvas>
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)', 'https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html" width="72" height="72"></canvas>
           </div>
           <div class="qr-info">
             <h5>
@@ -934,13 +951,13 @@
               Scan with Phone
             </h5>
             <p>Point phone camera to open product &amp; live interactive demo</p>
-            <button type="button" class="btn-qr-expand" onclick="openQrModal('AI Workforce Pro™ Command Center (24-Worker Autonomous Pool)', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">🔍 Enlarge QR</button>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)', 'https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html')">🔍 Enlarge QR</button>
           </div>
         </div>
 
         <div class="card-actions">
-          <a class="btn try" href="./tools/ats-resume-checker/index.html">Try Free Online &rarr;</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($99.99)</a>
+          <a class="btn try" href="./tools/hipaa-pii-redactor/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($49.99)</a>
         </div>
       </article>      <!-- Product Card: Clean a Spreadsheet (CSV) -->
       <article class="product-card" data-cat="data" data-title="Clean a Spreadsheet (CSV)" data-fixes="Messy customer lists, bank exports, or contact sheets full of duplicate rows, blank spaces, and corrupted delimiters.">
