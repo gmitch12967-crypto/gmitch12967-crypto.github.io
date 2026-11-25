@@ -1,1314 +1,373 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="alternate" hreflang="en" href="https://gmitch12967-crypto.github.io/" />
-  <link rel="alternate" hreflang="es" href="https://gmitch12967-crypto.github.io/?lang=es" />
-  <link rel="alternate" hreflang="de" href="https://gmitch12967-crypto.github.io/?lang=de" />
-  <link rel="alternate" hreflang="fr" href="https://gmitch12967-crypto.github.io/?lang=fr" />
-  <link rel="alternate" hreflang="ja" href="https://gmitch12967-crypto.github.io/?lang=ja" />
-  <link rel="alternate" hreflang="x-default" href="https://gmitch12967-crypto.github.io/" />
   <meta charset="UTF-8" />
-  <meta name='impact-site-verification' value='21468b2b-52cf-48da-b548-ea3558bf9dce'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Fix everyday file, photo, spreadsheet, and QR code headaches without subscriptions, watermarks, or uploading your private files. Try free online or grab the offline copy." />
-  <meta property="og:title" content="Evergreen Micro-Tools — Private, Zero-Subscription Browser Utilities" />
-  <meta property="og:description" content="Clean CSVs, shrink photos under 1 MB, make passport print sheets, fix European Excel files, and build never-expiring QR signs. 100% private on your device." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://gmitch12967-crypto.github.io/" />
-  <meta property="og:image" content="https://gmitch12967-crypto.github.io/hero-banner.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#0b1120" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" type="image/png" href="./icon-256.png" />
-  <link rel="apple-touch-icon" href="./icon-256.png" />
-  <script data-goatcounter="https://gmitch-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <title>Evergreen Micro-Tools — Fix File, Photo &amp; QR Headaches Without Subscriptions</title>
+  <meta name="description" content="Sovereign Standalone Software & Offline Privacy Utilities. 100% private, zero-install, zero-subscription desktop applications." />
+  <title>Sovereign Software Store — Standalone Offline Utilities</title>
   <style>
     :root {
-      --bg: #0b1120;
-      --surface: #111a2e;
-      --card: #16223a;
-      --border: #263656;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --card: #162238;
+      --border: #334155;
       --text: #f8fafc;
       --muted: #94a3b8;
       --accent: #38bdf8;
       --green: #22c55e;
-      --green-dark: #052e16;
-      --gold: #fbbf24;
+      --blue: #2563eb;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(circle at top center, #172542 0%, var(--bg) 55%);
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      padding: 2rem 1rem 4rem;
+      line-height: 1.5;
+      padding: 1.5rem 1rem 4rem;
     }
-    .container { max-width: 1080px; margin: 0 auto; }
+    .container { max-width: 1100px; margin: 0 auto; }
 
-    /* Hero */
-    header {
-      text-align: center;
-      padding: 2.25rem 1.5rem;
-      background: linear-gradient(145deg, rgba(22,34,58,0.95), rgba(15,23,42,0.95));
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      margin-bottom: 1.75rem;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-    }
-    .badge {
-      display: inline-block;
-      background: rgba(56, 189, 248, 0.14);
-      color: var(--accent);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      margin-bottom: 0.9rem;
-    }
-    h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; margin-bottom: 0.7rem; }
-    header p { color: var(--muted); max-width: 680px; margin: 0 auto 1.35rem; font-size: 1.02rem; }
-    .hero-cta { display: flex; justify-content: center; gap: 0.85rem; flex-wrap: wrap; }
-    .hero-btn {
-      display: inline-block;
-      padding: 0.75rem 1.3rem;
-      border-radius: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-    .hero-btn.primary { background: var(--green); color: var(--green-dark); }
-    .hero-btn.secondary { background: rgba(56,189,248,0.14); color: var(--accent); border: 1px solid rgba(56,189,248,0.4); }
-
-    /* Trust Strip */
-    .trust-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 0.9rem;
-      margin-bottom: 1.75rem;
-    }
-    .trust-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1.1rem;
-    }
-    .trust-item strong { display: block; color: var(--text); font-size: 0.95rem; margin-bottom: 0.2rem; }
-    .trust-item span { color: var(--muted); font-size: 0.86rem; }
-
-    .bento-featured { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
-    @media (max-width: 820px) { .bento-featured { grid-template-columns: 1fr; } }
-    .bento-card { background: linear-gradient(145deg, rgba(30,41,59,0.96), rgba(15,23,42,0.96)); border: 1px solid rgba(56,189,248,0.35); border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; text-decoration: none; color: var(--text); transition: transform 0.18s, border-color 0.2s; }
-    .bento-card:hover { transform: translateY(-3px); border-color: var(--green); }
-    .outcome-pill { display: inline-block; font-size: 0.78rem; font-weight: 700; padding: 0.22rem 0.65rem; border-radius: 999px; background: rgba(34,197,94,0.16); color: #86efac; border: 1px solid rgba(34,197,94,0.35); margin-bottom: 0.55rem; width: fit-content; }
-    /* Filter Bar */
-    .filter-bar {
+    /* Top Nav */
+    .nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
+      padding: 1rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2rem;
     }
-    .filter-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .pill-btn {
+    .brand { font-size: 1.25rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-badge { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+
+    /* Hero Spotlight */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto 1.5rem; }
+
+    /* Search & Filter Bar (Zero Endless Scroll) */
+    .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .cat-tab {
       background: var(--surface);
       color: var(--muted);
       border: 1px solid var(--border);
-      padding: 0.45rem 0.9rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s;
     }
-    .pill-btn.active { background: var(--accent); color: #0b1120; border-color: var(--accent); }
+    .cat-tab:hover, .cat-tab.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
 
-    /* Cards */
-    .grid {
+    /* Modern App Store Grid */
+    .app-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.25rem;
     }
-    .card {
-      background: linear-gradient(180deg, rgba(30,41,59,0.92) 0%, var(--card) 100%);
+    .app-card {
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-top: 4px solid var(--accent);
-      border-radius: 16px;
-      padding: 1.4rem;
+      border-radius: 12px;
+      padding: 1.25rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
-      transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+      transition: transform 0.15s, border-color 0.15s;
     }
-    .card[data-cat="photo"] { border-top-color: #22c55e; }
-    .card[data-cat="csv"] { border-top-color: #a78bfa; }
-    .card[data-cat="qr"] { border-top-color: #f472b6; }
-    .card[data-cat="ai"] { border-top-color: #fbbf24; }
-    .card[data-cat="docs"] { border-top-color: #38bdf8; }
-    .card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 18px 34px rgba(15,23,42,0.55); }
-    .search-input {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.48rem 1rem;
-      font-size: 0.88rem;
-      min-width: 230px;
-      outline: none;
+    .app-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
     }
-    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56,189,248,0.18); }
-    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; gap: 0.5rem; }
-    .status { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-    .status.live { color: var(--green); }
-    .status.soon { color: var(--gold); }
-    .price-tag {
-      background: rgba(34,197,94,0.15);
-      color: var(--green);
-      border: 1px solid rgba(34,197,94,0.35);
-      padding: 0.18rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
+    .card-top {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
     }
-    .title-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.55rem; }
-    .title-row h2 { margin-bottom: 0; font-size: 1.15rem; line-height: 1.25; }
     .app-icon {
-      width: 44px; height: 44px; flex: 0 0 44px; border-radius: 12px;
-      display: grid; place-items: center;
-      background: linear-gradient(135deg, rgba(56,189,248,0.28), rgba(34,197,94,0.22));
-      border: 1px solid rgba(56,189,248,0.45);
-      box-shadow: 0 6px 16px rgba(56,189,248,0.2);
-      color: #7dd3fc;
+      font-size: 2rem;
+      width: 52px;
+      height: 52px;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.25);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .card[data-cat="photo"] .app-icon { background: linear-gradient(135deg, rgba(34,197,94,0.3), rgba(20,184,166,0.22)); border-color: rgba(34,197,94,0.5); box-shadow: 0 6px 16px rgba(34,197,94,0.2); color: #86efac; }
-    .card[data-cat="csv"] .app-icon { background: linear-gradient(135deg, rgba(167,139,250,0.32), rgba(56,189,248,0.2)); border-color: rgba(167,139,250,0.5); box-shadow: 0 6px 16px rgba(167,139,250,0.2); color: #ddd6fe; }
-    .card[data-cat="qr"] .app-icon { background: linear-gradient(135deg, rgba(244,114,182,0.3), rgba(168,85,247,0.22)); border-color: rgba(244,114,182,0.5); box-shadow: 0 6px 16px rgba(244,114,182,0.2); color: #fbcfe8; }
-    .card[data-cat="ai"] .app-icon { background: linear-gradient(135deg, rgba(251,191,36,0.32), rgba(249,115,22,0.22)); border-color: rgba(251,191,36,0.55); box-shadow: 0 6px 16px rgba(251,191,36,0.24); color: #fde68a; }
-    .card h2 { font-size: 1.22rem; margin-bottom: 0.5rem; }
-    .problem-box {
-      background: rgba(11, 17, 32, 0.6);
-      border-left: 3px solid var(--accent);
-      padding: 0.65rem 0.8rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-      color: #cbd5e1;
-      margin-bottom: 0.85rem;
-    }
-    .features {
-      list-style: none;
-      display: grid;
-      gap: 0.3rem;
-      margin-bottom: 1.2rem;
-      font-size: 0.88rem;
+    .app-meta h3 { font-size: 1.15rem; font-weight: 700; color: #fff; }
+    .app-tag { font-size: 0.75rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+    .app-desc {
       color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.45;
     }
-    .features li::before { content: "✓ "; color: var(--green); font-weight: 700; }
-    .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-    .btn {
-      display: inline-block;
-      text-align: center;
-      padding: 0.65rem 0.75rem;
-      border-radius: 8px;
-      font-weight: 700;
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .price-tag {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .btn-buy {
+      background: var(--green);
+      color: #052e16;
       text-decoration: none;
-      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
     }
-    .btn.try { background: var(--accent); color: #0b1120; }
-    .btn.buy { background: var(--green); color: var(--green-dark); }
-    .btn.disabled { background: #263656; color: #94a3b8; pointer-events: none; grid-column: span 2; }
+    .btn-buy:hover { opacity: 0.9; }
 
+    /* Footer */
     footer {
       text-align: center;
-      margin-top: 3rem;
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
       color: var(--muted);
       font-size: 0.85rem;
-      border-top: 1px solid var(--border);
-      padding-top: 1.5rem;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
-    <!-- 🌐 1-Click International Region & Language Selector -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:0.75rem;">
-      <div style="font-size:0.82rem;color:#38bdf8;font-weight:600;display:flex;align-items:center;gap:0.35rem;">
-        <span>🔒</span> 100% Client-Side Privacy • Multi-Currency Payhip Cloud Delivery
-      </div>
-      <label style="font-size:0.85rem;color:#94a3b8;display:flex;align-items:center;gap:0.4rem;">
-        <span>🌐 Region / Language:</span>
-        <select id="langSelector" style="background:#0f172a;color:#f8fafc;border:1px solid #334155;border-radius:6px;padding:0.3rem 0.65rem;font-size:0.82rem;font-weight:600;cursor:pointer;">
-          <option value="en">🇺🇸 English (US & Global)</option>
-          <option value="es">🇪🇸 Español (Spanish)</option>
-          <option value="de">🇩🇪 Deutsch (German)</option>
-          <option value="fr">🇫🇷 Français (French)</option>
-          <option value="ja">🇯🇵 日本語 (Japanese)</option>
-        </select>
-      </label>
+    
+    <!-- Top Nav -->
+    <div class="nav">
+      <div class="brand">🛡️ Sovereign Software</div>
+      <div class="nav-badge">100% Offline • Standalone Applications</div>
     </div>
-  <link rel="alternate" hreflang="en" href="https://gmitch12967-crypto.github.io/" />
-  <link rel="alternate" hreflang="es" href="https://gmitch12967-crypto.github.io/?lang=es" />
-  <link rel="alternate" hreflang="de" href="https://gmitch12967-crypto.github.io/?lang=de" />
-  <link rel="alternate" hreflang="fr" href="https://gmitch12967-crypto.github.io/?lang=fr" />
-  <link rel="alternate" hreflang="ja" href="https://gmitch12967-crypto.github.io/?lang=ja" />
-  <link rel="alternate" hreflang="x-default" href="https://gmitch12967-crypto.github.io/" />
-      <div class="badge">100% Private • Zero Uploads • No Monthly Subscriptions</div>
-      <h1>Everyday Tools That Just Work — No Paywalls or Watermarks</h1>
-      <p>Tired of websites that make you upload private IDs, slap watermarks on your work, or lock basic tools behind $15/month subscriptions? Try every tool free right here in your browser, or buy the offline copy once to keep forever.</p>
-      <div class="hero-cta">
-        <a class="hero-btn secondary" href="#tools">Browse All Tools ↓</a>
-        <a class="hero-btn primary" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Browse All Single Tools (From $0.99) →</a>
-        <a class="hero-btn secondary" href="./tools/hipaa-pii-redactor/index.html" style="border-color:rgba(248,113,113,0.55);color:#fca5a5;">AirGap Redact Pro (HIPAA/PII) ↗</a>
-        <a class="hero-btn secondary" href="https://github.com/gmitch12967-crypto/gmitch12967-crypto.github.io/releases/tag/v2.4.0" target="_blank" rel="noopener" style="border-color:rgba(167,139,250,0.55);color:#ddd6fe;">SHA-256 Security Manifests (v2.4.0) ↗</a>
-        <a class="hero-btn secondary" href="./guides/index.html">Buyer Guides →</a>
-        <a class="hero-btn secondary" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Individual Tools (From $0.99)</a>
-        <a class="hero-btn secondary" href="./help.html">Help &amp; FAQ</a>
-        <button type="button" id="emtShareBtn" class="hero-btn secondary" style="cursor:pointer;">Share Library ↗</button>
-        <button type="button" id="pwaInstallBtn" style="display:none;background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;border:none;padding:0.4rem 0.95rem;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;align-items:center;gap:0.4rem;box-shadow:0 4px 12px rgba(2,132,199,0.35);">
-          <span>📱</span> Install as Desktop / Mobile App
-        </button>
-      </div>
-    </header>
 
-      <!-- 🎁 100% Free VIP Lead Capture Box -->
-      <section style="background: radial-gradient(circle at center, #1e293b, #0f172a); border: 2px dashed #0284c7; border-radius: 16px; padding: 2rem 1.5rem; margin: 2rem 0; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
-        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">100% Free Gift</span>
-        <h2 style="font-size: 1.5rem; color: #fff; margin: 0.6rem 0 0.4rem;">Get 3 Free Offline Desktop Tools + VIP Privacy Guides</h2>
-        <p style="color: #94a3b8; font-size: 0.95rem; max-width: 600px; margin: 0 auto 1.25rem;">Enter your email to receive direct offline ZIP downloads of our top micro-tools, plus new tool releases every Tuesday. Zero spam, zero trackers.</p>
-        
-        <form id="leadForm" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; max-width: 520px; margin: 0 auto;">
-          <input type="email" id="leadEmail" placeholder="Enter your best email address..." required style="flex: 1; min-width: 260px; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 0.75rem 1rem; color: #fff; font-size: 0.95rem; outline: none;" />
-          <button type="submit" style="background: #22c55e; color: #052e16; border: none; padding: 0.75rem 1.4rem; border-radius: 8px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: transform 0.15s; white-space: nowrap;">⚡ Send My Free Tools</button>
-        </form>
-        <div id="leadSuccess" style="display: none; color: #4ade80; font-weight: 700; margin-top: 1rem; font-size: 0.95rem;">
-          ✅ You're on the VIP list! Check your inbox shortly for your offline tool package.
-        </div>
-      </section>
+    <!-- Hero Spotlight -->
+    <div class="hero">
+      <h1>Simple, Powerful Standalone Apps</h1>
+      <p>Zero subscriptions, zero tracking, and zero bloated menus. Every application is a fast, standalone offline tool that does exactly what you need.</p>
+    </div>
 
-    <div class="trust-strip">
-      <div class="trust-item">
-        <strong>Your Files Stay Private</strong>
-        <span>Everything runs inside your own browser. Nothing is ever sent to a server.</span>
-      </div>
-      <div class="trust-item">
-        <strong>Pay Once, Keep Forever</strong>
-        <span>Use online free anytime, or grab an offline copy from $0.99 (Cards, Apple Pay, Google Pay, PayPal &amp; Venmo accepted).</span>
-      </div>
-      <div class="trust-item">
-        <strong>Authenticode-Signed &amp; SHA-256 Verified</strong>
-        <span>All downloadable ZIP packages include SHA256_SECURITY_MANIFEST.txt for 100% safe downloads (<a href="https://www.saashub.com/evergreen-micro-tools" target="_blank" rel="noopener" style="color:#86efac;">Approved &amp; Verified on SaaSHub ↗</a>).</span>
+    <!-- Interactive Category Filter Bar (Eliminates Endless Scrolling) -->
+    <div class="filter-bar">
+      <input type="text" class="search-input" id="searchBar" placeholder="🔍 Search any app or tool (e.g. PC Care, Photo, PDF, Invoice)..." onkeyup="filterApps()">
+      <div class="category-tabs">
+        <button class="cat-tab active" onclick="setCategory('all', this)">⭐ All Applications</button>
+        <button class="cat-tab" onclick="setCategory('privacy', this)">🛡️ Privacy & Anti-Tracking</button>
+        <button class="cat-tab" onclick="setCategory('photo', this)">📸 Photo & Media</button>
+        <button class="cat-tab" onclick="setCategory('documents', this)">📄 PDF & Documents</button>
+        <button class="cat-tab" onclick="setCategory('business', this)">💼 Business & Data</button>
       </div>
     </div>
 
-    <div style="margin:0 0 1.25rem;padding:1rem 1.25rem;border-radius:14px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.35);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
-      <div>
-        <strong style="color:#7dd3fc;">Partner, Affiliate (30%) &amp; B2B Team Licenses ($199–$399)</strong>
-        <div style="font-size:0.88rem;color:var(--muted);">Creators earn 30% per sale promoting Evergreen Micro-Tools. Accounting, healthcare, legal &amp; HR teams can license offline packs for all staff.</div>
+    <!-- Clean App Store Grid -->
+    <div class="app-grid" id="appGrid">
+
+      <!-- Sovereign PC Care -->
+      <div class="app-card" data-cat="privacy" data-name="sovereign pc care cleaner 1-click auto-run">
+        <div class="card-top">
+          <div class="app-icon">⚡</div>
+          <div class="app-meta">
+            <span class="app-tag">System & Privacy</span>
+            <h3>Sovereign PC Care AI</h3>
+          </div>
+        </div>
+        <p class="app-desc">Toddler-simple 1-Click Clean hero button with embedded Operating AI. Auto-runs in background and silences Windows telemetry. 100% zero data loss.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$29.99</div>
+          <a href="https://payhip.com/b/BtPCO" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
       </div>
-      <a class="hero-btn secondary" href="mailto:contact@sovereignsoftware.org?subject=Affiliate%20or%20B2B%20Team%20License" style="white-space:nowrap;">Partner / Team Inquiry →</a>
+
+      <!-- Photo Privacy Cleaner -->
+      <div class="app-card" data-cat="photo" data-name="photo privacy cleaner exif gps stripper">
+        <div class="card-top">
+          <div class="app-icon">📸</div>
+          <div class="app-meta">
+            <span class="app-tag">Photo & Privacy</span>
+            <h3>Photo Privacy Cleaner</h3>
+          </div>
+        </div>
+        <p class="app-desc">Drag-and-drop offline photo scrubber. Permanently strips GPS home coordinates, camera model, and hidden EXIF tracking tags before posting online.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$19.99</div>
+          <a href="https://payhip.com/b/B1iYM" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
+      <!-- AI Endurance -->
+      <div class="app-card" data-cat="privacy" data-name="ai endurance autonomous workforce coordinator">
+        <div class="card-top">
+          <div class="app-icon">🤖</div>
+          <div class="app-meta">
+            <span class="app-tag">AI Workforce</span>
+            <h3>AI Endurance</h3>
+          </div>
+        </div>
+        <p class="app-desc">Autonomous background workforce coordinator. Manages 24 free cloud AI worker slots with zero laptop CPU/RAM consumption and 30s baton relay.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$39.99</div>
+          <a href="https://payhip.com/b/H9NPp" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
+      <!-- AirGap Redact Pro -->
+      <div class="app-card" data-cat="privacy" data-name="airgap redact pro hipaa pii legal">
+        <div class="card-top">
+          <div class="app-icon">🔒</div>
+          <div class="app-meta">
+            <span class="app-tag">Legal & Privacy</span>
+            <h3>AirGap Redact Pro</h3>
+          </div>
+        </div>
+        <p class="app-desc">100% local HIPAA/PII confidential document redactor. Removes SSNs, medical IDs, and names offline with SHA-256 tamper-proof verification.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$24.99</div>
+          <a href="https://payhip.com/b/sHVTN" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
+      <!-- PDF Sovereign Combiner -->
+      <div class="app-card" data-cat="documents" data-name="pdf combiner merge split offline">
+        <div class="card-top">
+          <div class="app-icon">📄</div>
+          <div class="app-meta">
+            <span class="app-tag">PDF Utility</span>
+            <h3>PDF Sovereign Combiner</h3>
+          </div>
+        </div>
+        <p class="app-desc">Merge, reorder, and split large PDF documents offline. No page limits, zero server uploads, and no monthly Adobe subscriptions.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$19.99</div>
+          <a href="https://payhip.com/b/gs3rw" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
+      <!-- Offline Digital Signer -->
+      <div class="app-card" data-cat="documents" data-name="pdf signer signature document offline">
+        <div class="card-top">
+          <div class="app-icon">✍️</div>
+          <div class="app-meta">
+            <span class="app-tag">Legal Documents</span>
+            <h3>Offline PDF Signer</h3>
+          </div>
+        </div>
+        <p class="app-desc">Sign contracts and legal PDFs with a single tap directly on your computer or phone. Completely private with zero third-party cloud logging.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$19.99</div>
+          <a href="https://payhip.com/b/jD9d4" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
+      <!-- Sovereign Contractor Invoicer -->
+      <div class="app-card" data-cat="business" data-name="invoice maker contractor receipt billing">
+        <div class="card-top">
+          <div class="app-icon">💼</div>
+          <div class="app-meta">
+            <span class="app-tag">Trade & Business</span>
+            <h3>Paperless Contractor Invoicer</h3>
+          </div>
+        </div>
+        <p class="app-desc">Clean, professional invoice and quote generator for trades, freelancers, and solos. Auto-calculates tax, itemizes work, and exports printable PDFs.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$24.99</div>
+          <a href="https://payhip.com/b/9fGU4" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
+      <!-- DataVault CSV Fixer -->
+      <div class="app-card" data-cat="business" data-name="csv cleaner fixer excel bank data">
+        <div class="card-top">
+          <div class="app-icon">📊</div>
+          <div class="app-meta">
+            <span class="app-tag">Data & Spreadsheets</span>
+            <h3>DataVault CSV Fixer</h3>
+          </div>
+        </div>
+        <p class="app-desc">Automatically repairs broken bank CSV exports, corrupted delimiters, missing headers, and European date formats in seconds.</p>
+        <div class="card-bottom">
+          <div class="price-tag">$19.99</div>
+          <a href="https://payhip.com/b/WphlG" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        </div>
+      </div>
+
     </div>
 
-    <div class="bento-featured">
-      <a class="bento-card" href="./tools/pdf-shrinker/index.html" style="border-color:rgba(56,189,248,0.5);">
-        <div>
-          <span class="outcome-pill">Most Popular • 14.2 MB → 840 KB</span>
-          <h2 style="font-size:1.3rem;margin-bottom:0.35rem;">PDF Size Shrinker (Under 1 MB / 2 MB)</h2>
-          <p style="font-size:0.88rem;color:var(--muted);">Fix "file too large" rejections on visa, court, job &amp; school portals — 100% locally in your browser.</p>
-        </div>
-        <span style="margin-top:0.85rem;color:var(--accent);font-weight:700;font-size:0.88rem;">Try Free Online →</span>
-      </a>
-      <a class="bento-card" href="./tools/ats-resume-checker/index.html" style="border-color:rgba(251,191,36,0.45);">
-        <div>
-          <span class="outcome-pill" style="background:rgba(251,191,36,0.16);color:#fde68a;border-color:rgba(251,191,36,0.4);">Career Boost • 94% ATS Match</span>
-          <h2 style="font-size:1.12rem;margin-bottom:0.35rem;">ATS Resume Keyword Fixer</h2>
-          <p style="font-size:0.86rem;color:var(--muted);">Spot missing job keywords &amp; formatting traps before applying.</p>
-        </div>
-        <span style="margin-top:0.85rem;color:#fde68a;font-weight:700;font-size:0.88rem;">Check Resume →</span>
-      </a>
-      <a class="bento-card" href="./tools/pdf-combiner/index.html" style="border-color:rgba(34,197,94,0.45);">
-        <div>
-          <span class="outcome-pill">100% Local • No Upload Limit</span>
-          <h2 style="font-size:1.12rem;margin-bottom:0.35rem;">Combine or Split Private PDFs</h2>
-          <p style="font-size:0.86rem;color:var(--muted);">Merge, split, or rotate tax &amp; lease PDFs privately in your browser.</p>
-        </div>
-        <span style="margin-top:0.85rem;color:var(--green);font-weight:700;font-size:0.88rem;">Open PDF Tool →</span>
-      </a>
-    </div>
-    <div id="buyerComparisonSection" style="margin:0 0 1.75rem;background:linear-gradient(145deg,#16223a,#0f172a);border:1px solid #22c55e;border-radius:16px;padding:1.35rem;">
-      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.75rem;margin-bottom:0.85rem;">
-        <div>
-          <span style="background:rgba(34,197,94,0.16);color:#86efac;border:1px solid rgba(34,197,94,0.4);padding:0.22rem 0.75rem;border-radius:999px;font-size:0.76rem;font-weight:700;">✓ BUYER COMPARISON &amp; WHAT'S INSIDE EVERY OFFLINE ZIP</span>
-          <h2 style="font-size:1.22rem;margin-top:0.45rem;">Why Buyers Choose Our $0.99–$29.99 Offline ZIPs Over $15–$25/mo Cloud Subscriptions</h2>
-        </div>
-        <a class="hero-btn primary" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener" style="font-size:0.86rem;padding:0.55rem 1.05rem;">Browse Single Tools (From $0.99) ↗</a>
-      </div>
-      <div style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;text-align:left;">
-          <thead>
-            <tr style="border-bottom:1px solid #334155;color:#7dd3fc;">
-              <th style="padding:0.55rem;">Buyer Question</th>
-              <th style="padding:0.55rem;">Free Browser Trial (Here)</th>
-              <th style="padding:0.55rem;color:#4ade80;">Our Paid Offline Edition ($0.99–$29.99)</th>
-              <th style="padding:0.55rem;color:#fca5a5;">Smallpdf / iLovePDF / DocuSign ($12–$25/mo)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid #1e293b;">
-              <td style="padding:0.55rem;font-weight:700;">Page, Row &amp; Batch Limits</td>
-              <td style="padding:0.55rem;color:#cbd5e1;">Trial Cap (2–3 pages / 25 rows / 1 file)</td>
-              <td style="padding:0.55rem;color:#4ade80;font-weight:700;">100% UNLIMITED Pages, Rows &amp; Batch Files Forever</td>
-              <td style="padding:0.55rem;color:#94a3b8;">Daily paywall after 1–2 files unless you subscribe monthly</td>
-            </tr>
-            <tr style="border-bottom:1px solid #1e293b;">
-              <td style="padding:0.55rem;font-weight:700;">Privacy &amp; Air-Gap Security</td>
-              <td style="padding:0.55rem;color:#cbd5e1;">100% Local in Browser</td>
-              <td style="padding:0.55rem;color:#4ade80;font-weight:700;">Runs 100% Offline on Your PC/Mac (Even With Wi-Fi Off)</td>
-              <td style="padding:0.55rem;color:#fca5a5;">Uploads your private tax, ID, HIPAA &amp; legal files to cloud servers</td>
-            </tr>
-            <tr style="border-bottom:1px solid #1e293b;">
-              <td style="padding:0.55rem;font-weight:700;">What Is Inside the Download ZIP?</td>
-              <td style="padding:0.55rem;color:#cbd5e1;">Web Trial Only</td>
-              <td style="padding:0.55rem;color:#4ade80;font-weight:700;">Unlocked Offline App + Offline JS Engine + <code>README.txt</code> + <code>SHA256_SECURITY_MANIFEST.txt</code></td>
-              <td style="padding:0.55rem;color:#94a3b8;">Zero offline ownership — lose access the day you stop paying</td>
-            </tr>
-            <tr>
-              <td style="padding:0.55rem;font-weight:700;">2-Year Cost</td>
-              <td style="padding:0.55rem;color:#cbd5e1;">$0.00 (Limited Trial)</td>
-              <td style="padding:0.55rem;color:#4ade80;font-weight:700;">$0.99 to $29.99 One-Time (Keep Forever)</td>
-              <td style="padding:0.55rem;color:#fca5a5;">$288.00 to $600.00+ in recurring monthly fees</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="filter-bar" id="tools">
-      <div class="filter-pills">
-        <button class="pill-btn active" data-filter="all">All Tools (25 Live)</button>
-        <button class="pill-btn" data-filter="ai">HIPAA &amp; AI Privacy</button>
-        <button class="pill-btn" data-filter="docs">PDF &amp; Docs</button>
-        <button class="pill-btn" data-filter="photo">Photos &amp; Print</button>
-        <button class="pill-btn" data-filter="csv">Spreadsheets &amp; Email</button>
-        <button class="pill-btn" data-filter="qr">QR &amp; Signs</button>
-      </div>
-      <input type="search" id="searchBox" class="search-input" placeholder="Search tools (PDF, HIPAA, HEIC, CSV, Resume...)" />
-    </div>
-
-    <div class="grid" id="toolGrid">
-      <div class="card" data-cat="ai">
-        <div>
-          <div class="card-head">
-            <span class="status live">● B2B Flagship — Ready</span>
-            <span class="price-tag">Desktop Pro $49.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><h2>AirGap Redact Pro (HIPAA, Legal &amp; AI PII Scrubber)</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.</div>
-          <ul class="features">
-            <li>Scrubs all 18 HIPAA Safe-Harbor identifiers (45 CFR 164.514) 100% locally</li>
-            <li>Reversible local token vault + cryptographically signed SHA-256 Compliance Certificate</li>
-            <li>Try the live browser redactor free or get the Offline Suite</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/hipaa-pii-redactor/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Single License ($19)</a>
-        </div>
-      </div>
-      <div class="card" data-cat="csv">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #1 — Ready</span>
-            <span class="price-tag">Offline Copy $0.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span><h2>Clean a Spreadsheet (CSV)</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Messy customer lists, bank exports, or contact sheets full of repeat lines, blank rows, and hidden spaces — without needing Excel formulas.</div>
-          <ul class="features">
-            <li>Removes repeat lines (even if CAPITAL letters differ)</li>
-            <li>Clears blank rows &amp; extra spaces in 1 click</li>
-            <li>Preview right away and save your clean file</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/csv-cleaner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/XV7ZI" target="_blank" rel="noopener">Buy Offline ($0.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #2 — Ready</span>
-            <span class="price-tag">Offline Copy $1.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 14l3-3 4 4 3-3"/></svg></span><h2>Shrink a Photo to Fit</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Website portals rejecting your ID scan, document picture, or photo for being over 1 MB or 2 MB — without uploading private photos anywhere.</div>
-          <ul class="features">
-            <li>Targets Under 200 KB, 500 KB, 1 MB, or 2 MB</li>
-            <li>Before &amp; after preview with exact space saved</li>
-            <li>Zero watermarks, zero quality guesswork</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/image-shrinker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/7GxBD" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #3 — Ready</span>
-            <span class="price-tag">Offline Print Sheet $3.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8 17c1.2-2 6.8-2 8 0"/></svg></span><h2>Passport &amp; Visa Photo Maker</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> The $13–$17 paywalls and watermarks on passport photo websites (and $15+ store counter fees).</div>
-          <ul class="features">
-            <li>Presets for US (2×2 in), UK/EU/India/Japan (35×45 mm), Canada &amp; China</li>
-            <li>Instant 4×6 inch or A4 printable sheet with cut lines</li>
-            <li>Zoom &amp; center sliders at crisp 300 DPI</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/passport-photo/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/sphoS" target="_blank" rel="noopener">Buy Offline ($3.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="csv">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #4 — Ready</span>
-            <span class="price-tag">Offline Copy $1.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><h2>International CSV &amp; Date Fixer</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Excel scrambling European or global CSV files into one column because of semicolons (<code>;</code>) vs commas (<code>,</code>) and flipped dates.</div>
-          <ul class="features">
-            <li>Switches commas (<code>,</code>) and semicolons (<code>;</code>) cleanly</li>
-            <li>Converts DD/MM/YYYY, MM/DD/YYYY &amp; YYYY-MM-DD</li>
-            <li>Auto-detects messy incoming files</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/csv-global-fixer/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/WphlG" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="qr">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #5 — Ready</span>
-            <span class="price-tag">Offline Copy $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg></span><h2>Forever-Static QR &amp; Wi-Fi Sign Maker</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> The "QR code subscription trap" where free sites break your printed menus, flyers, or Wi-Fi signs unless you pay $10–$50/month.</div>
-          <ul class="features">
-            <li>Direct static codes that never expire &amp; never track</li>
-            <li>Supports website links and Guest Wi-Fi login cards</li>
-            <li>1-click PNG download or ready-to-print countertop sign</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/qr-sign-maker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/ZKEcf" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #6 — Ready</span>
-            <span class="price-tag">Offline Copy $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span><h2>Photo Privacy Cleaner</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Phone photos leaking your hidden home GPS location, camera model, and date when posted on Marketplace, Craigslist, or forums.</div>
-          <ul class="features">
-            <li>Scans &amp; wipes all hidden EXIF and GPS location data</li>
-            <li>Runs 100% in your browser — zero uploads</li>
-            <li>Exports a clean JPG ready to post safely</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/photo-privacy-cleaner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/B1iYM" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #8 — Ready</span>
-            <span class="price-tag">Offline $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6"/></svg></span><h2>Combine or Split Private PDFs</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Having to upload private tax, lease, or ID PDFs to random websites just to merge, split, or rotate pages.</div>
-          <ul class="features">
-            <li>Merge multiple PDFs or keep only specific page ranges</li>
-            <li>Reorder or rotate pages 90° right in your browser</li>
-            <li>Free online trial up to 3 pages</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/pdf-combiner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/gs3rw" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #9 — Ready</span>
-            <span class="price-tag">Offline $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><h2>Sign &amp; Date Any PDF Locally</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Adobe paywalls and account signups just to sign and date a permission slip, lease, or W-9.</div>
-          <ul class="features">
-            <li>Draw with mouse/finger or stamp a typed signature</li>
-            <li>Auto-adds today's date onto any page corner</li>
-            <li>Free online trial includes 1 signed PDF download</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/pdf-signer/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/jD9d4" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #10 — Ready</span>
-            <span class="price-tag">Offline $1.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-5L5 19"/></svg></span><h2>Convert iPhone HEIC &amp; WebP to JPG</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Job portals and Windows apps rejecting iPhone <code>.HEIC</code> or saved <code>.WebP</code> photos.</div>
-          <ul class="features">
-            <li>Converts HEIC, WebP, AVIF, and PNG to standard JPG</li>
-            <li>100% local in your browser — zero uploads</li>
-            <li>Free online trial includes 1 photo download</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/heic-jpg-converter/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/cop3A" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #11 — Ready</span>
-            <span class="price-tag">Offline $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h4M7 13h10M7 16h6"/></svg></span><h2>Front &amp; Back ID Card on 1 Page</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Struggling in Word to put both sides of an ID or insurance card onto one printable Letter/A4 page.</div>
-          <ul class="features">
-            <li>Auto-fits front and back at actual card size (or 1.5×)</li>
-            <li>Rotate either side 90° with one click</li>
-            <li>Free online trial includes 1 printable sheet</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/id-card-sheet/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/6nwE7" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #12 — Ready</span>
-            <span class="price-tag">Offline $1.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 12h10" stroke-width="4"/></svg></span><h2>Permanent Blackout Redactor</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Semi-transparent phone markers that let strangers brighten a screenshot and read your private info underneath.</div>
-          <ul class="features">
-            <li>Permanently overwrites pixels with solid black or white</li>
-            <li>Works on mouse &amp; phone touchscreens</li>
-            <li>Free online trial includes 1 redacted image</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/photo-redactor/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/sHVTN" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #13 — Ready</span>
-            <span class="price-tag">Offline $1.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v18l3-2 3 2 3-2 3 2 2-2V3H5z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><h2>Shadow-Free Receipt &amp; Scan Cleaner</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Dark, shadowy phone photos of paper receipts, bills, or forms that waste ink when printed.</div>
-          <ul class="features">
-            <li>Turns gray backgrounds crisp white and sharpens text</li>
-            <li>Black &amp; white or clean color mode</li>
-            <li>Free online trial includes 1 cleaned scan</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/receipt-cleaner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/9TRJ7" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #14 — Ready</span>
-            <span class="price-tag">Offline $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 11v6M9 14h6"/></svg></span><h2>1-Minute Invoice &amp; Receipt Maker</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Accounting software signups and watermarks when you just need a clean 1-page PDF invoice or receipt.</div>
-          <ul class="features">
-            <li>Live preview with auto-calculated line totals</li>
-            <li>Prints or saves directly as a clean PDF</li>
-            <li>Free online trial includes 1 PDF print/save</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/invoice-maker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/9fGU4" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #15 — Ready</span>
-            <span class="price-tag">Offline $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 5h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M12 3v18"/></svg></span><h2>Spot What Changed in 2 Contracts</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Reading 5 pages word-by-word to spot sneaky edits in a revised lease, contract, or letter.</div>
-          <ul class="features">
-            <li>Highlights every added line in green and removed in red</li>
-            <li>100% local — never uploads private agreements</li>
-            <li>Free online trial compares up to 25 lines</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/text-diff/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/ZRTUc" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="csv">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #16 — Ready</span>
-            <span class="price-tag">Offline $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span><h2>Bank CSV to Expense Totals</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Having to link your bank login to paid apps just to total up a downloaded bank CSV for taxes or budgeting.</div>
-          <ul class="features">
-            <li>Auto-groups spending into everyday tax categories</li>
-            <li>Exports a clean summary CSV in 1 click</li>
-            <li>Free online trial processes up to 25 rows</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/bank-csv-summary/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/lp8h7" target="_blank" rel="noopener">Buy Offline ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #17 — Ready</span>
-            <span class="price-tag">Offline $1.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 12h18M12 4v16"/></svg></span><h2>Shipping &amp; Address Label Sheet</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Paying for bloated label software just to print 30-up mailing or shipping labels from a plain list.</div>
-          <ul class="features">
-            <li>Supports 30-up mailing and 10-up shipping layouts</li>
-            <li>Optional return address on every label</li>
-            <li>Free online trial previews up to 2 labels</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/address-label-sheet/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/Upjbf" target="_blank" rel="noopener">Buy Offline ($1.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #18 — Ready</span>
-            <span class="price-tag">Offline $4.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg></span><h2>PDF Size Shrinker (Under 1 MB / 2 MB)</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Visa, court, job, and school portals rejecting your scanned PDF for being over 500 KB, 1 MB, or 2 MB.</div>
-          <ul class="features">
-            <li>Shrinks multi-page PDFs under strict portal size limits locally</li>
-            <li>Zero cloud uploads — private tax, legal &amp; ID PDFs stay on your PC</li>
-            <li>Offline Edition unlocks unlimited pages forever</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/pdf-shrinker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/r9RWJ" target="_blank" rel="noopener">Buy Offline ($4.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #19 — Ready</span>
-            <span class="price-tag">Offline $9.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span><h2>ATS Resume Keyword &amp; Format Fixer</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Automated HR screening filters (Workday, Greenhouse, Taleo) rejecting your resume before a human ever reads it.</div>
-          <ul class="features">
-            <li>Scores exact keyword match % against any job description</li>
-            <li>Flags missing hard skills, action verbs &amp; ATS formatting traps</li>
-            <li>100% private — never stores or sells your resume</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/ats-resume-checker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener">Buy Offline ($9.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #20 — Ready</span>
-            <span class="price-tag">Offline $4.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M9 13h6M9 17h4"/></svg></span><h2>Professional Job Quote &amp; Estimate Maker</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Paying $25/month for contractor software just to send a clean, itemized customer quote or estimate PDF.</div>
-          <ul class="features">
-            <li>Auto-calculates labor, materials, tax, deposit &amp; grand total</li>
-            <li>Includes client acceptance signature line &amp; validity terms</li>
-            <li>Prints or saves a crisp 1-page PDF quote immediately</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/quote-maker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/b8RJy" target="_blank" rel="noopener">Buy Offline ($4.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="csv">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #21 — Ready</span>
-            <span class="price-tag">Offline $4.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></span><h2>Subscriber Email List Cleaner &amp; Typo Fixer</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> High bounce rates and costly per-email verifier fees when cleaning newsletter or CRM subscriber lists.</div>
-          <ul class="features">
-            <li>Auto-fixes common domain typos (<code>gmial.com</code> → <code>gmail.com</code>, etc.)</li>
-            <li>Removes duplicates, syntax errors &amp; disposable burner domains</li>
-            <li>100% local — your customer email list never leaves your computer</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/email-list-cleaner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/zmSR9" target="_blank" rel="noopener">Buy Offline ($4.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #22 — Ready</span>
-            <span class="price-tag">Offline $4.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 21L21 3"/></svg></span><h2>Bulk Client-Proof Watermarker</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Clients screenshotting or using your unpaid design proofs, photography, or documents without paying.</div>
-          <ul class="features">
-            <li>Stamps tiled diagonal proof watermarks across photos in seconds</li>
-            <li>Customizable text, opacity, angle &amp; font size</li>
-            <li>Offline Edition unlocks unlimited batch photo watermarking</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/batch-watermarker/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/b/YB83I" target="_blank" rel="noopener">Buy Offline ($4.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="docs">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #23 — Ready</span>
-            <span class="price-tag">Offline Suite $29.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><h2>Offline PDF Password Protector &amp; AES-256 Vault</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Uploading private tax returns, legal contracts, or medical PDFs to cloud servers just to lock them with a password or confidential security stamp.</div>
-          <ul class="features">
-            <li>Stamps confidential legal/HIPAA headers + SHA-256 tamper-proof checksums</li>
-            <li>Exports self-decrypting AES-256-GCM Password-Locked HTML Vaults locally</li>
-            <li>1-Click Sample Demo File included — zero cloud uploads</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/pdf-password-protector/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Single Tool ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #24 — Ready</span>
-            <span class="price-tag">Single Tool $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><h2>Offline Audio Converter &amp; Voice Note Trimmer</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Uploading private voice memos, interviews, or meeting recordings to cloud converters just to trim or convert MP3, WAV, M4A, and OGG files.</div>
-          <ul class="features">
-            <li>Converts &amp; trims audio to Studio 44.1 kHz, Voice Memo, or 16 kHz AI Speech WAV</li>
-            <li>Auto-normalizes quiet voice recordings locally in your browser</li>
-            <li>1-Click Sample Audio Chime included — zero cloud uploads</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/audio-converter/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Single Tool ($2.99)</a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="photo">
-        <div>
-          <div class="card-head">
-            <span class="status live">● Tool #25 — Ready</span>
-            <span class="price-tag">Single Tool $2.99</span>
-          </div>
-          <div class="title-row"><span class="app-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="15" height="16" rx="2"/><polygon points="17 9 22 6 22 18 17 15 17 9"/></svg></span><h2>Offline Video Clip Trimmer, Joiner &amp; Frame Extractor</h2></div>
-          <div class="problem-box"><strong>Fixes:</strong> Cloud video trimmers that slap ugly watermarks on your clips or force you to upload 500 MB screen recordings over slow Wi-Fi.</div>
-          <ul class="features">
-            <li>Trims video clips &amp; extracts crisp HD PNG still frames 100% locally</li>
-            <li>Supports MP4, WebM, and MOV with zero watermarks</li>
-            <li>1-Click Sample Video Generator included</li>
-          </ul>
-        </div>
-        <div class="card-actions">
-          <a class="btn try" href="./tools/video-joiner/index.html">Try Free Online →</a>
-          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Single Tool ($2.99)</a>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align: center; margin: 30px auto; padding: 12px 20px; max-width: 450px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
-      <a href="https://www.saashub.com/evergreen-micro-tools" target="_blank" rel="noopener noreferrer" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
-        <span>Verified Listing on</span>
-        <strong style="color: #60a5fa;">SaaSHub</strong>
-        <span>— Independent Software Directory</span>
-      </a>
-    </div>
-
+    <!-- Clean Footer -->
     <footer>
-      Evergreen Micro-Tools Library • Zero servers, zero cookies, 100% private. Single product sales only. • <a href="./help.html" style="color:var(--accent);text-decoration:none;">Help &amp; FAQ</a> • <a href="https://payhip.com/EvergreenMicroTools" style="color:var(--accent);text-decoration:none;">Payhip Store</a>
+      <p>© 2026 Sovereign Software. All products sold 100% standalone. Zero subscriptions. Zero tracking.</p>
     </footer>
+
   </div>
 
   <script>
-    let activeCat = "all";
-    function applyFilters() {
-      const q = (document.getElementById("searchBox").value || "").trim().toLowerCase();
-      document.querySelectorAll("#toolGrid .card").forEach(card => {
-        const catOk = activeCat === "all" || card.dataset.cat === activeCat;
-        const textOk = !q || card.textContent.toLowerCase().includes(q);
-        card.style.display = (catOk && textOk) ? "flex" : "none";
-      });
+    let currentCategory = 'all';
+
+    function setCategory(cat, el) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      filterApps();
     }
-    document.querySelectorAll(".pill-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        activeCat = btn.dataset.filter;
-        applyFilters();
+
+    function filterApps() {
+      const q = document.getElementById('searchBar').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.app-card');
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-cat');
+        const name = card.getAttribute('data-name');
+
+        const matchesCat = (currentCategory === 'all' || cat === currentCategory);
+        const matchesQuery = (!q || name.includes(q));
+
+        if (matchesCat && matchesQuery) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
       });
-    });
-    document.getElementById("searchBox").addEventListener("input", applyFilters);
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js").catch(() => {});
     }
   </script>
-  <footer style="max-width:1100px;margin:2rem auto 0;padding:1rem 1.25rem;border-top:1px solid #334155;color:#94a3b8;font-size:0.84rem;text-align:center;">
-    <p><strong>Recommended Office &amp; Tech Supplies:</strong> Need thermal label printers, paper, or home-office gear for our label &amp; PDF tools? <a href="https://sovrn.co/w6picoj" target="_blank" rel="sponsored noopener" style="color:#38bdf8;font-weight:600;">Shop Office &amp; Tech Supplies at Walmart ↗</a></p>
-    <p style="margin-top:0.35rem;font-size:0.78rem;">Affiliate Disclosure: Evergreen Micro-Tools may earn a small commission from qualifying purchases via partner links at zero extra cost to you.</p>
-  </footer>
-<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
-  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
-      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
-      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
-    </div>
-    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
-    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
-      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
-      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
-      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
-      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  const btn = document.getElementById("emtShareBtn");
-  const modal = document.getElementById("emtShareModal");
-  if (!btn || !modal) return;
-  const cleanUrl = window.location.origin + window.location.pathname;
-  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
-  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
-  document.getElementById("emtShareText").value = adText;
-  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
-  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
-  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
-  btn.addEventListener("click", () => { modal.style.display = "flex"; });
-  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
-  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
-  document.getElementById("emtCopyShare").addEventListener("click", () => {
-    navigator.clipboard.writeText(adText).catch(() => {});
-    const c = document.getElementById("emtCopyShare");
-    c.textContent = "✓ Copied!";
-    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
-  });
-})();
-</script>
-<script data-goatcounter="https://evergreen-micro-tools.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href*=\"payhip.com\"]"):null;if(a&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:"payhip-click/"+a.href.split("/").pop(),title:"Payhip Click",event:true});}});</script>
-<script type="text/javascript">
-  var vglnk = {key: '272f3e8fd876ec37f62dc544f6c77859'};
-  (function(d, t) {var s = d.createElement(t);
-    s.type = 'text/javascript';s.async = true;
-    s.src = '//cdn.viglink.com/api/vglnk.js';
-    var r = d.getElementsByTagName(t)[0];
-    r.parentNode.insertBefore(s, r);
-  }(document, 'script'));
-</script>
-<script>
-/* 🌐 Evergreen Multi-Language & Region Localization Engine */
-(function() {
-  var translations = {
-    en: {
-      heroSub: "Fix everyday file, photo, spreadsheet, and QR code headaches without subscriptions, watermarks, or uploading your private files. Try free online or grab the offline copy.",
-      trust1Title: "Your Files Stay Private",
-      trust1Desc: "Everything runs inside your own browser. Nothing is ever sent to a server.",
-      trust2Title: "Pay Once, Keep Forever",
-      trust2Desc: "Use online free anytime, or grab an offline copy from <script>
-/* PWA 1-Click Install Engine & Lead Capture Storage */
-(function() {
-  var deferredPrompt = null;
-  var installBtn = document.getElementById("pwaInstallBtn");
-
-  window.addEventListener("beforeinstallprompt", function(e) {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) {
-      installBtn.style.display = "inline-flex";
-    }
-  });
-
-  if (installBtn) {
-    installBtn.addEventListener("click", function() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(choice) {
-          if (choice.outcome === "accepted") {
-            installBtn.style.display = "none";
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
-      }
-    });
-  }
-
-  // Lead Form Capture Handler (Saves locally + triggers confirmation)
-  var leadForm = document.getElementById("leadForm");
-  var leadEmail = document.getElementById("leadEmail");
-  var leadSuccess = document.getElementById("leadSuccess");
-
-  if (leadForm && leadEmail) {
-    leadForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      var email = leadEmail.value.trim();
-      if (email) {
-        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
-        leads.push({ email: email, date: new Date().toISOString() });
-        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
-
-        leadForm.style.display = "none";
-        leadSuccess.style.display = "block";
-      }
-    });
-  }
-})();
-</script>
-</body>.99 (Cards, Apple Pay, Google Pay, PayPal & Venmo accepted).",
-      contrastTitle: "Why Pay $240 - $360 Every Year for Basic Tools?",
-      contrastSub: "Compare predatory recurring subscriptions against owning your software forever.",
-      btnTry: "Try Free Online →",
-      btnBuy: "Buy Offline"
-    },
-    es: {
-      heroSub: "Solucione problemas cotidianos de archivos, fotos y hojas de cálculo sin suscripciones ni subir sus datos privados a la nube. Pruébelo gratis o adquiera la copia sin conexión.",
-      trust1Title: "Sus Archivos Permanecen Privados",
-      trust1Desc: "Todo se ejecuta dentro de su propio navegador. No se envía ningún dato a servidores.",
-      trust2Title: "Pague Una Vez, Consérvelo Siempre",
-      trust2Desc: "Úselo gratis en línea o compre una copia sin conexión desde <script>
-/* PWA 1-Click Install Engine & Lead Capture Storage */
-(function() {
-  var deferredPrompt = null;
-  var installBtn = document.getElementById("pwaInstallBtn");
-
-  window.addEventListener("beforeinstallprompt", function(e) {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) {
-      installBtn.style.display = "inline-flex";
-    }
-  });
-
-  if (installBtn) {
-    installBtn.addEventListener("click", function() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(choice) {
-          if (choice.outcome === "accepted") {
-            installBtn.style.display = "none";
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
-      }
-    });
-  }
-
-  // Lead Form Capture Handler (Saves locally + triggers confirmation)
-  var leadForm = document.getElementById("leadForm");
-  var leadEmail = document.getElementById("leadEmail");
-  var leadSuccess = document.getElementById("leadSuccess");
-
-  if (leadForm && leadEmail) {
-    leadForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      var email = leadEmail.value.trim();
-      if (email) {
-        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
-        leads.push({ email: email, date: new Date().toISOString() });
-        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
-
-        leadForm.style.display = "none";
-        leadSuccess.style.display = "block";
-      }
-    });
-  }
-})();
-</script>
-</body>.99 (Se aceptan tarjetas, Apple Pay, Google Pay y PayPal).",
-      contrastTitle: "¿Por qué pagar $240 - $360 al año por herramientas básicas?",
-      contrastSub: "Compare suscripciones recurrentes abusivas contra ser dueño de su software para siempre.",
-      btnTry: "Probar Gratis en Línea →",
-      btnBuy: "Comprar Offline"
-    },
-    de: {
-      heroSub: "Lösen Sie alltägliche Datei-, Foto- und Tabellenprobleme ohne Abonnements oder Hochladen privater Daten. Kostenlos online testen oder Offline-Kopie erwerben.",
-      trust1Title: "Ihre Dateien bleiben privat",
-      trust1Desc: "Alles läuft lokal in Ihrem Browser. Es werden niemals Daten an externe Server übertragen.",
-      trust2Title: "Einmal zahlen, für immer besitzen",
-      trust2Desc: "Jederzeit online kostenlos nutzen oder Offline-Paket ab 0,99 $ sichern (Kreditkarte, Apple Pay, Google Pay & PayPal akzeptiert).",
-      contrastTitle: "Warum 240 € - 360 € pro Jahr für Basistools zahlen?",
-      contrastSub: "Vergleichen Sie teure Abomodelle mit dem dauerhaften Besitz Ihrer Software.",
-      btnTry: "Kostenlos Online Testen →",
-      btnBuy: "Offline Kaufen"
-    },
-    fr: {
-      heroSub: "Réglez vos problèmes de fichiers, photos et feuilles de calcul sans abonnement ni téléchargement vers le cloud. Essayez gratuitement ou téléchargez la version hors ligne.",
-      trust1Title: "Vos fichiers restent privés",
-      trust1Desc: "Tout s'exécute directement dans votre navigateur. Aucune donnée n'est envoyée à un serveur.",
-      trust2Title: "Payez une fois, gardez pour toujours",
-      trust2Desc: "Utilisation gratuite en ligne ou version autonome dès 0,99 $ (Cartes, Apple Pay, Google Pay et PayPal acceptés).",
-      contrastTitle: "Pourquoi payer 240 € à 360 € par an pour des outils de base ?",
-      contrastSub: "Comparez les abonnements récurrents coûteux avec la propriété à vie de vos logiciels.",
-      btnTry: "Essayer Gratuitement en Ligne →",
-      btnBuy: "Acheter Hors Ligne"
-    },
-    ja: {
-      heroSub: "サブスクリプションやクラウドへのアップロードなしで、日常のファイル、写真、表計算の課題を解決します。オンラインで無料試用するか、オフライン版を入手してください。",
-      trust1Title: "ファイルは完全に非公開",
-      trust1Desc: "すべての処理はお使いのブラウザ内で完結します。データが外部サーバーに送信されることはありません。",
-      trust2Title: "一度の購入で永久所有",
-      trust2Desc: "オンラインでいつでも無料で使えるほか、<script>
-/* PWA 1-Click Install Engine & Lead Capture Storage */
-(function() {
-  var deferredPrompt = null;
-  var installBtn = document.getElementById("pwaInstallBtn");
-
-  window.addEventListener("beforeinstallprompt", function(e) {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) {
-      installBtn.style.display = "inline-flex";
-    }
-  });
-
-  if (installBtn) {
-    installBtn.addEventListener("click", function() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(choice) {
-          if (choice.outcome === "accepted") {
-            installBtn.style.display = "none";
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
-      }
-    });
-  }
-
-  // Lead Form Capture Handler (Saves locally + triggers confirmation)
-  var leadForm = document.getElementById("leadForm");
-  var leadEmail = document.getElementById("leadEmail");
-  var leadSuccess = document.getElementById("leadSuccess");
-
-  if (leadForm && leadEmail) {
-    leadForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      var email = leadEmail.value.trim();
-      if (email) {
-        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
-        leads.push({ email: email, date: new Date().toISOString() });
-        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
-
-        leadForm.style.display = "none";
-        leadSuccess.style.display = "block";
-      }
-    });
-  }
-})();
-</script>
-</body>.99からオフライン版を購入可能（カード、Apple Pay、Google Pay、PayPal対応）。",
-      contrastTitle: "なぜ基本的なツールに毎年240〜360ドルも払い続けるのですか？",
-      contrastSub: "高額な定期購入と、買い切り永久所有の違いを比較してください。",
-      btnTry: "オンラインで無料試用 →",
-      btnBuy: "オフライン版を購入"
-    }
-  };
-
-  function setLanguage(lang) {
-    if (!translations[lang]) lang = "en";
-    localStorage.setItem("emt_lang", lang);
-    var t = translations[lang];
-
-    // Translate Hero subtitle
-    var heroSub = document.querySelector("header p");
-    if (heroSub && t.heroSub) heroSub.innerText = t.heroSub;
-
-    // Translate Trust Strip
-    var trustItems = document.querySelectorAll(".trust-strip .trust-item");
-    if (trustItems.length >= 2) {
-      if (t.trust1Title) trustItems[0].querySelector("strong").innerText = t.trust1Title;
-      if (t.trust1Desc) trustItems[0].querySelector("span").innerText = t.trust1Desc;
-      if (t.trust2Title) trustItems[1].querySelector("strong").innerText = t.trust2Title;
-      if (t.trust2Desc) trustItems[1].querySelector("span").innerText = t.trust2Desc;
-    }
-
-    // Translate Contrast Section
-    var contrastH2 = document.querySelector("section h2");
-    if (contrastH2 && t.contrastTitle) contrastH2.innerText = t.contrastTitle;
-    var contrastP = document.querySelector("section p");
-    if (contrastP && t.contrastSub) contrastP.innerText = t.contrastSub;
-
-    // Translate Buttons
-    document.querySelectorAll(".card-actions .btn.try").forEach(function(b) {
-      b.innerText = t.btnTry;
-    });
-    document.querySelectorAll(".card-actions .btn.buy").forEach(function(b) {
-      var priceMatch = b.innerText.match(/\([^)]+\)/);
-      var price = priceMatch ? " " + priceMatch[0] : "";
-      b.innerText = t.btnBuy + price;
-    });
-
-    var sel = document.getElementById("langSelector");
-    if (sel) sel.value = lang;
-  }
-
-  window.addEventListener("DOMContentLoaded", function() {
-    var savedLang = localStorage.getItem("emt_lang");
-    if (!savedLang) {
-      var userLang = (navigator.language || navigator.userLanguage || "en").substring(0, 2).toLowerCase();
-      savedLang = translations[userLang] ? userLang : "en";
-    }
-    setLanguage(savedLang);
-
-    var sel = document.getElementById("langSelector");
-    if (sel) {
-      sel.addEventListener("change", function() {
-        setLanguage(this.value);
-      });
-    }
-  });
-})();
-</script>
-<script>
-/* PWA 1-Click Install Engine & Lead Capture Storage */
-(function() {
-  var deferredPrompt = null;
-  var installBtn = document.getElementById("pwaInstallBtn");
-
-  window.addEventListener("beforeinstallprompt", function(e) {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) {
-      installBtn.style.display = "inline-flex";
-    }
-  });
-
-  if (installBtn) {
-    installBtn.addEventListener("click", function() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(choice) {
-          if (choice.outcome === "accepted") {
-            installBtn.style.display = "none";
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        alert("To install: Click your browser's install icon (or Add to Home Screen in browser menu) to run 100% offline!");
-      }
-    });
-  }
-
-  // Lead Form Capture Handler (Saves locally + triggers confirmation)
-  var leadForm = document.getElementById("leadForm");
-  var leadEmail = document.getElementById("leadEmail");
-  var leadSuccess = document.getElementById("leadSuccess");
-
-  if (leadForm && leadEmail) {
-    leadForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      var email = leadEmail.value.trim();
-      if (email) {
-        var leads = JSON.parse(localStorage.getItem("emt_vip_leads") || "[]");
-        leads.push({ email: email, date: new Date().toISOString() });
-        localStorage.setItem("emt_vip_leads", JSON.stringify(leads));
-
-        leadForm.style.display = "none";
-        leadSuccess.style.display = "block";
-      }
-    });
-  }
-})();
-</script>
 </body>
 </html>
-
-
-
