@@ -1,23 +1,24 @@
-const CACHE = "evergreen-tools-v2";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./help.html",
-  "./manifest.json",
-  "./icon-256.png",
-  "./icon-512.png",
-  "./tools/csv-cleaner/index.html",
-  "./tools/image-shrinker/index.html",
-  "./tools/passport-photo/index.html",
-  "./tools/csv-global-fixer/index.html",
-  "./tools/qr-sign-maker/index.html",
-  "./tools/photo-privacy-cleaner/index.html"
-];
+// Cache-clearing & auto-updating Service Worker
+const CACHE_NAME = "evergreen-tools-v4-headline-99";
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).catch(() => {}));
+  self.skipWaiting();
 });
 
+self.addEventListener("activate", (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((k) => caches.delete(k))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Always fetch fresh network first, never trap users in old caches
 self.addEventListener("fetch", (e) => {
-  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    fetch(e.request).catch(() => caches.match(e.request))
+  );
 });
