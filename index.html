@@ -1,652 +1,2022 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sovereign Software Store — Precision standalone desktop & mobile software. Zero subscriptions, pure privacy, instant 1-click execution." />
-  <title>Sovereign Software — Own Your Tools For Life</title>
+  <title>Evergreen Micro-Tools — Standalone Offline Utilities for Professionals</title>
+  <meta name="description" content="Commercial-grade standalone offline software for CSVs, photos, PDF signing, QR codes, and privacy. Zero subscriptions, zero cloud uploads. Lifetime license." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #030712;
-      --card-bg: rgba(15, 23, 42, 0.75);
-      --card-hover: rgba(30, 41, 59, 0.95);
-      --border: rgba(255, 255, 255, 0.1);
-      --text: #ffffff;
-      --muted: #94a3b8;
-      --cyan: #06b6d4;
-      --cyan-glow: rgba(6, 182, 212, 0.35);
-      --purple: #a855f7;
-      --green: #10b981;
-      --green-glow: rgba(16, 185, 129, 0.35);
-      --amber: #f59e0b;
-      --blue: #3b82f6;
+      --bg: #07090e;
+      --card-bg: rgba(15, 23, 42, 0.7);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --accent-cyan: #38bdf8;
+      --accent-blue: #2563eb;
+      --accent-emerald: #10b981;
+      --accent-purple: #a855f7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      background: var(--bg);
-      background-image: 
-        radial-gradient(circle at 50% -10%, rgba(6, 182, 212, 0.22) 0%, transparent 50%),
-        radial-gradient(circle at 90% 40%, rgba(168, 85, 247, 0.16) 0%, transparent 45%),
-        radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 50%);
-      background-attachment: fixed;
-      color: var(--text);
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
       line-height: 1.5;
-      padding: 2rem 1.25rem 6rem;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
     }
-    .container { max-width: 1180px; margin: 0 auto; }
-
-    /* Topbar */
-    .navbar {
+    
+    /* Top Bar */
+    .top-bar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.9rem 1.75rem;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      margin-bottom: 3.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      gap: 1rem;
     }
     .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+    .brand-text {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
       font-weight: 700;
+      font-size: 1.15rem;
       letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
     }
-    .brand-glow {
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .badge-live {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      color: var(--green);
-      padding: 0.35rem 0.95rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
+    .badge-standalone {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 0.75rem;
       font-weight: 700;
-    }
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-      box-shadow: 0 0 12px var(--green);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
-    /* Hero */
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* Hero Section */
     .hero {
       text-align: center;
-      max-width: 860px;
-      margin: 0 auto 3.5rem;
+      margin-bottom: 3.5rem;
+      padding: 1rem 0;
     }
-    .hero-tag {
+    .hero-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      color: var(--cyan);
-      padding: 0.4rem 1.1rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      color: #38bdf8;
+      margin-bottom: 1.25rem;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
     }
     .hero h1 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 3.4rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1.1;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
       margin-bottom: 1.25rem;
-    }
-    .gradient-text {
-      background: linear-gradient(135deg, #ffffff 30%, var(--cyan) 75%, var(--purple) 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .hero p {
-      font-size: 1.2rem;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 680px;
-      margin: 0 auto 2.25rem;
+      color: var(--text-muted);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      max-width: 760px;
+      margin: 0 auto 2rem;
     }
 
-    /* Value Pillars Ribbon */
+    /* Trust Pillars */
     .trust-ribbon {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1rem;
-      margin-bottom: 3.5rem;
+      margin-bottom: 3rem;
     }
-    .trust-item {
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
+    .trust-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       padding: 1.1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      transition: all 0.2s;
-    }
-    .trust-item:hover {
-      border-color: rgba(6, 182, 212, 0.3);
-      transform: translateY(-2px);
-    }
-    .trust-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .trust-text strong { display: block; font-size: 0.95rem; color: #fff; }
-    .trust-text span { font-size: 0.8rem; color: var(--muted); }
-
-    /* Interactive Filter Bar */
-    .filter-wrapper {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 18px;
-      padding: 1.25rem;
-      margin-bottom: 2.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    .search-row { position: relative; }
-    .search-bar {
-      width: 100%;
-      padding: 0.95rem 1.25rem 0.95rem 3.1rem;
-      background: rgba(3, 7, 18, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 12px;
-      color: #fff;
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-      transition: all 0.2s;
-    }
-    .search-bar:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 20px var(--cyan-glow);
-    }
-    .search-icon {
-      position: absolute;
-      left: 1.15rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
       display: flex;
       align-items: center;
+      gap: 0.85rem;
+      backdrop-filter: blur(8px);
     }
-    .tabs-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .filter-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      padding: 0.55rem 1.2rem;
-      border-radius: 999px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-    .filter-pill:hover, .filter-pill.active {
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 4px 15px var(--cyan-glow);
-    }
-
-    /* Product Showcase Grid */
-    .store-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1.75rem;
-    }
-    .product-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .product-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--cyan), var(--purple));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .product-card:hover {
-      background: var(--card-hover);
-      border-color: rgba(6, 182, 212, 0.4);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.15);
-    }
-    .product-card:hover::before { opacity: 1; }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 1.1rem;
-      margin-bottom: 1.1rem;
-    }
-    .product-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .trust-card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .product-tag {
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 0.2rem;
-    }
-    .product-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem;
+    .icon-cyan { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .icon-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .icon-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .icon-blue { background: rgba(37, 99, 235, 0.15); color: #60a5fa; }
+    .trust-card h4 {
+      font-size: 0.92rem;
       font-weight: 700;
       color: #fff;
-      letter-spacing: -0.02em;
+      margin-bottom: 0.15rem;
     }
-    .product-desc {
-      font-size: 0.94rem;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.75rem;
+    .trust-card p {
+      font-size: 0.78rem;
+      color: var(--text-dim);
     }
-    .product-footer {
+
+    /* App Store Controls */
+    .store-controls {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(12px);
+    }
+    .search-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      flex: 1;
+      position: relative;
+      min-width: 280px;
+    }
+    .search-box input {
+      width: 100%;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 0.85rem 1rem 0.85rem 2.85rem;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .search-box input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    .tab-btn.active {
+      background: #38bdf8;
+      color: #0b1120;
+      border-color: #38bdf8;
+      font-weight: 700;
+    }
+    .results-count {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-left: auto;
+      font-weight: 600;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.75rem;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.1);
+    }
+    .card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 1.1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 1.25rem;
     }
-    .price-wrap {
-      display: flex;
-      flex-direction: column;
+    .cat-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
     }
-    .price-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; font-weight: 600; }
-    .price-amount {
+    .price-badge {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.55rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.25rem 0.65rem;
+      border-radius: 8px;
+    }
+    .card-header-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .app-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(37, 99, 235, 0.2));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+    .card-title-group h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
       font-weight: 700;
       color: #fff;
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
     }
-    .btn-buy {
-      background: linear-gradient(135deg, var(--green), #059669);
-      color: #ffffff;
-      text-decoration: none;
+    .card-title-group .sub-label {
+      font-size: 0.78rem;
+      color: #10b981;
+      font-weight: 600;
+    }
+    .problem-box {
+      background: rgba(2, 6, 23, 0.6);
+      border-left: 3px solid #38bdf8;
+      padding: 0.75rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      margin-bottom: 1.15rem;
+      line-height: 1.45;
+    }
+    .features-list {
+      list-style: none;
+      display: grid;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .features-list li svg {
+      color: #10b981;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    /* QR Code Ad Section */
+    .qr-ad-box {
+      background: rgba(2, 6, 23, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 0.85rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .qr-canvas-wrap {
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .qr-canvas-wrap canvas {
+      display: block;
+      width: 72px;
+      height: 72px;
+    }
+    .qr-info {
+      flex: 1;
+    }
+    .qr-info h5 {
+      font-size: 0.82rem;
+      color: #fff;
       font-weight: 700;
-      font-size: 0.92rem;
-      padding: 0.7rem 1.4rem;
-      border-radius: 11px;
-      box-shadow: 0 4px 15px var(--green-glow);
-      transition: all 0.2s;
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .qr-info p {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      line-height: 1.35;
+      margin-bottom: 0.4rem;
+    }
+    .btn-qr-expand {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-qr-expand:hover {
+      background: #38bdf8;
+      color: #0b1120;
+    }
+
+    /* Action Buttons */
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+      margin-top: auto;
+    }
+    .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.4rem;
+      text-align: center;
+      padding: 0.75rem 0.85rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
-    .btn-buy:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    .btn.try {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+    .btn.try:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: #38bdf8;
+    }
+    .btn.buy {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+    .btn.buy:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
     }
 
-    footer {
-      text-align: center;
-      margin-top: 5rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      font-size: 0.9rem;
+    /* QR Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
     }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-card {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .modal-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .modal-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .modal-qr-box {
+      background: #ffffff;
+      padding: 14px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+    .modal-qr-box canvas {
+      display: block;
+      width: 200px;
+      height: 200px;
+    }
+    .modal-url-box {
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #38bdf8;
+      word-break: break-all;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 5rem;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+    footer a { color: #38bdf8; text-decoration: none; }
   </style>
+  <script data-goatcounter="https://gmitch12967-crypto.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
-  <div class="container">
-    
-    <!-- Navbar -->
-    <div class="navbar">
-      <div class="brand">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        SOVEREIGN <span class="brand-glow">SOFTWARE</span>
-      </div>
-      <div class="badge-live">
-        <span class="pulse-dot"></span> 100% Offline Standalone Apps
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span class="brand-text">EVERGREEN MICRO-TOOLS</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <span class="badge-standalone">100% Standalone • Zero Bundles</span>
       </div>
     </div>
+  </header>
+
+  <div class="container">
 
     <!-- Hero -->
-    <div class="hero">
-      <div class="hero-tag">The Anti-Subscription Movement</div>
-      <h1>Precision Standalone Software.<br><span class="gradient-text">Own Your Tools For Life.</span></h1>
-      <p>Why pay endless monthly subscriptions to rent software? Every application here is a compiled, lightning-fast offline tool that runs 100% locally with zero cloud surveillance.</p>
-    </div>
+    <section class="hero">
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Commercial Grade • 100% Local Air-Gap
+      </div>
+      <h1>Private, Standalone Software.<br>Pay Once. Own Forever.</h1>
+      <p>Zero monthly subscriptions. Zero cloud uploads. Every tool runs 100% offline inside your browser or native desktop with a permanent standalone license.</p>
+    </section>
 
-    <!-- Trust Ribbon (Draws Buyers In) -->
+    <!-- Trust Ribbon -->
     <div class="trust-ribbon">
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div class="trust-card">
+        <div class="trust-card-icon icon-cyan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
-        <div class="trust-text">
-          <strong>1-Click Execution</strong>
-          <span>Toddler-simple, zero learning curve</span>
-        </div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="trust-text">
-          <strong>Zero Accidental Loss</strong>
-          <span>Photos &amp; logins 100% protected</span>
+        <div>
+          <h4>⚡ 1-Click Execution</h4>
+          <p>Toddler-simple, zero learning curve</p>
         </div>
       </div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <div class="trust-card">
+        <div class="trust-card-icon icon-emerald">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <div class="trust-text">
-          <strong>Pure Local Offline</strong>
-          <span>0 bytes uploaded to third-parties</span>
+        <div>
+          <h4>🛡️ Zero Data Loss Guarantee</h4>
+          <p>Photos & logins are 100% protected</p>
         </div>
       </div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+      <div class="trust-card">
+        <div class="trust-card-icon icon-purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
-        <div class="trust-text">
-          <strong>Pay Once, Keep Forever</strong>
-          <span>No recurring charges or subscriptions</span>
+        <div>
+          <h4>🔒 Pure Local Air-Gap</h4>
+          <p>0 bytes uploaded to cloud servers</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-card-icon icon-blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div>
+          <h4>💳 100% Standalone License</h4>
+          <p>Pay once, keep offline forever</p>
         </div>
       </div>
     </div>
 
-    <!-- Filter & Live Search (Zero Endless Scroll) -->
-    <div class="filter-wrapper">
+    <!-- Store Controls (Search & Category Bar) -->
+    <div class="store-controls">
       <div class="search-row">
-        <span class="search-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </span>
-        <input type="text" id="liveSearch" class="search-bar" placeholder="Instant Search: Type any app name or keyword (e.g., PC Care, Photo, PDF, Invoice)..." onkeyup="runFilter()">
+        <div class="search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="storeSearch" placeholder="Quick search by tool name, file type, or headache solved..." autocomplete="off">
+        </div>
+        <div class="results-count" id="resultsCount">Showing 27 Standalone Tools</div>
       </div>
-      <div class="tabs-row">
-        <button class="filter-pill active" onclick="setCategory('all', this)">All Standalone Apps</button>
-        <button class="filter-pill" onclick="setCategory('privacy', this)">Privacy &amp; Anti-Tracking</button>
-        <button class="filter-pill" onclick="setCategory('photo', this)">Photo &amp; Media Scrubbers</button>
-        <button class="filter-pill" onclick="setCategory('documents', this)">PDF &amp; Document Signers</button>
-        <button class="filter-pill" onclick="setCategory('business', this)">Business &amp; Invoicing</button>
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">All Tools (27)</button>
+        <button class="tab-btn" data-filter="privacy">Privacy &amp; Security</button>
+        <button class="tab-btn" data-filter="photo">Photo &amp; Media</button>
+        <button class="tab-btn" data-filter="docs">PDF &amp; Documents</button>
+        <button class="tab-btn" data-filter="data">Data &amp; Spreadsheets</button>
+        <button class="tab-btn" data-filter="business">Business &amp; Billing</button>
       </div>
     </div>
 
-    <!-- Modern Vibrant Grid -->
-    <div class="store-grid" id="productGrid">
+    <!-- Product Grid -->
+    <div class="product-grid" id="productGrid">      <!-- Product Card: AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber) -->
+      <article class="product-card" data-cat="privacy" data-title="AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)" data-fixes="Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.">
+        <div class="card-top">
+          <span class="cat-badge">Privacy & Security</span>
+          <span class="price-badge">$49.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="card-title-group">
+            <h3>AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Leaking SSNs, patient MRNs, ABA routing numbers, credit cards, or API keys when pasting medical, legal, or financial files into ChatGPT, Claude, or Gemini.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Scrubs all 18 HIPAA Safe-Harbor identifiers (45 CFR 164.514) 100% locally</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Reversible local token vault + cryptographically signed SHA-256 Compliance Certificate</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero cloud uploads — 100% air-gapped browser execution</li>
 
-      <!-- Sovereign PC Care -->
-      <div class="product-card" data-category="privacy" data-keywords="sovereign pc care cleaner 1-click auto-run windows maintenance optimize">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)', 'https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html" width="72" height="72"></canvas>
           </div>
-          <div>
-            <div class="product-tag">System Care &amp; Privacy</div>
-            <h3 class="product-title">Sovereign PC Care AI</h3>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('AirGap Redact Pro (HIPAA, Legal & AI PII Scrubber)', 'https://gmitch12967-crypto.github.io/tools/hipaa-pii-redactor/index.html')">🔍 Enlarge QR</button>
           </div>
         </div>
-        <p class="product-desc">
-          The ultimate 1-Click clean hero app. Embedded Operating AI auto-tunes maintenance, silences intrusive Windows telemetry, and auto-runs silently in the system tray. Guaranteed zero personal file loss.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$29.99</span>
-          </div>
-          <a href="https://payhip.com/b/BtPCO" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/hipaa-pii-redactor/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($49.99)</a>
         </div>
+      </article>      <!-- Product Card: Sovereign PC Care (1-Click Desktop Maintenance & AI) -->
+      <article class="product-card" data-cat="privacy" data-title="Sovereign PC Care (1-Click Desktop Maintenance & AI)" data-fixes="Sluggish Windows laptops, cluttered temp caches, invasive background trackers, and confusing maintenance tasks that risk deleting your personal files.">
+        <div class="card-top">
+          <span class="cat-badge">Privacy & Security</span>
+          <span class="price-badge">$29.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="card-title-group">
+            <h3>Sovereign PC Care (1-Click Desktop Maintenance & AI)</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Sluggish Windows laptops, cluttered temp caches, invasive background trackers, and confusing maintenance tasks that risk deleting your personal files.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ⚡ 1-Click Clean All hero button with zero data loss guarantee</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Auto-starts with Windows & lives quietly in system tray (<15MB RAM)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Embedded Operating AI provides instant plain-English guidance</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Sovereign PC Care (1-Click Desktop Maintenance & AI)', 'https://gmitch12967-crypto.github.io/tools/photo-privacy-cleaner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/photo-privacy-cleaner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Sovereign PC Care (1-Click Desktop Maintenance & AI)', 'https://gmitch12967-crypto.github.io/tools/photo-privacy-cleaner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/photo-privacy-cleaner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($29.99)</a>
+        </div>
+      </article>      <!-- Product Card: AI Endurance Companion (24-Worker Cloud Automation) -->
+      <article class="product-card" data-cat="business" data-title="AI Endurance Companion (24-Worker Cloud Automation)" data-fixes="Exhausting expensive AI subscription credits (-/mo) and overheating your laptop CPU with heavy background automation tasks.">
+        <div class="card-top">
+          <span class="cat-badge">Business & Automation</span>
+          <span class="price-badge">$39.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <div class="card-title-group">
+            <h3>AI Endurance Companion (24-Worker Cloud Automation)</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Exhausting expensive AI subscription credits (-/mo) and overheating your laptop CPU with heavy background automation tasks.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Dispatches background tasks to a 24-worker free cloud pool (.00 cost)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero laptop battery or RAM consumption (<1% local usage)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 30-second automated baton relay with instant failover</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('AI Endurance Companion (24-Worker Cloud Automation)', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('AI Endurance Companion (24-Worker Cloud Automation)', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/ats-resume-checker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($39.99)</a>
+        </div>
+      </article>      <!-- Product Card: Clean a Spreadsheet (CSV) -->
+      <article class="product-card" data-cat="data" data-title="Clean a Spreadsheet (CSV)" data-fixes="Messy customer lists, bank exports, or contact sheets full of duplicate rows, blank spaces, and corrupted delimiters.">
+        <div class="card-top">
+          <span class="cat-badge">Data & Spreadsheets</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="card-title-group">
+            <h3>Clean a Spreadsheet (CSV)</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Messy customer lists, bank exports, or contact sheets full of duplicate rows, blank spaces, and corrupted delimiters.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Removes repeat lines even if letter casing differs</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Clears blank rows & extra whitespace in 1 click</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instant live table preview with zero cloud uploads</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Clean a Spreadsheet (CSV)', 'https://gmitch12967-crypto.github.io/tools/csv-cleaner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/csv-cleaner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Clean a Spreadsheet (CSV)', 'https://gmitch12967-crypto.github.io/tools/csv-cleaner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/csv-cleaner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/XV7ZI" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Shrink a Photo to Fit -->
+      <article class="product-card" data-cat="photo" data-title="Shrink a Photo to Fit" data-fixes="Government and application portals rejecting document scans or ID photos for exceeding 200 KB, 500 KB, or 1 MB limits.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$14.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 14l3-3 4 4 3-3"/></svg></div>
+          <div class="card-title-group">
+            <h3>Shrink a Photo to Fit</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Government and application portals rejecting document scans or ID photos for exceeding 200 KB, 500 KB, or 1 MB limits.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Precision target slider: Under 200 KB, 500 KB, 1 MB, or 2 MB</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Real-time side-by-side quality comparison with exact space saved</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% offline canvas compression — zero quality guesswork</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Shrink a Photo to Fit', 'https://gmitch12967-crypto.github.io/tools/image-shrinker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/image-shrinker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Shrink a Photo to Fit', 'https://gmitch12967-crypto.github.io/tools/image-shrinker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/image-shrinker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/7GxBD" target="_blank" rel="noopener">Buy Standalone ($14.99)</a>
+        </div>
+      </article>      <!-- Product Card: Passport & Visa Photo Maker -->
+      <article class="product-card" data-cat="photo" data-title="Passport & Visa Photo Maker" data-fixes="Expensive + pharmacy photo counters and spammy online passport tools with aggressive watermarks and recurring subscriptions.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8 17c1.2-2 6.8-2 8 0"/></svg></div>
+          <div class="card-title-group">
+            <h3>Passport & Visa Photo Maker</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Expensive + pharmacy photo counters and spammy online passport tools with aggressive watermarks and recurring subscriptions.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Official biometric presets: US (2x2 in), UK/EU/India (35x45 mm), Canada & China</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Generates 4x6 inch and A4 printable sheets with precise cut lines</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Crisp 300 DPI export with intuitive zoom and centering sliders</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Passport & Visa Photo Maker', 'https://gmitch12967-crypto.github.io/tools/passport-photo/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/passport-photo/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Passport & Visa Photo Maker', 'https://gmitch12967-crypto.github.io/tools/passport-photo/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/passport-photo/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/sphoS" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: International CSV & Date Fixer -->
+      <article class="product-card" data-cat="data" data-title="International CSV & Date Fixer" data-fixes="Broken European semicolon delimiters (;) and swapped US/UK date formats (DD/MM vs MM/DD) that corrupt Excel imports.">
+        <div class="card-top">
+          <span class="cat-badge">Data & Spreadsheets</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="card-title-group">
+            <h3>International CSV & Date Fixer</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Broken European semicolon delimiters (;) and swapped US/UK date formats (DD/MM vs MM/DD) that corrupt Excel imports.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Converts semicolon delimiters to comma-separated format cleanly</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Normalizes international dates to standard ISO YYYY-MM-DD</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Handles accented UTF-8 characters without question-mark gibberish</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('International CSV & Date Fixer', 'https://gmitch12967-crypto.github.io/tools/csv-global-fixer/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/csv-global-fixer/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('International CSV & Date Fixer', 'https://gmitch12967-crypto.github.io/tools/csv-global-fixer/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/csv-global-fixer/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/WphlG" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Forever-Static QR & Wi-Fi Sign Maker -->
+      <article class="product-card" data-cat="business" data-title="Forever-Static QR & Wi-Fi Sign Maker" data-fixes="Shady online QR code generators that expire after 14 days and hold your business signs hostage for a /month subscription.">
+        <div class="card-top">
+          <span class="cat-badge">Business & Automation</span>
+          <span class="price-badge">$14.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+          <div class="card-title-group">
+            <h3>Forever-Static QR & Wi-Fi Sign Maker</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Shady online QR code generators that expire after 14 days and hold your business signs hostage for a /month subscription.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Direct static QR encoding — points straight to your raw URL or Wi-Fi</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Never expires, zero redirect servers, zero dynamic tracking</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instant printable countertop signage & high-resolution PNG export</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Forever-Static QR & Wi-Fi Sign Maker', 'https://gmitch12967-crypto.github.io/tools/qr-sign-maker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/qr-sign-maker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Forever-Static QR & Wi-Fi Sign Maker', 'https://gmitch12967-crypto.github.io/tools/qr-sign-maker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/qr-sign-maker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/ZKEcf" target="_blank" rel="noopener">Buy Standalone ($14.99)</a>
+        </div>
+      </article>      <!-- Product Card: Photo Privacy Cleaner (EXIF & GPS Scrubber) -->
+      <article class="product-card" data-cat="photo" data-title="Photo Privacy Cleaner (EXIF & GPS Scrubber)" data-fixes="Accidentally sharing your home address, exact GPS coordinates, camera serial numbers, and personal timestamps when sharing photos online.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg></div>
+          <div class="card-title-group">
+            <h3>Photo Privacy Cleaner (EXIF & GPS Scrubber)</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Accidentally sharing your home address, exact GPS coordinates, camera serial numbers, and personal timestamps when sharing photos online.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Permanently scrubs EXIF, GPS coordinates, device IDs, and metadata</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Preserves full original image resolution and visual fidelity</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Available as standalone Windows .exe and instant private browser tool</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Photo Privacy Cleaner (EXIF & GPS Scrubber)', 'https://gmitch12967-crypto.github.io/tools/photo-privacy-cleaner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/photo-privacy-cleaner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Photo Privacy Cleaner (EXIF & GPS Scrubber)', 'https://gmitch12967-crypto.github.io/tools/photo-privacy-cleaner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/photo-privacy-cleaner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/B1iYM" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Combine or Split Private PDFs -->
+      <article class="product-card" data-cat="docs" data-title="Combine or Split Private PDFs" data-fixes="Uploading sensitive legal contracts, medical reports, or tax forms to cloud PDF editors that store copies on third-party servers.">
+        <div class="card-top">
+          <span class="cat-badge">PDF & Documents</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="card-title-group">
+            <h3>Combine or Split Private PDFs</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Uploading sensitive legal contracts, medical reports, or tax forms to cloud PDF editors that store copies on third-party servers.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Merge multiple PDFs into a single polished document in seconds</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Extract specific page ranges or split large documents locally</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% client-side WebAssembly execution — 0 bytes leave your device</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Combine or Split Private PDFs', 'https://gmitch12967-crypto.github.io/tools/pdf-combiner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/pdf-combiner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Combine or Split Private PDFs', 'https://gmitch12967-crypto.github.io/tools/pdf-combiner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/pdf-combiner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/gs3rw" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Sign & Date Any PDF Locally -->
+      <article class="product-card" data-cat="docs" data-title="Sign & Date Any PDF Locally" data-fixes="Paying -/month for DocuSign or Adobe Sign just to place your signature and date stamp on a simple document.">
+        <div class="card-top">
+          <span class="cat-badge">PDF & Documents</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+          <div class="card-title-group">
+            <h3>Sign & Date Any PDF Locally</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Paying -/month for DocuSign or Adobe Sign just to place your signature and date stamp on a simple document.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Draw or type your signature and place it anywhere with pixel precision</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Add automatic date stamps and text notes to any PDF page</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Direct 1-click flatten and export — zero subscriptions</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Sign & Date Any PDF Locally', 'https://gmitch12967-crypto.github.io/tools/pdf-signer/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/pdf-signer/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Sign & Date Any PDF Locally', 'https://gmitch12967-crypto.github.io/tools/pdf-signer/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/pdf-signer/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/jD9d4" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Convert iPhone HEIC & WebP to JPG -->
+      <article class="product-card" data-cat="photo" data-title="Convert iPhone HEIC & WebP to JPG" data-fixes="Windows computers and client portals failing to open Apple HEIC photos or Google WebP images.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$14.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+          <div class="card-title-group">
+            <h3>Convert iPhone HEIC & WebP to JPG</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Windows computers and client portals failing to open Apple HEIC photos or Google WebP images.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Batch converts Apple HEIC and WebP files into universal high-res JPGs</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Pure in-browser decoding — no software installation required</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Retains original image sharpness without compression degradation</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Convert iPhone HEIC & WebP to JPG', 'https://gmitch12967-crypto.github.io/tools/heic-jpg-converter/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/heic-jpg-converter/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Convert iPhone HEIC & WebP to JPG', 'https://gmitch12967-crypto.github.io/tools/heic-jpg-converter/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/heic-jpg-converter/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/cop3A" target="_blank" rel="noopener">Buy Standalone ($14.99)</a>
+        </div>
+      </article>      <!-- Product Card: Front & Back ID Card on 1 Page -->
+      <article class="product-card" data-cat="photo" data-title="Front & Back ID Card on 1 Page" data-fixes="Printing messy multi-page scans or crooked photos when submitting driver licenses or ID cards for verification.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$14.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/></svg></div>
+          <div class="card-title-group">
+            <h3>Front & Back ID Card on 1 Page</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Printing messy multi-page scans or crooked photos when submitting driver licenses or ID cards for verification.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Combines front and back of your ID card onto a single standard 8.5x11 sheet</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Maintains 1:1 true-to-life physical card dimensions</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Export directly to print-ready PDF or high-resolution PNG</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Front & Back ID Card on 1 Page', 'https://gmitch12967-crypto.github.io/tools/id-card-sheet/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/id-card-sheet/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Front & Back ID Card on 1 Page', 'https://gmitch12967-crypto.github.io/tools/id-card-sheet/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/id-card-sheet/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/6nwE7" target="_blank" rel="noopener">Buy Standalone ($14.99)</a>
+        </div>
+      </article>      <!-- Product Card: Permanent Blackout Redactor -->
+      <article class="product-card" data-cat="privacy" data-title="Permanent Blackout Redactor" data-fixes="Fake redactions using transparent highlighters or shape overlays that can be removed by anyone inspecting the document.">
+        <div class="card-top">
+          <span class="cat-badge">Privacy & Security</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          <div class="card-title-group">
+            <h3>Permanent Blackout Redactor</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Fake redactions using transparent highlighters or shape overlays that can be removed by anyone inspecting the document.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Irreversibly burns solid black boxes into the underlying pixel matrix</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Eliminates underlying text layers so data cannot be highlighted or recovered</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% offline security for financial statements, IDs, and legal filings</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Permanent Blackout Redactor', 'https://gmitch12967-crypto.github.io/tools/photo-redactor/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/photo-redactor/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Permanent Blackout Redactor', 'https://gmitch12967-crypto.github.io/tools/photo-redactor/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/photo-redactor/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/sHVTN" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Shadow-Free Receipt & Document Cleaner -->
+      <article class="product-card" data-cat="photo" data-title="Shadow-Free Receipt & Document Cleaner" data-fixes="Dark shadows, gray crumpled paper backgrounds, and illegible text on phone photos of paper receipts.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$14.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/></svg></div>
+          <div class="card-title-group">
+            <h3>Shadow-Free Receipt & Document Cleaner</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Dark shadows, gray crumpled paper backgrounds, and illegible text on phone photos of paper receipts.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Intelligent adaptive binarization whitens backgrounds to pure clean paper</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Sharpens faded receipt printer ink for crystal-clear accounting records</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> One-click PDF or PNG export ready for tax audits and expense filings</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Shadow-Free Receipt & Document Cleaner', 'https://gmitch12967-crypto.github.io/tools/receipt-cleaner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/receipt-cleaner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Shadow-Free Receipt & Document Cleaner', 'https://gmitch12967-crypto.github.io/tools/receipt-cleaner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/receipt-cleaner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/9TRJ7" target="_blank" rel="noopener">Buy Standalone ($14.99)</a>
+        </div>
+      </article>      <!-- Product Card: 1-Minute Invoice & Receipt Maker -->
+      <article class="product-card" data-cat="business" data-title="1-Minute Invoice & Receipt Maker" data-fixes="Struggling with bloated accounting suites or paying /month just to generate a clean, professional invoice for a client.">
+        <div class="card-top">
+          <span class="cat-badge">Business & Billing</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <div class="card-title-group">
+            <h3>1-Minute Invoice & Receipt Maker</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Struggling with bloated accounting suites or paying /month just to generate a clean, professional invoice for a client.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Auto-calculates line items, sales taxes, discounts, and balance totals</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Add your business logo, custom payment notes, and terms in 1 click</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Generates crisp, professional PDF invoices ready to email</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('1-Minute Invoice & Receipt Maker', 'https://gmitch12967-crypto.github.io/tools/invoice-maker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/invoice-maker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('1-Minute Invoice & Receipt Maker', 'https://gmitch12967-crypto.github.io/tools/invoice-maker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/invoice-maker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/9fGU4" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Spot What Changed in 2 Contracts -->
+      <article class="product-card" data-cat="docs" data-title="Spot What Changed in 2 Contracts" data-fixes="Missing subtle clause modifications, fine-print additions, or altered payment terms when reviewing revised contracts.">
+        <div class="card-top">
+          <span class="cat-badge">PDF & Documents</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg></div>
+          <div class="card-title-group">
+            <h3>Spot What Changed in 2 Contracts</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Missing subtle clause modifications, fine-print additions, or altered payment terms when reviewing revised contracts.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instant side-by-side color diff highlighting added, modified, and deleted text</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Character-level and word-level precision detection</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% private in-browser analysis — zero client confidentiality risk</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Spot What Changed in 2 Contracts', 'https://gmitch12967-crypto.github.io/tools/text-diff/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/text-diff/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Spot What Changed in 2 Contracts', 'https://gmitch12967-crypto.github.io/tools/text-diff/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/text-diff/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/ZRTUc" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Bank CSV to Expense Totals -->
+      <article class="product-card" data-cat="data" data-title="Bank CSV to Expense Totals" data-fixes="Wasting hours manually grouping bank exports, credit card statements, and tax write-offs in complex spreadsheet formulas.">
+        <div class="card-top">
+          <span class="cat-badge">Data & Spreadsheets</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="card-title-group">
+            <h3>Bank CSV to Expense Totals</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Wasting hours manually grouping bank exports, credit card statements, and tax write-offs in complex spreadsheet formulas.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Auto-categorizes transactions and generates instant monthly expense totals</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Handles debit/credit sign conventions across major banking institutions</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Export clean audit summaries with zero financial data leaving your PC</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Bank CSV to Expense Totals', 'https://gmitch12967-crypto.github.io/tools/bank-csv-summary/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/bank-csv-summary/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Bank CSV to Expense Totals', 'https://gmitch12967-crypto.github.io/tools/bank-csv-summary/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/bank-csv-summary/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/lp8h7" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Shipping & Address Label Sheet -->
+      <article class="product-card" data-cat="business" data-title="Shipping & Address Label Sheet" data-fixes="Misaligned printer margins and wasted expensive label sheets when printing Avery 5160 / 30-up mailing labels.">
+        <div class="card-top">
+          <span class="cat-badge">Business & Billing</span>
+          <span class="price-badge">$14.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div class="card-title-group">
+            <h3>Shipping & Address Label Sheet</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Misaligned printer margins and wasted expensive label sheets when printing Avery 5160 / 30-up mailing labels.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Precision calibrated for Avery 5160 / 30-up standard mailing label templates</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Bulk paste recipient addresses or upload CSV with automatic line wrapping</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Print directly from browser at exact 1:1 physical sheet alignment</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Shipping & Address Label Sheet', 'https://gmitch12967-crypto.github.io/tools/address-label-sheet/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/address-label-sheet/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Shipping & Address Label Sheet', 'https://gmitch12967-crypto.github.io/tools/address-label-sheet/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/address-label-sheet/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/Upjbf" target="_blank" rel="noopener">Buy Standalone ($14.99)</a>
+        </div>
+      </article>      <!-- Product Card: PDF Size Shrinker (Under 1 MB / 2 MB) -->
+      <article class="product-card" data-cat="docs" data-title="PDF Size Shrinker (Under 1 MB / 2 MB)" data-fixes="Email servers and government portals bouncing documents for exceeding 5 MB or 10 MB attachment caps.">
+        <div class="card-top">
+          <span class="cat-badge">PDF & Documents</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg></div>
+          <div class="card-title-group">
+            <h3>PDF Size Shrinker (Under 1 MB / 2 MB)</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Email servers and government portals bouncing documents for exceeding 5 MB or 10 MB attachment caps.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Downsamples oversized embedded scanned images without damaging vector text</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Preset profiles for Under 1 MB (Job Applications) and Under 2 MB (Govt Portals)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% offline compression — your private PDFs never touch a cloud server</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('PDF Size Shrinker (Under 1 MB / 2 MB)', 'https://gmitch12967-crypto.github.io/tools/pdf-shrinker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/pdf-shrinker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('PDF Size Shrinker (Under 1 MB / 2 MB)', 'https://gmitch12967-crypto.github.io/tools/pdf-shrinker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/pdf-shrinker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/r9RWJ" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: ATS Resume Keyword & Format Fixer -->
+      <article class="product-card" data-cat="docs" data-title="ATS Resume Keyword & Format Fixer" data-fixes="Resumes getting automatically rejected by Applicant Tracking Systems (ATS) due to unreadable column layouts or missing keywords.">
+        <div class="card-top">
+          <span class="cat-badge">PDF & Documents</span>
+          <span class="price-badge">$24.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <div class="card-title-group">
+            <h3>ATS Resume Keyword & Format Fixer</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Resumes getting automatically rejected by Applicant Tracking Systems (ATS) due to unreadable column layouts or missing keywords.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Scans resume text against job description keywords with instant match score</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Flags ATS-breaking multi-column layouts, tables, and unreadable graphics</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Provides actionable keyword optimization recommendations 100% locally</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('ATS Resume Keyword & Format Fixer', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('ATS Resume Keyword & Format Fixer', 'https://gmitch12967-crypto.github.io/tools/ats-resume-checker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/ats-resume-checker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener">Buy Standalone ($24.99)</a>
+        </div>
+      </article>      <!-- Product Card: Professional Job Quote & Estimate Maker -->
+      <article class="product-card" data-cat="business" data-title="Professional Job Quote & Estimate Maker" data-fixes="Losing client jobs due to sloppy handwritten estimates or slow, delayed bid proposals.">
+        <div class="card-top">
+          <span class="cat-badge">Business & Billing</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="card-title-group">
+            <h3>Professional Job Quote & Estimate Maker</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Losing client jobs due to sloppy handwritten estimates or slow, delayed bid proposals.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Generate polished, branded project estimates with itemized labor & materials</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Auto-calculates milestones, deposit percentages, and project expiration dates</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Converts approved quote directly to invoice format with 1 click</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Professional Job Quote & Estimate Maker', 'https://gmitch12967-crypto.github.io/tools/quote-maker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/quote-maker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Professional Job Quote & Estimate Maker', 'https://gmitch12967-crypto.github.io/tools/quote-maker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/quote-maker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/b8RJy" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Subscriber Email List Cleaner & Typo Fixer -->
+      <article class="product-card" data-cat="data" data-title="Subscriber Email List Cleaner & Typo Fixer" data-fixes="High email bounce rates and spam domain blacklisting caused by typos like @gmai.com, invalid syntax, and duplicates.">
+        <div class="card-top">
+          <span class="cat-badge">Data & Spreadsheets</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="card-title-group">
+            <h3>Subscriber Email List Cleaner & Typo Fixer</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> High email bounce rates and spam domain blacklisting caused by typos like @gmai.com, invalid syntax, and duplicates.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Auto-detects and corrects common domain typos (@gmai.com, @yaho.com, @hotmial.com)</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Removes spam trap syntaxes, role-based addresses, and invalid formats</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instant CSV deduplication to preserve newsletter deliverability sender scores</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Subscriber Email List Cleaner & Typo Fixer', 'https://gmitch12967-crypto.github.io/tools/email-list-cleaner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/email-list-cleaner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Subscriber Email List Cleaner & Typo Fixer', 'https://gmitch12967-crypto.github.io/tools/email-list-cleaner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/email-list-cleaner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/zmSR9" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Bulk Client-Proof Watermarker -->
+      <article class="product-card" data-cat="photo" data-title="Bulk Client-Proof Watermarker" data-fixes="Clients stealing or screenshotting unpaid design proofs, creative photography, or drafts without paying.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 21L21 3"/></svg></div>
+          <div class="card-title-group">
+            <h3>Bulk Client-Proof Watermarker</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Clients stealing or screenshotting unpaid design proofs, creative photography, or drafts without paying.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Stamps tiled diagonal proof watermarks across hundreds of photos in seconds</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Customizable text, opacity, angle, font scale, and repetition density</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% offline batch canvas rendering — zero bandwidth usage</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Bulk Client-Proof Watermarker', 'https://gmitch12967-crypto.github.io/tools/batch-watermarker/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/batch-watermarker/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Bulk Client-Proof Watermarker', 'https://gmitch12967-crypto.github.io/tools/batch-watermarker/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/batch-watermarker/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/b/YB83I" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Offline PDF Password Protector & AES-256 Vault -->
+      <article class="product-card" data-cat="privacy" data-title="Offline PDF Password Protector & AES-256 Vault" data-fixes="Uploading confidential tax returns, legal disclosures, or health records to cloud servers just to lock them with a password.">
+        <div class="card-top">
+          <span class="cat-badge">Privacy & Security</span>
+          <span class="price-badge">$29.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div class="card-title-group">
+            <h3>Offline PDF Password Protector & AES-256 Vault</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Uploading confidential tax returns, legal disclosures, or health records to cloud servers just to lock them with a password.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Stamps confidential security headers and SHA-256 tamper-proof checksums</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Generates self-decrypting AES-256-GCM Password-Protected HTML Vaults</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Recipients unlock files with password in any modern browser without software</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Offline PDF Password Protector & AES-256 Vault', 'https://gmitch12967-crypto.github.io/tools/pdf-password-protector/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/pdf-password-protector/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Offline PDF Password Protector & AES-256 Vault', 'https://gmitch12967-crypto.github.io/tools/pdf-password-protector/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/pdf-password-protector/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($29.99)</a>
+        </div>
+      </article>      <!-- Product Card: Offline Audio Converter & Voice Note Trimmer -->
+      <article class="product-card" data-cat="photo" data-title="Offline Audio Converter & Voice Note Trimmer" data-fixes="Uploading private confidential audio recordings, interviews, or meetings to third-party cloud converters.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+          <div class="card-title-group">
+            <h3>Offline Audio Converter & Voice Note Trimmer</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Uploading private confidential audio recordings, interviews, or meetings to third-party cloud converters.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Converts and trims MP3, WAV, M4A, and OGG files completely client-side</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Audio normalization presets for Studio 44.1 kHz, Voice Memos, and AI Speech WAV</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero cloud uploads — 100% local audio processing in browser memory</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Offline Audio Converter & Voice Note Trimmer', 'https://gmitch12967-crypto.github.io/tools/audio-converter/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/audio-converter/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Offline Audio Converter & Voice Note Trimmer', 'https://gmitch12967-crypto.github.io/tools/audio-converter/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/audio-converter/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>      <!-- Product Card: Offline Video Clip Trimmer, Joiner & Frame Extractor -->
+      <article class="product-card" data-cat="photo" data-title="Offline Video Clip Trimmer, Joiner & Frame Extractor" data-fixes="Cloud video trimmers slapping ugly watermarks on your videos or forcing slow 500 MB uploads over Wi-Fi.">
+        <div class="card-top">
+          <span class="cat-badge">Photo & Media</span>
+          <span class="price-badge">$19.99</span>
+        </div>
+        <div class="card-header-row">
+          <div class="app-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="15" height="16" rx="2"/><polygon points="17 9 22 6 22 18 17 15 17 9"/></svg></div>
+          <div class="card-title-group">
+            <h3>Offline Video Clip Trimmer, Joiner & Frame Extractor</h3>
+            <span class="sub-label">✓ Standalone Lifetime Edition</span>
+          </div>
+        </div>
+        <div class="problem-box">
+          <strong>Fixes:</strong> Cloud video trimmers slapping ugly watermarks on your videos or forcing slow 500 MB uploads over Wi-Fi.
+        </div>
+        <ul class="features-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Trims video clips and extracts crisp full-resolution HD PNG still frames</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Supports MP4, WebM, and MOV with 100% offline playback</li>
+<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero watermarks, zero subscriptions, zero cloud uploads</li>
+
+        </ul>
+        
+        <!-- QR Code Ad Box (Instant Phone Scan) -->
+        <div class="qr-ad-box">
+          <div class="qr-canvas-wrap" title="Click to enlarge QR code" onclick="openQrModal('Offline Video Clip Trimmer, Joiner & Frame Extractor', 'https://gmitch12967-crypto.github.io/tools/video-joiner/index.html')">
+            <canvas class="product-qr-canvas" data-url="https://gmitch12967-crypto.github.io/tools/video-joiner/index.html" width="72" height="72"></canvas>
+          </div>
+          <div class="qr-info">
+            <h5>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Scan with Phone
+            </h5>
+            <p>Point phone camera to open product &amp; live interactive demo</p>
+            <button type="button" class="btn-qr-expand" onclick="openQrModal('Offline Video Clip Trimmer, Joiner & Frame Extractor', 'https://gmitch12967-crypto.github.io/tools/video-joiner/index.html')">🔍 Enlarge QR</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a class="btn try" href="./tools/video-joiner/index.html">Try Free Online &rarr;</a>
+          <a class="btn buy" href="https://payhip.com/EvergreenMicroTools" target="_blank" rel="noopener">Buy Standalone ($19.99)</a>
+        </div>
+      </article>    </div>
+
+    <!-- QR Modal -->
+    <div class="modal-backdrop" id="qrModal" onclick="closeQrModal(event)">
+      <div class="modal-card" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeQrModal()">&times;</button>
+        <h3 id="modalTitle">Scan with Phone</h3>
+        <p>Point your mobile camera at this code to view the live product &amp; interactive description immediately:</p>
+        <div class="modal-qr-box">
+          <canvas id="modalCanvas" width="200" height="200"></canvas>
+        </div>
+        <div class="modal-url-box" id="modalUrlText">https://gmitch12967-crypto.github.io/</div>
+        <a id="modalDirectLink" class="btn try" href="#" target="_blank" style="width:100%;">Open Product Directly &rarr;</a>
       </div>
-
-      <!-- Photo Privacy Cleaner -->
-      <div class="product-card" data-category="photo" data-keywords="photo privacy cleaner exif gps stripper metadata camera phone image">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Media Protection</div>
-            <h3 class="product-title">Photo Privacy Cleaner</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Drag-and-drop offline photo scrubber. Permanently wipes GPS home coordinates, camera model serial numbers, and hidden EXIF timestamps before you post on social media or Craigslist.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$19.99</span>
-          </div>
-          <a href="https://payhip.com/b/B1iYM" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
-      <!-- AI Endurance -->
-      <div class="product-card" data-category="privacy" data-keywords="ai endurance autonomous workforce coordinator 24 worker relay multi-agent">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Autonomous AI</div>
-            <h3 class="product-title">AI Endurance</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Autonomous background AI workforce coordinator. Manages 24 free cloud AI worker slots with zero laptop CPU/RAM consumption, zero token costs, and automated 30-second baton relay.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$39.99</span>
-          </div>
-          <a href="https://payhip.com/b/H9NPp" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
-      <!-- AirGap Redact Pro -->
-      <div class="product-card" data-category="privacy" data-keywords="airgap redact pro hipaa pii legal redaction confidential document sanitize">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Legal &amp; HIPAA</div>
-            <h3 class="product-title">AirGap Redact Pro</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Military-grade offline document sanitizer. Strips SSNs, medical IDs, and confidential names offline with verifiable SHA-256 tamper-proof audit certificates.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$24.99</span>
-          </div>
-          <a href="https://payhip.com/b/sHVTN" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
-      <!-- PDF Sovereign Combiner -->
-      <div class="product-card" data-category="documents" data-keywords="pdf combiner merge split reorder offline documents acrobat alternative">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Document Utility</div>
-            <h3 class="product-title">PDF Sovereign Combiner</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Merge, split, and reorder high-resolution PDF documents offline. No page count limits, zero file uploads, and no monthly $240/year Adobe Acrobat subscriptions.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$19.99</span>
-          </div>
-          <a href="https://payhip.com/b/gs3rw" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
-      <!-- Offline Digital Signer -->
-      <div class="product-card" data-category="documents" data-keywords="pdf signer signature document offline contract agreement docusign alternative">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Signature Utility</div>
-            <h3 class="product-title">Offline PDF Signer</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Sign contracts, NDAs, and legal filings with a clean digital pen touch. Completely private on your local machine with zero DocuSign account traps or cloud snooping.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$19.99</span>
-          </div>
-          <a href="https://payhip.com/b/jD9d4" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
-      <!-- Paperless Contractor Invoicer -->
-      <div class="product-card" data-category="business" data-keywords="invoice maker contractor receipt billing quote trades quickbooks alternative">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="7" y1="15" x2="7.01" y2="15"/><line x1="12" y1="15" x2="17" y2="15"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Trade &amp; Contractor</div>
-            <h3 class="product-title">Contractor Invoicer</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Professional offline billing and quote generator for trades, contractors, and freelancers. Auto-calculates sales tax, itemizes labor/materials, and exports crisp PDF invoices.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$24.99</span>
-          </div>
-          <a href="https://payhip.com/b/9fGU4" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
-      <!-- DataVault CSV Fixer -->
-      <div class="product-card" data-category="business" data-keywords="csv cleaner fixer excel bank data delimiter spreadsheets corrupt repair">
-        <div class="card-header">
-          <div class="product-icon" style="background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3);">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M4 9h17M4 15h17M10 3v18"/></svg>
-          </div>
-          <div>
-            <div class="product-tag">Spreadsheet Engine</div>
-            <h3 class="product-title">DataVault CSV Fixer</h3>
-          </div>
-        </div>
-        <p class="product-desc">
-          Instantly repairs broken bank exports, corrupted commas/semicolons, missing headers, and European date formats. Pure offline spreadsheet integrity.
-        </p>
-        <div class="product-footer">
-          <div class="price-wrap">
-            <span class="price-label">Lifetime License</span>
-            <span class="price-amount">$19.99</span>
-          </div>
-          <a href="https://payhip.com/b/WphlG" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Footer -->
     <footer>
-      <p>© 2026 Sovereign Software. All products sold 100% standalone. Pay once, own forever. Zero subscriptions.</p>
+      <p>&copy; 2026 Evergreen Micro-Tools. All utilities are sold 100% standalone with zero bundle deals or subscription locks.</p>
+      <p style="margin-top:0.5rem;"><a href="#top">Back to top</a> &bull; Privacy-first software architecture</p>
     </footer>
 
   </div>
 
   <script>
-    let activeCategory = 'all';
+    // Embedded pure JS QR Byte-mode encoder (Versions 1..6, ECC Level L) — 100% client-side offline execution
+    const QR = (() => {
+      const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
+      let x = 1;
+      for (let i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x = (x << 1) ^ (x & 128 ? 0x11d : 0); }
+      for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+      const mul = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
 
-    function setCategory(cat, btn) {
-      activeCategory = cat;
-      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      runFilter();
-    }
+      function rsGen(n) {
+        let g = [1];
+        for (let i = 0; i < n; i++) {
+          const ng = new Array(g.length + 1).fill(0);
+          for (let j = 0; j < g.length; j++) { ng[j] ^= g[j]; ng[j + 1] ^= mul(g[j], EXP[i]); }
+          g = ng;
+        }
+        return g;
+      }
+      function rsRem(data, ecLen) {
+        const g = rsGen(ecLen), res = data.slice().concat(new Array(ecLen).fill(0));
+        for (let i = 0; i < data.length; i++) {
+          const c = res[i]; if (!c) continue;
+          for (let j = 0; j < g.length; j++) res[i + j] ^= mul(g[j], c);
+        }
+        return res.slice(data.length);
+      }
 
-    function runFilter() {
-      const q = document.getElementById('liveSearch').value.toLowerCase().trim();
-      const cards = document.querySelectorAll('.product-card');
+      const SPECS = [
+        [21, 19, 7],
+        [25, 34, 10],
+        [29, 55, 15],
+        [33, 80, 20],
+        [37, 108, 26],
+        [41, 136, 36]
+      ];
+      const ALIGN = [[], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34]];
 
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        const keywords = card.getAttribute('data-keywords');
+      function encode(text) {
+        const bytes = Array.from(new TextEncoder().encode(text));
+        let vIdx = SPECS.findIndex(s => bytes.length + 2 <= s[1]);
+        if (vIdx < 0) vIdx = SPECS.length - 1;
+        const [size, dataCap, ecLen] = SPECS[vIdx];
+        const maxBytes = Math.min(bytes.length, dataCap - 2);
 
-        const matchCat = (activeCategory === 'all' || cat === activeCategory);
-        const matchQuery = (!q || keywords.includes(q));
+        const bits = [];
+        const push = (val, n) => { for (let i = n - 1; i >= 0; i--) bits.push((val >> i) & 1); };
+        push(4, 4); // Byte mode
+        push(maxBytes, 8);
+        for (let i = 0; i < maxBytes; i++) push(bytes[i], 8);
+        push(0, Math.min(4, dataCap * 8 - bits.length));
+        while (bits.length % 8) bits.push(0);
+        const pad = [0xec, 0x11]; let pi = 0;
+        while (bits.length < dataCap * 8) { push(pad[pi++ % 2], 8); }
 
-        if (matchCat && matchQuery) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
+        const dataBytes = [];
+        for (let i = 0; i < bits.length; i += 8) {
+          let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+          dataBytes.push(b);
+        }
+        const ecBytes = rsRem(dataBytes, ecLen);
+        const fullBits = [];
+        dataBytes.concat(ecBytes).forEach(b => { for (let i = 7; i >= 0; i--) fullBits.push((b >> i) & 1); });
+
+        const grid = Array.from({ length: size }, () => new Int8Array(size).fill(-1));
+        const resv = Array.from({ length: size }, () => new Uint8Array(size));
+        const setF = (r, c, v) => { if (r >= 0 && r < size && c >= 0 && c < size) { grid[r][c] = v; resv[r][c] = 1; } };
+
+        const finder = (r0, c0) => {
+          for (let r = -1; r <= 7; r++) for (let c = -1; c <= 7; c++) {
+            const on = (r >= 0 && r <= 6 && c >= 0 && c <= 6) && (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4));
+            setF(r0 + r, c0 + c, on ? 1 : 0);
+          }
+        };
+        finder(0, 0); finder(0, size - 7); finder(size - 7, 0);
+
+        for (let i = 8; i < size - 8; i++) { setF(6, i, i % 2 === 0 ? 1 : 0); setF(i, 6, i % 2 === 0 ? 1 : 0); }
+        setF(size - 8, 8, 1);
+
+        const pos = ALIGN[vIdx];
+        for (let i = 0; i < pos.length; i++) {
+          for (let j = 0; j < pos.length; j++) {
+            const r0 = pos[i], c0 = pos[j];
+            if (resv[r0][c0]) continue;
+            for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) {
+              setF(r0 + r, c0 + c, (Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0)) ? 1 : 0);
+            }
+          }
+        }
+
+        let bitIdx = 0;
+        let upwards = true;
+        for (let right = size - 1; right > 0; right -= 2) {
+          if (right === 6) right--;
+          const rows = [];
+          for (let i = 0; i < size; i++) rows.push(upwards ? (size - 1 - i) : i);
+          for (let r of rows) {
+            for (let c of [right, right - 1]) {
+              if (resv[r][c]) continue;
+              let val = 0;
+              if (bitIdx < fullBits.length) val = fullBits[bitIdx++];
+              // Pattern 0 mask
+              if ((r + c) % 2 === 0) val ^= 1;
+              grid[r][c] = val;
+            }
+          }
+          upwards = !upwards;
+        }
+
+        // Format info (Level L, Mask 0)
+        const fmtBits = [1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0];
+        for (let i = 0; i <= 5; i++) grid[8][i] = fmtBits[i];
+        grid[8][7] = fmtBits[6];
+        grid[8][8] = fmtBits[7];
+        grid[7][8] = fmtBits[8];
+        for (let i = 9; i < 15; i++) grid[14 - i][8] = fmtBits[i];
+
+        for (let i = 0; i < 8; i++) grid[size - 1 - i][8] = fmtBits[i];
+        for (let i = 8; i < 15; i++) grid[8][size - 15 + i] = fmtBits[i];
+
+        return grid;
+      }
+
+      function renderToCanvas(grid, canvas, scale) {
+        const size = grid.length;
+        const margin = 2;
+        const fullSize = (size + margin * 2) * scale;
+        canvas.width = fullSize;
+        canvas.height = fullSize;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, fullSize, fullSize);
+        ctx.fillStyle = '#090d16';
+        for (let r = 0; r < size; r++) {
+          for (let c = 0; c < size; c++) {
+            if (grid[r][c] === 1) {
+              ctx.fillRect((c + margin) * scale, (r + margin) * scale, scale, scale);
+            }
+          }
+        }
+      }
+
+      return { encode, renderToCanvas };
+    })();
+
+    // Render all product card QR codes on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const qrCanvases = document.querySelectorAll(".product-qr-canvas");
+      qrCanvases.forEach(canvas => {
+        const url = canvas.getAttribute("data-url");
+        if (url) {
+          try {
+            const grid = QR.encode(url);
+            QR.renderToCanvas(grid, canvas, 2);
+          } catch(e) {
+            console.error("QR render error:", e);
+          }
         }
       });
+    });
+
+    // Modal QR Zoom
+    function openQrModal(title, url) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalUrlText").textContent = url;
+      document.getElementById("modalDirectLink").href = url;
+      const canvas = document.getElementById("modalCanvas");
+      try {
+        const grid = QR.encode(url);
+        QR.renderToCanvas(grid, canvas, 6);
+      } catch (e) {
+        console.error(e);
+      }
+      document.getElementById("qrModal").classList.add("active");
     }
+
+    function closeQrModal(event) {
+      if (!event || event.target.id === "qrModal" || event.target.classList.contains("modal-close")) {
+        document.getElementById("qrModal").classList.remove("active");
+      }
+    }
+
+    // Instant Filter & Search
+    const searchInput = document.getElementById("storeSearch");
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const cards = document.querySelectorAll(".product-card");
+    const resultsCount = document.getElementById("resultsCount");
+    let activeFilter = "all";
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute("data-cat");
+        const title = (card.getAttribute("data-title") || "").toLowerCase();
+        const fixes = (card.getAttribute("data-fixes") || "").toLowerCase();
+
+        const matchesCat = (activeFilter === "all" || cat === activeFilter);
+        const matchesQuery = (!query || title.includes(query) || fixes.includes(query));
+
+        if (matchesCat && matchesQuery) {
+          card.style.display = "flex";
+          visible++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      resultsCount.textContent = Showing  + visible +  Standalone Tools;
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.getAttribute("data-filter");
+        applyFilters();
+      });
+    });
   </script>
 </body>
 </html>
