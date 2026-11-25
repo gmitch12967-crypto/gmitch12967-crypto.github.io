@@ -531,68 +531,73 @@
         </div>
 
         <!-- Step 1: Reset Advertising ID -->
-        <div class="guide-step active-step" id="stepCard1">
+        <div class="guide-step active-step" id="stepCard1" style="cursor:pointer;" onclick="markStepDone(1)">
           <div class="step-header">
             <div style="display:flex; align-items:center;">
-              <div class="step-num">1</div>
-              <div class="step-title">Reset Android Advertising ID (GAID)</div>
+              <div class="step-num" id="checkIcon1">1</div>
+              <div class="step-title">Reset Advertising ID (Sever Cross-App Tracking)</div>
             </div>
-            <span class="step-badge pending" id="badge1">Recommended</span>
+            <span class="step-badge pending" id="badge1">Action Needed</span>
           </div>
           <div class="step-instruction">
-            <strong>Why:</strong> Companies use your Advertising ID to link what you do in old uninstalled apps to new apps you download. Resetting it severs that tracking chain completely.
-            <br><br>
-            <strong>How:</strong> Tap the blue button below to open your phone's Ads screen. Then tap <em>"Reset advertising ID"</em> and tap <em>"Confirm"</em>.
+            <strong>Why:</strong> Ad networks connect your activity in old uninstalled apps to new apps through this ID. Resetting it resets your advertising fingerprint to zero.
+            <div style="margin:10px 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12.5px; line-height:1.6; color:#f1f5f9;">
+              📲 <strong>Exact Samsung S10+ Quick Path:</strong><br>
+              Open phone <strong>Settings ⚙️</strong> &rarr; tap <strong>Google</strong> &rarr; tap <strong>Ads</strong> &rarr; tap <strong>Reset advertising ID</strong> &rarr; Confirm.
+            </div>
           </div>
           <div class="step-actions">
-            <a href="intent:#Intent;action=com.google.android.gms.settings.ADS_PRIVACY;end" class="btn-action">
-              <span>🚀</span> Open Ads Settings
-            </a>
-            <button class="btn-check" id="btnStep1" onclick="markStepDone(1)">Mark as Done ✓</button>
+            <button class="btn-check" id="btnStep1" onclick="event.stopPropagation(); markStepDone(1)" style="width:100%; justify-content:center; padding:12px; font-size:13px; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid var(--accent); color:#fff; border-radius:12px;">
+              <span>○</span> Tap to Mark Step 1 Done ✓
+            </button>
           </div>
         </div>
 
         <!-- Step 2: Clear Google Play Uninstalled History -->
-        <div class="guide-step" id="stepCard2">
+        <div class="guide-step" id="stepCard2" style="cursor:pointer;" onclick="markStepDone(2)">
           <div class="step-header">
             <div style="display:flex; align-items:center;">
-              <div class="step-num">2</div>
-              <div class="step-title">Remove "Not Installed" Play Library Records</div>
+              <div class="step-num" id="checkIcon2">2</div>
+              <div class="step-title">Wipe "Not Installed" Play Store Cloud Records</div>
             </div>
-            <span class="step-badge pending" id="badge2">Recommended</span>
+            <span class="step-badge pending" id="badge2">Action Needed</span>
           </div>
           <div class="step-instruction">
-            <strong>Why:</strong> Google Play keeps a cloud log of every app you ever downloaded. You can remove uninstalled apps from your visible library.
-            <br><br>
-            <strong>How:</strong> Tap Open Play Store → tap your Profile icon (top right) → <em>Manage apps &amp; device</em> → tap <em>Manage</em> tab → switch filter to <em>"Not installed"</em> → select apps and tap the Trash icon.
+            <strong>Why:</strong> Google Play logs every app you ever downloaded to your Google account. You can purge this cloud log directly.
+            <div style="margin:10px 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12.5px; line-height:1.6; color:#f1f5f9;">
+              📲 <strong>Exact Google Play Steps:</strong><br>
+              1. Open <strong>Play Store</strong> &rarr; tap your <strong>Profile Photo</strong> (top-right).<br>
+              2. Tap <strong>Manage apps &amp; device</strong> &rarr; tap <strong>Manage</strong> tab.<br>
+              3. Change filter from <em>"Installed"</em> to <strong>"Not installed"</strong> &rarr; select old apps and tap the <strong>Trash Can 🗑️</strong>.
+            </div>
           </div>
           <div class="step-actions">
-            <a href="https://play.google.com/store/apps" target="_blank" class="btn-action">
-              <span>📱</span> Open Google Play
-            </a>
-            <button class="btn-check" id="btnStep2" onclick="markStepDone(2)">Mark as Done ✓</button>
+            <button class="btn-check" id="btnStep2" onclick="event.stopPropagation(); markStepDone(2)" style="width:100%; justify-content:center; padding:12px; font-size:13px; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid var(--accent); color:#fff; border-radius:12px;">
+              <span>○</span> Tap to Mark Step 2 Done ✓
+            </button>
           </div>
         </div>
 
         <!-- Step 3: Review Permissions -->
-        <div class="guide-step" id="stepCard3">
+        <div class="guide-step" id="stepCard3" style="cursor:pointer;" onclick="markStepDone(3)">
           <div class="step-header">
             <div style="display:flex; align-items:center;">
-              <div class="step-num">3</div>
-              <div class="step-title">Audit Location &amp; Camera Permissions</div>
+              <div class="step-num" id="checkIcon3">3</div>
+              <div class="step-title">Lock Down Background Location &amp; Mic Permissions</div>
             </div>
-            <span class="step-badge pending" id="badge3">Optional</span>
+            <span class="step-badge pending" id="badge3">Action Needed</span>
           </div>
           <div class="step-instruction">
-            <strong>Why:</strong> Prevent idle apps from accessing your GPS location or microphone in the background.
-            <br><br>
-            <strong>How:</strong> Tap Open Privacy Settings → tap <em>Permission Manager</em> → review which apps have <em>"Allowed all the time"</em> and change them to <em>"Only while using the app"</em>.
+            <strong>Why:</strong> Prevent idle apps from accessing your GPS location, camera, or microphone while in your pocket.
+            <div style="margin:10px 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12.5px; line-height:1.6; color:#f1f5f9;">
+              📲 <strong>Exact Samsung S10+ Quick Path:</strong><br>
+              Open phone <strong>Settings ⚙️</strong> &rarr; tap <strong>Privacy</strong> &rarr; tap <strong>Permission manager</strong> &rarr; tap <strong>Location</strong> &rarr; set apps to <em>"Only while using the app"</em>.
+            </div>
           </div>
           <div class="step-actions">
-            <a href="intent:#Intent;action=android.settings.PRIVACY_SETTINGS;end" class="btn-action">
-              <span>🛡️</span> Open Privacy Settings
-            </a>
-            <button class="btn-check" id="btnStep3" onclick="markStepDone(3)">Mark as Done ✓</button>
+            <button class="btn-check" id="btnStep3" onclick="event.stopPropagation(); markStepDone(3)" style="width:100%; justify-content:center; padding:12px; font-size:13px; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid var(--accent); color:#fff; border-radius:12px;">
+              <span>○</span> Tap to Mark Step 3 Done ✓
+            </button>
           </div>
         </div>
       </div>
@@ -952,5 +957,6 @@
   </script>
 </body>
 </html>
+
 
 
