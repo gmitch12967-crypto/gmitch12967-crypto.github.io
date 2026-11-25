@@ -3,365 +3,623 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sovereign Standalone Software & Offline Privacy Utilities. 100% private, zero-install, zero-subscription desktop applications." />
-  <title>Sovereign Software Store — Standalone Offline Utilities</title>
+  <meta name="description" content="Sovereign Software Store — High-impact standalone offline utilities. Zero subscriptions, pure privacy, instant 1-click execution." />
+  <title>Sovereign Software — Own Your Tools For Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --card: #162238;
-      --border: #334155;
-      --text: #f8fafc;
+      --bg: #030712;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-hover: rgba(30, 41, 59, 0.9);
+      --border: rgba(255, 255, 255, 0.09);
+      --text: #ffffff;
       --muted: #94a3b8;
-      --accent: #38bdf8;
-      --green: #22c55e;
-      --blue: #2563eb;
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.4);
+      --purple: #a855f7;
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.4);
+      --amber: #f59e0b;
+      --blue: #3b82f6;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(6, 182, 212, 0.22) 0%, transparent 50%),
+        radial-gradient(circle at 90% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 50%);
+      background-attachment: fixed;
       color: var(--text);
       line-height: 1.5;
-      padding: 1.5rem 1rem 4rem;
+      padding: 2rem 1.25rem 6rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
-    .container { max-width: 1100px; margin: 0 auto; }
+    .container { max-width: 1180px; margin: 0 auto; }
 
-    /* Top Nav */
-    .nav {
+    /* Floating Aurora Navbar */
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 2rem;
+      padding: 0.9rem 1.75rem;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      margin-bottom: 3.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
-    .brand { font-size: 1.25rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
-    .nav-badge { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+    .brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .brand-glow {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .badge-live {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--green);
+      padding: 0.35rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
 
-    /* Hero Spotlight */
+    /* Dramatic Hero Section */
     .hero {
       text-align: center;
-      padding: 2.5rem 1.5rem;
-      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      margin-bottom: 2rem;
+      max-width: 860px;
+      margin: 0 auto 3.5rem;
+      position: relative;
     }
-    .hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
-    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto 1.5rem; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--cyan);
+      padding: 0.4rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.4rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, var(--cyan) 75%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 0 auto 2.25rem;
+    }
 
-    /* Search & Filter Bar (Zero Endless Scroll) */
-    .filter-bar {
+    /* Value Pillars Ribbon (Immediate Trust Hooks) */
+    .trust-ribbon {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+    .trust-item {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      transition: all 0.2s;
+    }
+    .trust-item:hover {
+      border-color: rgba(6, 182, 212, 0.3);
+      transform: translateY(-2px);
+    }
+    .trust-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .trust-text strong { display: block; font-size: 0.95rem; color: #fff; }
+    .trust-text span { font-size: 0.8rem; color: var(--muted); }
+
+    /* Interactive Filter Bar */
+    .filter-wrapper {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.25rem;
+      margin-bottom: 2.75rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
-    .search-input {
+    .search-row {
+      position: relative;
+    }
+    .search-bar {
       width: 100%;
-      padding: 0.85rem 1.2rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      padding: 0.95rem 1.25rem 0.95rem 3.1rem;
+      background: rgba(3, 7, 18, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
       color: #fff;
       font-size: 1rem;
+      font-family: inherit;
       outline: none;
+      transition: all 0.2s;
     }
-    .search-input:focus { border-color: var(--accent); }
-    .category-tabs {
+    .search-bar:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .search-icon {
+      position: absolute;
+      left: 1.15rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+    .tabs-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    .cat-tab {
-      background: var(--surface);
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      font-family: inherit;
     }
-    .cat-tab:hover, .cat-tab.active {
-      background: var(--blue);
+    .filter-pill:hover, .filter-pill.active {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
       color: #fff;
-      border-color: var(--blue);
+      border-color: transparent;
+      box-shadow: 0 4px 15px var(--cyan-glow);
     }
 
-    /* Modern App Store Grid */
-    .app-grid {
+    /* Vibrant Product Showcase Grid */
+    .store-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.75rem;
     }
-    .app-card {
-      background: var(--surface);
+    .product-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem;
+      border-radius: 20px;
+      padding: 1.75rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.15s, border-color 0.15s;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .app-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent);
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    .card-top {
+    .product-card:hover {
+      background: var(--card-hover);
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.15);
+    }
+    .product-card:hover::before { opacity: 1; }
+
+    .card-header {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
+      align-items: center;
+      gap: 1.1rem;
+      margin-bottom: 1.1rem;
     }
-    .app-icon {
-      font-size: 2rem;
-      width: 52px;
-      height: 52px;
-      background: rgba(56,189,248,0.1);
-      border: 1px solid rgba(56,189,248,0.25);
-      border-radius: 10px;
+    .product-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 1.8rem;
       flex-shrink: 0;
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.03);
     }
-    .app-meta h3 { font-size: 1.15rem; font-weight: 700; color: #fff; }
-    .app-tag { font-size: 0.75rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
-    .app-desc {
+    .product-tag {
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.2rem;
+    }
+    .product-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .product-desc {
+      font-size: 0.94rem;
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1.25rem;
-      line-height: 1.45;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
     }
-    .card-bottom {
+    .product-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border);
+      padding-top: 1.1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .price-tag {
-      font-size: 1.25rem;
-      font-weight: 800;
+    .price-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .price-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+    .price-amount {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
       color: #fff;
     }
     .btn-buy {
-      background: var(--green);
-      color: #052e16;
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #ffffff;
       text-decoration: none;
       font-weight: 700;
-      padding: 0.55rem 1.1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      transition: opacity 0.2s;
+      font-size: 0.92rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 11px;
+      box-shadow: 0 4px 15px var(--green-glow);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .btn-buy:hover { opacity: 0.9; }
+    .btn-buy:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    }
 
     /* Footer */
     footer {
       text-align: center;
-      margin-top: 3.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <div class="container">
     
-    <!-- Top Nav -->
-    <div class="nav">
-      <div class="brand">🛡️ Sovereign Software</div>
-      <div class="nav-badge">100% Offline • Standalone Applications</div>
-    </div>
-
-    <!-- Hero Spotlight -->
-    <div class="hero">
-      <h1>Simple, Powerful Standalone Apps</h1>
-      <p>Zero subscriptions, zero tracking, and zero bloated menus. Every application is a fast, standalone offline tool that does exactly what you need.</p>
-    </div>
-
-    <!-- Interactive Category Filter Bar (Eliminates Endless Scrolling) -->
-    <div class="filter-bar">
-      <input type="text" class="search-input" id="searchBar" placeholder="🔍 Search any app or tool (e.g. PC Care, Photo, PDF, Invoice)..." onkeyup="filterApps()">
-      <div class="category-tabs">
-        <button class="cat-tab active" onclick="setCategory('all', this)">⭐ All Applications</button>
-        <button class="cat-tab" onclick="setCategory('privacy', this)">🛡️ Privacy & Anti-Tracking</button>
-        <button class="cat-tab" onclick="setCategory('photo', this)">📸 Photo & Media</button>
-        <button class="cat-tab" onclick="setCategory('documents', this)">📄 PDF & Documents</button>
-        <button class="cat-tab" onclick="setCategory('business', this)">💼 Business & Data</button>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="brand">
+        <span>⚡</span> SOVEREIGN <span class="brand-glow">SOFTWARE</span>
+      </div>
+      <div class="badge-live">
+        <span class="pulse-dot"></span> 100% Offline Standalone Tools
       </div>
     </div>
 
-    <!-- Clean App Store Grid -->
-    <div class="app-grid" id="appGrid">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">The Anti-Subscription Movement</div>
+      <h1>Precision Standalone Software.<br><span class="gradient-text">Own Your Tools For Life.</span></h1>
+      <p>Why pay endless monthly subscriptions to rent software? Every application here is a compiled, lightning-fast offline tool that runs 100% locally with zero cloud surveillance.</p>
+    </div>
+
+    <!-- Trust Ribbon (Draws Buyers In) -->
+    <div class="trust-ribbon">
+      <div class="trust-item">
+        <div class="trust-icon">⚡</div>
+        <div class="trust-text">
+          <strong>1-Click Execution</strong>
+          <span>Toddler-simple, no learning curve</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">🛡️</div>
+        <div class="trust-text">
+          <strong>Zero Accidental Loss</strong>
+          <span>Photos &amp; logins 100% protected</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">🔒</div>
+        <div class="trust-text">
+          <strong>Pure Local Offline</strong>
+          <span>0 bytes uploaded to third-parties</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">💳</div>
+        <div class="trust-text">
+          <strong>Pay Once, Keep Forever</strong>
+          <span>No recurring charges or subscriptions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Live Search (Zero Endless Scroll) -->
+    <div class="filter-wrapper">
+      <div class="search-row">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="liveSearch" class="search-bar" placeholder="Instant Search: Type any app name or keyword (e.g., PC Care, Photo, PDF, Invoice)..." onkeyup="runFilter()">
+      </div>
+      <div class="tabs-row">
+        <button class="filter-pill active" onclick="setCategory('all', this)">⭐ All Standalone Apps</button>
+        <button class="filter-pill" onclick="setCategory('privacy', this)">🛡️ Privacy &amp; Anti-Tracking</button>
+        <button class="filter-pill" onclick="setCategory('photo', this)">📸 Photo &amp; Media Scrubbers</button>
+        <button class="filter-pill" onclick="setCategory('documents', this)">📄 PDF &amp; Document Signers</button>
+        <button class="filter-pill" onclick="setCategory('business', this)">💼 Business &amp; Invoicing</button>
+      </div>
+    </div>
+
+    <!-- Modern Vibrant Grid -->
+    <div class="store-grid" id="productGrid">
 
       <!-- Sovereign PC Care -->
-      <div class="app-card" data-cat="privacy" data-name="sovereign pc care cleaner 1-click auto-run">
-        <div class="card-top">
-          <div class="app-icon">⚡</div>
-          <div class="app-meta">
-            <span class="app-tag">System & Privacy</span>
-            <h3>Sovereign PC Care AI</h3>
+      <div class="product-card" data-category="privacy" data-keywords="sovereign pc care cleaner 1-click auto-run windows maintenance optimize">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: var(--cyan);">⚡</div>
+          <div>
+            <div class="product-tag">System Care &amp; Privacy</div>
+            <h3 class="product-title">Sovereign PC Care AI</h3>
           </div>
         </div>
-        <p class="app-desc">Toddler-simple 1-Click Clean hero button with embedded Operating AI. Auto-runs in background and silences Windows telemetry. 100% zero data loss.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$29.99</div>
-          <a href="https://payhip.com/b/BtPCO" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          The ultimate 1-Click clean hero app. Embedded Operating AI auto-tunes maintenance, silences intrusive Windows telemetry, and auto-runs silently in the system tray. Guaranteed zero personal file loss.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$29.99</span>
+          </div>
+          <a href="https://payhip.com/b/BtPCO" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
       <!-- Photo Privacy Cleaner -->
-      <div class="app-card" data-cat="photo" data-name="photo privacy cleaner exif gps stripper">
-        <div class="card-top">
-          <div class="app-icon">📸</div>
-          <div class="app-meta">
-            <span class="app-tag">Photo & Privacy</span>
-            <h3>Photo Privacy Cleaner</h3>
+      <div class="product-card" data-category="photo" data-keywords="photo privacy cleaner exif gps stripper metadata camera phone image">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--green);">📸</div>
+          <div>
+            <div class="product-tag">Media Protection</div>
+            <h3 class="product-title">Photo Privacy Cleaner</h3>
           </div>
         </div>
-        <p class="app-desc">Drag-and-drop offline photo scrubber. Permanently strips GPS home coordinates, camera model, and hidden EXIF tracking tags before posting online.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$19.99</div>
-          <a href="https://payhip.com/b/B1iYM" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Drag-and-drop offline photo scrubber. Permanently wipes GPS home coordinates, camera model serial numbers, and hidden EXIF timestamps before you post on social media or Craigslist.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$19.99</span>
+          </div>
+          <a href="https://payhip.com/b/B1iYM" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
       <!-- AI Endurance -->
-      <div class="app-card" data-cat="privacy" data-name="ai endurance autonomous workforce coordinator">
-        <div class="card-top">
-          <div class="app-icon">🤖</div>
-          <div class="app-meta">
-            <span class="app-tag">AI Workforce</span>
-            <h3>AI Endurance</h3>
+      <div class="product-card" data-category="privacy" data-keywords="ai endurance autonomous workforce coordinator 24 worker relay multi-agent">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.3); color: var(--purple);">🤖</div>
+          <div>
+            <div class="product-tag">Autonomous AI</div>
+            <h3 class="product-title">AI Endurance</h3>
           </div>
         </div>
-        <p class="app-desc">Autonomous background workforce coordinator. Manages 24 free cloud AI worker slots with zero laptop CPU/RAM consumption and 30s baton relay.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$39.99</div>
-          <a href="https://payhip.com/b/H9NPp" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Autonomous background AI workforce coordinator. Manages 24 free cloud AI worker slots with zero laptop CPU/RAM consumption, zero token costs, and automated 30-second baton relay.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$39.99</span>
+          </div>
+          <a href="https://payhip.com/b/H9NPp" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
       <!-- AirGap Redact Pro -->
-      <div class="app-card" data-cat="privacy" data-name="airgap redact pro hipaa pii legal">
-        <div class="card-top">
-          <div class="app-icon">🔒</div>
-          <div class="app-meta">
-            <span class="app-tag">Legal & Privacy</span>
-            <h3>AirGap Redact Pro</h3>
+      <div class="product-card" data-category="privacy" data-keywords="airgap redact pro hipaa pii legal redaction confidential document sanitize">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--amber);">🔒</div>
+          <div>
+            <div class="product-tag">Legal &amp; HIPAA</div>
+            <h3 class="product-title">AirGap Redact Pro</h3>
           </div>
         </div>
-        <p class="app-desc">100% local HIPAA/PII confidential document redactor. Removes SSNs, medical IDs, and names offline with SHA-256 tamper-proof verification.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$24.99</div>
-          <a href="https://payhip.com/b/sHVTN" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Military-grade offline document sanitizer. Strips SSNs, medical IDs, and confidential names offline with verifiable SHA-256 tamper-proof audit certificates.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$24.99</span>
+          </div>
+          <a href="https://payhip.com/b/sHVTN" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
       <!-- PDF Sovereign Combiner -->
-      <div class="app-card" data-cat="documents" data-name="pdf combiner merge split offline">
-        <div class="card-top">
-          <div class="app-icon">📄</div>
-          <div class="app-meta">
-            <span class="app-tag">PDF Utility</span>
-            <h3>PDF Sovereign Combiner</h3>
+      <div class="product-card" data-category="documents" data-keywords="pdf combiner merge split reorder offline documents acrobat alternative">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--blue);">📄</div>
+          <div>
+            <div class="product-tag">Document Utility</div>
+            <h3 class="product-title">PDF Sovereign Combiner</h3>
           </div>
         </div>
-        <p class="app-desc">Merge, reorder, and split large PDF documents offline. No page limits, zero server uploads, and no monthly Adobe subscriptions.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$19.99</div>
-          <a href="https://payhip.com/b/gs3rw" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Merge, split, and reorder high-resolution PDF documents offline. No page count limits, zero file uploads, and no monthly $240/year Adobe Acrobat subscriptions.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$19.99</span>
+          </div>
+          <a href="https://payhip.com/b/gs3rw" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
       <!-- Offline Digital Signer -->
-      <div class="app-card" data-cat="documents" data-name="pdf signer signature document offline">
-        <div class="card-top">
-          <div class="app-icon">✍️</div>
-          <div class="app-meta">
-            <span class="app-tag">Legal Documents</span>
-            <h3>Offline PDF Signer</h3>
+      <div class="product-card" data-category="documents" data-keywords="pdf signer signature document offline contract agreement docusign alternative">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: var(--cyan);">✍️</div>
+          <div>
+            <div class="product-tag">Signature Utility</div>
+            <h3 class="product-title">Offline PDF Signer</h3>
           </div>
         </div>
-        <p class="app-desc">Sign contracts and legal PDFs with a single tap directly on your computer or phone. Completely private with zero third-party cloud logging.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$19.99</div>
-          <a href="https://payhip.com/b/jD9d4" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Sign contracts, NDAs, and legal filings with a clean digital pen touch. Completely private on your local machine with zero DocuSign account traps or cloud snooping.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$19.99</span>
+          </div>
+          <a href="https://payhip.com/b/jD9d4" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
-      <!-- Sovereign Contractor Invoicer -->
-      <div class="app-card" data-cat="business" data-name="invoice maker contractor receipt billing">
-        <div class="card-top">
-          <div class="app-icon">💼</div>
-          <div class="app-meta">
-            <span class="app-tag">Trade & Business</span>
-            <h3>Paperless Contractor Invoicer</h3>
+      <!-- Paperless Contractor Invoicer -->
+      <div class="product-card" data-category="business" data-keywords="invoice maker contractor receipt billing quote trades quickbooks alternative">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--amber);">💼</div>
+          <div>
+            <div class="product-tag">Trade &amp; Contractor</div>
+            <h3 class="product-title">Contractor Invoicer</h3>
           </div>
         </div>
-        <p class="app-desc">Clean, professional invoice and quote generator for trades, freelancers, and solos. Auto-calculates tax, itemizes work, and exports printable PDFs.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$24.99</div>
-          <a href="https://payhip.com/b/9fGU4" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Professional offline billing and quote generator for trades, contractors, and freelancers. Auto-calculates sales tax, itemizes labor/materials, and exports crisp PDF invoices.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$24.99</span>
+          </div>
+          <a href="https://payhip.com/b/9fGU4" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
       <!-- DataVault CSV Fixer -->
-      <div class="app-card" data-cat="business" data-name="csv cleaner fixer excel bank data">
-        <div class="card-top">
-          <div class="app-icon">📊</div>
-          <div class="app-meta">
-            <span class="app-tag">Data & Spreadsheets</span>
-            <h3>DataVault CSV Fixer</h3>
+      <div class="product-card" data-category="business" data-keywords="csv cleaner fixer excel bank data delimiter spreadsheets corrupt repair">
+        <div class="card-header">
+          <div class="product-icon" style="background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--green);">📊</div>
+          <div>
+            <div class="product-tag">Spreadsheet Engine</div>
+            <h3 class="product-title">DataVault CSV Fixer</h3>
           </div>
         </div>
-        <p class="app-desc">Automatically repairs broken bank CSV exports, corrupted delimiters, missing headers, and European date formats in seconds.</p>
-        <div class="card-bottom">
-          <div class="price-tag">$19.99</div>
-          <a href="https://payhip.com/b/WphlG" class="btn-buy" target="_blank" rel="noopener">Get Standalone →</a>
+        <p class="product-desc">
+          Instantly repairs broken bank exports, corrupted commas/semicolons, missing headers, and European date formats. Pure offline spreadsheet integrity.
+        </p>
+        <div class="product-footer">
+          <div class="price-wrap">
+            <span class="price-label">Lifetime License</span>
+            <span class="price-amount">$19.99</span>
+          </div>
+          <a href="https://payhip.com/b/WphlG" class="btn-buy" target="_blank" rel="noopener">Buy Standalone →</a>
         </div>
       </div>
 
     </div>
 
-    <!-- Clean Footer -->
+    <!-- Footer -->
     <footer>
-      <p>© 2026 Sovereign Software. All products sold 100% standalone. Zero subscriptions. Zero tracking.</p>
+      <p>© 2026 Sovereign Software. All products sold 100% standalone. Pay once, own forever. Zero subscriptions.</p>
     </footer>
 
   </div>
 
   <script>
-    let currentCategory = 'all';
+    let activeCategory = 'all';
 
-    function setCategory(cat, el) {
-      currentCategory = cat;
-      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-      filterApps();
+    function setCategory(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      runFilter();
     }
 
-    function filterApps() {
-      const q = document.getElementById('searchBar').value.toLowerCase().trim();
-      const cards = document.querySelectorAll('.app-card');
+    function runFilter() {
+      const q = document.getElementById('liveSearch').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.product-card');
 
       cards.forEach(card => {
-        const cat = card.getAttribute('data-cat');
-        const name = card.getAttribute('data-name');
+        const cat = card.getAttribute('data-category');
+        const keywords = card.getAttribute('data-keywords');
 
-        const matchesCat = (currentCategory === 'all' || cat === currentCategory);
-        const matchesQuery = (!q || name.includes(q));
+        const matchCat = (activeCategory === 'all' || cat === activeCategory);
+        const matchQuery = (!q || keywords.includes(q));
 
-        if (matchesCat && matchesQuery) {
+        if (matchCat && matchQuery) {
           card.style.display = 'flex';
         } else {
           card.style.display = 'none';
