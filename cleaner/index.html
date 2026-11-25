@@ -334,20 +334,64 @@
 
       <!-- Action Buttons -->
       <div class="action-btn-group">
-        <button id="mainInstallBtn" class="btn-install-primary" onclick="triggerPwaInstall()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          📲 Install App to Device (1-Click)
-        </button>
+        <a id="mainApkBtn" class="btn-install-primary" href="./SovereignCare.apk" download style="background:linear-gradient(135deg, #0284c7 0%, #10b981 100%); text-decoration:none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          📥 Download Standalone APK (Direct Install)
+        </a>
         <div class="btn-row-secondary">
-          <a class="btn-sec" href="./Sovereign_Mobile_Care_Standalone.zip" download>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            📦 Download .ZIP
-          </a>
+          <button class="btn-sec" onclick="triggerPwaInstall()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            📲 Add Web Icon
+          </button>
           <a class="btn-sec buy" href="https://payhip.com/b/BAmFe" target="_blank" rel="noopener">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             💳 Buy License ($29.99)
           </a>
         </div>
+      </div>
+    </section>
+
+    <!-- 🛡️ Android Sideloading Safety & Unsafe Warning Guide -->
+    <section class="safety-guide-card" style="background:rgba(15,23,42,0.88); border:1px solid rgba(56,189,248,0.35); border-radius:18px; padding:18px; margin-bottom:18px; box-shadow:0 8px 25px rgba(0,0,0,0.4);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <span style="font-size:20px;">🛡️</span>
+        <h3 style="color:#fff; font-size:0.95rem; font-weight:800;">Android Safety &amp; Install Directions</h3>
+      </div>
+      <p style="font-size:0.78rem; color:#94a3b8; line-height:1.45; margin-bottom:14px;">
+        Because you are downloading directly from Evergreen Micro-Tools outside the Google Play Store, Android will display standard security prompts. Follow these 3 simple taps:
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="background:rgba(11,17,32,0.7); border-left:3px solid #f59e0b; border-radius:10px; padding:12px;">
+          <div style="font-weight:700; font-size:0.82rem; color:#fbbf24; display:flex; align-items:center; gap:6px;">
+            <span>⚠️</span> 1. If Chrome says "File might be harmful":
+          </div>
+          <div style="font-size:0.76rem; color:#cbd5e1; margin-top:4px; line-height:1.4;">
+            Tap <strong>"Download anyway"</strong>. This is Google's default automated warning shown for all direct `.apk` files downloaded outside the Play Store (including Signal, Telegram, and Epic Games).
+          </div>
+        </div>
+
+        <div style="background:rgba(11,17,32,0.7); border-left:3px solid #38bdf8; border-radius:10px; padding:12px;">
+          <div style="font-weight:700; font-size:0.82rem; color:#38bdf8; display:flex; align-items:center; gap:6px;">
+            <span>⚙️</span> 2. If Android says "Can't install unknown apps":
+          </div>
+          <div style="font-size:0.76rem; color:#cbd5e1; margin-top:4px; line-height:1.4;">
+            Tap <strong>Settings</strong> ➔ toggle on <strong>"Allow from this source"</strong> (for your browser or My Files) ➔ tap the Back arrow ➔ tap <strong>Install</strong>.
+          </div>
+        </div>
+
+        <div style="background:rgba(11,17,32,0.7); border-left:3px solid #10b981; border-radius:10px; padding:12px;">
+          <div style="font-weight:700; font-size:0.82rem; color:#34d399; display:flex; align-items:center; gap:6px;">
+            <span>🛡️</span> 3. If Play Protect says "Unrecognized app":
+          </div>
+          <div style="font-size:0.76rem; color:#cbd5e1; margin-top:4px; line-height:1.4;">
+            Tap the small link <strong>"More details"</strong> (under the warning) ➔ tap <strong>"Install anyway"</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; padding:10px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); border-radius:10px; font-size:0.74rem; color:#e2e8f0; line-height:1.45;">
+        <strong style="color:#4ade80;">✓ 100% Safety Guarantee:</strong> Sovereign Mobile Care runs completely offline on your device, contains zero ads, zero tracking beacons, and requires zero cloud data permissions.
       </div>
     </section>
 
@@ -874,3 +918,4 @@
   </script>
 </body>
 </html>
+
