@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sovereign Software Store — High-impact standalone offline utilities. Zero subscriptions, pure privacy, instant 1-click execution." />
+  <meta name="description" content="Sovereign Software Store — Precision standalone desktop & mobile software. Zero subscriptions, pure privacy, instant 1-click execution." />
   <title>Sovereign Software — Own Your Tools For Life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #030712;
       --card-bg: rgba(15, 23, 42, 0.75);
-      --card-hover: rgba(30, 41, 59, 0.9);
-      --border: rgba(255, 255, 255, 0.09);
+      --card-hover: rgba(30, 41, 59, 0.95);
+      --border: rgba(255, 255, 255, 0.1);
       --text: #ffffff;
       --muted: #94a3b8;
       --cyan: #06b6d4;
-      --cyan-glow: rgba(6, 182, 212, 0.4);
+      --cyan-glow: rgba(6, 182, 212, 0.35);
       --purple: #a855f7;
       --green: #10b981;
-      --green-glow: rgba(16, 185, 129, 0.4);
+      --green-glow: rgba(16, 185, 129, 0.35);
       --amber: #f59e0b;
       --blue: #3b82f6;
     }
@@ -30,7 +30,7 @@
       background: var(--bg);
       background-image: 
         radial-gradient(circle at 50% -10%, rgba(6, 182, 212, 0.22) 0%, transparent 50%),
-        radial-gradient(circle at 90% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 90% 40%, rgba(168, 85, 247, 0.16) 0%, transparent 45%),
         radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 50%);
       background-attachment: fixed;
       color: var(--text);
@@ -41,7 +41,7 @@
     }
     .container { max-width: 1180px; margin: 0 auto; }
 
-    /* Floating Aurora Navbar */
+    /* Topbar */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -79,7 +79,6 @@
       border-radius: 999px;
       font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
     }
     .pulse-dot {
       width: 8px;
@@ -94,12 +93,11 @@
       50% { opacity: 0.4; transform: scale(0.85); }
     }
 
-    /* Dramatic Hero Section */
+    /* Hero */
     .hero {
       text-align: center;
       max-width: 860px;
       margin: 0 auto 3.5rem;
-      position: relative;
     }
     .hero-tag {
       display: inline-flex;
@@ -137,7 +135,7 @@
       margin: 0 auto 2.25rem;
     }
 
-    /* Value Pillars Ribbon (Immediate Trust Hooks) */
+    /* Value Pillars Ribbon */
     .trust-ribbon {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -159,7 +157,7 @@
       border-color: rgba(6, 182, 212, 0.3);
       transform: translateY(-2px);
     }
-    .trust-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .trust-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .trust-text strong { display: block; font-size: 0.95rem; color: #fff; }
     .trust-text span { font-size: 0.8rem; color: var(--muted); }
 
@@ -176,9 +174,7 @@
       gap: 1rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
-    .search-row {
-      position: relative;
-    }
+    .search-row { position: relative; }
     .search-bar {
       width: 100%;
       padding: 0.95rem 1.25rem 0.95rem 3.1rem;
@@ -200,8 +196,9 @@
       left: 1.15rem;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.1rem;
       color: var(--muted);
+      display: flex;
+      align-items: center;
     }
     .tabs-row {
       display: flex;
@@ -227,7 +224,7 @@
       box-shadow: 0 4px 15px var(--cyan-glow);
     }
 
-    /* Vibrant Product Showcase Grid */
+    /* Product Showcase Grid */
     .store-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -273,14 +270,12 @@
       width: 54px;
       height: 54px;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
       flex-shrink: 0;
-      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.03);
     }
     .product-tag {
       font-size: 0.74rem;
@@ -340,7 +335,6 @@
       box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
     }
 
-    /* Footer */
     footer {
       text-align: center;
       margin-top: 5rem;
@@ -357,10 +351,11 @@
     <!-- Navbar -->
     <div class="navbar">
       <div class="brand">
-        <span>⚡</span> SOVEREIGN <span class="brand-glow">SOFTWARE</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        SOVEREIGN <span class="brand-glow">SOFTWARE</span>
       </div>
       <div class="badge-live">
-        <span class="pulse-dot"></span> 100% Offline Standalone Tools
+        <span class="pulse-dot"></span> 100% Offline Standalone Apps
       </div>
     </div>
 
@@ -374,28 +369,36 @@
     <!-- Trust Ribbon (Draws Buyers In) -->
     <div class="trust-ribbon">
       <div class="trust-item">
-        <div class="trust-icon">⚡</div>
+        <div class="trust-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
         <div class="trust-text">
           <strong>1-Click Execution</strong>
-          <span>Toddler-simple, no learning curve</span>
+          <span>Toddler-simple, zero learning curve</span>
         </div>
       </div>
       <div class="trust-item">
-        <div class="trust-icon">🛡️</div>
+        <div class="trust-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
         <div class="trust-text">
           <strong>Zero Accidental Loss</strong>
           <span>Photos &amp; logins 100% protected</span>
         </div>
       </div>
       <div class="trust-item">
-        <div class="trust-icon">🔒</div>
+        <div class="trust-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
         <div class="trust-text">
           <strong>Pure Local Offline</strong>
           <span>0 bytes uploaded to third-parties</span>
         </div>
       </div>
       <div class="trust-item">
-        <div class="trust-icon">💳</div>
+        <div class="trust-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        </div>
         <div class="trust-text">
           <strong>Pay Once, Keep Forever</strong>
           <span>No recurring charges or subscriptions</span>
@@ -406,15 +409,17 @@
     <!-- Filter & Live Search (Zero Endless Scroll) -->
     <div class="filter-wrapper">
       <div class="search-row">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
         <input type="text" id="liveSearch" class="search-bar" placeholder="Instant Search: Type any app name or keyword (e.g., PC Care, Photo, PDF, Invoice)..." onkeyup="runFilter()">
       </div>
       <div class="tabs-row">
-        <button class="filter-pill active" onclick="setCategory('all', this)">⭐ All Standalone Apps</button>
-        <button class="filter-pill" onclick="setCategory('privacy', this)">🛡️ Privacy &amp; Anti-Tracking</button>
-        <button class="filter-pill" onclick="setCategory('photo', this)">📸 Photo &amp; Media Scrubbers</button>
-        <button class="filter-pill" onclick="setCategory('documents', this)">📄 PDF &amp; Document Signers</button>
-        <button class="filter-pill" onclick="setCategory('business', this)">💼 Business &amp; Invoicing</button>
+        <button class="filter-pill active" onclick="setCategory('all', this)">All Standalone Apps</button>
+        <button class="filter-pill" onclick="setCategory('privacy', this)">Privacy &amp; Anti-Tracking</button>
+        <button class="filter-pill" onclick="setCategory('photo', this)">Photo &amp; Media Scrubbers</button>
+        <button class="filter-pill" onclick="setCategory('documents', this)">PDF &amp; Document Signers</button>
+        <button class="filter-pill" onclick="setCategory('business', this)">Business &amp; Invoicing</button>
       </div>
     </div>
 
@@ -424,7 +429,9 @@
       <!-- Sovereign PC Care -->
       <div class="product-card" data-category="privacy" data-keywords="sovereign pc care cleaner 1-click auto-run windows maintenance optimize">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: var(--cyan);">⚡</div>
+          <div class="product-icon" style="background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
           <div>
             <div class="product-tag">System Care &amp; Privacy</div>
             <h3 class="product-title">Sovereign PC Care AI</h3>
@@ -445,7 +452,9 @@
       <!-- Photo Privacy Cleaner -->
       <div class="product-card" data-category="photo" data-keywords="photo privacy cleaner exif gps stripper metadata camera phone image">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--green);">📸</div>
+          <div class="product-icon" style="background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+          </div>
           <div>
             <div class="product-tag">Media Protection</div>
             <h3 class="product-title">Photo Privacy Cleaner</h3>
@@ -466,7 +475,9 @@
       <!-- AI Endurance -->
       <div class="product-card" data-category="privacy" data-keywords="ai endurance autonomous workforce coordinator 24 worker relay multi-agent">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.3); color: var(--purple);">🤖</div>
+          <div class="product-icon" style="background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+          </div>
           <div>
             <div class="product-tag">Autonomous AI</div>
             <h3 class="product-title">AI Endurance</h3>
@@ -487,7 +498,9 @@
       <!-- AirGap Redact Pro -->
       <div class="product-card" data-category="privacy" data-keywords="airgap redact pro hipaa pii legal redaction confidential document sanitize">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--amber);">🔒</div>
+          <div class="product-icon" style="background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+          </div>
           <div>
             <div class="product-tag">Legal &amp; HIPAA</div>
             <h3 class="product-title">AirGap Redact Pro</h3>
@@ -508,7 +521,9 @@
       <!-- PDF Sovereign Combiner -->
       <div class="product-card" data-category="documents" data-keywords="pdf combiner merge split reorder offline documents acrobat alternative">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--blue);">📄</div>
+          <div class="product-icon" style="background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
           <div>
             <div class="product-tag">Document Utility</div>
             <h3 class="product-title">PDF Sovereign Combiner</h3>
@@ -529,7 +544,9 @@
       <!-- Offline Digital Signer -->
       <div class="product-card" data-category="documents" data-keywords="pdf signer signature document offline contract agreement docusign alternative">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: var(--cyan);">✍️</div>
+          <div class="product-icon" style="background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg>
+          </div>
           <div>
             <div class="product-tag">Signature Utility</div>
             <h3 class="product-title">Offline PDF Signer</h3>
@@ -550,7 +567,9 @@
       <!-- Paperless Contractor Invoicer -->
       <div class="product-card" data-category="business" data-keywords="invoice maker contractor receipt billing quote trades quickbooks alternative">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--amber);">💼</div>
+          <div class="product-icon" style="background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="7" y1="15" x2="7.01" y2="15"/><line x1="12" y1="15" x2="17" y2="15"/></svg>
+          </div>
           <div>
             <div class="product-tag">Trade &amp; Contractor</div>
             <h3 class="product-title">Contractor Invoicer</h3>
@@ -571,7 +590,9 @@
       <!-- DataVault CSV Fixer -->
       <div class="product-card" data-category="business" data-keywords="csv cleaner fixer excel bank data delimiter spreadsheets corrupt repair">
         <div class="card-header">
-          <div class="product-icon" style="background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--green);">📊</div>
+          <div class="product-icon" style="background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M4 9h17M4 15h17M10 3v18"/></svg>
+          </div>
           <div>
             <div class="product-tag">Spreadsheet Engine</div>
             <h3 class="product-title">DataVault CSV Fixer</h3>
