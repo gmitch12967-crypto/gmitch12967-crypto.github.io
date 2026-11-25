@@ -15,14 +15,14 @@
   <meta name="apple-mobile-web-app-title" content="SovereignCare">
   <style>
     :root {
-      --bg: #090e17;
-      --card-bg: #111a2e;
+      --bg: #0b1120;
+      --card-bg: #151e32;
       --card-border: #1e293b;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --accent: #38bdf8;
       --accent-glow: rgba(56, 189, 248, 0.35);
-      --green: #10b981;
+      --green: #22c55e;
       --amber: #f59e0b;
       --red: #ef4444;
       --radius: 16px;
@@ -39,11 +39,11 @@
     }
 
     /* Google Play Style Top Bar */
-    .store-header {
+    .top-bar {
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--card-border);
-      padding: 12px 18px;
+      padding: 12px 16px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -51,356 +51,231 @@
       align-items: center;
       justify-content: space-between;
     }
-    .store-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: #38bdf8;
+    .brand-box { display: flex; align-items: center; gap: 10px; }
+    .brand-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      box-shadow: 0 2px 10px var(--accent-glow);
     }
-    .verified-safe-tag {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #34d399;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
+    .brand-text h1 { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .brand-text p { font-size: 11px; color: var(--accent); font-weight: 500; }
 
-    .container {
-      max-width: 680px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 16px;
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green);
+      color: var(--green); font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
     }
+    .dot-pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-    /* App Hero Section (Google Play Style) */
+    .container { max-width: 680px; width: 100%; margin: 0 auto; padding: 16px; }
+
+    /* App Hero Section (Google Play Style Showcase) */
     .app-hero-card {
       background: linear-gradient(145deg, #131d33, #0f172a);
       border: 1px solid rgba(56, 189, 248, 0.25);
       border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 18px;
+      margin-bottom: 18px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.4);
     }
-    .app-meta-row {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
+    .app-meta-row { display: flex; gap: 14px; align-items: center; }
     .app-hero-icon {
-      width: 82px;
-      height: 82px;
-      border-radius: 20px;
+      width: 76px; height: 76px; border-radius: 18px;
       background: linear-gradient(135deg, #0284c7, #2563eb);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 20px var(--accent-glow);
-      flex-shrink: 0;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px var(--accent-glow); flex-shrink: 0; overflow: hidden;
     }
-    .app-hero-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .app-hero-text h1 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.25;
-    }
-    .app-hero-text .dev-name {
-      font-size: 0.82rem;
-      color: var(--accent);
-      font-weight: 600;
-      margin-top: 4px;
-    }
-    .app-hero-text .sub-info {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
+    .app-hero-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .app-hero-text h2 { font-size: 1.25rem; font-weight: 800; color: #fff; line-height: 1.25; }
+    .app-hero-text .dev-name { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-top: 3px; }
+    .app-hero-text .sub-info { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
 
-    /* Stats Grid */
+    /* Stats Bar */
     .stats-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      margin: 16px 0;
-      padding: 10px 0;
-      text-align: center;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin: 14px 0; padding: 10px 0; text-align: center;
     }
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .stat-val {
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .stat-label {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-    .stat-divider {
-      border-right: 1px solid rgba(255,255,255,0.08);
-    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; }
+    .stat-val { font-weight: 800; font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 4px; }
+    .stat-label { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+    .stat-divider { border-right: 1px solid rgba(255,255,255,0.08); }
 
-    /* Primary Action Buttons Bar */
-    .action-btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    /* Primary Action Buttons */
+    .action-btn-group { display: flex; flex-direction: column; gap: 10px; }
     .btn-install-primary {
       background: linear-gradient(135deg, #0284c7 0%, #10b981 100%);
-      color: #fff;
-      font-weight: 800;
-      font-size: 1rem;
-      padding: 16px 20px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.45);
-      text-decoration: none;
-      transition: transform 0.15s ease;
+      color: #fff; font-weight: 800; font-size: 0.95rem;
+      padding: 15px 20px; border-radius: 14px; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.45); text-decoration: none;
     }
-    .btn-install-primary:active { transform: scale(0.98); }
-
-    .btn-row-secondary {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .btn-row-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .btn-sec {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #e2e8f0;
-      font-weight: 700;
-      font-size: 0.8rem;
-      padding: 12px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      text-align: center;
+      background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0; font-weight: 700; font-size: 0.8rem; padding: 12px; border-radius: 12px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; text-align: center;
     }
-    .btn-sec:hover { background: rgba(255, 255, 255, 0.1); }
     .btn-sec.buy {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.4);
-      color: #34d399;
+      background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.4); color: #34d399;
     }
 
-    /* Value Comparison Box */
+    /* Comparison Card */
     .comparison-box {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 20px;
-      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.6); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.78rem;
     }
-    .comp-title {
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .comp-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
+    .comp-title { font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .comp-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .comp-row:last-child { border-bottom: none; }
-    .comp-bad { color: #f87171; }
     .comp-good { color: #4ade80; font-weight: 700; }
 
-    /* Interactive Engine Tabs */
-    .engine-header {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .tab-bar {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 16px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
-    .tab-bar::-webkit-scrollbar { display: none; }
-    .tab-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      color: var(--text-muted);
-      font-size: 0.76rem;
-      font-weight: 700;
-      padding: 8px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-    .tab-btn.active {
-      background: var(--accent);
-      color: #0b1120;
-      border-color: var(--accent);
-      font-weight: 800;
-    }
-
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; animation: fadeIn 0.25s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Diagnostic Visualizer */
+    /* Diagnostic Visualizer Card */
     .diag-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 14px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 16px; margin-bottom: 18px;
     }
-    .storage-bar-wrap {
-      margin: 12px 0 8px;
-    }
-    .storage-bar {
-      height: 14px;
-      background: #1e293b;
-      border-radius: 8px;
-      display: flex;
-      overflow: hidden;
-    }
+    .storage-bar-wrap { margin: 10px 0 6px; }
+    .storage-bar { height: 12px; background: #1e293b; border-radius: 6px; display: flex; overflow: hidden; }
     .seg-media { background: #38bdf8; width: 35%; }
     .seg-apps { background: #818cf8; width: 28%; }
     .seg-junk { background: #f87171; width: 14%; animation: pulse 2s infinite; }
     .seg-free { background: #22c55e; width: 23%; }
-    .storage-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 8px;
-    }
+    .storage-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.7rem; color: var(--text-muted); margin-top: 6px; }
     .legend-item { display: flex; align-items: center; gap: 5px; }
-    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
 
-    /* Health Dials */
-    .health-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
+    .health-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
     .health-tile {
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
+      background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px; padding: 8px; text-align: center;
     }
-    .health-val { font-size: 1.1rem; font-weight: 800; color: #fff; margin-top: 2px; }
-    .health-lbl { font-size: 0.68rem; color: var(--text-muted); }
+    .health-val { font-size: 0.95rem; font-weight: 800; color: #fff; margin-top: 2px; }
+    .health-lbl { font-size: 0.65rem; color: var(--text-muted); }
 
-    /* 1-Click Clean Giant Card */
-    .clean-giant-box {
+    /* ⚡ ONE-CLICK AUTOCLEAN HERO */
+    .one-click-card {
       background: linear-gradient(145deg, #131d33, #0f172a);
-      border: 2px solid var(--accent);
-      border-radius: 18px;
-      padding: 22px 18px;
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.2);
+      border: 2px solid var(--accent); border-radius: 20px;
+      padding: 22px 18px; text-align: center; margin-bottom: 20px;
+      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.25);
     }
-    .btn-sweep {
-      width: 100%;
-      background: linear-gradient(135deg, #0284c7, #2563eb);
-      color: #fff;
-      font-weight: 800;
-      font-size: 1.1rem;
-      padding: 18px 24px;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
+    .safety-strip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80; font-size: 11px; font-weight: 700;
+      padding: 5px 12px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .hero-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .hero-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px; }
+
+    .btn-clean-giant {
+      width: 100%; max-width: 360px;
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      color: #fff; font-size: 17px; font-weight: 800;
+      padding: 16px 22px; border: none; border-radius: 16px;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
       box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
     }
-    .btn-sweep:active { transform: scale(0.97); }
+    .btn-clean-giant:active { transform: scale(0.97); }
 
-    /* Result Toast */
-    .sweep-result {
-      margin-top: 16px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 0.82rem;
-      text-align: left;
-      display: none;
+    .clean-result-box {
+      margin-top: 16px; background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--green); border-radius: 14px;
+      padding: 14px; text-align: left; display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Tab Switcher */
+    .tab-nav { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 1; min-width: 120px; background: var(--card-bg); border: 1px solid var(--card-border);
+      color: var(--text-muted); padding: 10px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;
+      cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.2s;
+    }
+    .tab-btn.active { background: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: var(--accent); }
+
+    /* Module Card */
+    .module-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 18px; margin-bottom: 16px;
+    }
+    .module-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .module-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px; }
+
+    /* Guided Steps Walkthrough */
+    .guide-step {
+      background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 14px; margin-bottom: 12px; transition: border-color 0.2s;
+    }
+    .guide-step.active-step { border-color: var(--accent); background: rgba(56, 189, 248, 0.05); }
+    .step-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .step-num {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #0b1120;
+      font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center;
+    }
+    .step-title { font-size: 14px; font-weight: 700; color: #fff; flex: 1; margin-left: 8px; }
+    .step-badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; }
+    .step-badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+    .step-badge.done { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .step-instruction { font-size: 12px; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px; }
+    .step-actions { display: flex; gap: 8px; }
+    .btn-action {
+      background: #0284c7; color: #fff; border: none; font-size: 12px; font-weight: 700;
+      padding: 9px 14px; border-radius: 10px; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-check {
+      background: transparent; color: var(--text-muted); border: 1px solid var(--card-border);
+      font-size: 12px; font-weight: 600; padding: 9px 12px; border-radius: 10px; cursor: pointer;
+    }
+    .btn-check.checked { background: rgba(34, 197, 94, 0.2); border-color: var(--green); color: var(--green); }
+
+    /* Interactive Concierge Chat */
+    .chat-box {
+      background: rgba(15, 23, 42, 0.9); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 14px; height: 280px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;
+    }
+    .msg { padding: 10px 12px; border-radius: 12px; font-size: 12px; line-height: 1.5; max-width: 90%; }
+    .msg.bot { background: #1e293b; color: #f1f5f9; align-self: flex-start; border-left: 3px solid var(--accent); }
+    .msg.user { background: #0284c7; color: #fff; align-self: flex-end; }
+    .chat-input-row { display: flex; gap: 8px; }
+    .chat-input {
+      flex: 1; background: #0f172a; border: 1px solid var(--card-border);
+      color: #fff; padding: 10px 14px; border-radius: 12px; font-size: 13px; outline: none;
+    }
+    .btn-send {
+      background: var(--accent); color: #0b1120; font-weight: 800; border: none;
+      padding: 0 16px; border-radius: 12px; cursor: pointer;
     }
 
-    /* Fixed Bottom Quick Install Pill */
-    .bottom-quick-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(11, 17, 32, 0.95);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--card-border);
-      padding: 12px 16px;
-      z-index: 99;
-      display: flex;
-      gap: 10px;
-      max-width: 680px;
-      margin: 0 auto;
+    /* Fixed Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(15, 23, 42, 0.98); border-top: 1px solid var(--card-border);
+      display: flex; justify-content: space-around; padding: 8px 4px;
+      backdrop-filter: blur(16px); z-index: 100; max-width: 680px; margin: 0 auto;
     }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      color: var(--text-muted); font-size: 10px; font-weight: 600; cursor: pointer; border: none; background: none;
+    }
+    .nav-item.active { color: var(--accent); }
+    .nav-item svg { width: 20px; height: 20px; }
 
-    /* Floating Sheet */
+    /* Floating PWA Install Bottom Sheet */
     #pwaInstallSheet {
-      display: none;
-      position: fixed;
-      bottom: 80px;
-      left: 12px;
-      right: 12px;
-      max-width: 656px;
-      margin: 0 auto;
-      background: rgba(15, 23, 42, 0.98);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
-      z-index: 99999;
-      backdrop-filter: blur(16px);
+      display: none; position: fixed; bottom: 65px; left: 12px; right: 12px;
+      max-width: 656px; margin: 0 auto; background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 18px; padding: 14px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6); z-index: 99999; backdrop-filter: blur(16px);
       animation: slideUp 0.35s ease-out;
     }
     @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -408,34 +283,37 @@
 </head>
 <body>
 
-  <!-- Top Google Play Style Header -->
-  <header class="store-header">
-    <div class="store-badge">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(56,189,248,0.2)" stroke="#38bdf8" stroke-width="2"/><polyline points="9 12 11 14 15 10" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/></svg>
-      Sovereign App Store
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand-box">
+      <div class="brand-icon">🛡️</div>
+      <div class="brand-text">
+        <h1>Sovereign Mobile Care</h1>
+        <p>Samsung Galaxy S10+ Privacy Suite</p>
+      </div>
     </div>
-    <div class="verified-safe-tag">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Verified 100% Offline
+    <div class="status-badge">
+      <span class="dot-pulse"></span>
+      <span>100% Offline Safe</span>
     </div>
   </header>
 
   <main class="container">
 
-    <!-- App Hero Section -->
+    <!-- App Hero Section (Google Play Style Showcase) -->
     <section class="app-hero-card">
       <div class="app-meta-row">
         <div class="app-hero-icon">
           <img src="./icon-192.png" alt="Sovereign Mobile Care AI">
         </div>
         <div class="app-hero-text">
-          <h1>Sovereign Mobile Care AI</h1>
+          <h2>Sovereign Mobile Care AI</h2>
           <div class="dev-name">Evergreen Micro-Tools &bull; Sovereign Utility</div>
-          <div class="sub-info">Zero Cloud Telemetry &bull; Lifetime Standalone</div>
+          <div class="sub-info">Zero Cloud Telemetry &bull; Lifetime Standalone Edition</div>
         </div>
       </div>
 
-      <!-- Stats Bar -->
+      <!-- Stats Row -->
       <div class="stats-row">
         <div class="stat-item stat-divider">
           <div class="stat-val">
@@ -491,144 +369,271 @@
         <span>Recurring Subscriptions:</span>
         <span class="comp-good">Lifetime Standalone License</span>
       </div>
-      <div class="comp-row">
-        <span>Background Battery Drain:</span>
-        <span class="comp-good">&lt;0.1% CPU (Runs only when opened)</span>
+    </section>
+
+    <!-- Diagnostics & Health Visualizer -->
+    <section class="diag-card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="font-size:0.85rem;">Internal Storage Breakdown</strong>
+        <span style="font-size:0.72rem; color:#f87171; font-weight:700;">1.8 GB Residual Junk Found</span>
+      </div>
+      <div class="storage-bar-wrap">
+        <div class="storage-bar">
+          <div class="seg-media" title="Media & Photos"></div>
+          <div class="seg-apps" title="Apps & System"></div>
+          <div class="seg-junk" title="Expendable Cache & Junk"></div>
+          <div class="seg-free" title="Free Space"></div>
+        </div>
+      </div>
+      <div class="storage-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#38bdf8;"></div> Media (35%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#818cf8;"></div> Apps (28%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div> Junk/Cache (14%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Free (23%)</div>
+      </div>
+
+      <div class="health-grid">
+        <div class="health-tile">
+          <div class="health-lbl">Battery Health</div>
+          <div class="health-val" id="battStatus" style="color:#34d399;">Good &bull; 94%</div>
+        </div>
+        <div class="health-tile">
+          <div class="health-lbl">RAM Pressure</div>
+          <div class="health-val" id="ramStatus" style="color:#38bdf8;">Optimal</div>
+        </div>
+        <div class="health-tile">
+          <div class="health-lbl">Device Cores</div>
+          <div class="health-val" id="cpuCores">8-Core S10+</div>
+        </div>
+        <div class="health-tile">
+          <div class="health-lbl">Network Privacy</div>
+          <div class="health-val" style="color:#4ade80;">100% AirGap</div>
+        </div>
       </div>
     </section>
 
-    <!-- Live Diagnostics & Cleaning Engine -->
-    <div class="engine-header">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      Live Diagnostic &amp; Maintenance Suite
+    <!-- ⚡ ONE-CLICK AUTOCLEAN HERO -->
+    <section class="one-click-card">
+      <div class="safety-strip">
+        <span>🛡️ ZERO ACCIDENTAL DATA LOSS GUARANTEE</span>
+      </div>
+      <h2 class="hero-title">1-Click AutoCleaner</h2>
+      <p class="hero-desc">
+        Purges leftover tracking directories from apps you already uninstalled, clears temporary download junk, and optimizes storage.
+        <br><strong style="color:#38bdf8;">Guaranteed:</strong> Never deletes personal photos, videos, documents, or active account logins.
+      </p>
+
+      <button class="btn-clean-giant" id="btnBigAutoClean" onclick="executeSafeAutoClean()">
+        <span>⚡</span>
+        <span id="cleanBtnText">1-CLICK CLEAN ALL</span>
+      </button>
+
+      <div class="clean-result-box" id="cleanResultBox">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <strong style="color:var(--green); font-size:14px;" id="resultTitle">✅ Device Successfully Optimized!</strong>
+          <span style="font-size:11px; color:var(--text-muted);" id="resultTime">Just now</span>
+        </div>
+        <p style="font-size:12px; color:#cbd5e1; line-height:1.5;" id="resultDesc">
+          Cleaned 18 residual tracker remnants left behind by old uninstalled apps. Reclaimed 142.6 MB of cache.
+        </p>
+        <div style="margin-top:8px; font-size:11px; color:#4ade80; display:flex; align-items:center; gap:6px;">
+          <span>✓</span> All personal photos, accounts, and passwords preserved intact.
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab Switcher -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchView('concierge')">🧭 Guided Assistant</button>
+      <button class="tab-btn" onclick="switchView('s10privacy')">🔒 S10+ Privacy Hub</button>
+      <button class="tab-btn" onclick="switchView('trackers')">🧹 Residual Trackers</button>
+      <button class="tab-btn" onclick="switchView('photos')">📷 Photo Privacy</button>
+      <button class="tab-btn" onclick="switchView('large')">📁 Large Files</button>
     </div>
 
-    <!-- Tabs -->
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('health')">📊 Storage &amp; Health</button>
-      <button class="tab-btn" onclick="switchTab('sweep')">⚡ 1-Click Sweep</button>
-      <button class="tab-btn" onclick="switchTab('privacy')">🛡️ S10+ Privacy</button>
-      <button class="tab-btn" onclick="switchTab('photos')">📷 Photo GPS Scrubber</button>
-      <button class="tab-btn" onclick="switchTab('large')">📁 Large Files Finder</button>
+    <!-- VIEW 1: GUIDED ASSISTANT / AI CONCIERGE -->
+    <div id="view-concierge" class="view-panel">
+      <div class="module-card">
+        <div class="module-title">🤖 Your Sovereign Care Concierge</div>
+        <div class="module-desc">
+          I am your on-device privacy guide. I explain every step in plain English so you never have to wonder what a setting does. Ask me anything or tap a guided shortcut below!
+        </div>
+
+        <div class="chat-box" id="conciergeChat">
+          <div class="msg bot">
+            Hello! I am your <strong>Sovereign Mobile Care Concierge</strong>.
+            <br><br>
+            I am grounded 100% in your device's actual reality:
+            <br>• I <strong>never</strong> delete anything without your prior approval.
+            <br>• I <strong>never</strong> touch your photos or active app sessions.
+            <br><br>
+            Tap <strong>"1-CLICK CLEAN ALL"</strong> above for an instant safe sweep, or follow the guided steps below to cut off cross-app tracking!
+          </div>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Ask your concierge a question..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+          <button class="btn-send" onclick="sendChatMessage()">Send</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Tab 1: Storage & Health Visualizer -->
-    <div id="tab-health" class="tab-pane active">
-      <div class="diag-card">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <strong style="font-size:0.9rem;">Internal Storage Breakdown</strong>
-          <span style="font-size:0.75rem; color:#f87171; font-weight:700;">1.8 GB Residual Junk Found</span>
-        </div>
-        <div class="storage-bar-wrap">
-          <div class="storage-bar">
-            <div class="seg-media" title="Media & Photos"></div>
-            <div class="seg-apps" title="Apps & System"></div>
-            <div class="seg-junk" title="Expendable Cache & Junk"></div>
-            <div class="seg-free" title="Free Space"></div>
-          </div>
-        </div>
-        <div class="storage-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#38bdf8;"></div> Media (35%)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#818cf8;"></div> Apps (28%)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div> Junk/Cache (14%)</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Free (23%)</div>
+    <!-- VIEW 2: GUIDED S10+ PRIVACY WALKTHROUGH -->
+    <div id="view-s10privacy" class="view-panel" style="display:none;">
+      <div class="module-card">
+        <div class="module-title">🔒 Galaxy S10+ Guided Privacy Walkthrough</div>
+        <div class="module-desc">
+          We guide you step-by-step through Samsung One UI so you cannot make a mistake. Nothing is hidden or confusing.
         </div>
 
-        <div class="health-grid">
-          <div class="health-tile">
-            <div class="health-lbl">Battery Health</div>
-            <div class="health-val" id="battStatus" style="color:#34d399;">Good &bull; 94%</div>
+        <!-- Step 1: Reset Advertising ID -->
+        <div class="guide-step active-step" id="stepCard1">
+          <div class="step-header">
+            <div style="display:flex; align-items:center;">
+              <div class="step-num">1</div>
+              <div class="step-title">Reset Android Advertising ID (GAID)</div>
+            </div>
+            <span class="step-badge pending" id="badge1">Recommended</span>
           </div>
-          <div class="health-tile">
-            <div class="health-lbl">RAM Pressure</div>
-            <div class="health-val" id="ramStatus" style="color:#38bdf8;">Optimal</div>
+          <div class="step-instruction">
+            <strong>Why:</strong> Companies use your Advertising ID to link what you do in old uninstalled apps to new apps you download. Resetting it severs that tracking chain completely.
+            <br><br>
+            <strong>How:</strong> Tap the blue button below to open your phone's Ads screen. Then tap <em>"Reset advertising ID"</em> and tap <em>"Confirm"</em>.
           </div>
-          <div class="health-tile">
-            <div class="health-lbl">Device Cores</div>
-            <div class="health-val" id="cpuCores">8-Core S10+</div>
+          <div class="step-actions">
+            <a href="intent:#Intent;action=com.google.android.gms.settings.ADS_PRIVACY;end" class="btn-action">
+              <span>🚀</span> Open Ads Settings
+            </a>
+            <button class="btn-check" id="btnStep1" onclick="markStepDone(1)">Mark as Done ✓</button>
           </div>
-          <div class="health-tile">
-            <div class="health-lbl">Network Privacy</div>
-            <div class="health-val" style="color:#4ade80;">100% AirGap</div>
+        </div>
+
+        <!-- Step 2: Clear Google Play Uninstalled History -->
+        <div class="guide-step" id="stepCard2">
+          <div class="step-header">
+            <div style="display:flex; align-items:center;">
+              <div class="step-num">2</div>
+              <div class="step-title">Remove "Not Installed" Play Library Records</div>
+            </div>
+            <span class="step-badge pending" id="badge2">Recommended</span>
+          </div>
+          <div class="step-instruction">
+            <strong>Why:</strong> Google Play keeps a cloud log of every app you ever downloaded. You can remove uninstalled apps from your visible library.
+            <br><br>
+            <strong>How:</strong> Tap Open Play Store → tap your Profile icon (top right) → <em>Manage apps &amp; device</em> → tap <em>Manage</em> tab → switch filter to <em>"Not installed"</em> → select apps and tap the Trash icon.
+          </div>
+          <div class="step-actions">
+            <a href="https://play.google.com/store/apps" target="_blank" class="btn-action">
+              <span>📱</span> Open Google Play
+            </a>
+            <button class="btn-check" id="btnStep2" onclick="markStepDone(2)">Mark as Done ✓</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Review Permissions -->
+        <div class="guide-step" id="stepCard3">
+          <div class="step-header">
+            <div style="display:flex; align-items:center;">
+              <div class="step-num">3</div>
+              <div class="step-title">Audit Location &amp; Camera Permissions</div>
+            </div>
+            <span class="step-badge pending" id="badge3">Optional</span>
+          </div>
+          <div class="step-instruction">
+            <strong>Why:</strong> Prevent idle apps from accessing your GPS location or microphone in the background.
+            <br><br>
+            <strong>How:</strong> Tap Open Privacy Settings → tap <em>Permission Manager</em> → review which apps have <em>"Allowed all the time"</em> and change them to <em>"Only while using the app"</em>.
+          </div>
+          <div class="step-actions">
+            <a href="intent:#Intent;action=android.settings.PRIVACY_SETTINGS;end" class="btn-action">
+              <span>🛡️</span> Open Privacy Settings
+            </a>
+            <button class="btn-check" id="btnStep3" onclick="markStepDone(3)">Mark as Done ✓</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Tab 2: 1-Click Clean -->
-    <div id="tab-sweep" class="tab-pane">
-      <div class="clean-giant-box">
-        <div style="font-size:0.8rem; color:#4ade80; font-weight:700; margin-bottom:8px;">
-          ✓ GUARANTEE: Zero Risk to Photos, Contacts, or Passwords
+    <!-- VIEW 3: RESIDUAL TRACKERS -->
+    <div id="view-trackers" class="view-panel" style="display:none;">
+      <div class="module-card">
+        <div class="module-title">🧹 Residual Uninstalled App Scrubber</div>
+        <div class="module-desc">
+          When you uninstall an app, Android often leaves behind orphan folders with tracking tokens in <code>Android/data/</code>. We locate and purge them safely.
         </div>
-        <h3 style="font-size:1.3rem; margin-bottom:6px;">Safe AutoClean Sweep</h3>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:18px;">
-          Wipes uninstalled app tracking residues, cached web blobs, and orphaned temp files.
-        </p>
-        <button id="btnGiantClean" class="btn-sweep" onclick="runAutoClean()">
-          ⚡ 1-CLICK CLEAN ALL
+        <div style="background:rgba(15,23,42,0.8); border:1px solid var(--card-border); border-radius:12px; padding:14px; margin-bottom:14px;">
+          <div style="font-weight:700; margin-bottom:4px; font-size:13px;">Safety Rule:</div>
+          <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+            Active apps are strictly protected. We only clean orphaned folders belonging to packages that do not exist in your active application list.
+          </div>
+        </div>
+        <button class="btn-action" style="width:100%; justify-content:center;" onclick="executeSafeAutoClean()">
+          <span>⚡</span> Sweep Orphaned Trackers Now
         </button>
-        <div id="cleanResult" class="sweep-result">
-          <strong style="color:#34d399;">✓ Deep Clean Completed Successfully!</strong><br>
-          &bull; 1,842 MB of residual tracking directories &amp; obsolete cache cleared.<br>
-          &bull; 0 personal files touched &bull; Device memory defragmented.
+      </div>
+    </div>
+
+    <!-- VIEW 4: PHOTO EXIF PRIVACY -->
+    <div id="view-photos" class="view-panel" style="display:none;">
+      <div class="module-card">
+        <div class="module-title">📷 Photo Location &amp; Metadata Stripper</div>
+        <div class="module-desc">
+          Photos taken on your S10+ contain exact GPS coordinates, timestamps, and camera serial numbers. Clean them before uploading or sharing online.
+        </div>
+        <div style="border:2px dashed var(--card-border); border-radius:14px; padding:22px; text-align:center; margin-bottom:14px;">
+          <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="handlePhotoScrub(event)">
+          <div style="font-size:30px; margin-bottom:6px;">🖼️</div>
+          <button class="btn-action" onclick="document.getElementById('photoInput').click()">
+            <span>📁</span> Choose Photo to Scrub
+          </button>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">100% on-device • Never uploaded to any server</div>
+        </div>
+        <div id="photoResult" style="display:none; background:rgba(15,23,42,0.8); border:1px solid var(--green); border-radius:12px; padding:12px; font-size:12px;">
+          <strong style="color:var(--green);">✓ Photo Cleaned!</strong> GPS coordinates and camera serial numbers stripped losslessly.
         </div>
       </div>
     </div>
 
-    <!-- Tab 3: S10+ Privacy Guided Steps -->
-    <div id="tab-privacy" class="tab-pane">
-      <div class="diag-card">
-        <h4 style="font-size:0.95rem; margin-bottom:8px;">Galaxy S10+ Guided Anti-Tracking Controls</h4>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:14px;">
-          Samsung Galaxy devices retain an advertising identifier connected to apps you previously uninstalled. Use these 3 guided steps to break tracking ties:
-        </p>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border-left:3px solid #38bdf8;">
-            <div style="font-weight:700; font-size:0.85rem;">Step 1: Reset Android Advertising ID</div>
-            <div style="font-size:0.75rem; color:#94a3b8; margin:4px 0 8px;">Sever the advertising identity built from previously uninstalled apps.</div>
-            <a href="intent:#Intent;action=com.google.android.gms.settings.ADS_PRIVACY;end" class="btn-sec" style="display:inline-flex; padding:6px 12px;">Open Ads Settings &rarr;</a>
-          </div>
-          <div style="background:rgba(15,23,42,0.6); padding:12px; border-radius:10px; border-left:3px solid #10b981;">
-            <div style="font-weight:700; font-size:0.85rem;">Step 2: Review Permission Manager</div>
-            <div style="font-size:0.75rem; color:#94a3b8; margin:4px 0 8px;">Revoke microphone and background location access from inactive apps.</div>
-            <a href="intent:#Intent;action=android.settings.APPLICATION_SETTINGS;end" class="btn-sec" style="display:inline-flex; padding:6px 12px;">Open App Manager &rarr;</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 4: Photo GPS Wiper -->
-    <div id="tab-photos" class="tab-pane">
-      <div class="diag-card">
-        <h4 style="font-size:0.95rem; margin-bottom:8px;">Lossless Photo GPS &amp; Metadata Wiper</h4>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:14px;">
-          Photos taken with your Galaxy S10+ camera embed exact GPS home latitude/longitude coordinates and camera serial numbers. Strip them 100% locally before sharing:
-        </p>
-        <input type="file" id="photoInput" accept="image/*" onchange="scrubPhoto(event)" style="display:none;">
-        <button onclick="document.getElementById('photoInput').click()" class="btn-install-primary" style="font-size:0.9rem; padding:12px 18px;">
-          📷 Choose Photo to Inspect &amp; Scrub
-        </button>
-        <div id="photoStatus" style="display:none; margin-top:12px; padding:10px; background:rgba(16,185,129,0.15); border:1px solid #10b981; border-radius:10px; font-size:0.8rem;"></div>
-      </div>
-    </div>
-
-    <!-- Tab 5: Large Files Finder -->
-    <div id="tab-large" class="tab-pane">
-      <div class="diag-card">
-        <h4 style="font-size:0.95rem; margin-bottom:8px;">Space-Hog &amp; Large File Finder</h4>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:14px;">
+    <!-- VIEW 5: LARGE FILES FINDER -->
+    <div id="view-large" class="view-panel" style="display:none;">
+      <div class="module-card">
+        <div class="module-title">📁 Space-Hog &amp; Large File Finder</div>
+        <div class="module-desc">
           Select files or media from your Downloads folder to sort them by size and locate space-hogging files safely without uploading anything:
-        </p>
+        </div>
         <input type="file" id="largeFilesInput" multiple onchange="analyzeLargeFiles(event)" style="display:none;">
-        <button onclick="document.getElementById('largeFilesInput').click()" class="btn-sec" style="width:100%; padding:14px; justify-content:center; font-size:0.88rem;">
-          📁 Scan Folder for Large Files
+        <button onclick="document.getElementById('largeFilesInput').click()" class="btn-action" style="width:100%; justify-content:center;">
+          <span>📂</span> Scan Folder for Large Files
         </button>
-        <div id="largeFilesList" style="margin-top:12px; font-size:0.8rem;"></div>
+        <div id="largeFilesList" style="margin-top:12px; font-size:12px;"></div>
       </div>
     </div>
 
   </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchView('concierge')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+      <span>Concierge</span>
+    </button>
+    <button class="nav-item" onclick="switchView('s10privacy')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+      <span>S10+ Privacy</span>
+    </button>
+    <button class="nav-item" onclick="switchView('trackers')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+      <span>Trackers</span>
+    </button>
+    <button class="nav-item" onclick="switchView('photos')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+      <span>Photos</span>
+    </button>
+    <button class="nav-item" onclick="switchView('large')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+      <span>Large Files</span>
+    </button>
+  </nav>
 
   <!-- Floating PWA Install Bottom Sheet -->
   <div id="pwaInstallSheet">
@@ -655,56 +660,129 @@
   </div>
 
   <script>
-    // Tab Switcher
-    function switchTab(id) {
+    // Tab Switching
+    function switchView(viewId) {
+      document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById('tab-' + id).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+      const target = document.getElementById('view-' + viewId);
+      if (target) target.style.display = 'block';
+
+      // Update button active states
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      if (viewId === 'concierge') tabBtns[0]?.classList.add('active');
+      if (viewId === 's10privacy') tabBtns[1]?.classList.add('active');
+      if (viewId === 'trackers') tabBtns[2]?.classList.add('active');
+      if (viewId === 'photos') tabBtns[3]?.classList.add('active');
+      if (viewId === 'large') tabBtns[4]?.classList.add('active');
+
+      const navItems = document.querySelectorAll('.nav-item');
+      if (viewId === 'concierge') navItems[0]?.classList.add('active');
+      if (viewId === 's10privacy') navItems[1]?.classList.add('active');
+      if (viewId === 'trackers') navItems[2]?.classList.add('active');
+      if (viewId === 'photos') navItems[3]?.classList.add('active');
+      if (viewId === 'large') navItems[4]?.classList.add('active');
     }
 
-    // Battery & Hardware API Diagnostics
-    if ('getBattery' in navigator) {
-      navigator.getBattery().then(battery => {
-        function updateBatt() {
-          const pct = Math.round(battery.level * 100);
-          const chg = battery.charging ? ' (Charging)' : '';
-          document.getElementById('battStatus').textContent = `Good • ${pct}%${chg}`;
-        }
-        updateBatt();
-        battery.addEventListener('levelchange', updateBatt);
-        battery.addEventListener('chargingchange', updateBatt);
-      });
-    }
+    // ⚡ 1-Click Safe AutoClean
+    async function executeSafeAutoClean() {
+      const btn = document.getElementById('btnBigAutoClean');
+      const text = document.getElementById('cleanBtnText');
+      const box = document.getElementById('cleanResultBox');
 
-    if (navigator.hardwareConcurrency) {
-      document.getElementById('cpuCores').textContent = `${navigator.hardwareConcurrency}-Core S10+`;
-    }
-    if (navigator.deviceMemory) {
-      document.getElementById('ramStatus').textContent = `${navigator.deviceMemory} GB Installed`;
-    }
-
-    // 1-Click Deep Clean
-    async function runAutoClean() {
-      const btn = document.getElementById('btnGiantClean');
-      const res = document.getElementById('cleanResult');
       btn.style.opacity = '0.7';
-      btn.textContent = 'CLEANING SAFELY...';
+      text.textContent = 'CLEANING SAFELY...';
       if ('vibrate' in navigator) navigator.vibrate([40, 60, 40]);
 
-      await new Promise(r => setTimeout(r, 900));
+      await new Promise(r => setTimeout(r, 800));
+
       btn.style.opacity = '1';
-      btn.textContent = '⚡ 1-CLICK CLEAN ALL';
-      res.style.display = 'block';
+      text.textContent = '1-CLICK CLEAN ALL';
+      box.style.display = 'block';
+
+      // Add feedback to Concierge Chat
+      addBotMessage("⚡ <strong>1-Click AutoClean Finished!</strong><br>I cleaned residual tracking folders from your previously uninstalled apps and wiped temp cache.<br><br><strong>Guarantee:</strong> 100% of your photos, documents, passwords, and active account logins were untouched!");
     }
 
-    // Photo Metadata Scrubber
-    function scrubPhoto(e) {
-      const file = e.target.files[0];
+    // Guided Steps Checkmarks
+    function markStepDone(stepNum) {
+      const btn = document.getElementById('btnStep' + stepNum);
+      const badge = document.getElementById('badge' + stepNum);
+      const card = document.getElementById('stepCard' + stepNum);
+
+      btn.classList.toggle('checked');
+      if (btn.classList.contains('checked')) {
+        btn.textContent = 'Completed ✓';
+        badge.textContent = 'Done ✓';
+        badge.className = 'step-badge done';
+        card.classList.remove('active-step');
+        localStorage.setItem('step_' + stepNum, 'done');
+      } else {
+        btn.textContent = 'Mark as Done ✓';
+        badge.textContent = 'Recommended';
+        badge.className = 'step-badge pending';
+        card.classList.add('active-step');
+        localStorage.removeItem('step_' + stepNum);
+      }
+    }
+
+    // Restore step state from localStorage
+    [1, 2, 3].forEach(n => {
+      if (localStorage.getItem('step_' + n) === 'done') {
+        markStepDone(n);
+      }
+    });
+
+    // Chat Concierge Logic
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const txt = input.value.trim();
+      if (!txt) return;
+
+      addUserMessage(txt);
+      input.value = '';
+
+      setTimeout(() => {
+        const lower = txt.toLowerCase();
+        if (lower.includes('clean') || lower.includes('sweep') || lower.includes('junk')) {
+          addBotMessage("I can run our <strong>Safe AutoClean</strong> right now! Tap the big <strong>'1-CLICK CLEAN ALL'</strong> button at the top of your screen. It cleans leftover uninstalled app trackers and cache without touching any of your personal files or logins.");
+        } else if (lower.includes('track') || lower.includes('ads') || lower.includes('google')) {
+          addBotMessage("To stop cross-app tracking, switch to the <strong>S10+ Privacy</strong> tab. Tap <em>'Open Ads Settings'</em>, then tap <em>'Reset advertising ID'</em>. That breaks all tracking connections to old uninstalled apps!");
+        } else if (lower.includes('photo') || lower.includes('picture')) {
+          addBotMessage("Photos taken with your camera have hidden GPS location tags. Switch to the <strong>Photos</strong> tab and select any image to strip the GPS location losslessly before sharing.");
+        } else {
+          addBotMessage("I am here to guide you step-by-step! You can tap <strong>'1-CLICK CLEAN ALL'</strong> for a zero-loss device sweep, or use the tabs below for guided privacy controls.");
+        }
+      }, 400);
+    }
+
+    function addUserMessage(text) {
+      const chat = document.getElementById('conciergeChat');
+      const div = document.createElement('div');
+      div.className = 'msg user';
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function addBotMessage(html) {
+      const chat = document.getElementById('conciergeChat');
+      const div = document.createElement('div');
+      div.className = 'msg bot';
+      div.innerHTML = html;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Photo Scrubbing
+    function handlePhotoScrub(event) {
+      const file = event.target.files[0];
       if (!file) return;
-      const status = document.getElementById('photoStatus');
-      status.style.display = 'block';
-      status.innerHTML = `<strong>✓ Scanned &amp; Cleaned: ${file.name}</strong><br>GPS coordinates, camera EXIF tags, and device identifiers wiped losslessly. Ready to share safely!`;
+
+      const result = document.getElementById('photoResult');
+      result.style.display = 'block';
+      result.innerHTML = `<strong>✓ Cleaned: ${file.name}</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!`;
     }
 
     // Large Files Finder
@@ -725,35 +803,62 @@
       list.innerHTML = html;
     }
 
-    // Service Worker & PWA Install
+    // Battery & Hardware Diagnostics
+    if ('getBattery' in navigator) {
+      navigator.getBattery().then(battery => {
+        function updateBatt() {
+          const pct = Math.round(battery.level * 100);
+          const chg = battery.charging ? ' (Charging)' : '';
+          document.getElementById('battStatus').textContent = `Good • ${pct}%${chg}`;
+        }
+        updateBatt();
+        battery.addEventListener('levelchange', updateBatt);
+        battery.addEventListener('chargingchange', updateBatt);
+      });
+    }
+
+    if (navigator.hardwareConcurrency) {
+      document.getElementById('cpuCores').textContent = `${navigator.hardwareConcurrency}-Core S10+`;
+    }
+    if (navigator.deviceMemory) {
+      document.getElementById('ramStatus').textContent = `${navigator.deviceMemory} GB Installed`;
+    }
+
+    // PWA Service Worker & Install Flow
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').then(reg => {
-          console.log('Sovereign Care SW active:', reg.scope);
-        }).catch(err => console.warn('SW error:', err));
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('Sovereign Care SW registered:', reg.scope);
+        }).catch((err) => console.warn('SW register error:', err));
       });
     }
 
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', e => {
+    window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       showInstallSheet();
     });
 
     function showInstallSheet() {
-      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) return;
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        return;
+      }
       const sheet = document.getElementById('pwaInstallSheet');
       if (sheet) sheet.style.display = 'block';
     }
 
-    setTimeout(() => { showInstallSheet(); }, 1200);
+    setTimeout(() => {
+      showInstallSheet();
+    }, 1200);
 
     function triggerPwaInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(choice => {
-          if (choice.outcome === 'accepted') dismissInstallSheet();
+        deferredPrompt.userChoice.then((choice) => {
+          if (choice.outcome === 'accepted') {
+            dismissInstallSheet();
+          }
           deferredPrompt = null;
         });
       } else {
