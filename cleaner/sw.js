@@ -1,8 +1,11 @@
-const CACHE_NAME = "sovereign-mobile-care-v1.0.0";
+const CACHE_NAME = "sovereign-mobile-care-v1.1.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./apple-touch-icon.png",
   "./icon-192.svg",
   "./icon-512.svg"
 ];
