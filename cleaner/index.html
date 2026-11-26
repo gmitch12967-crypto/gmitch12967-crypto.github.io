@@ -377,8 +377,18 @@
   </header>
 
   <main class="container">
+    <!-- Tab Switcher (Pinned at Top of Views) -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchView('dashboard')">⚡ Dashboard</button>
+      <button class="tab-btn" onclick="switchView('trackers')">🧹 Trackers &amp; Privacy</button>
+      <button class="tab-btn" onclick="switchView('photos')">📷 Photo Privacy</button>
+      <button class="tab-btn" onclick="switchView('large')">📁 Large Files</button>
+      <button class="tab-btn" onclick="switchView('concierge')">🤖 Concierge</button>
+    </div>
 
-    <!-- App Hero Section (Google Play Style Showcase) -->
+    <!-- VIEW 1: DASHBOARD / SPEED & COOLER -->
+    <div id="view-dashboard" class="view-panel">
+<!-- App Hero Section (Google Play Style Showcase) -->
     <section class="app-hero-card">
       <div class="app-meta-row">
         <div class="app-hero-icon">
@@ -705,18 +715,10 @@
           </a>
         </div>
       </section>
-
-    <!-- Tab Switcher -->
-    <div class="tab-nav">
-      <button class="tab-btn active" onclick="switchView('concierge')">🧭 Guided Assistant</button>
-      <button class="tab-btn" onclick="switchView('s10privacy')">🔒 S10+ Privacy Hub</button>
-      <button class="tab-btn" onclick="switchView('trackers')">🧹 Residual Trackers</button>
-      <button class="tab-btn" onclick="switchView('photos')">📷 Photo Privacy</button>
-      <button class="tab-btn" onclick="switchView('large')">📁 Large Files</button>
     </div>
 
     <!-- VIEW 1: GUIDED ASSISTANT / AI CONCIERGE -->
-    <div id="view-concierge" class="view-panel">
+    <div id="view-concierge" class="view-panel" style="display:none;">
       <div class="module-card">
         <div class="module-title">🤖 Your Sovereign Care Concierge</div>
         <div class="module-desc">
@@ -881,14 +883,10 @@
   </main>
 
   <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchView('concierge')">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-      <span>Concierge</span>
-    </button>
-    <button class="nav-item" onclick="switchView('s10privacy')">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-      <span>S10+ Privacy</span>
+    <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchView('dashboard')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+      <span>Dashboard</span>
     </button>
     <button class="nav-item" onclick="switchView('trackers')">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -899,8 +897,12 @@
       <span>Photos</span>
     </button>
     <button class="nav-item" onclick="switchView('large')">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
-      <span>Large Files</span>
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+      <span>Files</span>
+    </button>
+    <button class="nav-item" onclick="switchView('concierge')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+      <span>Concierge</span>
     </button>
   </nav>
 
@@ -942,20 +944,14 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      // Update button active states
-      const tabBtns = document.querySelectorAll('.tab-btn');
-      if (viewId === 'concierge' && tabBtns[0]) tabBtns[0].classList.add('active');
-      if (viewId === 's10privacy' && tabBtns[1]) tabBtns[1].classList.add('active');
-      if (viewId === 'trackers' && tabBtns[2]) tabBtns[2].classList.add('active');
-      if (viewId === 'photos' && tabBtns[3]) tabBtns[3].classList.add('active');
-      if (viewId === 'large' && tabBtns[4]) tabBtns[4].classList.add('active');
-
-      const navItems = document.querySelectorAll('.nav-item');
-      if (viewId === 'concierge' && navItems[0]) navItems[0].classList.add('active');
-      if (viewId === 's10privacy' && navItems[1]) navItems[1].classList.add('active');
-      if (viewId === 'trackers' && navItems[2]) navItems[2].classList.add('active');
-      if (viewId === 'photos' && navItems[3]) navItems[3].classList.add('active');
-      if (viewId === 'large' && navItems[4]) navItems[4].classList.add('active');
+      const views = ['dashboard', 'trackers', 'photos', 'large', 'concierge'];
+      const idx = views.indexOf(viewId);
+      if (idx !== -1) {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        if (tabBtns[idx]) tabBtns[idx].classList.add('active');
+        const navItems = document.querySelectorAll('.nav-item');
+        if (navItems[idx]) navItems[idx].classList.add('active');
+      }
     }
 
     // ⚡ 1-Click Safe AutoClean (Real Storage & Cache Scrubber)
