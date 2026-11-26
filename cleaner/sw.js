@@ -1,4 +1,4 @@
-const CACHE_NAME = "sovereign-mobile-care-v2.9.0";
+const CACHE_NAME = "sovereign-mobile-care-v3.0.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -16,7 +16,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate: clean up old caches and claim clients
+// Activate: purge ALL old caches and claim clients immediately
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -29,13 +29,16 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Stale-While-Revalidate: load instantly from cache, sync in background
+// Network-First for HTML/navigation so fixes are seen instantly; Cache-First for icons/manifest
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request)
+  const isHtml = event.request.mode === "navigate" || event.request.headers.get("accept")?.includes("text/html");
+
+  if (isHtml) {
+    // Network-First for HTML
+    event.respondWith(
+      fetch(event.request)
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const clone = networkResponse.clone();
@@ -43,15 +46,23 @@ self.addEventListener("fetch", (event) => {
           }
           return networkResponse;
         })
-        .catch(() => {
-          // If completely offline and navigation request, return index.html
-          if (event.request.mode === "navigate") {
-            return caches.match("./index.html") || caches.match("./");
-          }
-        });
-
-      // Instant local launch if cached, else network
-      return cachedResponse || fetchPromise;
-    })
-  );
+        .catch(() => caches.match(event.request).then((res) => res || caches.match("./index.html")))
+    );
+  } else {
+    // Stale-while-revalidate for static assets
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              const clone = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+            }
+            return networkResponse;
+          })
+          .catch(() => {});
+        return cachedResponse || fetchPromise;
+      })
+    );
+  }
 });
