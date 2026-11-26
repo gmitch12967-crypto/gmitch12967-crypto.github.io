@@ -402,21 +402,56 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Action Buttons (Web App Primary, APK Secondary with Pre-Warning) -->
       <div class="action-btn-group">
-        <a id="mainApkBtn" class="btn-install-primary" href="./SovereignCare.apk" download style="background:linear-gradient(135deg, #0284c7 0%, #10b981 100%); text-decoration:none;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          📥 Download Standalone APK (Direct Install)
-        </a>
-        <div class="btn-row-secondary">
-          <button class="btn-sec" onclick="triggerPwaInstall()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            📲 Add Web Icon
+        <!-- 🌟 PRIMARY: 100% Safe, Warning-Free Web App -->
+        <button class="btn-install-primary" onclick="triggerPwaInstall()" style="background:linear-gradient(135deg, #0284c7 0%, #10b981 100%); width:100%; justify-content:center; border:none; color:#fff; font-size:15px; font-weight:800; padding:15px 20px; border-radius:14px; cursor:pointer; display:flex; align-items:center; gap:10px; box-shadow:0 4px 20px rgba(2,132,199,0.4); -webkit-tap-highlight-color:transparent;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <span>📲 Add to Phone (Instant &bull; Zero Warnings)</span>
+        </button>
+        <div style="text-align:center; margin-top:6px; margin-bottom:10px; font-size:11px; color:#4ade80; font-weight:600;">
+          ✓ Recommended • No APK download • 100% Warning-Free in Chrome &amp; Safari
+        </div>
+
+        <div class="btn-row-secondary" style="display:flex; gap:10px;">
+          <button class="btn-sec" onclick="confirmApkDownload()" style="flex:1; cursor:pointer; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; font-size:12px; font-weight:600; padding:10px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            📥 Download APK (Advanced)
           </button>
-          <a class="btn-sec buy" href="https://payhip.com/b/BAmFe" target="_blank" rel="noopener">
+          <button class="btn-sec buy" onclick="openPaymentModal()" style="flex:1; cursor:pointer; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#34d399; font-size:12px; font-weight:700; padding:10px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:6px;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             💳 Buy License ($39.99)
-          </a>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pre-Warning Modal for APK Sideloaders -->
+      <div id="apkWarningModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(8px); z-index:10001; align-items:center; justify-content:center; padding:18px;">
+        <div style="background:#131d33; border:2px solid #f59e0b; border-radius:20px; max-width:420px; width:100%; padding:22px; box-shadow:0 12px 40px rgba(0,0,0,0.7); text-align:left;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <span style="font-size:26px;">⚠️</span>
+            <div>
+              <h3 style="color:#fbbf24; font-size:16px; font-weight:800; margin:0;">Android Security Notice</h3>
+              <span style="color:#94a3b8; font-size:11px;">Why Google shows a warning on direct downloads</span>
+            </div>
+          </div>
+          <p style="font-size:12px; color:#cbd5e1; line-height:1.5; margin-bottom:12px;">
+            Because this APK is downloaded directly from our website instead of the Google Play Store, Android will show its default prompt: <strong>"File might be harmful"</strong> or <strong>"Play Protect blocked unknown app"</strong>.
+          </p>
+          <div style="background:rgba(245,158,11,0.1); border-left:3px solid #f59e0b; padding:10px; border-radius:8px; font-size:11px; color:#fde68a; margin-bottom:16px; line-height:1.4;">
+            🛡️ <strong>Our Guarantee:</strong> This app is 100% clean, air-gapped, and zero-telemetry. Google shows this on all direct APKs (including Signal &amp; Epic Games).
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button onclick="triggerPwaInstall(); closeApkWarning();" style="background:linear-gradient(135deg, #0284c7, #10b981); border:none; color:#fff; font-size:13px; font-weight:800; padding:12px; border-radius:10px; cursor:pointer;">
+              📲 Recommended: Use Web App (Zero Warnings)
+            </button>
+            <a href="./SovereignCare.apk" download onclick="closeApkWarning()" style="text-align:center; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#94a3b8; font-size:12px; font-weight:600; padding:10px; border-radius:10px; text-decoration:none;">
+              I Understand &bull; Download Raw APK Anyway
+            </a>
+          </div>
+          <div style="text-align:center; margin-top:10px;">
+            <button onclick="closeApkWarning()" style="background:none; border:none; color:#64748b; font-size:11px; cursor:pointer;">Cancel</button>
+          </div>
         </div>
       </div>
       <!-- 📱 Peer-to-Peer Scan to Buy / Share QR Code -->
@@ -1501,6 +1536,14 @@
   </div>
 
   <script>
+        function confirmApkDownload() {
+      const modal = document.getElementById('apkWarningModal');
+      if (modal) modal.style.display = 'flex';
+    }
+    function closeApkWarning() {
+      const modal = document.getElementById('apkWarningModal');
+      if (modal) modal.style.display = 'none';
+    }
     function openPaymentModal() {
       const modal = document.getElementById('paymentModal');
       if (modal) modal.style.display = 'flex';
