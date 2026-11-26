@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "sovereign-mobile-care-v3.3.0";
+﻿const CACHE_NAME = "sovereign-mobile-care-v3.4.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,12 @@ const CORE_ASSETS = [
   "./icon-512.png",
   "./apple-touch-icon.png"
 ];
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
