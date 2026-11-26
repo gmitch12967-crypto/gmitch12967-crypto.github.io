@@ -1468,7 +1468,7 @@
             <span>💳</span>
             <span>Credit / Debit / Apple Pay</span>
           </div>
-          <span style="color:#38bdf8;">Pay .99 &rarr;</span>
+          <span style="color:#38bdf8;">Pay $39.99 &rarr;</span>
         </a>
 
         <!-- PayPal / Venmo -->
@@ -1477,7 +1477,7 @@
             <span>🅿️</span>
             <span>PayPal / Venmo (gmitch12967)</span>
           </div>
-          <span style="color:#34d399;">Pay .99 &rarr;</span>
+          <span style="color:#34d399;">Pay $39.99 &rarr;</span>
         </a>
 
         <!-- Direct Crypto -->
@@ -1509,6 +1509,67 @@
     function closePaymentModal() {
       const modal = document.getElementById('paymentModal');
       if (modal) modal.style.display = 'none';
+    }
+
+    // --- 1-Click Flashing Update Controller ---
+    const CURRENT_LATEST_VERSION = "v3.3.1-live";
+
+    function checkUpdateStatus() {
+      const installed = localStorage.getItem('sovereign_installed_build');
+      const btn = document.getElementById('btnUpdateApp');
+      const toast = document.getElementById('updateToast');
+
+      if (installed !== CURRENT_LATEST_VERSION) {
+        if (btn) {
+          btn.style.display = 'flex';
+          btn.classList.add('btn-update-pulsing');
+        }
+        if (toast) toast.style.display = 'flex';
+      } else {
+        if (btn) btn.style.display = 'none';
+        if (toast) toast.style.display = 'none';
+      }
+    }
+
+    async function forceAppUpdate() {
+      const btn = document.getElementById('btnUpdateApp');
+      if (btn) {
+        btn.innerHTML = '<span>⏳</span> Installing Patch...';
+        btn.classList.remove('btn-update-pulsing');
+      }
+      const toast = document.getElementById('updateToast');
+      if (toast) toast.innerHTML = '<span>⏳</span> Applying latest release...';
+
+      // Record this version as installed so the flashing button disappears immediately upon refresh
+      localStorage.setItem('sovereign_installed_build', CURRENT_LATEST_VERSION);
+
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (const r of regs) {
+            await r.unregister();
+          }
+        }
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          for (const k of keys) {
+            await caches.delete(k);
+          }
+        }
+      } catch (err) {
+        console.warn('Update purge error:', err);
+      }
+
+      // Hard navigation reload
+      const cleanUrl = window.location.origin + window.location.pathname + '?upd=' + Date.now();
+      window.location.replace(cleanUrl);
+    }
+
+    // Run check immediately on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkUpdateStatus);
+    } else {
+      checkUpdateStatus();
     }
   </script>
 </body>
