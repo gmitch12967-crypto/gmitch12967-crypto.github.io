@@ -30,6 +30,12 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
+  // Direct network bypass for updates
+  if (event.request.url.includes("upd=") || event.request.url.includes("fresh=")) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
   const isHtml = event.request.mode === "navigate" || event.request.headers.get("accept")?.includes("text/html");
 
   if (isHtml) {
