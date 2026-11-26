@@ -1531,38 +1531,40 @@
       }
     }
 
-    async function forceAppUpdate() {
+    function forceAppUpdate() {
       const btn = document.getElementById('btnUpdateApp');
       if (btn) {
-        btn.innerHTML = '<span>⏳</span> Installing Patch...';
-        btn.classList.remove('btn-update-pulsing');
+        btn.innerHTML = '<span>✓</span> Updating App...';
+        btn.style.background = '#22c55e';
+        btn.style.animation = 'none';
       }
       const toast = document.getElementById('updateToast');
-      if (toast) toast.innerHTML = '<span>⏳</span> Applying latest release...';
+      if (toast) toast.innerHTML = '<span>✓</span> Updating App...';
 
-      // Record this version as installed so the flashing button disappears immediately upon refresh
-      localStorage.setItem('sovereign_installed_build', CURRENT_LATEST_VERSION);
-
+      // Mark as installed so it disappears on reload
       try {
-        if ('serviceWorker' in navigator) {
-          const regs = await navigator.serviceWorker.getRegistrations();
-          for (const r of regs) {
-            await r.unregister();
-          }
-        }
-        if ('caches' in window) {
-          const keys = await caches.keys();
-          for (const k of keys) {
-            await caches.delete(k);
-          }
-        }
-      } catch (err) {
-        console.warn('Update purge error:', err);
-      }
+        localStorage.setItem('sovereign_installed_build', CURRENT_LATEST_VERSION);
+      } catch (e) {}
 
-      // Hard navigation reload
-      const cleanUrl = window.location.origin + window.location.pathname + '?upd=' + Date.now();
-      window.location.replace(cleanUrl);
+      // Fire-and-forget unregister & cache clear
+      try {
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(k) { caches.delete(k); });
+          }).catch(function() {});
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(r) { r.unregister(); });
+          }).catch(function() {});
+        }
+      } catch (e) {}
+
+      // Guaranteed hard reload in 250ms
+      setTimeout(function() {
+        const cleanUrl = window.location.origin + window.location.pathname + '?upd=' + Date.now();
+        window.location.href = cleanUrl;
+      }, 250);
     }
 
     // Run check immediately on load
