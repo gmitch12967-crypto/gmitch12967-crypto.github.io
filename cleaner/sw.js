@@ -1,4 +1,4 @@
-const CACHE_NAME = "sovereign-mobile-care-v3.0.0";
+﻿const CACHE_NAME = "sovereign-mobile-care-v3.1.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -8,7 +8,6 @@ const CORE_ASSETS = [
   "./apple-touch-icon.png"
 ];
 
-// Install: pre-cache all assets and activate immediately
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -16,7 +15,6 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate: purge ALL old caches and claim clients immediately
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -29,14 +27,12 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Network-First for HTML/navigation so fixes are seen instantly; Cache-First for icons/manifest
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   const isHtml = event.request.mode === "navigate" || event.request.headers.get("accept")?.includes("text/html");
 
   if (isHtml) {
-    // Network-First for HTML
     event.respondWith(
       fetch(event.request)
         .then((networkResponse) => {
@@ -49,7 +45,6 @@ self.addEventListener("fetch", (event) => {
         .catch(() => caches.match(event.request).then((res) => res || caches.match("./index.html")))
     );
   } else {
-    // Stale-while-revalidate for static assets
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
         const fetchPromise = fetch(event.request)
