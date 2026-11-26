@@ -1,14 +1,8 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="keywords" content="phone cleaner, android cleaner, samsung galaxy cleaner, speed up android, cool down phone, remove junk files, clear cache, safe phone cleaner, no ads cleaner, offline phone cleaner, airgap cleaner, private cleaner, delete app leftovers, clean uninstalled apps, ex-app tracker remover, strip photo gps, remove photo metadata, photo exif cleaner, large files finder, phone storage cleaner, ram booster, stop thermal throttling, cool down battery, fast phone, best cleaner 2026, race car phone, formula 1 speed, zero lag cleaner, privacy guard, android optimizer, device maintenance, one ui cleaner">
-  <meta name="description" content="Sovereign Mobile Care AI — The 100% private, zero-bloat phone cleaner and auto-cooler. Runs completely offline. Strips residual app trackers, purges cache, and prevents thermal throttling so your device runs cool and fast like a race car.">
-  <meta property="og:title" content="Sovereign Mobile Care AI — Race-Car Fast, 100% Private Phone Cleaner">
-  <meta property="og:description" content="Stop thermal throttling and speed up your phone with our private, offline auto-cooler and safe junk cleaner. Never hot, never slow.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://gmitch12967-crypto.github.io/cleaner/">
   <title>Sovereign Mobile Care AI — Official App & Direct Download</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
@@ -292,39 +286,6 @@
       animation: slideUp 0.35s ease-out;
     }
     @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-      /* Auto-Cooler Card & Toggle */
-    .autocooler-card {
-      margin-top: 14px;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: 14px;
-      padding: 14px;
-      text-align: left;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    .autocooler-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 26px;
-      flex-shrink: 0;
-    }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #334155; transition: .3s; border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
-      background-color: white; transition: .3s; border-radius: 50%;
-    }
-    input:checked + .slider { background-color: #22c55e; }
-    input:checked + .slider:before { transform: translateX(22px); }
   </style>
 </head>
 <body>
@@ -389,10 +350,10 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             📲 Add Web Icon
           </button>
-          <a class="btn-sec buy" href="https://payhip.com/b/BAmFe" target="_blank" rel="noopener">
+          <button class="btn-sec buy" onclick="openPaymentModal()" style="cursor:pointer;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             💳 Buy License ($39.99)
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -530,93 +491,7 @@
           <span>✓</span> All personal photos, accounts, and passwords preserved intact.
         </div>
       </div>
-    
-      <!-- ❄️ 5-MINUTE AUTO-COOLER & BENCHMARK AUTOMATION -->
-      <div class="autocooler-card" style="margin-top:16px; background:rgba(15,23,42,0.85); border:1px solid rgba(56,189,248,0.35); border-radius:16px; padding:16px; text-align:left; box-shadow:0 4px 18px rgba(0,0,0,0.35);">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg, #0284c7, #10b981); display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 2px 8px rgba(56,189,248,0.4);">
-              ❄️
-            </div>
-            <div>
-              <div style="font-size:14px; font-weight:800; color:#fff;">5-Minute Auto-Cooler</div>
-              <div style="font-size:11px; color:#94a3b8;" id="coolerStatusSub">Cleans every 5 min — triggers instantly if benchmarks show device slowing</div>
-            </div>
-          </div>
-          <label class="switch" style="position:relative; display:inline-block; width:52px; height:28px; flex-shrink:0;">
-            <input type="checkbox" id="coolerToggle" onchange="toggleAutoCooler(this.checked)" style="opacity:0; width:0; height:0;">
-            <span class="slider" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#334155; transition:.3s; border-radius:34px;"></span>
-          </label>
-        </div>
-
-        <div id="coolerLiveTelemetry" style="display:none; margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); font-size:11px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#94a3b8;">Benchmark Status:</span>
-            <strong id="benchmarkStatusText" style="color:#4ade80;">Optimal &bull; Cooled &amp; Fast</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#94a3b8;">Thermal Condition:</span>
-            <strong id="thermalStatusText" style="color:#38bdf8;">Normal &bull; Cool (31.8°C)</strong>
-          </div>
-          <div style="display:flex; justify-content:space-between;">
-            <span style="color:#94a3b8;">Next Background Sweep:</span>
-            <strong id="coolerCountdown" style="color:#f59e0b; font-family:monospace; font-size:13px;">05:00</strong>
-          </div>
-        </div>
-      </div>
-</section>
-
-          <!-- 🤝 RECOMMENDED PRIVACY & PERFORMANCE PARTNERS -->
-      <section class="affiliate-partners-card" style="margin-top:20px; background:rgba(15,23,42,0.9); border:1px solid rgba(56,189,248,0.25); border-radius:18px; padding:18px; text-align:left; box-shadow:0 6px 20px rgba(0,0,0,0.4);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:20px;">🛡️</span>
-            <h3 style="color:#fff; font-size:0.95rem; font-weight:800;">Recommended Privacy &amp; Speed Partners</h3>
-          </div>
-          <span style="font-size:10px; color:#94a3b8; background:rgba(255,255,255,0.06); padding:3px 8px; border-radius:12px;">Sponsored Partners</span>
-        </div>
-        <p style="font-size:0.75rem; color:#94a3b8; line-height:1.45; margin-bottom:14px;">
-          Take your device privacy beyond on-device cleanup. We recommend these verified, zero-log security partners:
-        </p>
-
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <!-- Partner 1: Incogni -->
-          <a href="https://incogni.com/" target="_blank" rel="noopener sponsored" style="text-decoration:none; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:12px 14px; border-radius:12px; transition:border-color 0.2s;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="font-size:20px;">🕵️‍♂️</div>
-              <div>
-                <strong style="color:#fff; font-size:13px; display:block;">Incogni &bull; Data Broker Removal</strong>
-                <span style="color:#94a3b8; font-size:11px;">Automatically delete your personal info &amp; phone from 180+ brokers</span>
-              </div>
-            </div>
-            <span style="background:rgba(56,189,248,0.15); color:#38bdf8; font-size:11px; font-weight:700; padding:4px 8px; border-radius:8px;">Remove Info &rarr;</span>
-          </a>
-
-          <!-- Partner 2: NordVPN / Threat Protection -->
-          <a href="https://nordvpn.com/" target="_blank" rel="noopener sponsored" style="text-decoration:none; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:12px 14px; border-radius:12px; transition:border-color 0.2s;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="font-size:20px;">🛡️</div>
-              <div>
-                <strong style="color:#fff; font-size:13px; display:block;">NordVPN &bull; Threat &amp; Ad Blocker</strong>
-                <span style="color:#94a3b8; font-size:11px;">Stops tracking cookies &amp; secures public Wi-Fi on Android &amp; PC</span>
-              </div>
-            </div>
-            <span style="background:rgba(34,197,94,0.15); color:#4ade80; font-size:11px; font-weight:700; padding:4px 8px; border-radius:8px;">Get Shield &rarr;</span>
-          </a>
-
-          <!-- Partner 3: Proton Privacy -->
-          <a href="https://proton.me/" target="_blank" rel="noopener sponsored" style="text-decoration:none; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:12px 14px; border-radius:12px; transition:border-color 0.2s;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="font-size:20px;">🔒</div>
-              <div>
-                <strong style="color:#fff; font-size:13px; display:block;">Proton &bull; Swiss Encrypted Mail &amp; Drive</strong>
-                <span style="color:#94a3b8; font-size:11px;">Zero-access encryption for sensitive documents &amp; email</span>
-              </div>
-            </div>
-            <span style="background:rgba(168,85,247,0.15); color:#c084fc; font-size:11px; font-weight:700; padding:4px 8px; border-radius:8px;">Learn More &rarr;</span>
-          </a>
-        </div>
-      </section>
+    </section>
 
     <!-- Tab Switcher -->
     <div class="tab-nav">
@@ -840,13 +715,12 @@
     </div>
   </div>
 
-  
-<script>
+  <script>
     // Tab Switching
     function switchView(viewId) {
-      document.querySelectorAll('.view-panel').forEach(function(p) { p.style.display = 'none'; });
-      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-      document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+      document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
       const target = document.getElementById('view-' + viewId);
       if (target) {
@@ -856,18 +730,18 @@
 
       // Update button active states
       const tabBtns = document.querySelectorAll('.tab-btn');
-      if (viewId === 'concierge' && tabBtns[0]) tabBtns[0].classList.add('active');
-      if (viewId === 's10privacy' && tabBtns[1]) tabBtns[1].classList.add('active');
-      if (viewId === 'trackers' && tabBtns[2]) tabBtns[2].classList.add('active');
-      if (viewId === 'photos' && tabBtns[3]) tabBtns[3].classList.add('active');
-      if (viewId === 'large' && tabBtns[4]) tabBtns[4].classList.add('active');
+      if (viewId === 'concierge') tabBtns[0]?.classList.add('active');
+      if (viewId === 's10privacy') tabBtns[1]?.classList.add('active');
+      if (viewId === 'trackers') tabBtns[2]?.classList.add('active');
+      if (viewId === 'photos') tabBtns[3]?.classList.add('active');
+      if (viewId === 'large') tabBtns[4]?.classList.add('active');
 
       const navItems = document.querySelectorAll('.nav-item');
-      if (viewId === 'concierge' && navItems[0]) navItems[0].classList.add('active');
-      if (viewId === 's10privacy' && navItems[1]) navItems[1].classList.add('active');
-      if (viewId === 'trackers' && navItems[2]) navItems[2].classList.add('active');
-      if (viewId === 'photos' && navItems[3]) navItems[3].classList.add('active');
-      if (viewId === 'large' && navItems[4]) navItems[4].classList.add('active');
+      if (viewId === 'concierge') navItems[0]?.classList.add('active');
+      if (viewId === 's10privacy') navItems[1]?.classList.add('active');
+      if (viewId === 'trackers') navItems[2]?.classList.add('active');
+      if (viewId === 'photos') navItems[3]?.classList.add('active');
+      if (viewId === 'large') navItems[4]?.classList.add('active');
     }
 
     // ⚡ 1-Click Safe AutoClean (Real Storage & Cache Scrubber)
@@ -904,25 +778,25 @@
         console.warn("Storage cleanup note:", e);
       }
 
-      await new Promise(function(r) { setTimeout(r, 600); });
+      await new Promise(r => setTimeout(r, 600));
 
       btn.style.opacity = '1';
       text.textContent = '1-CLICK CLEAN ALL';
       box.style.display = 'block';
       if ('vibrate' in navigator) navigator.vibrate([80, 40, 80]);
 
-      desc.innerHTML = '<strong>Sweep Completed:</strong> Purged orphaned tracking tokens, cleared runtime cache (' + storageEstimate + ' evaluated), and automatically verified all 3 Device Privacy Safeguards.<br><span style="color:#4ade80;">✓ 3/3 Privacy Shields Verified &amp; Active</span>';
+      desc.innerHTML = `<strong>Sweep Completed:</strong> Purged orphaned tracking tokens, cleared runtime cache (${storageEstimate} evaluated), and automatically verified all 3 Device Privacy Safeguards.<br><span style="color:#4ade80;">✓ 3/3 Privacy Shields Verified &amp; Active</span>`;
 
       // ⚡ AUTOMATICALLY COMPLETE ALL 3 PRIVACY CHECKMARKS FOR THE USER!
-      [1, 2, 3].forEach(function(stepNum) {
-        const sBtn = document.getElementById('btnStep' + stepNum);
+      [1, 2, 3].forEach(stepNum => {
+        const btn = document.getElementById('btnStep' + stepNum);
         const badge = document.getElementById('badge' + stepNum);
         const card = document.getElementById('stepCard' + stepNum);
         const icon = document.getElementById('checkIcon' + stepNum);
 
-        if (sBtn) {
-          sBtn.classList.add('checked');
-          sBtn.innerHTML = '<span>✓</span> Completed';
+        if (btn) {
+          btn.classList.add('checked');
+          btn.innerHTML = '<span>✓</span> Completed';
         }
         if (badge) {
           badge.textContent = 'Done ✓';
@@ -936,7 +810,7 @@
         localStorage.setItem('step_' + stepNum, 'done');
       });
 
-      addBotMessage('⚡ <strong>1-Click Device Sweep Complete!</strong><br>I purged temporary cache (' + storageEstimate + '), refreshed memory, and <strong>automatically verified all 3 Privacy Safeguards</strong> for you.<br><br><strong>Status:</strong> 3/3 Shields Active &bull; Zero Data Loss.');
+      addBotMessage(`⚡ <strong>1-Click Device Sweep Complete!</strong><br>I purged temporary cache (${storageEstimate}), refreshed memory, and <strong>automatically verified all 3 Privacy Safeguards</strong> for you.<br><br><strong>Status:</strong> 3/3 Shields Active &bull; Zero Data Loss.`);
     }
 
     // Guided Steps Checkmarks with Full Card Click & Haptics
@@ -957,7 +831,7 @@
         card.style.borderColor = 'var(--green)';
         if (icon) icon.textContent = '✅';
         localStorage.setItem('step_' + stepNum, 'done');
-        addBotMessage('🎉 <strong>Step ' + stepNum + ' Completed!</strong> Privacy protection updated.');
+        addBotMessage(`🎉 <strong>Step ${stepNum} Completed!</strong> Privacy protection updated.`);
       } else {
         btn.innerHTML = '<span>○</span> Mark as Done';
         badge.textContent = 'Action Needed';
@@ -970,7 +844,7 @@
     }
 
     // Restore step state from localStorage
-    [1, 2, 3].forEach(function(n) {
+    [1, 2, 3].forEach(n => {
       if (localStorage.getItem('step_' + n) === 'done') {
         markStepDone(n);
       }
@@ -985,7 +859,7 @@
       addUserMessage(txt);
       input.value = '';
 
-      setTimeout(function() {
+      setTimeout(() => {
         const lower = txt.toLowerCase();
         if (lower.includes('clean') || lower.includes('sweep') || lower.includes('junk')) {
           addBotMessage("I can run our <strong>Safe AutoClean</strong> right now! Tap the big <strong>'1-CLICK CLEAN ALL'</strong> button at the top of your screen. It cleans leftover uninstalled app trackers and cache without touching any of your personal files or logins.");
@@ -1017,7 +891,7 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-    // Full On-Device Photo Privacy & Metadata Stripper (Canvas Lossless Engine)
+        // Full On-Device Photo Privacy & Metadata Stripper (Canvas Lossless Engine)
     let cleanPhotoBlob = null;
     let cleanPhotoName = "clean-photo";
 
@@ -1040,7 +914,7 @@
           off += 2 + len;
         }
       }
-      return { hasExif: hasExif, hasGps: hasGps };
+      return { hasExif, hasGps };
     }
 
     function handlePhotoScrub(event) {
@@ -1050,11 +924,11 @@
       cleanPhotoName = file.name.replace(/\.[^.]+$/, "") + "-clean.jpg";
       const result = document.getElementById('photoResult');
       result.style.display = 'block';
-      result.innerHTML = '<div style="text-align:center; padding:8px;"><span class="dot-pulse" style="display:inline-block; margin-right:6px;"></span> Scanning EXIF & GPS markers...</div>';
+      result.innerHTML = <div style="text-align:center; padding:8px;"><span class="dot-pulse" style="display:inline-block; margin-right:6px;"></span> Scanning EXIF & GPS markers...</div>;
 
       const bufReader = new FileReader();
       bufReader.onload = function(ev) {
-        const headers = scanJpegHeaders(ev.target.result);
+        const { hasExif, hasGps } = scanJpegHeaders(ev.target.result);
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
@@ -1066,19 +940,18 @@
           canvas.toBlob(function(blob) {
             cleanPhotoBlob = blob;
             const kb = (blob.size / 1024).toFixed(1);
-            const exifMsg = headers.hasExif ? "EXIF Metadata Removed" : "No Camera Tags Found";
-            const gpsMsg = headers.hasGps ? "GPS Coordinates Stripped" : "No GPS Detected";
+            const exifMsg = hasExif ? "EXIF Metadata Removed" : "No Camera Tags Found";
+            const gpsMsg = hasGps ? "GPS Coordinates Stripped" : "No GPS Detected";
 
             result.innerHTML = 
-              '<div style="color:#22c55e; font-weight:700; margin-bottom:6px;">✓ Cleaned & Air-Gapped: ' + cleanPhotoName + '</div>' +
-              '<div style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">' +
-                '• ' + exifMsg + '<br>• ' + gpsMsg + '<br>• Ready: ' + canvas.width + '×' + canvas.height + ' (' + kb + ' KB)' +
-              '</div>' +
-              '<button onclick="downloadCleanPhoto()" class="btn-action" style="width:100%; justify-content:center; background:#22c55e; color:#0b1120;">' +
-                '<span>💾</span> Save Cleaned Photo to Phone' +
-              '</button>';
-            
-            addBotMessage('📷 <strong>Photo Cleaned: ' + cleanPhotoName + '</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!');
+              <div style="color:#22c55e; font-weight:700; margin-bottom:6px;">✓ Cleaned & Air-Gapped: </div>
+              <div style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">
+                • <br>• <br>• Ready: × ( KB)
+              </div>
+              <button onclick="downloadCleanPhoto()" class="btn-action" style="width:100%; justify-content:center; background:#22c55e; color:#0b1120;">
+                <span>💾</span> Save Cleaned Photo to Phone
+              </button>
+            ;
           }, 'image/jpeg', 0.94);
         };
         img.src = URL.createObjectURL(file);
@@ -1096,6 +969,7 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(u);
+    }</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!`;
     }
 
     // Large Files Finder
@@ -1104,27 +978,25 @@
       const list = document.getElementById('largeFilesList');
       if (!files.length) return;
 
-      files.sort(function(a, b) { return b.size - a.size; });
+      files.sort((a, b) => b.size - a.size);
       let html = '<div style="margin-top:10px; font-weight:700;">Top Space Hogs:</div>';
-      files.slice(0, 5).forEach(function(f) {
+      files.slice(0, 5).forEach(f => {
         const mb = (f.size / (1024 * 1024)).toFixed(1);
-        const color = (parseFloat(mb) > 50) ? '#f87171' : '#38bdf8';
-        html += '<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.06);">' +
-          '<span>📄 ' + f.name + '</span>' +
-          '<strong style="color:' + color + ';">' + mb + ' MB</strong>' +
-        '</div>';
+        html += `<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+          <span>📄 ${f.name}</span>
+          <strong style="color:${mb > 50 ? '#f87171' : '#38bdf8'};">${mb} MB</strong>
+        </div>`;
       });
       list.innerHTML = html;
     }
 
     // Battery & Hardware Diagnostics
     if ('getBattery' in navigator) {
-      navigator.getBattery().then(function(battery) {
+      navigator.getBattery().then(battery => {
         function updateBatt() {
           const pct = Math.round(battery.level * 100);
           const chg = battery.charging ? ' (Charging)' : '';
-          const el = document.getElementById('battStatus');
-          if (el) el.textContent = 'Good • ' + pct + '%' + chg;
+          document.getElementById('battStatus').textContent = `Good • ${pct}%${chg}`;
         }
         updateBatt();
         battery.addEventListener('levelchange', updateBatt);
@@ -1133,25 +1005,23 @@
     }
 
     if (navigator.hardwareConcurrency) {
-      const cpu = document.getElementById('cpuCores');
-      if (cpu) cpu.textContent = navigator.hardwareConcurrency + '-Core S10+';
+      document.getElementById('cpuCores').textContent = `${navigator.hardwareConcurrency}-Core S10+`;
     }
     if (navigator.deviceMemory) {
-      const ram = document.getElementById('ramStatus');
-      if (ram) ram.textContent = navigator.deviceMemory + ' GB Installed';
+      document.getElementById('ramStatus').textContent = `${navigator.deviceMemory} GB Installed`;
     }
 
     // PWA Service Worker & Install Flow
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
           console.log('Sovereign Care SW registered:', reg.scope);
-        }).catch(function(err) { console.warn('SW register error:', err); });
+        }).catch((err) => console.warn('SW register error:', err));
       });
     }
 
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', function(e) {
+    window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       showInstallSheet();
@@ -1165,14 +1035,14 @@
       if (sheet) sheet.style.display = 'block';
     }
 
-    setTimeout(function() {
+    setTimeout(() => {
       showInstallSheet();
     }, 1200);
 
     function triggerPwaInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(choice) {
+        deferredPrompt.userChoice.then((choice) => {
           if (choice.outcome === 'accepted') {
             dismissInstallSheet();
           }
@@ -1188,156 +1058,82 @@
       const sheet = document.getElementById('pwaInstallSheet');
       if (sheet) sheet.style.display = 'none';
     }
-      // ❄️ 5-Minute Auto-Cooler & Proactive Benchmark Watchdog Engine
-    let coolerCountdownTimer = null;
-    let coolerWatchdogTimer = null;
-    let coolerSecondsLeft = 300; // 5 minutes
-    let coolerCycles = parseInt(localStorage.getItem('cooler_cycles') || '0', 10);
-    let lastWatchdogStamp = performance.now();
-
-    function toggleAutoCooler(enable) {
-      if ('vibrate' in navigator) navigator.vibrate(50);
-      const telemetry = document.getElementById('coolerLiveTelemetry');
-      const sub = document.getElementById('coolerStatusSub');
-
-      if (enable) {
-        localStorage.setItem('cooler_active', 'true');
-        if (telemetry) telemetry.style.display = 'block';
-        if (sub) sub.innerHTML = '<span style="color:#4ade80; font-weight:700;">Active:</span> Cleans every 5 min &bull; Triggers early if slowdown detected';
-        startCoolerEngine();
-        runBenchmarkSweep(true, false);
-        addBotMessage('❄️ <strong>Performance Guard Active:</strong> Routine sweep set to every 5 minutes. If benchmarks detect the device starting to warm up, lag, or leak memory, an immediate early sweep will trigger without waiting for the timer.');
-      } else {
-        localStorage.setItem('cooler_active', 'false');
-        if (telemetry) telemetry.style.display = 'none';
-        if (sub) sub.textContent = 'Cleans every 5 min — triggers instantly if benchmarks show device slowing';
-        stopCoolerEngine();
-        addBotMessage('Performance Guard paused. You can still use the 1-Click Clean button anytime.');
-      }
+    function openPaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.style.display = 'flex';
     }
-
-    function startCoolerEngine() {
-      stopCoolerEngine();
-      coolerSecondsLeft = 300;
-      updateCountdownDisplay();
-      lastWatchdogStamp = performance.now();
-
-      coolerCountdownTimer = setInterval(function() {
-        coolerSecondsLeft--;
-
-        // 1. Routine 5-Minute Sweep
-        if (coolerSecondsLeft <= 0) {
-          coolerSecondsLeft = 300;
-          runBenchmarkSweep(false, false);
-        }
-
-        // 2. Proactive Benchmark Check (Every second watchdog for stutter/memory lag)
-        const now = performance.now();
-        const delta = now - lastWatchdogStamp;
-        lastWatchdogStamp = now;
-
-        // An event loop delay > 1200ms (when timer tick was 1000ms) indicates CPU stall/lag
-        let lagDetected = (delta > 1250);
-
-        // Memory heap spike check if supported by browser
-        if (window.performance && performance.memory) {
-          const usedMB = performance.memory.usedJSHeapSize / (1024 * 1024);
-          if (usedMB > 45) lagDetected = true;
-        }
-
-        // If benchmark detects device slowing, TRIGGER EARLY (don't wait for 5 minutes)
-        if (lagDetected && coolerSecondsLeft > 15) {
-          console.warn("⚡ Device slowdown detected by benchmarks! Triggering early maintenance sweep.");
-          coolerSecondsLeft = 300; // Reset 5 min timer
-          runBenchmarkSweep(false, true); // true = early lag trigger
-        }
-
-        updateCountdownDisplay();
-      }, 1000);
+    function closePaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.style.display = 'none';
     }
-
-    function stopCoolerEngine() {
-      if (coolerCountdownTimer) {
-        clearInterval(coolerCountdownTimer);
-        coolerCountdownTimer = null;
-      }
-    }
-
-    function updateCountdownDisplay() {
-      const el = document.getElementById('coolerCountdown');
-      if (!el) return;
-      const m = Math.floor(coolerSecondsLeft / 60);
-      const s = coolerSecondsLeft % 60;
-      el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-    }
-
-    async function runBenchmarkSweep(isInitial, isEarlyTrigger) {
-      const bText = document.getElementById('benchmarkStatusText');
-      const tText = document.getElementById('thermalStatusText');
-
-      if (bText) {
-        if (isEarlyTrigger) {
-          bText.innerHTML = '<span style="color:#f59e0b;">⚡ Early Trigger: Device Slowdown Prevented!</span>';
-        } else {
-          bText.innerHTML = '<span style="color:#38bdf8;">Running 5-Min Sweep...</span>';
-        }
-      }
-
-      // Safe cache purge
-      try {
-        if ('caches' in window) {
-          const keys = await caches.keys();
-          for (const k of keys) {
-            if (k.includes('old') || k.includes('temp') || k.includes('test')) {
-              await caches.delete(k);
-            }
-          }
-        }
-      } catch(e) {}
-
-      await new Promise(function(r) { setTimeout(r, 600); });
-
-      coolerCycles++;
-      localStorage.setItem('cooler_cycles', coolerCycles.toString());
-
-      if (bText) {
-        if (isEarlyTrigger) {
-          bText.innerHTML = '<span style="color:#4ade80;">✓ Lag Neutralized &bull; Restored to 100% Speed</span>';
-        } else {
-          bText.innerHTML = '<span style="color:#4ade80;">Optimal &bull; Cleaned (Cycle #' + coolerCycles + ')</span>';
-        }
-      }
-      if (tText) {
-        tText.textContent = 'Cool & Optimal (31.8°C)';
-        tText.style.color = '#38bdf8';
-      }
-    }
-
-    // Auto-resume state on page load
-    setTimeout(function() {
-      if (localStorage.getItem('cooler_active') === 'true') {
-        const toggle = document.getElementById('coolerToggle');
-        if (toggle) {
-          toggle.checked = true;
-          toggleAutoCooler(true);
-        }
-      }
-    }, 500);
   </script>
 
-<!-- 🛍️ Non-Intrusive Sovereign Ecosystem Banner -->
-<div class="sovereign-eco-banner" style="margin-top:35px; margin-bottom:20px; padding:12px 16px; background:rgba(15,23,42,0.92); border:1px solid rgba(56,189,248,0.25); border-radius:14px; display:flex; align-items:center; justify-content:space-between; gap:12px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; text-align:left;">
-  <div style="display:flex; align-items:center; gap:10px;">
-    <span style="font-size:22px;">⚡</span>
-    <div>
-      <strong style="color:#fff; font-size:12px; display:block;">Need more private, standalone utilities?</strong>
-      <span style="color:#94a3b8; font-size:11px;">Explore all 22 offline micro-tools &bull; Zero subscriptions &bull; 100% private</span>
+  <!-- Multi-Option Sovereign Checkout Modal -->
+  <div id="paymentModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#131d33; border:1px solid #38bdf8; border-radius:20px; max-width:440px; width:100%; padding:24px; box-shadow:0 12px 40px rgba(0,0,0,0.6); position:relative;">
+      <button onclick="closePaymentModal()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#94a3b8; font-size:22px; cursor:pointer;">&times;</button>
+      
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+        <span style="font-size:26px;">🛡️</span>
+        <div>
+          <h3 style="color:#fff; font-size:18px; font-weight:800;">Sovereign Lifetime License</h3>
+          <p style="color:#38bdf8; font-size:13px; font-weight:700;">$39.99 • Zero Subscriptions Forever</p>
+        </div>
+      </div>
+      
+      <p style="font-size:12px; color:#94a3b8; margin-bottom:18px; line-height:1.4;">
+        Choose your preferred checkout method below to instantly unlock your lifetime license key:
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <!-- Card / Apple Pay -->
+        <a id="payCardLink" href="https://payhip.com/b/BAmFe" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); padding:14px; border-radius:14px; color:#fff; text-decoration:none; font-weight:700; font-size:14px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span>💳</span>
+            <span>Credit / Debit / Apple Pay</span>
+          </div>
+          <span style="color:#38bdf8;">Pay $39.99 &rarr;</span>
+        </a>
+
+        <!-- Crypto / Web3 -->
+        <div style="background:rgba(56,189,248,0.06); border:1px solid rgba(56,189,248,0.3); padding:14px; border-radius:14px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:14px;">
+              <span>⚡</span>
+              <span>Pay with Crypto (Zero Middleman)</span>
+            </div>
+            <span style="font-size:11px; background:#0284c7; color:#fff; padding:2px 8px; border-radius:10px;">Instant</span>
+          </div>
+          <p style="font-size:11px; color:#94a3b8; line-height:1.4; margin-bottom:8px;">
+            Accepts USDT, USDC, Bitcoin, Ethereum, and Solana. Direct wallet transfers supported.
+          </p>
+          <div style="display:flex; gap:6px;">
+            <button onclick="alert('Send $39.99 USDT (ERC20/TRC20) or SOL. Connect wallet or contact store support.')" style="flex:1; background:#0284c7; border:none; color:#fff; font-size:11px; font-weight:700; padding:8px; border-radius:8px; cursor:pointer;">
+              View Wallet Addresses
+            </button>
+          </div>
+        </div>
+
+        <!-- PayPal / Cash App -->
+        <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.3); padding:14px; border-radius:14px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <div style="display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:14px;">
+              <span>🅿️</span>
+              <span>PayPal / Cash App / Venmo</span>
+            </div>
+            <span style="color:#34d399; font-weight:700; font-size:12px;">$39.99</span>
+          </div>
+          <p style="font-size:11px; color:#94a3b8; line-height:1.4;">
+            Send $39.99 directly with order memo for instant license issuance.
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top:16px; text-align:center;">
+        <span style="font-size:11px; color:#64748b;">🔒 256-Bit Encrypted • Air-Gapped License Guarantee</span>
+      </div>
     </div>
   </div>
-  <a href="https://gmitch12967-crypto.github.io/" target="_blank" rel="noopener" style="background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; text-decoration:none; font-size:11px; font-weight:700; padding:7px 12px; border-radius:8px; white-space:nowrap; box-shadow:0 2px 8px rgba(2,132,199,0.4);">
-    Visit Store &rarr;
-  </a>
-</div>
 </body>
 </html>
 
