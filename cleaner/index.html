@@ -203,7 +203,14 @@
       padding: 14px; text-align: left; display: none;
       animation: fadeIn 0.3s ease;
     }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInTab {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .view-panel {
+      animation: slideInTab 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      touch-action: pan-y;
+    }
 
     /* Tab Switcher */
     .tab-nav { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
@@ -472,24 +479,72 @@
           </div>
         </div>
       </div>
-      <!-- 📱 Peer-to-Peer Scan to Buy / Share QR Code -->
-      <div class="qr-share-card" style="margin-top:14px; background:rgba(15,23,42,0.95); border:1px solid rgba(56,189,248,0.4); border-radius:16px; padding:16px; display:flex; align-items:center; gap:16px; box-shadow:0 4px 20px rgba(0,0,0,0.4);">
-        <div style="background:#ffffff; padding:6px; border-radius:10px; flex-shrink:0; box-shadow:0 0 12px rgba(56,189,248,0.3);">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=https%3A%2F%2Fgmitch12967-crypto.github.io%2Fcleaner%2F" alt="Scan to Buy QR Code" style="width:90px; height:90px; display:block; border-radius:4px;" />
-        </div>
-        <div style="flex:1;">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span style="font-size:16px;">📷</span>
-            <strong style="color:#38bdf8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Scan to Buy / Share (.99)</strong>
+            <!-- 🤝 1-Click Peer-to-Peer Share & 50% Affiliate Program Card (ONLY 1 QR on Page) -->
+      <section class="affiliate-share-section" style="margin-top:16px; margin-bottom:18px; background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.9)); border:2px solid #38bdf8; border-radius:20px; padding:20px; box-shadow:0 8px 30px rgba(0,0,0,0.5); text-align:left;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:24px;">🤝</span>
+            <div>
+              <h3 style="color:#fff; font-size:16px; font-weight:800; margin:0;">Share with Friends &amp; Earn 50%</h3>
+              <span style="color:#38bdf8; font-size:11px; font-weight:700;">Evergreen Affiliate Program &bull; .00 / Sale</span>
+            </div>
           </div>
-          <p style="font-size:11px; color:#cbd5e1; line-height:1.4; margin-bottom:8px;">
-            Point another phone camera at this QR code to instantly open &amp; purchase Sovereign Care on their device.
-          </p>
-          <button onclick="openPaymentModal()" style="background:linear-gradient(135deg, #0284c7, #10b981); border:none; color:#fff; font-size:11px; font-weight:700; padding:6px 12px; border-radius:8px; cursor:pointer;">
-            💳 View All Payment Options &rarr;
-          </button>
+          <span style="background:rgba(34,197,94,0.18); border:1px solid #22c55e; color:#4ade80; font-size:11px; font-weight:800; padding:4px 10px; border-radius:20px;">
+            💰 50% Commission
+          </span>
         </div>
-      </div>
+
+        <p style="font-size:12px; color:#cbd5e1; line-height:1.5; margin-bottom:14px;">
+          Have a friend, family member, or coworker who wants their phone running like a race car? Let them scan this QR code or send them your referral link. When they buy Sovereign Care (.99), you earn an instant 50% cash payout!
+        </p>
+
+        <!-- QR Code & Quick Action Row -->
+        <div style="display:flex; align-items:center; gap:16px; background:#0b1120; border:1px solid #1e293b; border-radius:16px; padding:14px; margin-bottom:14px;">
+          <!-- High-Contrast Clean QR Code -->
+          <div style="background:#ffffff; padding:6px; border-radius:12px; flex-shrink:0; box-shadow:0 0 16px rgba(56,189,248,0.4); text-align:center;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;margin=8&amp;data=https%3A%2F%2Fgmitch12967-crypto.github.io%2Fcleaner%2F" alt="Scan to Buy QR Code" style="width:110px; height:110px; display:block; border-radius:6px;" />
+            <span style="display:block; font-size:9px; font-weight:800; color:#0f172a; margin-top:3px; text-transform:uppercase;">Scan to Buy</span>
+          </div>
+
+          <!-- Share Actions -->
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:800; color:#f8fafc; margin-bottom:4px;">
+              📱 Instant Camera Scan:
+            </div>
+            <div style="font-size:11px; color:#94a3b8; line-height:1.4; margin-bottom:10px;">
+              Friends can point their iPhone or Android camera right at your screen to open and buy.
+            </div>
+
+            <button onclick="copyCleanerReferralLink()" id="btnCopyReferral" style="width:100%; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:10px; padding:10px 12px; font-weight:800; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 3px 12px rgba(2,132,199,0.3);">
+              <span>📋</span>
+              <span id="copyReferralText">Copy Share Link</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Affiliate Benefits Checklist -->
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; margin-bottom:12px;">
+          <div style="font-size:11px; font-weight:800; color:#38bdf8; text-transform:uppercase; margin-bottom:6px;">
+            🌟 Why Join Our Partner Network?
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11px; color:#e2e8f0;">
+            <div>✓ <strong>50% Cut:</strong> You keep /sale</div>
+            <div>✓ <strong>Lifetime Cookies:</strong> Never lose credit</div>
+            <div>✓ <strong>Zero Fees:</strong> 100% free to join</div>
+            <div>✓ <strong>Direct Payouts:</strong> PayPal / Bank</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button onclick="openPaymentModal()" style="flex:1; background:rgba(16,185,129,0.2); border:1.5px solid #10b981; color:#34d399; border-radius:12px; padding:11px; font-weight:800; font-size:12px; cursor:pointer; text-align:center;">
+            💳 Buy Lifetime (.99)
+          </button>
+          <a href="https://payhip.com/auth/register/affiliate" target="_blank" rel="noopener" style="flex:1; background:rgba(56,189,248,0.15); border:1.5px solid #38bdf8; color:#38bdf8; border-radius:12px; padding:11px; font-weight:800; font-size:12px; text-decoration:none; text-align:center; display:block;">
+            💼 Join Affiliate Program &rarr;
+          </a>
+        </div>
+      </section>
     </section>
 
     <!-- 🛡️ Android Sideloading Safety & Unsafe Warning Guide -->
@@ -933,6 +988,9 @@
   
 <script>
     // Tab Switching
+        const viewList = ['dashboard', 'trackers', 'photos', 'large', 'concierge'];
+    let currentViewIndex = 0;
+
     function switchView(viewId) {
       document.querySelectorAll('.view-panel').forEach(function(p) { p.style.display = 'none'; });
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -944,14 +1002,81 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      const views = ['dashboard', 'trackers', 'photos', 'large', 'concierge'];
-      const idx = views.indexOf(viewId);
-      if (idx !== -1) {
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        if (tabBtns[idx]) tabBtns[idx].classList.add('active');
-        const navItems = document.querySelectorAll('.nav-item');
-        if (navItems[idx]) navItems[idx].classList.add('active');
+      currentViewIndex = viewList.indexOf(viewId);
+      if (currentViewIndex === -1) currentViewIndex = 0;
+
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      if (tabBtns[currentViewIndex]) {
+        tabBtns[currentViewIndex].classList.add('active');
+        if (tabBtns[currentViewIndex].scrollIntoView) {
+          tabBtns[currentViewIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       }
+
+      const navItems = document.querySelectorAll('.nav-item');
+      if (navItems[currentViewIndex]) {
+        navItems[currentViewIndex].classList.add('active');
+      }
+    }
+
+    // 📱 Swipe Gesture Detection for Tabs
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    window.addEventListener('touchstart', function(e) {
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', function(e) {
+      if (e.changedTouches && e.changedTouches.length === 1) {
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+        handleSwipeGesture();
+      }
+    }, { passive: true });
+
+    function handleSwipeGesture() {
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+      const minSwipeDistance = 55; // 55px threshold
+
+      // Only switch tabs if horizontal swipe is clearly dominant
+      if (Math.abs(deltaX) > Math.abs(deltaY) * 1.4 && Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX < 0) {
+          // Swipe Left -> Next Tab
+          if (currentViewIndex < viewList.length - 1) {
+            switchView(viewList[currentViewIndex + 1]);
+            if ('vibrate' in navigator) navigator.vibrate(20);
+          }
+        } else {
+          // Swipe Right -> Previous Tab
+          if (currentViewIndex > 0) {
+            switchView(viewList[currentViewIndex - 1]);
+            if ('vibrate' in navigator) navigator.vibrate(20);
+          }
+        }
+      }
+    }
+
+    function copyCleanerReferralLink() {
+      const url = 'https://gmitch12967-crypto.github.io/cleaner/';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() {
+          const txt = document.getElementById('copyReferralText');
+          if (txt) {
+            txt.textContent = '✓ Copied to Clipboard!';
+            setTimeout(function() { txt.textContent = 'Copy Share Link'; }, 3000);
+          }
+        });
+      } else {
+        prompt('Copy your referral link:', url);
+      }
+      if ('vibrate' in navigator) navigator.vibrate(50);
     }
 
     // ⚡ 1-Click Safe AutoClean (Real Storage & Cache Scrubber)
