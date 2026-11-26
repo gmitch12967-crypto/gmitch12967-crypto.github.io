@@ -338,7 +338,6 @@
       color: #ffffff !important;
       border: 1px solid #7dd3fc !important;
       font-weight: 800 !important;
-      display: flex !important;
     }
   </style>
 </head>
@@ -358,7 +357,7 @@
       </div>
     </div>
     <div style="display:flex; align-items:center; gap:8px;">
-      <button id="btnUpdateApp" onclick="forceAppUpdate()" class="btn-update-pulsing" style="display:none; font-size:11px; font-weight:800; padding:6px 14px; border-radius:20px; cursor:pointer; align-items:center; gap:6px; -webkit-tap-highlight-color:transparent; z-index:100;">
+      <button id="btnUpdateApp" style="display:none !important; font-size:11px; font-weight:800; padding:6px 14px; border-radius:20px; cursor:pointer; align-items:center; gap:6px; -webkit-tap-highlight-color:transparent; z-index:100;">
         <span style="font-size:13px;">⚡</span>
         <span>Update Ready (Tap Now)</span>
       </button>
@@ -1511,67 +1510,64 @@
       if (modal) modal.style.display = 'none';
     }
 
-    // --- 1-Click Flashing Update Controller ---
-    const CURRENT_LATEST_VERSION = "v3.3.1-live";
-
-    function checkUpdateStatus() {
-      const installed = localStorage.getItem('sovereign_installed_build');
-      const btn = document.getElementById('btnUpdateApp');
-      const toast = document.getElementById('updateToast');
-
-      if (installed !== CURRENT_LATEST_VERSION) {
-        if (btn) {
-          btn.style.display = 'flex';
-          btn.classList.add('btn-update-pulsing');
-        }
-        if (toast) toast.style.display = 'flex';
-      } else {
-        if (btn) btn.style.display = 'none';
-        if (toast) toast.style.display = 'none';
-      }
-    }
-
-    function forceAppUpdate() {
+    // --- True Event-Driven Update Detector (Hidden until an update is actively ready) ---
+    function showUpdateTrigger(waitingWorker) {
       const btn = document.getElementById('btnUpdateApp');
       if (btn) {
-        btn.innerHTML = '<span>✓</span> Updating App...';
-        btn.style.background = '#22c55e';
-        btn.style.animation = 'none';
+        btn.style.setProperty('display', 'flex', 'important');
+        btn.classList.add('btn-update-pulsing');
+        btn.onclick = function() {
+          btn.innerHTML = '<span>✓</span> Updating...';
+          btn.style.background = '#22c55e';
+          if (waitingWorker) {
+            waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+          }
+          if ('caches' in window) {
+            caches.keys().then(function(keys) {
+              keys.forEach(function(k) { caches.delete(k); });
+            }).catch(function() {});
+          }
+          setTimeout(function() {
+            window.location.reload();
+          }, 350);
+        };
       }
-      const toast = document.getElementById('updateToast');
-      if (toast) toast.innerHTML = '<span>✓</span> Updating App...';
-
-      // Mark as installed so it disappears on reload
-      try {
-        localStorage.setItem('sovereign_installed_build', CURRENT_LATEST_VERSION);
-      } catch (e) {}
-
-      // Fire-and-forget unregister & cache clear
-      try {
-        if ('caches' in window) {
-          caches.keys().then(function(keys) {
-            keys.forEach(function(k) { caches.delete(k); });
-          }).catch(function() {});
-        }
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function(regs) {
-            regs.forEach(function(r) { r.unregister(); });
-          }).catch(function() {});
-        }
-      } catch (e) {}
-
-      // Guaranteed hard reload in 250ms
-      setTimeout(function() {
-        const cleanUrl = window.location.origin + window.location.pathname + '?upd=' + Date.now();
-        window.location.href = cleanUrl;
-      }, 250);
     }
 
-    // Run check immediately on load
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', checkUpdateStatus);
-    } else {
-      checkUpdateStatus();
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          // If an updated worker is already waiting in background:
+          if (reg.waiting) {
+            showUpdateTrigger(reg.waiting);
+            return;
+          }
+
+          // Listen for new updates installing in background:
+          reg.addEventListener('updatefound', function() {
+            const newWorker = reg.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', function() {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // A real, active update has just arrived!
+                  showUpdateTrigger(newWorker);
+                }
+              });
+            }
+          });
+
+          // Check server for updates periodically
+          setInterval(function() {
+            reg.update().catch(function() {});
+          }, 30000);
+        }).catch(function(e) {
+          console.warn('SW register error:', e);
+        });
+
+        navigator.serviceWorker.addEventListener('controllerchange', function() {
+          window.location.reload();
+        });
+      });
     }
   </script>
 </body>
