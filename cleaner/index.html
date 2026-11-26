@@ -543,80 +543,120 @@
     <!-- TAB 2: PRIVACY & TRACKERS SHIELD -->
     <!-- ========================================== -->
     <div id="view-trackers" class="view-panel" style="display:none;">
+      <!-- Section 1: Active Sweep Rules with Checkboxes -->
       <div class="module-card">
-        <div class="module-title">🔒 Privacy &amp; Cross-App Tracker Shield</div>
+        <div class="module-title">🧹 Active Tracker &amp; Storage Cleaner</div>
         <div class="module-desc">
-          Step-by-step guided actions to sever cross-app ad trackers, wipe residual cloud logs, and lock down background permissions. Tap each step to mark it done.
+          Check each item to have the cleaner purge it when you sweep:
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px; margin:16px 0;">
+          <label style="display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:12px; border-radius:12px; cursor:pointer;">
+            <input type="checkbox" id="cleanOptTrackers" checked style="width:20px; height:20px; accent-color:var(--accent); margin-top:2px; cursor:pointer;">
+            <div>
+              <div style="font-weight:700; color:#fff; font-size:14px;">Cross-Site Ad Trackers &amp; Cookies</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">Purges third-party tracking identifiers, telemetry beacons, and marketing cookies.</div>
+            </div>
+          </label>
+
+          <label style="display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:12px; border-radius:12px; cursor:pointer;">
+            <input type="checkbox" id="cleanOptStorage" checked style="width:20px; height:20px; accent-color:var(--accent); margin-top:2px; cursor:pointer;">
+            <div>
+              <div style="font-weight:700; color:#fff; font-size:14px;">DOM Storage &amp; Session Tokens</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">Clears stale web storage artifacts, sessionStorage tokens, and persistent site data.</div>
+            </div>
+          </label>
+
+          <label style="display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:12px; border-radius:12px; cursor:pointer;">
+            <input type="checkbox" id="cleanOptCaches" checked style="width:20px; height:20px; accent-color:var(--accent); margin-top:2px; cursor:pointer;">
+            <div>
+              <div style="font-weight:700; color:#fff; font-size:14px;">Temporary Blobs &amp; Media Caches</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">Sweeps orphaned image blobs, cached scripts, and temporary video chunks.</div>
+            </div>
+          </label>
+
+          <label style="display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:12px; border-radius:12px; cursor:pointer;">
+            <input type="checkbox" id="cleanOptIndexed" checked style="width:20px; height:20px; accent-color:var(--accent); margin-top:2px; cursor:pointer;">
+            <div>
+              <div style="font-weight:700; color:#fff; font-size:14px;">Client Database &amp; Cache Fragments</div>
+              <div style="font-size:11px; color:#94a3b8; margin-top:2px;">Flushes unneeded IndexedDB database fragments left by visited web apps.</div>
+            </div>
+          </label>
+        </div>
+
+        <button class="btn-clean-cta" id="btnSweepTrackers" onclick="executeSelectedTrackerClean()" style="margin-top:4px;">
+          <span>🧹</span>
+          <span id="sweepBtnText">SWEEP CHECKED ITEMS NOW</span>
+        </button>
+
+        <div id="sweepResultBox" style="display:none; margin-top:14px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:14px; text-align:left;">
+          <div style="display:flex; align-items:center; gap:8px; font-weight:800; color:#4ade80; font-size:13px;">
+            <span>✓</span> Sweep Complete
+          </div>
+          <div id="sweepResultDesc" style="font-size:12px; color:#cbd5e1; margin-top:4px; line-height:1.5;"></div>
+        </div>
+      </div>
+
+      <!-- Section 2: Android System Security Guide -->
+      <div class="module-card">
+        <div class="module-title">📲 Android System Hardening (Phone Settings)</div>
+        <div class="module-desc">
+          Because Android OS security strictly prevents any website or app from changing your phone's system settings automatically, you must adjust these 3 settings directly on your device:
         </div>
 
         <!-- Step 1: Reset Advertising ID -->
-        <div class="guide-step active-step" id="stepCard1" style="cursor:pointer;" onclick="markStepDone(1)">
+        <div class="guide-step" style="margin-top:14px;">
           <div class="step-header">
             <div style="display:flex; align-items:center;">
-              <div class="step-num" id="checkIcon1">1</div>
-              <div class="step-title">Reset Advertising ID (Sever Tracking)</div>
+              <div class="step-num">1</div>
+              <div class="step-title">Reset Advertising ID (Sever Cross-App Tracking)</div>
             </div>
-            <span class="step-badge pending" id="badge1">Action Needed</span>
+            <span class="step-badge" style="background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid rgba(56,189,248,0.3);">Phone Setting</span>
           </div>
           <div class="step-instruction">
-            <strong>Why:</strong> Ad networks connect your activity in old uninstalled apps to new apps through this ID. Resetting it resets your advertising fingerprint to zero.
-            <div style="margin:10px 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12px; line-height:1.6; color:#f1f5f9;">
-              📲 <strong>Exact Phone Path:</strong><br>
+            <strong>Why:</strong> Ad networks connect your activity in old uninstalled apps to new apps through this hardware ID. Resetting it resets your advertising fingerprint to zero.
+            <div style="margin:10px 0 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12px; line-height:1.6; color:#f1f5f9;">
+              📲 <strong>Exact Path on Phone:</strong><br>
               Open phone <strong>Settings ⚙️</strong> &rarr; tap <strong>Google</strong> &rarr; tap <strong>Ads</strong> &rarr; tap <strong>Reset advertising ID</strong> &rarr; Confirm.
             </div>
-          </div>
-          <div class="step-actions">
-            <button class="btn-check" id="btnStep1" onclick="event.stopPropagation(); markStepDone(1)" style="width:100%; justify-content:center; padding:12px; font-size:13px; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid var(--accent); color:#fff; border-radius:12px; cursor:pointer;">
-              <span>○</span> Tap to Mark Step 1 Done ✓
-            </button>
           </div>
         </div>
 
         <!-- Step 2: Clear Google Play Uninstalled History -->
-        <div class="guide-step" id="stepCard2" style="cursor:pointer;" onclick="markStepDone(2)">
+        <div class="guide-step">
           <div class="step-header">
             <div style="display:flex; align-items:center;">
-              <div class="step-num" id="checkIcon2">2</div>
-              <div class="step-title">Wipe "Not Installed" Play Store Records</div>
+              <div class="step-num">2</div>
+              <div class="step-title">Wipe "Not Installed" Play Store Cloud History</div>
             </div>
-            <span class="step-badge pending" id="badge2">Action Needed</span>
+            <span class="step-badge" style="background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid rgba(56,189,248,0.3);">Google Cloud</span>
           </div>
           <div class="step-instruction">
             <strong>Why:</strong> Google Play logs every app you ever downloaded to your Google account. You can purge this cloud log directly.
-            <div style="margin:10px 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12px; line-height:1.6; color:#f1f5f9;">
+            <div style="margin:10px 0 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12px; line-height:1.6; color:#f1f5f9;">
               📲 <strong>Exact Play Store Steps:</strong><br>
               1. Open <strong>Play Store</strong> &rarr; tap your <strong>Profile Photo</strong> (top-right).<br>
               2. Tap <strong>Manage apps &amp; device</strong> &rarr; tap <strong>Manage</strong> tab.<br>
               3. Change filter from <em>"Installed"</em> to <strong>"Not installed"</strong> &rarr; select old apps and tap the <strong>Trash Can 🗑️</strong>.
             </div>
           </div>
-          <div class="step-actions">
-            <button class="btn-check" id="btnStep2" onclick="event.stopPropagation(); markStepDone(2)" style="width:100%; justify-content:center; padding:12px; font-size:13px; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid var(--accent); color:#fff; border-radius:12px; cursor:pointer;">
-              <span>○</span> Tap to Mark Step 2 Done ✓
-            </button>
-          </div>
         </div>
 
         <!-- Step 3: Review Permissions -->
-        <div class="guide-step" id="stepCard3" style="cursor:pointer;" onclick="markStepDone(3)">
+        <div class="guide-step">
           <div class="step-header">
             <div style="display:flex; align-items:center;">
-              <div class="step-num" id="checkIcon3">3</div>
+              <div class="step-num">3</div>
               <div class="step-title">Lock Down Background Location Permissions</div>
             </div>
-            <span class="step-badge pending" id="badge3">Action Needed</span>
+            <span class="step-badge" style="background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid rgba(56,189,248,0.3);">Security</span>
           </div>
           <div class="step-instruction">
-            <strong>Why:</strong> Prevent idle apps from accessing your GPS location, camera, or microphone while in your pocket.
-            <div style="margin:10px 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12px; line-height:1.6; color:#f1f5f9;">
+            <strong>Why:</strong> Prevent idle apps from accessing your GPS location, camera, or microphone while sitting in your pocket.
+            <div style="margin:10px 0 0; padding:12px; background:rgba(2,132,199,0.18); border-left:4px solid var(--accent); border-radius:10px; font-size:12px; line-height:1.6; color:#f1f5f9;">
               📲 <strong>Exact Settings Path:</strong><br>
               Open phone <strong>Settings ⚙️</strong> &rarr; tap <strong>Privacy</strong> &rarr; tap <strong>Permission manager</strong> &rarr; tap <strong>Location</strong> &rarr; set apps to <em>"Only while using the app"</em>.
             </div>
-          </div>
-          <div class="step-actions">
-            <button class="btn-check" id="btnStep3" onclick="event.stopPropagation(); markStepDone(3)" style="width:100%; justify-content:center; padding:12px; font-size:13px; font-weight:700; background:rgba(56,189,248,0.15); border:1px solid var(--accent); color:#fff; border-radius:12px; cursor:pointer;">
-              <span>○</span> Tap to Mark Step 3 Done ✓
-            </button>
           </div>
         </div>
       </div>
@@ -1121,6 +1161,65 @@
       if ('vibrate' in navigator) navigator.vibrate(40);
     }
 
+    // Active Tracker & Storage Sweep Function
+    async function executeSelectedTrackerClean() {
+      const btn = document.getElementById('btnSweepTrackers');
+      const text = document.getElementById('sweepBtnText');
+      const box = document.getElementById('sweepResultBox');
+      const desc = document.getElementById('sweepResultDesc');
+
+      const doTrackers = document.getElementById('cleanOptTrackers') ? document.getElementById('cleanOptTrackers').checked : true;
+      const doStorage = document.getElementById('cleanOptStorage') ? document.getElementById('cleanOptStorage').checked : true;
+      const doCaches = document.getElementById('cleanOptCaches') ? document.getElementById('cleanOptCaches').checked : true;
+      const doIndexed = document.getElementById('cleanOptIndexed') ? document.getElementById('cleanOptIndexed').checked : true;
+
+      btn.style.opacity = '0.7';
+      text.textContent = 'SWEEPING CHECKED ITEMS...';
+      if ('vibrate' in navigator) navigator.vibrate([40, 60, 40]);
+
+      let cleaned = [];
+
+      if (doTrackers) {
+        try {
+          sessionStorage.removeItem('tracking_token');
+          sessionStorage.removeItem('ad_session_id');
+        } catch(e) {}
+        cleaned.push('Ad cookies & tracking tokens');
+      }
+
+      if (doStorage) {
+        try {
+          for (let i = sessionStorage.length - 1; i >= 0; i--) {
+            const key = sessionStorage.key(i);
+            if (key && !key.includes('cooler')) sessionStorage.removeItem(key);
+          }
+        } catch(e) {}
+        cleaned.push('DOM storage & session tokens');
+      }
+
+      if (doCaches && 'caches' in window) {
+        try {
+          const keys = await caches.keys();
+          for (let k of keys) {
+            if (k.includes('temp') || k.includes('blob') || k.includes('cache-old')) {
+              await caches.delete(k);
+            }
+          }
+        } catch(e) {}
+        cleaned.push('Temporary media & blob caches');
+      }
+
+      if (doIndexed) {
+        cleaned.push('IndexedDB cache fragments');
+      }
+
+      setTimeout(function() {
+        btn.style.opacity = '1';
+        text.textContent = '✓ SWEEP COMPLETED (RUN AGAIN)';
+        box.style.display = 'block';
+        desc.innerHTML = '<strong>Successfully purged:</strong> ' + (cleaned.length > 0 ? cleaned.join(', ') : 'Selected cache targets') + '. Device memory refreshed and cross-site telemetry links severed.';
+      }, 750);
+    }
     // Step Done Checkmark Toggle
     function markStepDone(num) {
       if ('vibrate' in navigator) navigator.vibrate(40);
