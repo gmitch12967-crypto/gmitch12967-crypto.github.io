@@ -44,6 +44,14 @@
       padding-bottom: 85px;
     }
 
+        @keyframes bounceArrow {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-8px) scale(1.05); }
+    }
+    .pointer-pulse {
+      animation: bounceArrow 0.6s infinite alternate ease-in-out;
+    }
+
     /* Google Play Style Top Bar */
     .top-bar {
       background: rgba(15, 23, 42, 0.95);
@@ -907,8 +915,8 @@
       <button onclick="dismissInstallSheet()" style="background:none; border:none; color:#64748b; font-size:1.2rem; cursor:pointer; padding:4px;">✕</button>
     </div>
     <div style="display:flex; gap:8px;">
-      <button onclick="triggerPwaInstall()" style="flex:1; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:12px; padding:12px; font-weight:800; font-size:0.85rem; cursor:pointer;">
-        📲 Download &amp; Add App Icon
+      <button onclick="triggerPwaInstall()" style="flex:1; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:12px; padding:12px; font-weight:800; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+        📲 Add App to Home Screen
       </button>
       <button onclick="dismissInstallSheet()" style="background:rgba(255,255,255,0.08); color:#94a3b8; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px 14px; font-size:0.8rem; font-weight:600; cursor:pointer;">
         Later
@@ -1250,6 +1258,7 @@
     }, 1200);
 
     function triggerPwaInstall() {
+      if ('vibrate' in navigator) navigator.vibrate(40);
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(function(choice) {
@@ -1261,30 +1270,50 @@
       }
     }
 
-    function executeOneClickInstall() {
+    function openInstallGuide() {
+      const modal = document.getElementById('installGuideModal');
+      if (modal) modal.style.display = 'flex';
+      
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const iosBox = document.getElementById('iosVisualGuide');
+      const androidBox = document.getElementById('androidVisualGuide');
+      if (isIos) {
+        if (iosBox) iosBox.style.display = 'block';
+        if (androidBox) androidBox.style.display = 'none';
+      } else {
+        if (iosBox) iosBox.style.display = 'none';
+        if (androidBox) androidBox.style.display = 'block';
+      }
+
+      const directBtn = document.getElementById('btnNativeDirect');
+      if (directBtn) {
+        if (deferredPrompt) {
+          directBtn.style.display = 'block';
+        } else {
+          directBtn.style.display = 'none';
+        }
+      }
+    }
+
+    function executeNativePrompt() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(function(choice) {
           deferredPrompt = null;
           closeInstallGuide();
         });
-      } else {
-        const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIos) {
-          const tip = document.getElementById('iosSimpleTip');
-          if (tip) tip.style.display = 'block';
-        } else {
-          const btn = document.getElementById('btnNativePrompt');
-          if (btn) btn.innerHTML = 'Tap browser menu <strong>⋮</strong> ➔ Install app';
-        }
       }
     }
 
-    function openInstallGuide() {
-      const modal = document.getElementById('installGuideModal');
-      if (modal) modal.style.display = 'flex';
-      if (deferredPrompt) {
-        executeOneClickInstall();
+    function confirmAndPointToMenu() {
+      closeInstallGuide();
+      dismissInstallSheet();
+      const pointer = document.getElementById('menuPointerArrow');
+      if (pointer) {
+        pointer.style.display = 'block';
+        setTimeout(function() {
+          pointer.style.display = 'none';
+        }, 10000);
       }
     }
 
@@ -1591,25 +1620,83 @@
       });
     }
   </script>
-  <!-- 📲 Click & Done 1-Click Install Sheet -->
-  <div id="installGuideModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:10002; align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#131d33; border:2px solid #38bdf8; border-radius:22px; max-width:380px; width:100%; padding:24px; box-shadow:0 12px 40px rgba(0,0,0,0.8); text-align:center; position:relative;">
-      <button onclick="closeInstallGuide()" style="position:absolute; top:14px; right:16px; background:none; border:none; color:#94a3b8; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+  <!-- 📲 Child-Friendly, Dead-Simple Visual Install Modal -->
+  <div id="installGuideModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(8px); z-index:10002; align-items:center; justify-content:center; padding:14px;">
+    <div style="background:#131d33; border:2px solid #38bdf8; border-radius:24px; max-width:390px; width:100%; padding:20px; box-shadow:0 12px 40px rgba(0,0,0,0.85); text-align:center; position:relative; max-height:92vh; overflow-y:auto;">
+      <button onclick="closeInstallGuide()" style="position:absolute; top:12px; right:14px; background:none; border:none; color:#94a3b8; font-size:26px; cursor:pointer; line-height:1;">&times;</button>
       
-      <img src="./icon-192.png" style="width:64px; height:64px; border-radius:16px; margin:0 auto 12px; box-shadow:0 6px 20px rgba(56,189,248,0.4); display:block;" />
+      <img src="./icon-192.png" style="width:58px; height:58px; border-radius:16px; margin:0 auto 10px; box-shadow:0 6px 20px rgba(56,189,248,0.4); display:block;" />
       
-      <h3 style="color:#fff; font-size:18px; font-weight:800; margin-bottom:6px;">Add Sovereign Care</h3>
-      <p style="color:#94a3b8; font-size:13px; margin-bottom:18px; line-height:1.4;">
-        Install to your phone screen in 1 click. Zero downloads, zero warnings.
+      <h3 style="color:#fff; font-size:18px; font-weight:800; margin-bottom:4px;">Add to Phone Screen</h3>
+      <p style="color:#94a3b8; font-size:12px; margin-bottom:14px; line-height:1.4;">
+        Keeps your phone clean &amp; cool with zero downloads and zero warnings.
       </p>
 
-      <button id="btnNativePrompt" onclick="executeOneClickInstall()" style="width:100%; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:14px; padding:15px; font-weight:800; font-size:15px; cursor:pointer; box-shadow:0 4px 18px rgba(2,132,199,0.5); margin-bottom:10px;">
-        ⚡ Tap to Install Now
+      <!-- Direct 1-Tap button if browser allows -->
+      <button id="btnNativeDirect" onclick="executeNativePrompt()" style="display:none; width:100%; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:14px; padding:14px; font-weight:800; font-size:14px; cursor:pointer; box-shadow:0 4px 18px rgba(2,132,199,0.5); margin-bottom:12px;">
+        ⚡ Tap to Install Instantly
       </button>
 
-      <div id="iosSimpleTip" style="display:none; font-size:12px; color:#38bdf8; background:rgba(56,189,248,0.1); padding:10px; border-radius:10px; margin-top:10px;">
-        iPhone: Tap <strong>Share (⎋)</strong> ➔ <strong>Add to Home Screen</strong>
+      <!-- Android & Standard Mobile Step-by-Step -->
+      <div id="androidVisualGuide" style="text-align:left;">
+        <!-- Step 1 -->
+        <div style="background:#0b1120; border:1px solid #1e293b; border-radius:12px; padding:10px 12px; margin-bottom:8px; display:flex; align-items:center; gap:10px;">
+          <div style="background:#0284c7; color:#fff; font-size:13px; font-weight:900; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div style="font-size:12px; color:#f8fafc; line-height:1.3;">
+            Tap the <strong>3 dots [ ⋮ ]</strong> at the <strong>top-right</strong> of your screen.<br>
+            <span style="color:#64748b; font-size:11px;">(On Samsung Internet: tap the 3 lines [ ≡ ] at bottom-right)</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="background:#0b1120; border:1px solid #1e293b; border-radius:12px; padding:12px; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <div style="background:#10b981; color:#fff; font-size:13px; font-weight:900; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+            <div style="font-size:12px; font-weight:800; color:#fff;">In the menu, tap this:</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.18); border:2px solid #10b981; border-radius:10px; padding:10px 12px; color:#4ade80; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:space-between;">
+            <span>➕ Add to Home screen</span>
+            <span style="background:#10b981; color:#064e3b; font-size:10px; padding:3px 7px; border-radius:4px; font-weight:900;">TAP THIS ✅</span>
+          </div>
+          <div style="font-size:11px; color:#94a3b8; margin-top:4px; padding-left:2px;">(Some phones say "Install app" with a ⬇️ icon)</div>
+        </div>
+
+        <!-- 🛑 The Warning: DO NOT TAP DESKTOP SITE -->
+        <div style="background:rgba(239,68,68,0.12); border:2px solid #ef4444; border-radius:12px; padding:12px; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:6px; color:#f87171; font-weight:800; font-size:12px; margin-bottom:6px;">
+            <span style="font-size:16px;">🛑</span>
+            <span>DO NOT TAP "Desktop site"!</span>
+          </div>
+          <div style="background:rgba(0,0,0,0.35); border:1px dashed #ef4444; border-radius:8px; padding:6px 10px; color:#94a3b8; font-size:12px; display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <span style="text-decoration:line-through; color:#ef4444; font-weight:700;">⬜ Desktop site</span>
+            <span style="background:#ef4444; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:800;">DON'T TAP ❌</span>
+          </div>
+          <div style="font-size:11px; color:#fca5a5; line-height:1.3;">
+            "Desktop site" breaks phone view. Look right above or below it for <strong>"Add to Home screen"</strong>.
+          </div>
+        </div>
       </div>
+
+      <!-- iPhone Guidance -->
+      <div id="iosVisualGuide" style="display:none; text-align:left; background:rgba(56,189,248,0.1); border:1.5px solid #38bdf8; border-radius:12px; padding:12px; margin-bottom:12px;">
+        <div style="color:#38bdf8; font-weight:800; font-size:13px; margin-bottom:6px;">🍏 iPhone / iPad Steps:</div>
+        <div style="font-size:12px; color:#e2e8f0; line-height:1.5;">
+          1. Tap the <strong>Share</strong> button <strong>[ ⎋ ]</strong> at the bottom of Safari.<br>
+          2. Scroll down and tap <strong>"Add to Home Screen" [ ➕ ]</strong>.
+        </div>
+      </div>
+
+      <button onclick="confirmAndPointToMenu()" style="width:100%; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; border-radius:14px; padding:13px; font-weight:800; font-size:14px; cursor:pointer; box-shadow:0 4px 18px rgba(2,132,199,0.4);">
+        👍 Got It! Show Me 3 Dots ↗️
+      </button>
+    </div>
+  </div>
+
+  <!-- Animated Floating Pointer Arrow pointing at top-right browser menu -->
+  <div id="menuPointerArrow" style="display:none; position:fixed; top:12px; right:12px; z-index:999999; pointer-events:none; text-align:right;">
+    <div class="pointer-pulse" style="background:#0284c7; border:2px solid #38bdf8; color:#fff; font-size:13px; font-weight:800; padding:8px 14px; border-radius:24px; box-shadow:0 6px 24px rgba(0,0,0,0.8); display:inline-flex; align-items:center; gap:6px;">
+      <span>Tap 3 Dots here</span>
+      <span style="font-size:18px;">↗️</span>
     </div>
   </div>
 </body>
