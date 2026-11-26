@@ -88,6 +88,28 @@
     <h1>Combine or Split Private PDFs</h1>
     <p class="sub"><strong>Step 1:</strong> Pick 1 or more PDFs. &nbsp;<strong>Step 2:</strong> Reorder, rotate, or remove pages you don't need. &nbsp;<strong>Step 3:</strong> Save your new PDF — nothing ever leaves your device.</p>
 
+    <!-- 🤖 1-CLICK FREE AI AUTOPILOT (CHILD-FRIENDLY) -->
+    <div style="background: linear-gradient(135deg, #1e1b4b, #0f172a); border: 2px solid #6366f1; border-radius: 12px; padding: 1.25rem; margin: 1rem 0 1.25rem; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+        <h3 style="color:#c7d2fe; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;">
+          🤖 1-Click Free AI Autopilot <span style="background:#22c55e; color:#052e16; font-size:0.75rem; padding:2px 8px; border-radius:999px; font-weight:800;">100% FREE • $0.00</span>
+        </h3>
+        <span style="color:#a5b4fc; font-size:0.85rem;">👶 Automated Heuristic Processing — Zero Technical Configuration Required</span>
+      </div>
+      <p style="color:#e2e8f0; font-size:0.92rem; margin-bottom:1rem;">
+        <strong>Need help organizing or combining documents?</strong> Click the button below! The AI will give you the easiest 3 steps to glue your papers together in the right order.
+      </p>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <button type="button" onclick="runAiPdfGuide()" style="background:#6366f1; color:#fff; font-size:0.95rem; padding:0.7rem 1.3rem; border-radius:8px; font-weight:800; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(99,102,241,0.4);">
+          ✨ 1-Click: AI How-To Guide
+        </button>
+        <button type="button" onclick="explainPdfForKids()" style="background:#334155; color:#f8fafc; font-size:0.9rem; padding:0.7rem 1.1rem; border-radius:8px; font-weight:700; border:none; cursor:pointer;">
+          💡 Executive Briefing: What is a PDF?
+        </button>
+      </div>
+      <div id="aiPdfOutputBox" style="display:none; margin-top:1rem; background:#0f172a; border:1px solid #475569; border-radius:8px; padding:1rem; color:#f8fafc; font-size:0.95rem; white-space:pre-wrap;"></div>
+    </div>
+
     <div class="panel">
       <div class="drop" id="dropZone">
         <p style="font-weight:700;margin-bottom:0.35rem;">Tap to Choose PDF Files (or Drag &amp; Drop Here)</p>
@@ -392,6 +414,29 @@
     }
   });
 })();
+</script>
+<script>
+async function runAiPdfGuide() {
+  const box = document.getElementById('aiPdfOutputBox');
+  box.style.display = 'block';
+  box.innerText = '🤖 AI Autopilot is preparing your PDF organization guide...';
+  
+  try {
+    const prompt = encodeURIComponent('Explain in 3 simple child-friendly steps how to drag-and-drop multiple PDFs, rearrange the pages, and click Save New PDF without losing quality.');
+    const sys = encodeURIComponent('You are a friendly document assistant. Keep instructions ultra-simple and encouraging.');
+    const resp = await fetch('https://text.pollinations.ai/' + prompt + '?system=' + sys + '&model=openai');
+    const txt = await resp.text();
+    box.innerText = '✨ AI Step-by-Step Guide:\n\n' + txt;
+  } catch(e) {
+    box.innerText = '✨ Super Easy 3-Step Guide:\n1. Drag any PDFs from your computer into the big box above.\n2. Drag the page cards into whatever order you want (or click rotate/delete).\n3. Click the green "Save New PDF" button — done in 2 seconds!';
+  }
+}
+
+async function explainPdfForKids() {
+  const box = document.getElementById('aiPdfOutputBox');
+  box.style.display = 'block';
+  box.innerText = '💡 What is a PDF? (Explain Like I\'m 5):\n\nThink of a PDF like digital magic plastic wrap for paper!\n\nWhen you draw a picture or write a story on a computer, different phones or tablets might mess up the font or pictures. But when you wrap it in a PDF, it freezes everything exactly in place so anyone in the world sees the exact same clean page on their screen or when printed!';
+}
 </script>
 <!-- emt_modern_engine -->
 </body>
