@@ -328,6 +328,10 @@
   </style>
 </head>
 <body>
+  <!-- 🔄 Floating 1-Click Update Banner -->
+  <div id="updateToast" style="display:none; position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10000; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border-radius:30px; padding:10px 20px; box-shadow:0 8px 30px rgba(0,0,0,0.7); font-size:12px; font-weight:800; cursor:pointer; align-items:center; gap:8px; border:1px solid rgba(255,255,255,0.3); text-align:center; white-space:nowrap;" onclick="forceAppUpdate()">
+    <span>✨</span> New Update Ready • Tap to Update App Now ➔
+  </div>
 
   <!-- Top Bar -->
   <header class="top-bar">
@@ -338,9 +342,15 @@
         <p>Samsung Galaxy S10+ Privacy Suite</p>
       </div>
     </div>
-    <div class="status-badge">
-      <span class="dot-pulse"></span>
-      <span>100% Offline Safe</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="btnUpdateApp" onclick="forceAppUpdate()" style="background:linear-gradient(135deg, rgba(2,132,199,0.3), rgba(16,185,129,0.2)); border:1px solid #38bdf8; color:#38bdf8; font-size:11px; font-weight:800; padding:6px 12px; border-radius:20px; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(56,189,248,0.3); -webkit-tap-highlight-color:transparent;">
+        <span style="font-size:12px;">🔄</span>
+        <span>Update App</span>
+      </button>
+      <div class="status-badge">
+        <span class="dot-pulse"></span>
+        <span>100% Offline Safe</span>
+      </div>
     </div>
   </header>
 
