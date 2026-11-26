@@ -1,4 +1,4 @@
-const CACHE_NAME = "sovereign-mobile-care-v2.0.0";
+const CACHE_NAME = 'v2.2.210348';
 const CORE_ASSETS = [
   "./",
   "./index.html",
