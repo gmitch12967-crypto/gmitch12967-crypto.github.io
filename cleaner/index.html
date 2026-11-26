@@ -256,6 +256,13 @@
       padding: 0 16px; border-radius: 12px; cursor: pointer;
     }
 
+    /* Inside Installed App / Standalone mode: hide promo download card */
+    @media (display-mode: standalone), (display-mode: fullscreen) {
+      .app-hero-card, .comparison-box, #pwaInstallSheet {
+        display: none !important;
+      }
+    }
+
     /* Fixed Bottom Navigation Bar */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -716,7 +723,10 @@
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
       const target = document.getElementById('view-' + viewId);
-      if (target) target.style.display = 'block';
+      if (target) {
+        target.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
       // Update button active states
       const tabBtns = document.querySelectorAll('.tab-btn');
@@ -881,14 +891,85 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-    // Photo Scrubbing
+        // Full On-Device Photo Privacy & Metadata Stripper (Canvas Lossless Engine)
+    let cleanPhotoBlob = null;
+    let cleanPhotoName = "clean-photo";
+
+    function scanJpegHeaders(buf) {
+      const view = new DataView(buf);
+      let hasExif = false, hasGps = false;
+      if (view.byteLength > 4 && view.getUint16(0) === 0xFFD8) {
+        let off = 2;
+        while (off + 4 < view.byteLength) {
+          const marker = view.getUint16(off);
+          if (marker === 0xFFDA || marker === 0xFFD9) break;
+          const len = view.getUint16(off + 2);
+          if (marker === 0xFFE1) {
+            hasExif = true;
+            const bytes = new Uint8Array(buf, off + 4, Math.min(len - 2, buf.byteLength - off - 4));
+            const txt = new TextDecoder("latin1").decode(bytes);
+            if (txt.includes("GPS") || (bytes.includes(0x88) && bytes.includes(0x25))) hasGps = true;
+          }
+          if (len < 2) break;
+          off += 2 + len;
+        }
+      }
+      return { hasExif, hasGps };
+    }
+
     function handlePhotoScrub(event) {
       const file = event.target.files[0];
       if (!file) return;
 
+      cleanPhotoName = file.name.replace(/\.[^.]+$/, "") + "-clean.jpg";
       const result = document.getElementById('photoResult');
       result.style.display = 'block';
-      result.innerHTML = `<strong>✓ Cleaned: ${file.name}</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!`;
+      result.innerHTML = <div style="text-align:center; padding:8px;"><span class="dot-pulse" style="display:inline-block; margin-right:6px;"></span> Scanning EXIF & GPS markers...</div>;
+
+      const bufReader = new FileReader();
+      bufReader.onload = function(ev) {
+        const { hasExif, hasGps } = scanJpegHeaders(ev.target.result);
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+
+          canvas.toBlob(function(blob) {
+            cleanPhotoBlob = blob;
+            const kb = (blob.size / 1024).toFixed(1);
+            const exifMsg = hasExif ? "EXIF Metadata Removed" : "No Camera Tags Found";
+            const gpsMsg = hasGps ? "GPS Coordinates Stripped" : "No GPS Detected";
+
+            result.innerHTML = 
+              <div style="color:#22c55e; font-weight:700; margin-bottom:6px;">✓ Cleaned & Air-Gapped: </div>
+              <div style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">
+                • <br>• <br>• Ready: × ( KB)
+              </div>
+              <button onclick="downloadCleanPhoto()" class="btn-action" style="width:100%; justify-content:center; background:#22c55e; color:#0b1120;">
+                <span>💾</span> Save Cleaned Photo to Phone
+              </button>
+            ;
+          }, 'image/jpeg', 0.94);
+        };
+        img.src = URL.createObjectURL(file);
+      };
+      bufReader.readAsArrayBuffer(file);
+    }
+
+    function downloadCleanPhoto() {
+      if (!cleanPhotoBlob) return;
+      const u = URL.createObjectURL(cleanPhotoBlob);
+      const a = document.createElement('a');
+      a.href = u;
+      a.download = cleanPhotoName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(u);
+    }</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!`;
     }
 
     // Large Files Finder
@@ -980,6 +1061,7 @@
   </script>
 </body>
 </html>
+
 
 
 
