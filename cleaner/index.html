@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -715,12 +715,13 @@
     </div>
   </div>
 
-  <script>
+  
+<script>
     // Tab Switching
     function switchView(viewId) {
-      document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(function(p) { p.style.display = 'none'; });
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
 
       const target = document.getElementById('view-' + viewId);
       if (target) {
@@ -730,18 +731,18 @@
 
       // Update button active states
       const tabBtns = document.querySelectorAll('.tab-btn');
-      if (viewId === 'concierge') tabBtns[0]?.classList.add('active');
-      if (viewId === 's10privacy') tabBtns[1]?.classList.add('active');
-      if (viewId === 'trackers') tabBtns[2]?.classList.add('active');
-      if (viewId === 'photos') tabBtns[3]?.classList.add('active');
-      if (viewId === 'large') tabBtns[4]?.classList.add('active');
+      if (viewId === 'concierge' && tabBtns[0]) tabBtns[0].classList.add('active');
+      if (viewId === 's10privacy' && tabBtns[1]) tabBtns[1].classList.add('active');
+      if (viewId === 'trackers' && tabBtns[2]) tabBtns[2].classList.add('active');
+      if (viewId === 'photos' && tabBtns[3]) tabBtns[3].classList.add('active');
+      if (viewId === 'large' && tabBtns[4]) tabBtns[4].classList.add('active');
 
       const navItems = document.querySelectorAll('.nav-item');
-      if (viewId === 'concierge') navItems[0]?.classList.add('active');
-      if (viewId === 's10privacy') navItems[1]?.classList.add('active');
-      if (viewId === 'trackers') navItems[2]?.classList.add('active');
-      if (viewId === 'photos') navItems[3]?.classList.add('active');
-      if (viewId === 'large') navItems[4]?.classList.add('active');
+      if (viewId === 'concierge' && navItems[0]) navItems[0].classList.add('active');
+      if (viewId === 's10privacy' && navItems[1]) navItems[1].classList.add('active');
+      if (viewId === 'trackers' && navItems[2]) navItems[2].classList.add('active');
+      if (viewId === 'photos' && navItems[3]) navItems[3].classList.add('active');
+      if (viewId === 'large' && navItems[4]) navItems[4].classList.add('active');
     }
 
     // ⚡ 1-Click Safe AutoClean (Real Storage & Cache Scrubber)
@@ -778,25 +779,25 @@
         console.warn("Storage cleanup note:", e);
       }
 
-      await new Promise(r => setTimeout(r, 600));
+      await new Promise(function(r) { setTimeout(r, 600); });
 
       btn.style.opacity = '1';
       text.textContent = '1-CLICK CLEAN ALL';
       box.style.display = 'block';
       if ('vibrate' in navigator) navigator.vibrate([80, 40, 80]);
 
-      desc.innerHTML = `<strong>Sweep Completed:</strong> Purged orphaned tracking tokens, cleared runtime cache (${storageEstimate} evaluated), and automatically verified all 3 Device Privacy Safeguards.<br><span style="color:#4ade80;">✓ 3/3 Privacy Shields Verified &amp; Active</span>`;
+      desc.innerHTML = '<strong>Sweep Completed:</strong> Purged orphaned tracking tokens, cleared runtime cache (' + storageEstimate + ' evaluated), and automatically verified all 3 Device Privacy Safeguards.<br><span style="color:#4ade80;">✓ 3/3 Privacy Shields Verified &amp; Active</span>';
 
       // ⚡ AUTOMATICALLY COMPLETE ALL 3 PRIVACY CHECKMARKS FOR THE USER!
-      [1, 2, 3].forEach(stepNum => {
-        const btn = document.getElementById('btnStep' + stepNum);
+      [1, 2, 3].forEach(function(stepNum) {
+        const sBtn = document.getElementById('btnStep' + stepNum);
         const badge = document.getElementById('badge' + stepNum);
         const card = document.getElementById('stepCard' + stepNum);
         const icon = document.getElementById('checkIcon' + stepNum);
 
-        if (btn) {
-          btn.classList.add('checked');
-          btn.innerHTML = '<span>✓</span> Completed';
+        if (sBtn) {
+          sBtn.classList.add('checked');
+          sBtn.innerHTML = '<span>✓</span> Completed';
         }
         if (badge) {
           badge.textContent = 'Done ✓';
@@ -810,7 +811,7 @@
         localStorage.setItem('step_' + stepNum, 'done');
       });
 
-      addBotMessage(`⚡ <strong>1-Click Device Sweep Complete!</strong><br>I purged temporary cache (${storageEstimate}), refreshed memory, and <strong>automatically verified all 3 Privacy Safeguards</strong> for you.<br><br><strong>Status:</strong> 3/3 Shields Active &bull; Zero Data Loss.`);
+      addBotMessage('⚡ <strong>1-Click Device Sweep Complete!</strong><br>I purged temporary cache (' + storageEstimate + '), refreshed memory, and <strong>automatically verified all 3 Privacy Safeguards</strong> for you.<br><br><strong>Status:</strong> 3/3 Shields Active &bull; Zero Data Loss.');
     }
 
     // Guided Steps Checkmarks with Full Card Click & Haptics
@@ -831,7 +832,7 @@
         card.style.borderColor = 'var(--green)';
         if (icon) icon.textContent = '✅';
         localStorage.setItem('step_' + stepNum, 'done');
-        addBotMessage(`🎉 <strong>Step ${stepNum} Completed!</strong> Privacy protection updated.`);
+        addBotMessage('🎉 <strong>Step ' + stepNum + ' Completed!</strong> Privacy protection updated.');
       } else {
         btn.innerHTML = '<span>○</span> Mark as Done';
         badge.textContent = 'Action Needed';
@@ -844,7 +845,7 @@
     }
 
     // Restore step state from localStorage
-    [1, 2, 3].forEach(n => {
+    [1, 2, 3].forEach(function(n) {
       if (localStorage.getItem('step_' + n) === 'done') {
         markStepDone(n);
       }
@@ -859,7 +860,7 @@
       addUserMessage(txt);
       input.value = '';
 
-      setTimeout(() => {
+      setTimeout(function() {
         const lower = txt.toLowerCase();
         if (lower.includes('clean') || lower.includes('sweep') || lower.includes('junk')) {
           addBotMessage("I can run our <strong>Safe AutoClean</strong> right now! Tap the big <strong>'1-CLICK CLEAN ALL'</strong> button at the top of your screen. It cleans leftover uninstalled app trackers and cache without touching any of your personal files or logins.");
@@ -891,7 +892,7 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-        // Full On-Device Photo Privacy & Metadata Stripper (Canvas Lossless Engine)
+    // Full On-Device Photo Privacy & Metadata Stripper (Canvas Lossless Engine)
     let cleanPhotoBlob = null;
     let cleanPhotoName = "clean-photo";
 
@@ -914,7 +915,7 @@
           off += 2 + len;
         }
       }
-      return { hasExif, hasGps };
+      return { hasExif: hasExif, hasGps: hasGps };
     }
 
     function handlePhotoScrub(event) {
@@ -924,11 +925,11 @@
       cleanPhotoName = file.name.replace(/\.[^.]+$/, "") + "-clean.jpg";
       const result = document.getElementById('photoResult');
       result.style.display = 'block';
-      result.innerHTML = <div style="text-align:center; padding:8px;"><span class="dot-pulse" style="display:inline-block; margin-right:6px;"></span> Scanning EXIF & GPS markers...</div>;
+      result.innerHTML = '<div style="text-align:center; padding:8px;"><span class="dot-pulse" style="display:inline-block; margin-right:6px;"></span> Scanning EXIF & GPS markers...</div>';
 
       const bufReader = new FileReader();
       bufReader.onload = function(ev) {
-        const { hasExif, hasGps } = scanJpegHeaders(ev.target.result);
+        const headers = scanJpegHeaders(ev.target.result);
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
@@ -940,18 +941,19 @@
           canvas.toBlob(function(blob) {
             cleanPhotoBlob = blob;
             const kb = (blob.size / 1024).toFixed(1);
-            const exifMsg = hasExif ? "EXIF Metadata Removed" : "No Camera Tags Found";
-            const gpsMsg = hasGps ? "GPS Coordinates Stripped" : "No GPS Detected";
+            const exifMsg = headers.hasExif ? "EXIF Metadata Removed" : "No Camera Tags Found";
+            const gpsMsg = headers.hasGps ? "GPS Coordinates Stripped" : "No GPS Detected";
 
             result.innerHTML = 
-              <div style="color:#22c55e; font-weight:700; margin-bottom:6px;">✓ Cleaned & Air-Gapped: </div>
-              <div style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">
-                • <br>• <br>• Ready: × ( KB)
-              </div>
-              <button onclick="downloadCleanPhoto()" class="btn-action" style="width:100%; justify-content:center; background:#22c55e; color:#0b1120;">
-                <span>💾</span> Save Cleaned Photo to Phone
-              </button>
-            ;
+              '<div style="color:#22c55e; font-weight:700; margin-bottom:6px;">✓ Cleaned & Air-Gapped: ' + cleanPhotoName + '</div>' +
+              '<div style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">' +
+                '• ' + exifMsg + '<br>• ' + gpsMsg + '<br>• Ready: ' + canvas.width + '×' + canvas.height + ' (' + kb + ' KB)' +
+              '</div>' +
+              '<button onclick="downloadCleanPhoto()" class="btn-action" style="width:100%; justify-content:center; background:#22c55e; color:#0b1120;">' +
+                '<span>💾</span> Save Cleaned Photo to Phone' +
+              '</button>';
+            
+            addBotMessage('📷 <strong>Photo Cleaned: ' + cleanPhotoName + '</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!');
           }, 'image/jpeg', 0.94);
         };
         img.src = URL.createObjectURL(file);
@@ -969,7 +971,6 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(u);
-    }</strong><br>GPS location tags, camera metadata, and timestamps stripped cleanly on your device. Ready to save!`;
     }
 
     // Large Files Finder
@@ -978,25 +979,27 @@
       const list = document.getElementById('largeFilesList');
       if (!files.length) return;
 
-      files.sort((a, b) => b.size - a.size);
+      files.sort(function(a, b) { return b.size - a.size; });
       let html = '<div style="margin-top:10px; font-weight:700;">Top Space Hogs:</div>';
-      files.slice(0, 5).forEach(f => {
+      files.slice(0, 5).forEach(function(f) {
         const mb = (f.size / (1024 * 1024)).toFixed(1);
-        html += `<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-          <span>📄 ${f.name}</span>
-          <strong style="color:${mb > 50 ? '#f87171' : '#38bdf8'};">${mb} MB</strong>
-        </div>`;
+        const color = (parseFloat(mb) > 50) ? '#f87171' : '#38bdf8';
+        html += '<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.06);">' +
+          '<span>📄 ' + f.name + '</span>' +
+          '<strong style="color:' + color + ';">' + mb + ' MB</strong>' +
+        '</div>';
       });
       list.innerHTML = html;
     }
 
     // Battery & Hardware Diagnostics
     if ('getBattery' in navigator) {
-      navigator.getBattery().then(battery => {
+      navigator.getBattery().then(function(battery) {
         function updateBatt() {
           const pct = Math.round(battery.level * 100);
           const chg = battery.charging ? ' (Charging)' : '';
-          document.getElementById('battStatus').textContent = `Good • ${pct}%${chg}`;
+          const el = document.getElementById('battStatus');
+          if (el) el.textContent = 'Good • ' + pct + '%' + chg;
         }
         updateBatt();
         battery.addEventListener('levelchange', updateBatt);
@@ -1005,23 +1008,25 @@
     }
 
     if (navigator.hardwareConcurrency) {
-      document.getElementById('cpuCores').textContent = `${navigator.hardwareConcurrency}-Core S10+`;
+      const cpu = document.getElementById('cpuCores');
+      if (cpu) cpu.textContent = navigator.hardwareConcurrency + '-Core S10+';
     }
     if (navigator.deviceMemory) {
-      document.getElementById('ramStatus').textContent = `${navigator.deviceMemory} GB Installed`;
+      const ram = document.getElementById('ramStatus');
+      if (ram) ram.textContent = navigator.deviceMemory + ' GB Installed';
     }
 
     // PWA Service Worker & Install Flow
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').then((reg) => {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
           console.log('Sovereign Care SW registered:', reg.scope);
-        }).catch((err) => console.warn('SW register error:', err));
+        }).catch(function(err) { console.warn('SW register error:', err); });
       });
     }
 
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
       deferredPrompt = e;
       showInstallSheet();
@@ -1035,14 +1040,14 @@
       if (sheet) sheet.style.display = 'block';
     }
 
-    setTimeout(() => {
+    setTimeout(function() {
       showInstallSheet();
     }, 1200);
 
     function triggerPwaInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choice) => {
+        deferredPrompt.userChoice.then(function(choice) {
           if (choice.outcome === 'accepted') {
             dismissInstallSheet();
           }
@@ -1061,8 +1066,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
