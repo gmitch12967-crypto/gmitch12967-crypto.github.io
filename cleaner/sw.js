@@ -1,15 +1,14 @@
-const CACHE_NAME = 'v2.2.210348';
+const CACHE_NAME = "sovereign-mobile-care-v2.5.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
-  "./apple-touch-icon.png",
-  "./Sovereign_Mobile_Care_Standalone.zip"
+  "./apple-touch-icon.png"
 ];
 
-// Install: pre-cache assets and activate immediately
+// Install: pre-cache all assets and activate immediately
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -17,7 +16,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate: purge ALL old caches (including v1.1.0) and claim all open clients immediately
+// Activate: clean up old caches and claim clients
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -30,21 +29,29 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Network-First strategy: always fetch fresh version from server, fallback to cache when offline
+// Stale-While-Revalidate: load instantly from cache, sync in background
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200) {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
-        }
-        return networkResponse;
-      })
-      .catch(() => caches.match(event.request))
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // If completely offline and navigation request, return index.html
+          if (event.request.mode === "navigate") {
+            return caches.match("./index.html") || caches.match("./");
+          }
+        });
+
+      // Instant local launch if cached, else network
+      return cachedResponse || fetchPromise;
+    })
   );
 });
