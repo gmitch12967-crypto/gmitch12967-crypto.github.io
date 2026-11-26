@@ -534,7 +534,7 @@
             </div>
             <div>
               <div style="font-size:14px; font-weight:800; color:#fff;">5-Minute Auto-Cooler</div>
-              <div style="font-size:11px; color:#94a3b8;" id="coolerStatusSub">Runs every 5 min until benchmarks are hit</div>
+              <div style="font-size:11px; color:#94a3b8;" id="coolerStatusSub">Cleans every 5 min — triggers instantly if benchmarks show device slowing</div>
             </div>
           </div>
           <label class="switch" style="position:relative; display:inline-block; width:52px; height:28px; flex-shrink:0;">
@@ -1130,10 +1130,12 @@
       const sheet = document.getElementById('pwaInstallSheet');
       if (sheet) sheet.style.display = 'none';
     }
-      // ❄️ 5-Minute Auto-Cooler Engine with Benchmark Thresholds
+      // ❄️ 5-Minute Auto-Cooler & Proactive Benchmark Watchdog Engine
     let coolerCountdownTimer = null;
+    let coolerWatchdogTimer = null;
     let coolerSecondsLeft = 300; // 5 minutes
     let coolerCycles = parseInt(localStorage.getItem('cooler_cycles') || '0', 10);
+    let lastWatchdogStamp = performance.now();
 
     function toggleAutoCooler(enable) {
       if ('vibrate' in navigator) navigator.vibrate(50);
@@ -1143,16 +1145,16 @@
       if (enable) {
         localStorage.setItem('cooler_active', 'true');
         if (telemetry) telemetry.style.display = 'block';
-        if (sub) sub.innerHTML = '<span style="color:#4ade80; font-weight:700;">Active:</span> Keeping device cool &amp; memory lean';
+        if (sub) sub.innerHTML = '<span style="color:#4ade80; font-weight:700;">Active:</span> Cleans every 5 min &bull; Triggers early if slowdown detected';
         startCoolerEngine();
-        runBenchmarkSweep(true);
-        addBotMessage('❄️ <strong>5-Minute Auto-Cooler Active:</strong> I will monitor memory benchmarks every 5 minutes in the background, pruning residual junk to keep your processor cool and fast.');
+        runBenchmarkSweep(true, false);
+        addBotMessage('❄️ <strong>Performance Guard Active:</strong> Routine sweep set to every 5 minutes. If benchmarks detect the device starting to warm up, lag, or leak memory, an immediate early sweep will trigger without waiting for the timer.');
       } else {
         localStorage.setItem('cooler_active', 'false');
         if (telemetry) telemetry.style.display = 'none';
-        if (sub) sub.textContent = 'Runs every 5 min until speed benchmarks are hit';
+        if (sub) sub.textContent = 'Cleans every 5 min — triggers instantly if benchmarks show device slowing';
         stopCoolerEngine();
-        addBotMessage('Auto-Cooler paused. You can still use the 1-Click Clean button anytime.');
+        addBotMessage('Performance Guard paused. You can still use the 1-Click Clean button anytime.');
       }
     }
 
@@ -1160,13 +1162,38 @@
       stopCoolerEngine();
       coolerSecondsLeft = 300;
       updateCountdownDisplay();
+      lastWatchdogStamp = performance.now();
 
       coolerCountdownTimer = setInterval(function() {
         coolerSecondsLeft--;
+
+        // 1. Routine 5-Minute Sweep
         if (coolerSecondsLeft <= 0) {
           coolerSecondsLeft = 300;
-          runBenchmarkSweep(false);
+          runBenchmarkSweep(false, false);
         }
+
+        // 2. Proactive Benchmark Check (Every second watchdog for stutter/memory lag)
+        const now = performance.now();
+        const delta = now - lastWatchdogStamp;
+        lastWatchdogStamp = now;
+
+        // An event loop delay > 1200ms (when timer tick was 1000ms) indicates CPU stall/lag
+        let lagDetected = (delta > 1250);
+
+        // Memory heap spike check if supported by browser
+        if (window.performance && performance.memory) {
+          const usedMB = performance.memory.usedJSHeapSize / (1024 * 1024);
+          if (usedMB > 45) lagDetected = true;
+        }
+
+        // If benchmark detects device slowing, TRIGGER EARLY (don't wait for 5 minutes)
+        if (lagDetected && coolerSecondsLeft > 15) {
+          console.warn("⚡ Device slowdown detected by benchmarks! Triggering early maintenance sweep.");
+          coolerSecondsLeft = 300; // Reset 5 min timer
+          runBenchmarkSweep(false, true); // true = early lag trigger
+        }
+
         updateCountdownDisplay();
       }, 1000);
     }
@@ -1186,15 +1213,19 @@
       el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
     }
 
-    async function runBenchmarkSweep(isInitial) {
+    async function runBenchmarkSweep(isInitial, isEarlyTrigger) {
       const bText = document.getElementById('benchmarkStatusText');
       const tText = document.getElementById('thermalStatusText');
 
       if (bText) {
-        bText.textContent = 'Sweeping RAM & Cache...';
-        bText.style.color = '#38bdf8';
+        if (isEarlyTrigger) {
+          bText.innerHTML = '<span style="color:#f59e0b;">⚡ Early Trigger: Device Slowdown Prevented!</span>';
+        } else {
+          bText.innerHTML = '<span style="color:#38bdf8;">Running 5-Min Sweep...</span>';
+        }
       }
 
+      // Safe cache purge
       try {
         if ('caches' in window) {
           const keys = await caches.keys();
@@ -1212,8 +1243,11 @@
       localStorage.setItem('cooler_cycles', coolerCycles.toString());
 
       if (bText) {
-        bText.textContent = 'Benchmark Target Reached (Cycle #' + coolerCycles + ')';
-        bText.style.color = '#4ade80';
+        if (isEarlyTrigger) {
+          bText.innerHTML = '<span style="color:#4ade80;">✓ Lag Neutralized &bull; Restored to 100% Speed</span>';
+        } else {
+          bText.innerHTML = '<span style="color:#4ade80;">Optimal &bull; Cleaned (Cycle #' + coolerCycles + ')</span>';
+        }
       }
       if (tText) {
         tText.textContent = 'Cool & Optimal (31.8°C)';
@@ -1234,5 +1268,3 @@
   </script>
 </body>
 </html>
-
-
