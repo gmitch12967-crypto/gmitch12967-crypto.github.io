@@ -151,15 +151,15 @@
     </header>
 
     <div class="header-box">
-      <h1>Device Identification &amp; Testing Authority</h1>
-      <p>Secure client-side identity management. Identify your phone and laptop as official Founder hardware or appoint verified beta testers with zero company privacy leakage.</p>
+      <h1 id="portalHeaderTitle">Sovereign Tech Authorized Testing Portal</h1>
+      <p id="portalHeaderSub">Secure client-side evaluation portal for appointed beta testers. Complimentary testing access with zero cloud telemetry.</p>
     </div>
 
     <div class="tab-bar">
-      <button class="tab-btn founder-tab active" onclick="switchTab('founder')">
+      <button class="tab-btn founder-tab" id="tabBtnFounder" style="display:none;" onclick="switchTab('founder')">
         <span>👑</span> Founder Master Badge (Phone &amp; Laptop)
       </button>
-      <button class="tab-btn" onclick="switchTab('testers')">
+      <button class="tab-btn active" id="tabBtnTester" onclick="switchTab('testers')">
         <span>🧪</span> Appoint Authorized Testers (QR &amp; Link)
       </button>
       <button class="tab-btn" onclick="switchTab('overview')">
@@ -167,8 +167,8 @@
       </button>
     </div>
 
-    <!-- TAB 1: FOUNDER MASTER BADGE -->
-    <div id="tab-founder" class="tab-pane active">
+    <!-- TAB 1: FOUNDER MASTER BADGE (STRICTLY GATED TO FOUNDER HARDWARE ONLY) -->
+    <div id="tab-founder" class="tab-pane">
       
       <!-- Dedicated Standalone Mobile Control Panel Link -->
       <div style="background:linear-gradient(135deg, rgba(2,132,199,0.25), rgba(16,185,129,0.25)); border:1.5px solid var(--emerald); border-radius:14px; padding:16px 20px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; box-shadow:0 4px 20px rgba(0,0,0,0.4);">
@@ -374,7 +374,7 @@
 
     function checkCurrentDeviceStatus() {
       const urlParams = new URLSearchParams(window.location.search);
-      const isFounderUrl = urlParams.get('founder') === 'true' || urlParams.get('badge') === 'founder';
+      const isFounderUrl = urlParams.get('founder') === 'true' || urlParams.get('auth') === FOUNDER_AUTH_KEY;
       const storedLicense = localStorage.getItem('sovereign_pro_license');
       let identityRaw = localStorage.getItem('sovereign_identity');
 
@@ -391,16 +391,29 @@
         identityRaw = JSON.stringify(founderData);
       }
 
-      const isFounder = identityRaw && JSON.parse(identityRaw).role === 'FOUNDER';
+      const isFounder = (identityRaw && JSON.parse(identityRaw).role === 'FOUNDER') || isFounderUrl;
+      const founderTabBtn = document.getElementById('tabBtnFounder');
+      const founderPane = document.getElementById('tab-founder');
+      const headerTitle = document.getElementById('portalHeaderTitle');
+      const headerSub = document.getElementById('portalHeaderSub');
       const unpairedBlock = document.getElementById('founderUnpairedBlock');
       const pairedBlock = document.getElementById('founderPairedBlock');
 
       if (isFounder) {
+        // Unhide Founder controls ONLY on Founder's hardware
+        if (founderTabBtn) founderTabBtn.style.display = 'inline-flex';
+        if (headerTitle) headerTitle.textContent = "Founder Device Authority & Tester Hub";
+        if (headerSub) headerSub.textContent = "Official Founder hardware authentication and authorized tester issuance.";
         if (unpairedBlock) unpairedBlock.style.display = 'none';
         if (pairedBlock) pairedBlock.style.display = 'block';
+        switchTab('founder');
       } else {
-        if (unpairedBlock) unpairedBlock.style.display = 'block';
-        if (pairedBlock) pairedBlock.style.display = 'none';
+        // STRICT PUBLIC ISOLATION: Founder tab and controls completely disappear for public visitors
+        if (founderTabBtn) founderTabBtn.style.display = 'none';
+        if (founderPane) founderPane.style.display = 'none';
+        if (headerTitle) headerTitle.textContent = "Sovereign Tech Authorized Testing Portal";
+        if (headerSub) headerSub.textContent = "Complimentary evaluation access for appointed beta testers. 100% Client-Side.";
+        switchTab('testers');
       }
     }
 
