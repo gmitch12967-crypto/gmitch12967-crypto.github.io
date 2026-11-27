@@ -4,21 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Sovereign Founder Command Hub</title>
-  <meta name="description" content="Dedicated standalone Master Control Panel for Sovereign Tech Founder. Full device authority, tester management, and 1-tap catalog execution.">
+  <meta name="description" content="Dedicated standalone Master Control Panel for Sovereign Tech Founder. Full device authority, all products unlocked, and 1-tap catalog execution.">
   <meta property="og:title" content="Sovereign Founder Command Hub — Sovereign Tech">
-  <meta property="og:description" content="Master Control Panel for Sovereign Tech Founder. Full device authority, tester management, and 1-tap catalog execution.">
+  <meta property="og:description" content="Master Control Panel for Sovereign Tech Founder. Full device authority & all products free.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gmitch12967-crypto.github.io/panel.html">
   <meta property="og:image" content="https://gmitch12967-crypto.github.io/cleaner/icon-512.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sovereign Founder Command Hub">
-  <meta name="twitter:description" content="Master Control Panel for Sovereign Tech Founder. Full device authority & tester management.">
-  <meta name="twitter:image" content="https://gmitch12967-crypto.github.io/cleaner/icon-512.png">
   <link rel="manifest" href="./panel-manifest.json">
   <meta name="theme-color" content="#0b1120">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="./cleaner/icon-192.png">
+  <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII) -->
+  <script src="https://cdn.counter.dev/script.js" data-id="e17fc30a-5210-435d-9c71-b5ebfc373834" data-utcoffset="-5"></script>
   <style>
     :root {
       --bg: #0b1120;
@@ -37,7 +35,7 @@
       background: var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding: 16px 14px 80px 14px;
+      padding: 16px 14px 90px 14px;
       line-height: 1.5;
       user-select: none;
     }
@@ -85,8 +83,36 @@
     .founder-grid div span { color: var(--text-muted); display: block; font-size: 10px; }
     .founder-grid div strong { color: #f8fafc; }
 
+    /* Founder Privilege Alert */
+    .privilege-banner {
+      background: rgba(245, 158, 11, 0.12); border: 1px solid var(--gold); border-radius: 12px;
+      padding: 12px 14px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .privilege-icon { font-size: 24px; }
+    .privilege-text strong { color: var(--gold); font-size: 12.5px; display: block; }
+    .privilege-text span { font-size: 11px; color: #cbd5e1; }
+
+    /* Search & Filter Bar */
+    .search-box {
+      width: 100%; background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+      padding: 10px 14px; color: #fff; font-size: 13px; margin-bottom: 14px; outline: none;
+    }
+    .search-box:focus { border-color: var(--accent); }
+
+    /* Filter Tabs */
+    .category-tabs {
+      display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .category-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      background: #1e293b; color: var(--text-muted); border: 1px solid #334155; border-radius: 8px;
+      padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    }
+    .cat-tab.active { background: var(--accent); color: #0b1120; border-color: var(--accent); }
+
     /* Action Grid */
-    .section-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .section-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
     .action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
     .action-card {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
@@ -109,11 +135,17 @@
     .product-info strong { font-size: 13px; color: #fff; display: block; }
     .product-info span { font-size: 11px; color: var(--text-muted); }
     .launch-tag {
-      background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 10px; font-weight: 800;
-      padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 10.5px; font-weight: 800;
+      padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.35);
+      white-space: nowrap; text-align: center;
+    }
+    .download-tag {
+      background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 10.5px; font-weight: 800;
+      padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.35);
+      white-space: nowrap; text-align: center;
     }
 
-    /* Modal */
+    /* Modals */
     .modal {
       display: none; position: fixed; inset: 0;
       background: rgba(11, 17, 32, 0.88); backdrop-filter: blur(8px);
@@ -121,14 +153,11 @@
     }
     .modal-box {
       background: #0f172a; border: 1.5px solid var(--accent); border-radius: 18px;
-      padding: 22px; max-width: 400px; width: 100%; text-align: center;
+      padding: 22px; max-width: 420px; width: 100%; text-align: center;
       box-shadow: 0 16px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-  <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII) -->
-  <script src="https://cdn.counter.dev/script.js" data-id="e17fc30a-5210-435d-9c71-b5ebfc373834" data-utcoffset="-5"></script>
 </head>
 <body>
 
@@ -165,79 +194,290 @@
     </div>
 
     <div class="founder-grid">
-      <div><span>Access Scope:</span> <strong>All 29+ Products Free</strong></div>
+      <div><span>Access Scope:</span> <strong>All 29+ Products 100% Free</strong></div>
       <div><span>Device Status:</span> <strong>S10+ Authenticated</strong></div>
       <div><span>Active Defenses:</span> <strong>Perpetually Unlocked</strong></div>
-      <div><span>Telemetry:</span> <strong>0 Bps (Airgap Active)</strong></div>
+      <div><span>Checkout Gate:</span> <strong>Bypassed (Zero CC Required)</strong></div>
     </div>
   </div>
 
-  <!-- Quick Command Grid -->
+  <!-- Founder Privilege Notice -->
+  <div class="privilege-banner">
+    <div class="privilege-icon">👑</div>
+    <div class="privilege-text">
+      <strong>Founder Master Authority Active</strong>
+      <span>You have 100% unrestricted free access to every product, desktop download, and mobile tool. Paywalls and credit card forms are permanently disabled for your device.</span>
+    </div>
+  </div>
+
+  <!-- Quick Management Controls -->
   <div class="section-title">
-    <span>⚡</span> Quick Management Controls
+    <span>⚡ Quick Management Controls</span>
   </div>
   <div class="action-grid">
     <div class="action-card" onclick="openTesterModal()">
       <div class="action-icon">🧪</div>
       <div class="action-name">Appoint Tester</div>
-      <div class="action-desc">Display QR or text invite link</div>
+      <div class="action-desc">Display QR or invite link</div>
     </div>
     <a href="./badge.html?founder=true&auth=SOVEREIGN-FOUNDER-2026" class="action-card">
       <div class="action-icon">💻</div>
       <div class="action-name">Device Pairing</div>
-      <div class="action-desc">Pair Laptop or other screens</div>
+      <div class="action-desc">Pair Laptop / desktop screens</div>
     </a>
     <a href="https://counter.dev/dashboard.html?user=sovereigntech-hq" target="_blank" rel="noopener" class="action-card">
       <div class="action-icon">📊</div>
       <div class="action-name">Live Traffic</div>
       <div class="action-desc">Real-time visitor count</div>
     </a>
-    <a href="./checkout.html" class="action-card">
-      <div class="action-icon">🛒</div>
-      <div class="action-name">Express Cart</div>
-      <div class="action-desc">Direct customer checkout</div>
+    <a href="./index.html?founder=true&auth=SOVEREIGN-FOUNDER-2026" class="action-card">
+      <div class="action-icon">🏪</div>
+      <div class="action-name">Live Storefront</div>
+      <div class="action-desc">Browse store with Free Founder Access</div>
     </a>
   </div>
 
-  <!-- Product Suite 1-Tap Launch -->
+  <!-- Direct Standalone Packages -->
   <div class="section-title">
-    <span>🚀</span> Master Product Suite (100% Free Founder Launch)
+    <span>📦 Flagship Standalone Downloads (Direct Founder Access)</span>
   </div>
-  <div class="product-list">
+  <div class="product-list" style="margin-bottom: 22px;">
+    <a href="https://payhip.com/product/download/6zYQJErbzq" class="product-row" download>
+      <div class="product-info">
+        <strong>Sovereign Care™ Pro (Desktop Standalone .ZIP)</strong>
+        <span>1-Click PC Cleaner, RAM Purge &amp; Watchdog (.exe package)</span>
+      </div>
+      <span class="download-tag">⬇️ DIRECT DOWNLOAD</span>
+    </a>
     <a href="./cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row">
       <div class="product-info">
-        <strong>Sovereign Care™ Pro Workstation</strong>
-        <span>System Optimizer &bull; Memory Watchdog</span>
+        <strong>Sovereign Care™ Pro (Web Workstation Edition)</strong>
+        <span>Full Web Suite with Active Memory Watchdog Unlocked</span>
       </div>
-      <span class="launch-tag">OPEN FULL PRO →</span>
+      <span class="launch-tag">⚡ OPEN FULL PRO →</span>
     </a>
-    <a href="./tools/receipt-cleaner/?founder=true" class="product-row">
+  </div>
+
+  <!-- Complete Catalog Header -->
+  <div class="section-title">
+    <span>🚀 Complete Sovereign Product Suite (All 29 Tools Unlocked)</span>
+    <span style="font-size:11px; color:#34d399; font-weight:700;">29 Products</span>
+  </div>
+
+  <!-- Search & Category Filters -->
+  <input type="text" id="toolSearch" class="search-box" placeholder="🔍 Search any product or tool..." oninput="filterTools()">
+  <div class="category-tabs">
+    <button class="cat-tab active" onclick="setCategory('all', this)">All Products (29)</button>
+    <button class="cat-tab" onclick="setCategory('privacy', this)">System &amp; Privacy</button>
+    <button class="cat-tab" onclick="setCategory('business', this)">Business &amp; Finance</button>
+    <button class="cat-tab" onclick="setCategory('document', this)">PDF &amp; Documents</button>
+    <button class="cat-tab" onclick="setCategory('media', this)">Media &amp; Utilities</button>
+  </div>
+
+  <!-- Full Products Catalog -->
+  <div class="product-list" id="productList">
+    <!-- System & Privacy -->
+    <a href="./cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
+      <div class="product-info">
+        <strong>Sovereign Care™ Pro Workstation</strong>
+        <span>System Optimizer &bull; Memory Purge &bull; Zero-Cloud Airgap</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/photo-privacy-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
+      <div class="product-info">
+        <strong>Photo Privacy Cleaner (EXIF &amp; GPS Scrubber)</strong>
+        <span>Wipe Camera Metadata, GPS Geotags &amp; Device Serial #s</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/photo-redactor/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
+      <div class="product-info">
+        <strong>Permanent Photo Privacy Redactor</strong>
+        <span>Blackout Sensitive Faces, Badges, Credit Cards &amp; PII</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/heic-jpg-converter/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
+      <div class="product-info">
+        <strong>HEIC &amp; WebP to Clean JPG Converter</strong>
+        <span>Fast Offline Photo Converter with Metadata Stripping</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./guides/windows-pc-privacy-cleanup.html?founder=true" class="product-row" data-cat="privacy">
+      <div class="product-info">
+        <strong>Windows PC Privacy &amp; Maintenance Field Guide</strong>
+        <span>Complete Manual &bull; Zero-Cloud Enterprise Standards</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+
+    <!-- Business & Finance -->
+    <a href="./tools/hipaa-pii-redactor/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
+      <div class="product-info">
+        <strong>HIPAA &amp; Legal PII Redactor</strong>
+        <span>Auto-Scrub SSNs, Patient Records, Financial Details &amp; Names</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/receipt-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Tax Receipt Privacy Scrubber</strong>
-        <span>Scrub PII &bull; Business Expense Sanitizer</span>
+        <span>Sanitize Expense Slips, Crop Invoices &amp; Redact CC Info</span>
       </div>
-      <span class="launch-tag">OPEN FULL PRO →</span>
+      <span class="launch-tag">⚡ UNLOCKED</span>
     </a>
-    <a href="./tools/ats-resume-checker/?founder=true" class="product-row">
+    <a href="./tools/ats-resume-checker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>ATS Resume Keyword Studio</strong>
-        <span>Candidate Privacy &bull; Resume Scorer</span>
+        <span>AI Keyword Density Analyzer &bull; Private Client-Side Scoring</span>
       </div>
-      <span class="launch-tag">OPEN FULL PRO →</span>
+      <span class="launch-tag">⚡ UNLOCKED</span>
     </a>
-    <a href="./tools/qr-sign-maker/?founder=true" class="product-row">
+    <a href="./tools/invoice-maker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
-        <strong>QR &amp; Wi-Fi Sign Maker</strong>
-        <span>Offline Printable Sign Studio</span>
+        <strong>Freelance Invoice &amp; Receipt Generator</strong>
+        <span>Zero-Subscription Clean PDF Billing &bull; Tax Auto-Calc</span>
       </div>
-      <span class="launch-tag">OPEN FULL PRO →</span>
+      <span class="launch-tag">⚡ UNLOCKED</span>
     </a>
-    <a href="./index.html?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row">
+    <a href="./tools/quote-maker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
-        <strong>Master Product Storefront (All 29 Tools)</strong>
-        <span>Full catalog overview</span>
+        <strong>Contractor &amp; Job Quote Estimator</strong>
+        <span>Generate Professional Client Estimates in Seconds</span>
       </div>
-      <span class="launch-tag">BROWSE ALL →</span>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/bank-csv-summary/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
+      <div class="product-info">
+        <strong>Bank CSV Expense Summary Analyzer</strong>
+        <span>Local Offline Bank Statement Totals &bull; Category Tally</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/csv-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
+      <div class="product-info">
+        <strong>Clean Spreadsheet CSV Tool</strong>
+        <span>Strip Ghost Rows, Trailing Commas &amp; BOM Headers</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/csv-global-fixer/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
+      <div class="product-info">
+        <strong>International CSV Delimiter &amp; Date Fixer</strong>
+        <span>Convert Semicolons to Commas &bull; Standardize Dates</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/email-list-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
+      <div class="product-info">
+        <strong>Bulk Email List Sanitizer</strong>
+        <span>Deduplicate Leads, Validate Syntax &amp; Remove Spam Traps</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/text-diff/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
+      <div class="product-info">
+        <strong>Contract Text Diff Comparator</strong>
+        <span>Side-by-Side Redline Diff &bull; Track Contract Clause Changes</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+
+    <!-- PDF & Documents -->
+    <a href="./tools/pdf-password-protector/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>Offline PDF Password Protector</strong>
+        <span>128-bit AES Local Encryption &bull; Prevent Unauthorized Opens</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/pdf-combiner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>PDF Combiner &amp; Page Splitter</strong>
+        <span>Merge Multiple PDFs into 1 File &bull; Reorder Pages Locally</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/pdf-shrinker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>PDF File Compressor &amp; Shrinker</strong>
+        <span>Reduce Large Scans for Email &bull; Zero Quality Loss</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/pdf-signer/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>Offline PDF Signer &amp; Date Stamper</strong>
+        <span>Sign Contracts with Touch or Pen &bull; Add Secure Initials</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/qr-sign-maker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>Forever Static QR &amp; Wi-Fi Sign Maker</strong>
+        <span>Zero-Redirect Printable QR Table Tents &amp; Office Wi-Fi Signs</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/address-label-sheet/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>Peel-and-Stick Address Label Sheet Generator</strong>
+        <span>Format 30-up Avery 5160 Labels Instantly</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/id-card-sheet/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>Official ID Card Print Sheet Formatter</strong>
+        <span>Print-Ready Dual-Sided ID Cards on Standard 8.5x11</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/passport-photo/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
+      <div class="product-info">
+        <strong>Passport &amp; Visa 2x2 Photo Framer</strong>
+        <span>Official Biometric 2x2 Inch Crop Grid &bull; Printable Sheet</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+
+    <!-- Media & Utilities -->
+    <a href="./tools/image-shrinker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
+      <div class="product-info">
+        <strong>Image Resizer &amp; Megabyte Shrinker</strong>
+        <span>Fast Multi-File Batch Compressor for Web &amp; Attachments</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/batch-watermarker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
+      <div class="product-info">
+        <strong>Bulk Proof &amp; Copyright Watermarker</strong>
+        <span>Stamp Copyrights &amp; Draft Watermarks on Batches of Photos</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/audio-converter/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
+      <div class="product-info">
+        <strong>Local Audio Format Converter</strong>
+        <span>Convert WAV, MP3, M4A, OGG &bull; Clean In-Browser Transcoding</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./tools/video-joiner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
+      <div class="product-info">
+        <strong>Video Clip Merger &amp; Joiner</strong>
+        <span>Combine Short Video Takes into 1 File &bull; Zero Server Uploads</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
+    </a>
+    <a href="./endurance/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
+      <div class="product-info">
+        <strong>AI Endurance 24-Worker Multi-Agent Hub</strong>
+        <span>Autonomous Relay Engine &bull; Zero Paid Credits Fleet</span>
+      </div>
+      <span class="launch-tag">⚡ UNLOCKED</span>
     </a>
   </div>
 
@@ -296,8 +536,9 @@
   </div>
 
   <script>
-    // Stamp Founder identity permanently into localStorage
+    // Stamp Founder identity permanently into localStorage across this device
     try {
+      localStorage.setItem('sovereign_founder_authenticated', 'true');
       localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
       localStorage.setItem('sovereign_founder_pin', '2026');
       const fData = {
@@ -315,6 +556,28 @@
         createdAt: Date.now()
       }));
     } catch(e) {}
+
+    // Tool Filtering
+    let currentCategory = 'all';
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterTools();
+    }
+
+    function filterTools() {
+      const q = document.getElementById('toolSearch').value.toLowerCase().trim();
+      const rows = document.querySelectorAll('#productList .product-row');
+      rows.forEach(r => {
+        const cat = r.getAttribute('data-cat');
+        const text = r.innerText.toLowerCase();
+        const matchesCat = currentCategory === 'all' || cat === currentCategory;
+        const matchesSearch = !q || text.includes(q);
+        r.style.display = (matchesCat && matchesSearch) ? 'flex' : 'none';
+      });
+    }
 
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
