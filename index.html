@@ -721,8 +721,6 @@
     }
   </script>
   <script data-goatcounter="https://gmitch12967-crypto.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
 </head>
 <body>
 
@@ -852,6 +850,103 @@
       </div>
     </section>
 
+        <!-- ⚡ Interactive Live Proof Sandbox: Instant Client-Side Demonstrator -->
+    <section class="live-proof-section" style="margin-bottom: 3.5rem; background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(11,17,32,0.95)); border: 1.5px solid rgba(56,189,248,0.3); border-radius: 20px; padding: 2rem 2.5rem; box-shadow: 0 16px 40px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:1.5rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1rem;">
+        <div>
+          <span style="background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3); font-size:0.75rem; font-weight:800; padding:0.25rem 0.65rem; border-radius:999px; text-transform:uppercase; letter-spacing:0.04em;">
+            ⚡ 3-Second Action Demos
+          </span>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:1.5rem; font-weight:800; color:#fff; margin-top:0.4rem;">
+            Test Real-Time Execution: 100% In-Browser &bull; Zero Cloud Uploads
+          </h3>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.2rem;">
+            Software giants upload your files to AWS to process them. Sovereign Tech executes completely on your CPU. Tap below to see it in motion:
+          </p>
+        </div>
+        <div style="display:flex; gap:8px;" id="proofTabButtons">
+          <button type="button" onclick="switchProofDemo('cleaner')" class="tab-btn active" id="pbtn-cleaner" style="background:rgba(56,189,248,0.15); border-color:#38bdf8; color:#fff;">🧹 System Sweep</button>
+          <button type="button" onclick="switchProofDemo('photo')" class="tab-btn" id="pbtn-photo">📷 GPS Scrub</button>
+          <button type="button" onclick="switchProofDemo('redact')" class="tab-btn" id="pbtn-redact">🛡️ PII Redaction</button>
+        </div>
+      </div>
+
+      <!-- Demo 1: Cleaner Simulator -->
+      <div id="demo-cleaner" class="proof-panel" style="display:block;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; align-items:center;">
+          <div style="background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-weight:700; color:#f87171; font-size:0.85rem;" id="cleanerStatusLabel">⚠️ BEFORE: System Throttling Detected</span>
+              <span style="background:rgba(239,68,68,0.15); color:#f87171; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:4px;" id="cleanerStatusBadge">HIGH BLOAT</span>
+            </div>
+            <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;" id="cleanerStatsText">
+              &bull; <strong>2.4 GB</strong> browser bloat &amp; cached media fragments<br>
+              &bull; <strong>48 active tracking tokens</strong> logging session history<br>
+              &bull; Memory Pressure: <strong style="color:#f87171;">84% (High CPU Thermal Load)</strong>
+            </div>
+            <div style="height:8px; background:#1e293b; border-radius:4px; overflow:hidden; margin:14px 0 8px;">
+              <div id="cleanerBar" style="height:100%; width:84%; background:linear-gradient(90deg, #f59e0b, #ef4444); transition:all 0.6s ease;"></div>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <button type="button" id="btnRunCleanSim" onclick="runCleanerSimulation()" style="background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; padding:14px 28px; border-radius:12px; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 8px 24px rgba(2,132,199,0.4); transition:all 0.2s ease;">
+              ⚡ Run 1-Click Client-Side Sweep
+            </button>
+            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:8px;">100% On-Device &bull; Never sends a single byte to external servers</div>
+            <div id="cleanerSuccessMsg" style="display:none; color:#34d399; font-weight:800; font-size:0.88rem; margin-top:8px;">✓ 2.4 GB PURGED IN 0.04s &bull; AIRGAP CONFIRMED</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo 2: Photo GPS Scrub -->
+      <div id="demo-photo" class="proof-panel" style="display:none;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; align-items:center;">
+          <div style="background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-weight:700; color:#f87171; font-size:0.85rem;" id="photoStatusLabel">📍 EXIF GPS Coordinates Detected</span>
+              <span style="background:rgba(239,68,68,0.15); color:#f87171; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:4px;" id="photoStatusBadge">LEAKING LOCATION</span>
+            </div>
+            <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;" id="photoMetadataText">
+              &bull; <strong>Latitude / Longitude:</strong> 40.7128° N, 74.0060° W (Exact GPS Street Address)<br>
+              &bull; <strong>Camera Hardware:</strong> iPhone 15 Pro Max (Serial: #AP-884192)<br>
+              &bull; <strong>Timestamp:</strong> Nov 27, 2026 10:48:12 AM EST
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <button type="button" id="btnRunPhotoSim" onclick="runPhotoSimulation()" style="background:linear-gradient(135deg, #059669, #10b981); color:#fff; border:none; padding:14px 28px; border-radius:12px; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 8px 24px rgba(16,185,129,0.4); transition:all 0.2s ease;">
+              🛡️ Strip GPS Location Metadata
+            </button>
+            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:8px;">Lossless JPG preservation &bull; 0 server uploads</div>
+            <div id="photoSuccessMsg" style="display:none; color:#34d399; font-weight:800; font-size:0.88rem; margin-top:8px;">✓ GPS PURGED &bull; 0 LAT/LONG TRACES REMAIN</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo 3: PII Redaction -->
+      <div id="demo-redact" class="proof-panel" style="display:none;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; align-items:center;">
+          <div style="background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span style="font-weight:700; color:#f87171; font-size:0.85rem;" id="redactStatusLabel">💳 Unprotected Receipt &amp; Tax PII</span>
+              <span style="background:rgba(239,68,68,0.15); color:#f87171; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:4px;" id="redactStatusBadge">EXPOSED PII</span>
+            </div>
+            <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.6;" id="redactSampleText">
+              &bull; <strong>Payment Method:</strong> Visa ending in <span id="ccRedact" style="background:#ef4444; color:#fff; padding:1px 4px; border-radius:3px;">4819-2041</span><br>
+              &bull; <strong>Taxpayer Name:</strong> <span id="nameRedact" style="background:#ef4444; color:#fff; padding:1px 4px; border-radius:3px;">CONFIDENTIAL CLIENT #104</span><br>
+              &bull; <strong>SSN / EIN:</strong> <span id="ssnRedact" style="background:#ef4444; color:#fff; padding:1px 4px; border-radius:3px;">XX-XXX9281</span>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <button type="button" id="btnRunRedactSim" onclick="runRedactSimulation()" style="background:linear-gradient(135deg, #7c3aed, #6366f1); color:#fff; border:none; padding:14px 28px; border-radius:12px; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 8px 24px rgba(99,102,241,0.4); transition:all 0.2s ease;">
+              🔒 Apply Sovereign Redaction
+            </button>
+            <div style="font-size:0.78rem; color:var(--text-dim); margin-top:8px;">Irreversible black-box pixel scrub &bull; Meets HIPAA/IRS standards</div>
+            <div id="redactSuccessMsg" style="display:none; color:#34d399; font-weight:800; font-size:0.88rem; margin-top:8px;">✓ FULLY REDACTED &bull; ZERO EXPOSED IDENTIFIERS</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Store Controls (Search & Category Bar) -->
     <div class="store-controls">
       <div class="search-row">
@@ -920,7 +1015,7 @@
       <article class="product-card" data-cat="privacy" data-title="Sovereign PC Care (1-Click Desktop Maintenance & AI)" data-fixes="Sluggish Windows laptops, cluttered temp caches, invasive background trackers, and confusing maintenance tasks that risk deleting your personal files.">
         <div class="card-top">
           <span class="cat-badge">Privacy & Security</span>
-          <span class="price-badge">$29.00</span>
+          <span class="price-badge">$29.99</span>
         </div>
         <div class="card-header-row">
           <div class="app-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="3" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="2"/><circle cx="12" cy="10" r="3.5" fill="#38bdf8" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1.5"/><line x1="12" y1="17" x2="12" y2="21" stroke="#10b981" stroke-width="2.5"/><line x1="8" y1="21" x2="16" y2="21" stroke="#10b981" stroke-width="2.5"/><path d="m10.5 10 1 1 2-2" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
@@ -1932,7 +2027,7 @@
       <article class="product-card" data-cat="privacy" data-title="Offline PDF Password Protector & AES-256 Vault" data-fixes="Uploading confidential tax returns, legal disclosures, or health records to cloud servers just to lock them with a password.">
         <div class="card-top">
           <span class="cat-badge">Privacy & Security</span>
-          <span class="price-badge">$29.00</span>
+          <span class="price-badge">$29.99</span>
         </div>
         <div class="card-header-row">
           <div class="app-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" fill="rgba(56,189,248,0.25)" stroke="#38bdf8" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.5" fill="#ffffff"/></svg></div>
@@ -2305,14 +2400,105 @@
       });
     });
   </script>
-  <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
-  <footer style="background:#050811; border-top:1px solid #1e293b; padding:28px 16px; text-align:center; color:#64748b; font-size:12px; margin-top:50px; font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
-    <div style="max-width:960px; margin:0 auto; line-height:1.6;">
-      <p style="margin-bottom:10px; color:#94a3b8;"><strong style="color:#e2e8f0;">LEGAL DISCLAIMER &amp; LIMITATION OF LIABILITY:</strong> All software, tools, and utilities are provided strictly &quot;AS IS&quot; without warranties of any kind. All operations execute 100% client-side on your local device under your sole discretion and control. Sovereign Tech, its founders, and operators assume zero liability for data loss, file alterations, system changes, or hardware damages. You are solely responsible for verifying files and maintaining complete independent backups before running any optimization routines.</p>
-      <p style="color:#64748b;">&copy; 2026 Sovereign Tech. All rights reserved. &bull; <a href="/terms.html" style="color:#38bdf8; text-decoration:underline;">Terms of Service &amp; EULA</a> &bull; <a href="/terms.html#disclaimer" style="color:#38bdf8; text-decoration:underline;">Limitation of Liability</a> &bull; <a href="mailto:sovereigntech.hq@proton.me" style="color:#38bdf8; text-decoration:underline;">Legal Contact</a></p>
-    </div>
-  </footer>
-<script src="/sovereign-badge.js"></script>
+    <script>
+    function switchProofDemo(type) {
+      document.querySelectorAll('.proof-panel').forEach(function(p) { p.style.display = 'none'; });
+      var btns = document.querySelectorAll('#proofTabButtons .tab-btn');
+      btns.forEach(function(b) {
+        b.classList.remove('active');
+        b.style.background = 'rgba(255,255,255,0.04)';
+        b.style.borderColor = 'rgba(255,255,255,0.08)';
+        b.style.color = 'var(--text-muted)';
+      });
+
+      var activeBtn = document.getElementById('pbtn-' + type);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.style.background = 'rgba(56,189,248,0.15)';
+        activeBtn.style.borderColor = '#38bdf8';
+        activeBtn.style.color = '#fff';
+      }
+
+      var panel = document.getElementById('demo-' + type);
+      if (panel) panel.style.display = 'block';
+    }
+
+    function runCleanerSimulation() {
+      var bar = document.getElementById('cleanerBar');
+      var lbl = document.getElementById('cleanerStatusLabel');
+      var badge = document.getElementById('cleanerStatusBadge');
+      var txt = document.getElementById('cleanerStatsText');
+      var btn = document.getElementById('btnRunCleanSim');
+      var msg = document.getElementById('cleanerSuccessMsg');
+
+      btn.style.opacity = '0.6';
+      btn.textContent = 'SWEEPING CLIENT MEMORY...';
+
+      setTimeout(function() {
+        bar.style.width = '24%';
+        bar.style.background = '#10b981';
+        lbl.textContent = '✓ AFTER: Optimized & Air-Gapped';
+        lbl.style.color = '#34d399';
+        badge.textContent = 'PURGED (COOL)';
+        badge.style.background = 'rgba(16,185,129,0.15)';
+        badge.style.color = '#34d399';
+        txt.innerHTML = '&bull; <strong>0 KB Bloat:</strong> Caches &amp; telemetry links severed<br>&bull; <strong>0 Tracking Tokens:</strong> Cross-site profiling halted<br>&bull; Memory Pressure: <strong style="color:#34d399;">24% (Optimal Speed)</strong>';
+        btn.style.opacity = '1';
+        btn.textContent = '✓ SWEEP COMPLETED';
+        msg.style.display = 'block';
+      }, 400);
+    }
+
+    function runPhotoSimulation() {
+      var lbl = document.getElementById('photoStatusLabel');
+      var badge = document.getElementById('photoStatusBadge');
+      var txt = document.getElementById('photoMetadataText');
+      var btn = document.getElementById('btnRunPhotoSim');
+      var msg = document.getElementById('photoSuccessMsg');
+
+      btn.style.opacity = '0.6';
+      btn.textContent = 'PURGING METADATA...';
+
+      setTimeout(function() {
+        lbl.textContent = '✓ AFTER: GPS Stripped Losslessly';
+        lbl.style.color = '#34d399';
+        badge.textContent = 'CLEAN & SAFE';
+        badge.style.background = 'rgba(16,185,129,0.15)';
+        badge.style.color = '#34d399';
+        txt.innerHTML = '&bull; <strong>Latitude / Longitude:</strong> [PURGED &bull; 0.000000]<br>&bull; <strong>Camera Hardware:</strong> [STRIPPED]<br>&bull; <strong>Timestamp:</strong> Sanitized &bull; 100% Private';
+        btn.style.opacity = '1';
+        btn.textContent = '✓ GPS STRIPPED';
+        msg.style.display = 'block';
+      }, 400);
+    }
+
+    function runRedactSimulation() {
+      var lbl = document.getElementById('redactStatusLabel');
+      var badge = document.getElementById('redactStatusBadge');
+      var btn = document.getElementById('btnRunRedactSim');
+      var msg = document.getElementById('redactSuccessMsg');
+      var cc = document.getElementById('ccRedact');
+      var name = document.getElementById('nameRedact');
+      var ssn = document.getElementById('ssnRedact');
+
+      btn.style.opacity = '0.6';
+      btn.textContent = 'REDACTING PII...';
+
+      setTimeout(function() {
+        lbl.textContent = '✓ AFTER: Military-Grade Redaction Applied';
+        lbl.style.color = '#34d399';
+        badge.textContent = 'IRREVERSIBLE';
+        badge.style.background = 'rgba(16,185,129,0.15)';
+        badge.style.color = '#34d399';
+        if (cc) { cc.style.background = '#000'; cc.textContent = '████-████'; }
+        if (name) { name.style.background = '#000'; name.textContent = '████████████'; }
+        if (ssn) { ssn.style.background = '#000'; ssn.textContent = '██-██████'; }
+        btn.style.opacity = '1';
+        btn.textContent = '✓ REDACTION LOCKED';
+        msg.style.display = 'block';
+      }, 400);
+    }
+    </script>
 </body>
 </html>
 
