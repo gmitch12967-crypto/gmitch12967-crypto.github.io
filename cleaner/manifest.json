@@ -1,26 +1,14 @@
-﻿{
-  "name": "Sovereign Mobile Care AI",
+{
+  "name": "Sovereign Care™ Pro Control Panel",
   "short_name": "SovereignCare",
-  "description": "Standalone mobile privacy and device cleaner. 100% offline air-gapped.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Zero-telemetry mobile and desktop workstation optimizer with real-time memory watchdog and airgap privacy protection.",
+  "start_url": "/cleaner/?founder=true",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#0b1120",
-  "theme_color": "#0284c7",
-  "id": "sovereign-mobile-care",
+  "theme_color": "#0b1120",
+  "orientation": "any",
   "icons": [
-    {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "/icon-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
