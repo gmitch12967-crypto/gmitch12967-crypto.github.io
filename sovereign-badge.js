@@ -87,9 +87,10 @@
     badgeContainer.id = 'sovereignIdentityWidget';
     badgeContainer.style.cssText = `
       position: fixed;
-      bottom: 18px;
-      left: 18px;
-      z-index: 999999;
+      bottom: 14px;
+      left: 14px;
+      z-index: 99999;
+      pointer-events: none;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     `;
 
@@ -113,7 +114,7 @@
         color: #f8fafc;
         padding: 6px 12px;
         border-radius: 999px;
-        cursor: pointer;
+        cursor: pointer; pointer-events: auto; touch-action: manipulation;
         font-size: 11px;
         font-weight: 700;
         letter-spacing: 0.04em;
@@ -151,7 +152,7 @@
           <button id="closeIdentityModal" style="
             position: absolute; top: 14px; right: 14px;
             background: transparent; border: none; color: #94a3b8;
-            font-size: 18px; cursor: pointer; padding: 4px 8px;
+            font-size: 18px; cursor: pointer; pointer-events: auto; touch-action: manipulation; padding: 4px 8px;
           ">✕</button>
 
           <div style="text-align: center; margin-bottom: 18px;">
@@ -186,7 +187,7 @@
                 border-radius: 8px;
                 font-weight: 700;
                 font-size: 13px;
-                cursor: pointer;
+                cursor: pointer; pointer-events: auto; touch-action: manipulation;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -206,7 +207,7 @@
                 border-radius: 8px;
                 font-weight: 700;
                 font-size: 13px;
-                cursor: pointer;
+                cursor: pointer; pointer-events: auto; touch-action: manipulation;
                 display: flex;
                 align-items: center;
                 justify-content: center;
