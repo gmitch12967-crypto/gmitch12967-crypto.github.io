@@ -34,7 +34,249 @@
     canvas { max-width:100%; border-radius:6px; background:#fff; }
   </style>
   <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
+      }
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Private • Zero Uploads • No Watermarks</span>
+        <a href="https://payhip.com/b/sphoS" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Print Sheet ($3.99)</a>
+        <button type="button" id="emtShareBtn" style="background:rgba(56,189,248,0.16);color:#7dd3fc;border:1px solid rgba(56,189,248,0.45);padding:0.3rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;">Share Tool ↗</button>
+      </div>
+    </div>
+
+    <h1>Passport &amp; Visa Photo Maker</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your photo. &nbsp;<strong>Step 2:</strong> Choose your country size and print sheet. &nbsp;<strong>Step 3:</strong> Save your ready-to-print sheet. Nothing leaves your computer.</p>
+
+    <div class="panel">
+      <div class="actions">
+        <label class="file-label" for="imgInput">1. Pick Your Photo</label>
+        <input type="file" id="imgInput" accept="image/*" />
+        <button class="secondary" id="btnSample">Try With Sample Portrait</button>
+        <button class="green" id="btnSingle" disabled>3a. Save Single Photo</button>
+        <button class="green" id="btnSheet" disabled>3b. Save Print Sheet (4×6 / A4)</button>
+      </div>
+
+      <div class="controls">
+        <label class="field">2. Country / Photo Size
+          <select id="selPreset">
+            <option value="51x51">United States / India Visa (2×2 in / 51×51 mm)</option>
+            <option value="35x45" selected>UK / Europe / India Passport / Japan / Australia (35×45 mm)</option>
+            <option value="50x70">Canada Passport (50×70 mm)</option>
+            <option value="33x48">China Visa / Passport (33×48 mm)</option>
+          </select>
+        </label>
+        <label class="field">Print Sheet Paper Size
+          <select id="selPaper">
+            <option value="4x6" selected>4×6 inch Photo Paper (CVS / Walgreens / Home)</option>
+            <option value="a4">A4 Paper (UK / Europe / Global Printers)</option>
+          </select>
+        </label>
+        <label class="field">Zoom In / Out
+          <input type="range" id="rngZoom" min="100" max="220" value="110" />
+        </label>
+        <label class="field">Move Up / Down
+          <input type="range" id="rngY" min="-35" max="35" value="0" />
+        </label>
+      </div>
+    </div>
+
+    <div class="panel preview-grid" id="previewWrap" style="display:none;">
+      <div class="box">
+        <h3>Single Photo Preview (300 DPI)</h3>
+        <canvas id="cSingle"></canvas>
+      </div>
+      <div class="box">
+        <h3>Printable Sheet Preview (With Cut Lines)</h3>
+        <canvas id="cSheet"></canvas>
+      </div>
+    </div>
+
+    <div class="panel" style="color:#cbd5e1;font-size:0.92rem;">
+      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">How to Use &amp; Printing Tips</h2>
+      <ul style="padding-left:1.25rem;display:grid;gap:0.35rem;">
+        <li><strong>Step 1:</strong> Take a front-facing photo against a plain light wall with even lighting, then click <em>1. Pick Your Photo</em>.</li>
+        <li><strong>Step 2:</strong> Pick your country's official size and use the sliders so your head is centered with a little space above your hair.</li>
+        <li><strong>Step 3:</strong> Save the <strong>4×6 inch</strong> or <strong>A4 Print Sheet</strong>. When printing, choose <strong>Actual Size (100%)</strong> — not "Fit to Page" — so the measurements stay exact.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    let srcImg = null;
+    const MM_TO_PX_300DPI = 300 / 25.4;
+
+    function getPresetMm() {
+      const [w, h] = document.getElementById("selPreset").value.split("x").map(Number);
+      return { wMm: w, hMm: h };
+    }
+
+    function renderAll() {
+      if (!srcImg) return;
+      const { wMm, hMm } = getPresetMm();
+      const pw = Math.round(wMm * MM_TO_PX_300DPI);
+      const ph = Math.round(hMm * MM_TO_PX_300DPI);
+      const zoom = Number(document.getElementById("rngZoom").value) / 100;
+      const offsetY = Number(document.getElementById("rngY").value) / 100;
+
+      const cs = document.getElementById("cSingle");
+      cs.width = pw; cs.height = ph;
+      const sctx = cs.getContext("2d");
+      sctx.fillStyle = "#ffffff";
+      sctx.fillRect(0, 0, pw, ph);
+
+      const scale = Math.max(pw / srcImg.width, ph / srcImg.height) * zoom;
+      const dw = srcImg.width * scale;
+      const dh = srcImg.height * scale;
+      const dx = (pw - dw) / 2;
+      const dy = (ph - dh) / 2 + (offsetY * ph);
+      sctx.drawImage(srcImg, dx, dy, dw, dh);
+
+      const paper = document.getElementById("selPaper").value;
+      const sheetW = paper === "a4" ? Math.round(210 * MM_TO_PX_300DPI) : 1800;
+      const sheetH = paper === "a4" ? Math.round(297 * MM_TO_PX_300DPI) : 1200;
+      const csh = document.getElementById("cSheet");
+      csh.width = sheetW; csh.height = sheetH;
+      const shctx = csh.getContext("2d");
+      shctx.fillStyle = "#ffffff";
+      shctx.fillRect(0, 0, sheetW, sheetH);
+
+      const gap = 36;
+      const cols = Math.max(1, Math.floor((sheetW - gap) / (pw + gap)));
+      const rows = Math.max(1, Math.floor((sheetH - gap) / (ph + gap)));
+      const startX = Math.round((sheetW - (cols * pw + (cols - 1) * gap)) / 2);
+      const startY = Math.round((sheetH - (rows * ph + (rows - 1) * gap)) / 2);
+
+      shctx.strokeStyle = "#cbd5e1";
+      shctx.lineWidth = 2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = startX + c * (pw + gap);
+          const y = startY + r * (ph + gap);
+          shctx.drawImage(cs, x, y);
+          shctx.strokeRect(x, y, pw, ph);
+        }
+      }
+
+      document.getElementById("previewWrap").style.display = "grid";
+      document.getElementById("btnSingle").disabled = false;
+      document.getElementById("btnSheet").disabled = false;
+    }
+
+    document.getElementById("imgInput").addEventListener("change", (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        const img = new Image();
+        img.onload = () => { srcImg = img; renderAll(); };
+        img.src = ev.target.result;
+      };
+      r.readAsDataURL(f);
+    });
+
+    document.getElementById("btnSample").addEventListener("click", () => {
+      const c = document.createElement("canvas");
+      c.width = 900; c.height = 1100;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#f1f5f9";
+      ctx.fillRect(0, 0, 900, 1100);
+      ctx.fillStyle = "#334155";
+      ctx.beginPath(); ctx.arc(450, 420, 165, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(450, 860, 290, 240, 0, Math.PI, 0); ctx.fill();
+      const img = new Image();
+      img.onload = () => { srcImg = img; renderAll(); };
+      img.src = c.toDataURL("image/png");
+    });
+
+    ["selPreset", "selPaper", "rngZoom", "rngY"].forEach(id => {
+      document.getElementById(id).addEventListener("input", renderAll);
+      document.getElementById(id).addEventListener("change", renderAll);
+    });
+
+    function dlCanvas(canvas, name) {
+      canvas.toBlob(b => {
+        const u = URL.createObjectURL(b);
+        const a = document.createElement("a");
+        a.href = u; a.download = name; a.click();
+        URL.revokeObjectURL(u);
+      }, "image/jpeg", 0.96);
+    }
+
+    function promptPaidSheet(actionName) {
+      if (confirm(`Your 300 DPI ${actionName} preview is ready!\n\nDownload the full watermark-free 300 DPI Offline Print Sheet ($3.99 — vs $13-$17 elsewhere).\n\nClick OK to open checkout.`)) {
+        window.open("https://payhip.com/b/sphoS", "_blank");
+      }
+    }
+
+    document.getElementById("btnSingle").addEventListener("click", () => promptPaidSheet("Single Photo"));
+    document.getElementById("btnSheet").addEventListener("click", () => promptPaidSheet("4x6 / A4 Print Sheet"));
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "✓ Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
+  });
+})();
+</script>
+
+
 
 
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
