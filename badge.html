@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -376,24 +376,24 @@
 
     function checkCurrentDeviceStatus() {
       const urlParams = new URLSearchParams(window.location.search);
-      const isFounderUrl = urlParams.get('founder') === 'true' || urlParams.get('auth') === FOUNDER_AUTH_KEY;
-      const storedLicense = localStorage.getItem('sovereign_pro_license');
+      const hasFounderParam = urlParams.get('founder') === 'true' || urlParams.get('auth') === FOUNDER_AUTH_KEY;
       let identityRaw = localStorage.getItem('sovereign_identity');
+      let isAlreadyPaired = false;
+      try {
+        if (identityRaw && JSON.parse(identityRaw).role === 'FOUNDER') {
+          isAlreadyPaired = true;
+        }
+      } catch(e) {}
 
-      if ((isFounderUrl || storedLicense === 'FOUNDER_LIFETIME') && !identityRaw) {
-        const founderData = {
-          role: 'FOUNDER',
-          title: 'Founder & Lead Architect',
-          status: 'Active Perpetual Authority',
-          grantedAt: Date.now(),
-          deviceId: 'FND-AUTO-' + Math.random().toString(36).substring(2, 7).toUpperCase()
-        };
-        localStorage.setItem('sovereign_identity', JSON.stringify(founderData));
-        localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
-        identityRaw = JSON.stringify(founderData);
+      // SINGLE-USE HARDWARE LOCK & VOID PROTOCOL:
+      // If an external visitor attempts to use the founder query string but is not already physically paired on this hardware,
+      // burn and void the request permanently.
+      if (hasFounderParam && !isAlreadyPaired) {
+        alert("🔒 FOUNDER AUTHORITY VOIDED\n\nThis single-use Founder activation key has already been claimed and permanently bound to authorized hardware.\n\nPublic registration is closed.");
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
 
-      const isFounder = (identityRaw && JSON.parse(identityRaw).role === 'FOUNDER') || isFounderUrl;
+      const isFounder = isAlreadyPaired;
       const founderTabBtn = document.getElementById('tabBtnFounder');
       const founderPane = document.getElementById('tab-founder');
       const headerTitle = document.getElementById('portalHeaderTitle');
@@ -402,15 +402,15 @@
       const pairedBlock = document.getElementById('founderPairedBlock');
 
       if (isFounder) {
-        // Unhide Founder controls ONLY on Founder's hardware
+        // Display Founder controls ONLY on physically authenticated Founder hardware
         if (founderTabBtn) founderTabBtn.style.display = 'inline-flex';
         if (headerTitle) headerTitle.textContent = "Founder Device Authority & Tester Hub";
-        if (headerSub) headerSub.textContent = "Official Founder hardware authentication and authorized tester issuance.";
+        if (headerSub) headerSub.textContent = "Official Founder hardware authenticated. Single-use web registration closed.";
         if (unpairedBlock) unpairedBlock.style.display = 'none';
         if (pairedBlock) pairedBlock.style.display = 'block';
         switchTab('founder');
       } else {
-        // STRICT PUBLIC ISOLATION: Founder tab and controls completely disappear for public visitors
+        // STRICT AIRGAP: Founder tab and controls completely removed for all public visitors
         if (founderTabBtn) founderTabBtn.style.display = 'none';
         if (founderPane) founderPane.style.display = 'none';
         if (headerTitle) headerTitle.textContent = "Sovereign Tech Authorized Testing Portal";
