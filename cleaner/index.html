@@ -320,9 +320,12 @@
         <div class="pulse-dot"></div>
         <span>100% OFFLINE AIRGAP ACTIVE</span>
       </div>
-      <a href="https://payhip.com/b/BAmFe" target="_blank" class="btn-buy-nav">
+      <a href="https://payhip.com/b/BAmFe" target="_blank" class="btn-buy-nav" id="headerProBtn">
         <span>💎 GET PRO ($49.99)</span>
       </a>
+      <button onclick="promptLicenseActivation()" style="background:#0f172a; border:1px solid #334155; color:#94a3b8; font-size:11px; font-weight:600; padding:6px 11px; border-radius:7px; cursor:pointer;" id="activateBtn">
+        🔑 Enter License Key
+      </button>
     </div>
   </header>
 
@@ -431,6 +434,19 @@
                 <span id="safeguardProBadge" style="background:linear-gradient(135deg, #e11d48, #be123c); color:#ffffff; font-size:11px; font-weight:800; padding:4px 10px; border-radius:6px; letter-spacing:0.04em; text-transform:uppercase; box-shadow:0 0 12px rgba(225,29,72,0.4);">
                   ★ AVAILABLE IN PAID PRO VERSION ($49.99)
                 </span>
+              </div>
+
+                            <!-- Verified Founder Lifetime License Banner -->
+              <div id="founderLicenseBanner" style="display:none; background:linear-gradient(135deg,rgba(16,185,129,0.18),rgba(15,23,42,0.95)); border:1.5px solid #10b981; border-radius:8px; padding:12px 14px; margin-bottom:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                  <div style="font-size:12px; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.04em; display:flex; align-items:center; gap:6px;">
+                    <span>👑 FOUNDER LIFETIME LICENSE ACTIVE</span>
+                  </div>
+                  <span style="background:#059669; color:#fff; font-size:10px; font-weight:800; padding:2px 8px; border-radius:4px;">PERPETUAL FULL VERSION</span>
+                </div>
+                <p style="font-size:11.5px; color:#cbd5e1; margin-top:6px; margin-bottom:0; line-height:1.45;">
+                  Workstation Owner Verified. All enterprise active safeguards, memory throttling prevention, and zero-cloud airgap shields are 100% unlocked with zero expirations or subscription locks.
+                </p>
               </div>
 
               <!-- 7-Day Free Trial Active Notification -->
@@ -662,7 +678,134 @@
       }, 70);
     }
 
+        // --- License & Founder Ownership Protocol ---
+    const FOUNDER_KEYS = ["SOVEREIGN-FOUNDER-2026", "FOUNDER", "2026", "PRO", "SOVEREIGN-OWNER"];
+
+    function checkLicenseStatus() {
+      // 1. Check URL parameters for Founder bypass (e.g. ?founder=true or ?key=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const isFounderUrl = urlParams.get('founder') === 'true';
+      const keyParam = (urlParams.get('key') || '').toUpperCase().trim();
+      const licenseParam = (urlParams.get('license') || '').toUpperCase().trim();
+
+      if (isFounderUrl || FOUNDER_KEYS.includes(keyParam) || licenseParam.includes('PRO') || licenseParam.includes('FOUNDER')) {
+        localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
+        // Clean URL to keep address bar pristine
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+
+      const storedLicense = localStorage.getItem('sovereign_pro_license');
+      return storedLicense === 'FOUNDER_LIFETIME' || storedLicense === 'PRO_LIFETIME';
+    }
+
+    function promptLicenseActivation() {
+      if (checkLicenseStatus()) {
+        alert("✓ This workstation is already registered under a Verified Founder Lifetime License.");
+        return;
+      }
+      const key = prompt("Enter your Sovereign Care Pro License Key or Founder PIN:");
+      if (!key) return;
+      const cleanKey = key.trim().toUpperCase();
+      if (FOUNDER_KEYS.includes(cleanKey) || cleanKey.length >= 8) {
+        localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
+        alert("✓ LICENSE ACTIVATED: Verified Founder Lifetime License. All Active Safeguards and Pro tools are now permanently unlocked.");
+        initSafeguardTrial();
+      } else {
+        alert("Invalid license key. For immediate activation, contact sovereigntech.hq@proton.me or purchase via Payhip.");
+      }
+    }
+
     // --- 7-Day Active Safeguard Trial Logic ---
+    const TRIAL_DURATION_DAYS = 7;
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+    function initSafeguardTrial() {
+      const isLicensed = checkLicenseStatus();
+      
+      const headerProBtn = document.getElementById('headerProBtn');
+      const activateBtn = document.getElementById('activateBtn');
+      const founderBanner = document.getElementById('founderLicenseBanner');
+      const safeguardBadge = document.getElementById('safeguardProBadge');
+      const bannerActive = document.getElementById('trialBannerActive');
+      const bannerExpired = document.getElementById('trialBannerExpired');
+      const daysLeftText = document.getElementById('trialDaysLeftText');
+      const watchdogToggle = document.getElementById('watchdogToggle');
+      const airgapToggle = document.getElementById('airgapToggle');
+      const watchdogBadge = document.getElementById('watchdogStatusBadge');
+      const airgapBadge = document.getElementById('airgapStatusBadge');
+
+      if (isLicensed) {
+        // Full Lifetime Version Activated
+        if (headerProBtn) {
+          headerProBtn.innerHTML = '<span>💎 LICENSED: FOUNDER PRO</span>';
+          headerProBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          headerProBtn.style.boxShadow = '0 0 14px rgba(16,185,129,0.35)';
+          headerProBtn.style.borderColor = '#34d399';
+          headerProBtn.href = '#';
+          headerProBtn.target = '_self';
+          headerProBtn.onclick = function(e) { e.preventDefault(); alert('Founder License Verified: Full perpetual access active.'); };
+        }
+        if (activateBtn) {
+          activateBtn.textContent = '👑 Founder Verified';
+          activateBtn.style.borderColor = '#10b981';
+          activateBtn.style.color = '#34d399';
+        }
+        if (safeguardBadge) {
+          safeguardBadge.textContent = '🛡️ PERPETUAL PRO DEFENSES (FOUNDER UNLOCKED)';
+          safeguardBadge.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          safeguardBadge.style.boxShadow = '0 0 12px rgba(16,185,129,0.35)';
+        }
+        if (founderBanner) founderBanner.style.display = 'block';
+        if (bannerActive) bannerActive.style.display = 'none';
+        if (bannerExpired) bannerExpired.style.display = 'none';
+        if (watchdogToggle) { watchdogToggle.checked = true; watchdogToggle.disabled = false; }
+        if (airgapToggle) { airgapToggle.checked = true; airgapToggle.disabled = false; }
+        if (watchdogBadge) { watchdogBadge.textContent = 'UNLIMITED'; watchdogBadge.style.color = '#34d399'; watchdogBadge.style.borderColor = '#10b981'; watchdogBadge.style.background = 'rgba(16,185,129,0.15)'; }
+        if (airgapBadge) { airgapBadge.textContent = 'UNLIMITED'; airgapBadge.style.color = '#34d399'; airgapBadge.style.borderColor = '#10b981'; airgapBadge.style.background = 'rgba(16,185,129,0.15)'; }
+        return;
+      }
+
+      // If not licensed, evaluate 7-day trial
+      let trialStart = localStorage.getItem('sovereign_safeguard_trial_start');
+      if (!trialStart) {
+        trialStart = Date.now().toString();
+        localStorage.setItem('sovereign_safeguard_trial_start', trialStart);
+      }
+      
+      const elapsedMs = Date.now() - parseInt(trialStart);
+      const elapsedDays = elapsedMs / MS_PER_DAY;
+      const daysLeft = Math.max(0, Math.ceil(TRIAL_DURATION_DAYS - elapsedDays));
+      const isExpired = elapsedDays >= TRIAL_DURATION_DAYS;
+
+      if (founderBanner) founderBanner.style.display = 'none';
+
+      if (isExpired) {
+        if (bannerActive) bannerActive.style.display = 'none';
+        if (bannerExpired) bannerExpired.style.display = 'block';
+        if (watchdogToggle) { watchdogToggle.checked = false; }
+        if (airgapToggle) { airgapToggle.checked = false; }
+        if (watchdogBadge) { watchdogBadge.textContent = 'LOCKED (PRO)'; watchdogBadge.style.color = '#f87171'; watchdogBadge.style.borderColor = 'rgba(239,68,68,0.4)'; watchdogBadge.style.background = 'rgba(239,68,68,0.15)'; }
+        if (airgapBadge) { airgapBadge.textContent = 'LOCKED (PRO)'; airgapBadge.style.color = '#f87171'; airgapBadge.style.borderColor = 'rgba(239,68,68,0.4)'; airgapBadge.style.background = 'rgba(239,68,68,0.15)'; }
+      } else {
+        if (bannerActive) bannerActive.style.display = 'flex';
+        if (bannerExpired) bannerExpired.style.display = 'none';
+        if (daysLeftText) daysLeftText.textContent = daysLeft + (daysLeft === 1 ? ' Day Remaining' : ' Days Remaining') + ' — Active background CPU & memory throttling prevention active.';
+        if (watchdogToggle) watchdogToggle.checked = true;
+        if (airgapToggle) airgapToggle.checked = true;
+        if (watchdogBadge) { watchdogBadge.textContent = 'TRIAL ACTIVE (' + daysLeft + 'd)'; watchdogBadge.style.color = '#38bdf8'; }
+        if (airgapBadge) { airgapBadge.textContent = 'TRIAL ACTIVE (' + daysLeft + 'd)'; airgapBadge.style.color = '#38bdf8'; }
+      }
+    }
+
+    function isTrialExpired() {
+      if (checkLicenseStatus()) return false;
+      const trialStart = localStorage.getItem('sovereign_safeguard_trial_start');
+      if (!trialStart) return false;
+      const elapsedDays = (Date.now() - parseInt(trialStart)) / MS_PER_DAY;
+      return elapsedDays >= TRIAL_DURATION_DAYS;
+    }
     const TRIAL_DURATION_DAYS = 7;
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -834,3 +977,4 @@
   </script>
 </body>
 </html>
+
