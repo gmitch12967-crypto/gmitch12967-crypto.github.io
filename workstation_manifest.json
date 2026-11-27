@@ -1,0 +1,20 @@
+{
+    "theme_color":  "#0284c7",
+    "name":  "Sovereign Enterprise Workstation",
+    "display":  "standalone",
+    "short_name":  "Workstation",
+    "background_color":  "#0b1120",
+    "start_url":  "./workstation.html",
+    "icons":  [
+                  {
+                      "type":  "image/png",
+                      "sizes":  "192x192",
+                      "src":  "./cleaner/icon-192.png"
+                  },
+                  {
+                      "type":  "image/png",
+                      "sizes":  "512x512",
+                      "src":  "./cleaner/icon-512.png"
+                  }
+              ]
+}
