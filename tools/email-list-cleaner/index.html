@@ -67,108 +67,173 @@
     }
   </style>
   <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  
-
-
-<script>
-/* 2026 Modern Engine: Air-Gapped Draft Autosave & Theme Switcher */
-(function() {
-  var toolKey = "emt_draft_" + (window.location.pathname.split("/").slice(-2)[0] || "tool");
-  
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("emt_theme", theme);
-    var btn = document.getElementById("themeToggleBtn");
-    if (btn) btn.innerText = theme === "light" ? "☀️ Light" : "🌙 Dark";
-  }
-
-  window.addEventListener("DOMContentLoaded", function() {
-    // 1. Theme Initialization
-    var savedTheme = localStorage.getItem("emt_theme") || "dark";
-    applyTheme(savedTheme);
-    var toggleBtn = document.getElementById("themeToggleBtn");
-    if (toggleBtn) {
-      toggleBtn.onclick = function() {
-        var curr = document.documentElement.getAttribute("data-theme") || "dark";
-        applyTheme(curr === "dark" ? "light" : "dark");
-      };
-    }
-
-    // 2. Draft Auto-Save & Recovery
-    var inputs = document.querySelectorAll("textarea, input[type='text']:not([readonly])");
-    try {
-      var saved = localStorage.getItem(toolKey);
-      if (saved) {
-        var data = JSON.parse(saved);
-        var restored = false;
-        inputs.forEach(function(el, i) {
-          if (data[i] && !el.value) {
-            el.value = data[i];
-            restored = true;
-            el.dispatchEvent(new Event("input", { bubbles: true }));
-          }
-        });
-        if (restored) {
-          showToast("⚡ Unsaved draft restored from your last session");
-        }
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
       }
-    } catch(e) {}
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">? Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/zmSR9" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($4.99) ?</a>
+      </div>
+    </div>
 
-    var saveTimer = null;
-    inputs.forEach(function(el) {
-      el.addEventListener("input", function() {
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(function() {
-          var data = {};
-          inputs.forEach(function(t, i) { if (t.value) data[i] = t.value; });
-          localStorage.setItem(toolKey, JSON.stringify(data));
-        }, 1200);
-      });
+    <h1>Subscriber Email List Cleaner &amp; Typo Fixer</h1>
+    <p class="sub"><strong>Step 1:</strong> Paste emails (or load a `.txt`/`.csv` list). &nbsp;<strong>Step 2:</strong> Clean duplicates, fix common typos (`@gmial.com`, `@yaho.com`), and drop invalid syntax. &nbsp;<strong>Step 3:</strong> Save a clean list so you stop paying for dead contacts.</p>
+
+    <!-- 🤖 1-CLICK FREE AI AUTOPILOT (CHILD-FRIENDLY) -->
+    <div style="background: linear-gradient(135deg, #1e1b4b, #0f172a); border: 2px solid #6366f1; border-radius: 12px; padding: 1.25rem; margin: 1rem 0 1.25rem; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+        <h3 style="color:#c7d2fe; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;">
+          🤖 1-Click Free AI Autopilot <span style="background:#22c55e; color:#052e16; font-size:0.75rem; padding:2px 8px; border-radius:999px; font-weight:800;">100% FREE • $0.00</span>
+        </h3>
+        <span style="color:#a5b4fc; font-size:0.85rem;">👶 Automated Heuristic Processing — Zero Technical Configuration Required</span>
+      </div>
+      <p style="color:#e2e8f0; font-size:0.92rem; margin-bottom:1rem;">
+        <strong>Want the AI to clean your list instantly?</strong> Click the button below! It will automatically load, clean typos, delete duplicates, and tell you how many fake emails were saved.
+      </p>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <button type="button" onclick="runAiEmailClean()" style="background:#6366f1; color:#fff; font-size:0.95rem; padding:0.7rem 1.3rem; border-radius:8px; font-weight:800; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(99,102,241,0.4);">
+          ✨ 1-Click: AI Clean My List Now
+        </button>
+        <button type="button" onclick="explainEmailsForKids()" style="background:#334155; color:#f8fafc; font-size:0.9rem; padding:0.7rem 1.1rem; border-radius:8px; font-weight:700; border:none; cursor:pointer;">
+          💡 Executive Briefing: Why Do Emails Bounce?
+        </button>
+      </div>
+      <div id="aiEmailOutputBox" style="display:none; margin-top:1rem; background:#0f172a; border:1px solid #475569; border-radius:8px; padding:1rem; color:#f8fafc; font-size:0.95rem; white-space:pre-wrap;"></div>
+    </div>
+
+    <div class="panel">
+      <input type="file" id="fileIn" accept=".csv,.txt,text/plain,text/csv" style="margin-bottom:0.75rem;color:var(--muted);" />
+      <textarea id="txtIn" placeholder="Paste one email per line or comma-separated..."></textarea>
+      <div class="actions">
+        <button id="btnClean">Clean &amp; Deduplicate</button>
+        <button class="secondary" id="btnSample">Load Sample List</button>
+        <button class="green" id="btnSave" disabled>Save Clean CSV</button>
+      </div>
+      <div class="status" id="status">Free online trial saves up to 25 clean emails.</div>
+      <pre id="outPre">Clean emails will appear here.</pre>
+    </div>
+  </div>
+
+  <script>
+    const FREE_EMAIL_CAP = 25;
+    const TYPOS = { "gmial.com":"gmail.com", "gmai.com":"gmail.com", "gmal.com":"gmail.com", "yaho.com":"yahoo.com", "yahooo.com":"yahoo.com", "hotmal.com":"hotmail.com", "outlok.com":"outlook.com", "iclod.com":"icloud.com" };
+    let cleanList = [];
+
+    document.getElementById("fileIn").addEventListener("change", async e => {
+      const f = e.target.files[0];
+      if (f) document.getElementById("txtIn").value = await f.text();
     });
 
-    function showToast(msg) {
-      var toast = document.createElement("div");
-      toast.style.cssText = "position:fixed;bottom:24px;right:24px;background:#0284c7;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 25px rgba(0,0,0,0.4);z-index:99999;transition:opacity 0.3s;display:flex;align-items:center;gap:0.5rem;";
-      toast.innerText = msg;
-      document.body.appendChild(toast);
-      setTimeout(function() {
-        toast.style.opacity = "0";
-        setTimeout(function() { toast.remove(); }, 300);
-      }, 3500);
+    function runClean() {
+      const raw = document.getElementById("txtIn").value;
+      const tokens = raw.split(/[\r\n,;]+/).map(s => s.trim().toLowerCase()).filter(Boolean);
+      const seen = new Set();
+      let typosFixed = 0, invalidDropped = 0, dupesDropped = 0;
+      cleanList = [];
+
+      for (let em of tokens) {
+        em = em.replace(/^["']|["']$/g, "");
+        const parts = em.split("@");
+        if (parts.length !== 2 || !parts[0] || !parts[1].includes(".")) { invalidDropped++; continue; }
+        if (TYPOS[parts[1]]) { em = parts[0] + "@" + TYPOS[parts[1]]; typosFixed++; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { invalidDropped++; continue; }
+        if (seen.has(em)) { dupesDropped++; continue; }
+        seen.add(em);
+        cleanList.push(em);
+      }
+
+      const capped = cleanList.length > FREE_EMAIL_CAP;
+      const shown = cleanList.slice(0, FREE_EMAIL_CAP);
+      document.getElementById("outPre").textContent = shown.join("\n") || "(No valid emails found)";
+      document.getElementById("btnSave").disabled = shown.length === 0;
+      document.getElementById("status").textContent =
+        `Kept ${cleanList.length} valid unique email(s) • Removed ${dupesDropped} duplicate(s) & ${invalidDropped} invalid • Fixed ${typosFixed} typo(s).` +
+        (capped ? ` (Free online trial saves up to ${FREE_EMAIL_CAP} emails — get the $4.99 Offline Edition for unlimited lists.)` : "");
     }
+
+    document.getElementById("btnClean").addEventListener("click", runClean);
+    document.getElementById("btnSample").addEventListener("click", () => {
+      document.getElementById("txtIn").value = "alex@example.com\nALEX@gmail.com\nsam@gmial.com\npat@yaho.com\nnot-an-email\jordan@example.com";
+      runClean();
+    });
+    document.getElementById("btnSave").addEventListener("click", () => {
+      const toSave = cleanList.slice(0, FREE_EMAIL_CAP);
+      const csv = "Email\n" + toSave.join("\n");
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+      a.download = "Clean_Email_List.csv";
+      a.click();
+    });
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">?</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "? Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
   });
 })();
 </script>
-<script>
-async function runAiEmailClean() {
-  const box = document.getElementById('aiEmailOutputBox');
-  box.style.display = 'block';
-  box.innerText = '🤖 AI Autopilot is scanning and cleaning your email list...';
-  
-  if (!document.getElementById('txtIn').value) {
-    document.getElementById('txtIn').value = "ceo@example.com\nmarketing@gmial.com\nsales@example.com\nCEO@EXAMPLE.COM\nsupport@yaho.com\ninvalid-email-no-at-sign\nfounder@techstartup.io";
-  }
-  
-  runClean();
-  
-  try {
-    const prompt = encodeURIComponent('Analyze this email cleaning report. Explain in 2 child-friendly sentences why removing typos like @gmial.com and duplicates saves money and stops email accounts from getting banned.');
-    const sys = encodeURIComponent('You are a friendly email deliverability assistant. Speak simply and clearly.');
-    const resp = await fetch('https://text.pollinations.ai/' + prompt + '?system=' + sys + '&model=openai');
-    const txt = await resp.text();
-    box.innerText = '✨ AI Audit Complete:\n\n' + txt;
-  } catch(e) {
-    box.innerText = '✨ AI Cleaning Complete: Repaired typos (e.g. @gmial.com -> @gmail.com), deleted duplicate addresses, and eliminated invalid syntax. Clean CSV is ready to save!';
-  }
-}
 
-async function explainEmailsForKids() {
-  const box = document.getElementById('aiEmailOutputBox');
-  box.style.display = 'block';
-  box.innerText = '💡 Why Do Emails "Bounce"? (Explain Like I\'m 5):\n\nImagine sending a birthday letter in the mail, but by accident you wrote "123 Fake Street, Nowhere Land". The postman cannot find that house, so he brings the letter right back to you! That is called a "Bounce".\n\nWhen you send emails to wrong addresses (like @gmial.com instead of @gmail.com), email providers think you are a messy robot and will block your account! This tool cleans your address book so all your letters go to real mailboxes!';
-}
-</script>
-<!-- emt_modern_engine -->
+<script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href*=\"payhip.com\"]"):null;if(a&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:"payhip-click/"+a.href.split("/").pop(),title:"Payhip Click",event:true});}});</script>
+
+
+
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
   <footer style="background:#050811; border-top:1px solid #1e293b; padding:24px 16px; text-align:center; color:#64748b; font-size:11px; margin-top:40px; font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
     <div style="max-width:850px; margin:0 auto; line-height:1.6;">
