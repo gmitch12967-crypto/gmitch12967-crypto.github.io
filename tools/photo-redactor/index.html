@@ -30,7 +30,188 @@
     .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
   </style>
   <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
+      }
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/sHVTN" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($1.99) ↗</a>
+      </div>
+    </div>
+
+    <h1>Permanent Blackout Redactor</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick your screenshot or photo. &nbsp;<strong>Step 2:</strong> Drag over names, account numbers, or addresses to permanently erase those pixels. &nbsp;<strong>Step 3:</strong> Save a safe-to-share PNG.</p>
+
+    <div class="panel">
+      <div class="actions" style="margin-top:0;">
+        <input type="file" id="fileInput" accept="image/*" />
+        <select id="selColor">
+          <option value="#000000">Solid Blackout</option>
+          <option value="#ffffff">Solid Whiteout</option>
+        </select>
+        <button class="secondary" id="btnUndo" disabled>Undo Last Box</button>
+        <button class="secondary" id="btnReset" disabled>Clear Boxes</button>
+        <button class="green" id="btnSave" disabled>Save Redacted PNG</button>
+      </div>
+      <div class="status" id="status">Pick an image to start. Hidden pixels are permanently overwritten (not a removable layer). Free trial: 1 download.</div>
+      <div class="canvas-wrap">
+        <canvas id="canvas" width="720" height="420"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let baseImg = null;
+    let boxes = [];
+    let dragStart = null;
+    let dragCurr = null;
+    let freeDownloadsLeft = 1;
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const btnUndo = document.getElementById("btnUndo");
+    const btnReset = document.getElementById("btnReset");
+    const btnSave = document.getElementById("btnSave");
+
+    document.getElementById("fileInput").addEventListener("change", e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          baseImg = img;
+          boxes = [];
+          canvas.width = img.width;
+          canvas.height = img.height;
+          btnSave.disabled = false;
+          redraw();
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    });
+
+    function getPt(e) {
+      const rect = canvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: (cx - rect.left) * (canvas.width / rect.width), y: (cy - rect.top) * (canvas.height / rect.height) };
+    }
+
+    function redraw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (baseImg) ctx.drawImage(baseImg, 0, 0);
+      for (const b of boxes) {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+      }
+      if (dragStart && dragCurr) {
+        ctx.fillStyle = document.getElementById("selColor").value;
+        ctx.fillRect(dragStart.x, dragStart.y, dragCurr.x - dragStart.x, dragCurr.y - dragStart.y);
+      }
+      btnUndo.disabled = boxes.length === 0;
+      btnReset.disabled = boxes.length === 0;
+    }
+
+    const onDown = e => { if (!baseImg) return; e.preventDefault(); dragStart = getPt(e); dragCurr = dragStart; };
+    const onMove = e => { if (!dragStart) return; e.preventDefault(); dragCurr = getPt(e); redraw(); };
+    const onUp = () => {
+      if (!dragStart) return;
+      const w = dragCurr.x - dragStart.x, h = dragCurr.y - dragStart.y;
+      if (Math.abs(w) > 4 && Math.abs(h) > 4) {
+        boxes.push({ x: dragStart.x, y: dragStart.y, w, h, color: document.getElementById("selColor").value });
+      }
+      dragStart = null; dragCurr = null;
+      redraw();
+    };
+
+    canvas.addEventListener("mousedown", onDown); canvas.addEventListener("mousemove", onMove); window.addEventListener("mouseup", onUp);
+    canvas.addEventListener("touchstart", onDown, { passive: false }); canvas.addEventListener("touchmove", onMove, { passive: false }); window.addEventListener("touchend", onUp);
+
+    btnUndo.addEventListener("click", () => { boxes.pop(); redraw(); });
+    btnReset.addEventListener("click", () => { boxes = []; redraw(); });
+
+    btnSave.addEventListener("click", () => {
+      if (!baseImg) return;
+      if (freeDownloadsLeft <= 0) {
+        alert("Your 1 free online trial download is used. Get the Offline Edition ($1.99) for unlimited redactions!");
+        return;
+      }
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "Redacted_Safe_Image.png";
+      a.click();
+      freeDownloadsLeft--;
+      document.getElementById("status").textContent = "Saved Redacted_Safe_Image.png with all selected areas permanently erased.";
+    });
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "✓ Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
+  });
+})();
+</script>
+
+
 
 
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
