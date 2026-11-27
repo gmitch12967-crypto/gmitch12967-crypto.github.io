@@ -75,102 +75,274 @@
     }
   </style>
   <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  
-
-
-<script>
-/* 2026 Modern Engine: Air-Gapped Draft Autosave & Theme Switcher */
-(function() {
-  var toolKey = "emt_draft_" + (window.location.pathname.split("/").slice(-2)[0] || "tool");
-  
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("emt_theme", theme);
-    var btn = document.getElementById("themeToggleBtn");
-    if (btn) btn.innerText = theme === "light" ? "☀️ Light" : "🌙 Dark";
-  }
-
-  window.addEventListener("DOMContentLoaded", function() {
-    // 1. Theme Initialization
-    var savedTheme = localStorage.getItem("emt_theme") || "dark";
-    applyTheme(savedTheme);
-    var toggleBtn = document.getElementById("themeToggleBtn");
-    if (toggleBtn) {
-      toggleBtn.onclick = function() {
-        var curr = document.documentElement.getAttribute("data-theme") || "dark";
-        applyTheme(curr === "dark" ? "light" : "dark");
-      };
-    }
-
-    // 2. Draft Auto-Save & Recovery
-    var inputs = document.querySelectorAll("textarea, input[type='text']:not([readonly])");
-    try {
-      var saved = localStorage.getItem(toolKey);
-      if (saved) {
-        var data = JSON.parse(saved);
-        var restored = false;
-        inputs.forEach(function(el, i) {
-          if (data[i] && !el.value) {
-            el.value = data[i];
-            restored = true;
-            el.dispatchEvent(new Event("input", { bubbles: true }));
-          }
-        });
-        if (restored) {
-          showToast("⚡ Unsaved draft restored from your last session");
-        }
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
       }
-    } catch(e) {}
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">? Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/gs3rw" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($2.99) ?</a>
+      </div>
+    </div>
 
-    var saveTimer = null;
-    inputs.forEach(function(el) {
-      el.addEventListener("input", function() {
-        clearTimeout(saveTimer);
-        saveTimer = setTimeout(function() {
-          var data = {};
-          inputs.forEach(function(t, i) { if (t.value) data[i] = t.value; });
-          localStorage.setItem(toolKey, JSON.stringify(data));
-        }, 1200);
-      });
+    <h1>Combine or Split Private PDFs</h1>
+    <p class="sub"><strong>Step 1:</strong> Pick 1 or more PDFs. &nbsp;<strong>Step 2:</strong> Reorder, rotate, or remove pages you don't need. &nbsp;<strong>Step 3:</strong> Save your new PDF — nothing ever leaves your device.</p>
+
+    <!-- 🤖 1-CLICK FREE AI AUTOPILOT (CHILD-FRIENDLY) -->
+    <div style="background: linear-gradient(135deg, #1e1b4b, #0f172a); border: 2px solid #6366f1; border-radius: 12px; padding: 1.25rem; margin: 1rem 0 1.25rem; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+        <h3 style="color:#c7d2fe; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;">
+          🤖 1-Click Free AI Autopilot <span style="background:#22c55e; color:#052e16; font-size:0.75rem; padding:2px 8px; border-radius:999px; font-weight:800;">100% FREE • $0.00</span>
+        </h3>
+        <span style="color:#a5b4fc; font-size:0.85rem;">👶 Automated Heuristic Processing — Zero Technical Configuration Required</span>
+      </div>
+      <p style="color:#e2e8f0; font-size:0.92rem; margin-bottom:1rem;">
+        <strong>Need help organizing or combining documents?</strong> Click the button below! The AI will give you the easiest 3 steps to glue your papers together in the right order.
+      </p>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <button type="button" onclick="runAiPdfGuide()" style="background:#6366f1; color:#fff; font-size:0.95rem; padding:0.7rem 1.3rem; border-radius:8px; font-weight:800; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(99,102,241,0.4);">
+          ✨ 1-Click: AI How-To Guide
+        </button>
+        <button type="button" onclick="explainPdfForKids()" style="background:#334155; color:#f8fafc; font-size:0.9rem; padding:0.7rem 1.1rem; border-radius:8px; font-weight:700; border:none; cursor:pointer;">
+          💡 Executive Briefing: What is a PDF?
+        </button>
+      </div>
+      <div id="aiPdfOutputBox" style="display:none; margin-top:1rem; background:#0f172a; border:1px solid #475569; border-radius:8px; padding:1rem; color:#f8fafc; font-size:0.95rem; white-space:pre-wrap;"></div>
+    </div>
+
+    <div class="panel">
+      <div class="drop" id="dropZone">
+        <p style="font-weight:700;margin-bottom:0.35rem;">Tap to Choose PDF Files (or Drag &amp; Drop Here)</p>
+        <p style="font-size:0.85rem;color:var(--muted);">Add multiple PDFs to merge them, or add one PDF to split/remove pages.</p>
+        <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple style="display:none" />
+      </div>
+
+      <div class="actions">
+        <input type="text" id="txtRange" placeholder="Keep pages e.g. 1-3, 5 (optional)" />
+        <button class="secondary" id="btnApplyRange" disabled>Keep Only Listed Pages</button>
+        <button class="secondary" id="btnClear" disabled>Clear All</button>
+        <button class="green" id="btnSave" disabled>Save New PDF</button>
+      </div>
+      <div class="status" id="status">No PDFs loaded yet. Free online trial exports up to 3 pages per PDF.</div>
+
+      <div class="page-list" id="pageList"></div>
+    </div>
+  </div>
+
+  <script src="pdf-lib.min.js"></script>
+  <script>
+    const FREE_PAGE_CAP = 3;
+    const loadedDocs = [];
+    let pages = []; // { docIdx, pageIdx, fileName, origPageNum, rot }
+
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const pageList = document.getElementById("pageList");
+    const statusEl = document.getElementById("status");
+    const btnSave = document.getElementById("btnSave");
+    const btnClear = document.getElementById("btnClear");
+    const btnApplyRange = document.getElementById("btnApplyRange");
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.style.borderColor = "#38bdf8"; });
+    dropZone.addEventListener("dragleave", () => { dropZone.style.borderColor = ""; });
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.style.borderColor = "";
+      if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length) addFiles(fileInput.files);
+      fileInput.value = "";
     });
 
-    function showToast(msg) {
-      var toast = document.createElement("div");
-      toast.style.cssText = "position:fixed;bottom:24px;right:24px;background:#0284c7;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 25px rgba(0,0,0,0.4);z-index:99999;transition:opacity 0.3s;display:flex;align-items:center;gap:0.5rem;";
-      toast.innerText = msg;
-      document.body.appendChild(toast);
-      setTimeout(function() {
-        toast.style.opacity = "0";
-        setTimeout(function() { toast.remove(); }, 300);
-      }, 3500);
+    async function addFiles(fileList) {
+      statusEl.textContent = "Reading PDF(s) locally...";
+      for (const file of fileList) {
+        try {
+          const bytes = new Uint8Array(await file.arrayBuffer());
+          const pdfDoc = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+          const docIdx = loadedDocs.length;
+          loadedDocs.push({ name: file.name, doc: pdfDoc });
+          const count = pdfDoc.getPageCount();
+          for (let i = 0; i < count; i++) {
+            pages.push({ docIdx, pageIdx: i, fileName: file.name, origPageNum: i + 1, rot: 0 });
+          }
+        } catch (err) {
+          alert("Could not open " + file.name + ": " + err.message);
+        }
+      }
+      renderPages();
     }
+
+    function renderPages() {
+      pageList.innerHTML = "";
+      const hasPages = pages.length > 0;
+      btnSave.disabled = !hasPages;
+      btnClear.disabled = !hasPages;
+      btnApplyRange.disabled = !hasPages;
+      statusEl.textContent = hasPages
+        ? `${pages.length} total page(s) ready. Free online trial saves up to ${FREE_PAGE_CAP} pages.`
+        : "No PDFs loaded yet. Free online trial exports up to 3 pages per PDF.";
+
+      pages.forEach((p, idx) => {
+        const row = document.createElement("div");
+        row.className = "page-row";
+        row.innerHTML = `
+          <div>
+            <div class="page-title">#${idx + 1} — ${escapeHtml(p.fileName)} (Page ${p.origPageNum})</div>
+            <div class="page-meta">${p.rot ? "Rotated +" + p.rot + "°" : "Original orientation"}</div>
+          </div>
+          <div style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+            <button class="secondary sm" ${idx === 0 ? "disabled" : ""} onclick="movePage(${idx},-1)">?</button>
+            <button class="secondary sm" ${idx === pages.length - 1 ? "disabled" : ""} onclick="movePage(${idx},1)">?</button>
+            <button class="secondary sm" onclick="rotatePage(${idx})">? 90°</button>
+            <button class="danger sm" onclick="removePage(${idx})">?</button>
+          </div>`;
+        pageList.appendChild(row);
+      });
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    window.movePage = (idx, dir) => {
+      const target = idx + dir;
+      if (target < 0 || target >= pages.length) return;
+      [pages[idx], pages[target]] = [pages[target], pages[idx]];
+      renderPages();
+    };
+    window.rotatePage = (idx) => {
+      pages[idx].rot = (pages[idx].rot + 90) % 360;
+      renderPages();
+    };
+    window.removePage = (idx) => {
+      pages.splice(idx, 1);
+      renderPages();
+    };
+
+    btnClear.addEventListener("click", () => {
+      loadedDocs.length = 0;
+      pages = [];
+      renderPages();
+    });
+
+    btnApplyRange.addEventListener("click", () => {
+      const raw = document.getElementById("txtRange").value.trim();
+      if (!raw) return;
+      const keep = [];
+      for (const part of raw.split(",")) {
+        const m = part.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+        if (!m) continue;
+        const a = parseInt(m[1], 10), b = m[2] ? parseInt(m[2], 10) : a;
+        const step = a <= b ? 1 : -1;
+        for (let n = a; step > 0 ? n <= b : n >= b; n += step) {
+          if (n >= 1 && n <= pages.length) keep.push(pages[n - 1]);
+        }
+      }
+      if (!keep.length) { alert("No valid page numbers matched (example: 1-3, 5)."); return; }
+      pages = keep;
+      renderPages();
+    });
+
+    btnSave.addEventListener("click", async () => {
+      if (!pages.length) return;
+      let toExport = pages;
+      if (pages.length > FREE_PAGE_CAP) {
+        if (!confirm(`Free Online Trial exports up to ${FREE_PAGE_CAP} pages (you selected ${pages.length} pages).\n\nClick OK to save the first ${FREE_PAGE_CAP} pages, or Cancel to adjust your page list.`)) {
+          return;
+        }
+        toExport = pages.slice(0, FREE_PAGE_CAP);
+      }
+
+      statusEl.textContent = "Building your PDF locally...";
+      const outDoc = await PDFLib.PDFDocument.create();
+      for (const p of toExport) {
+        const [copied] = await outDoc.copyPages(loadedDocs[p.docIdx].doc, [p.pageIdx]);
+        if (p.rot) {
+          const curAngle = copied.getRotation().angle || 0;
+          copied.setRotation(PDFLib.degrees((curAngle + p.rot) % 360));
+        }
+        outDoc.addPage(copied);
+      }
+      const outBytes = await outDoc.save();
+      const blob = new Blob([outBytes], { type: "application/pdf" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "Combined_Clean_PDF.pdf";
+      a.click();
+      statusEl.textContent = `Saved Combined_Clean_PDF.pdf (${toExport.length} page(s)) — 100% locally!`;
+    });
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">?</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "? Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
   });
 })();
 </script>
-<script>
-async function runAiPdfGuide() {
-  const box = document.getElementById('aiPdfOutputBox');
-  box.style.display = 'block';
-  box.innerText = '🤖 AI Autopilot is preparing your PDF organization guide...';
-  
-  try {
-    const prompt = encodeURIComponent('Explain in 3 simple child-friendly steps how to drag-and-drop multiple PDFs, rearrange the pages, and click Save New PDF without losing quality.');
-    const sys = encodeURIComponent('You are a friendly document assistant. Keep instructions ultra-simple and encouraging.');
-    const resp = await fetch('https://text.pollinations.ai/' + prompt + '?system=' + sys + '&model=openai');
-    const txt = await resp.text();
-    box.innerText = '✨ AI Step-by-Step Guide:\n\n' + txt;
-  } catch(e) {
-    box.innerText = '✨ Super Easy 3-Step Guide:\n1. Drag any PDFs from your computer into the big box above.\n2. Drag the page cards into whatever order you want (or click rotate/delete).\n3. Click the green "Save New PDF" button — done in 2 seconds!';
-  }
-}
 
-async function explainPdfForKids() {
-  const box = document.getElementById('aiPdfOutputBox');
-  box.style.display = 'block';
-  box.innerText = '💡 What is a PDF? (Explain Like I\'m 5):\n\nThink of a PDF like digital magic plastic wrap for paper!\n\nWhen you draw a picture or write a story on a computer, different phones or tablets might mess up the font or pictures. But when you wrap it in a PDF, it freezes everything exactly in place so anyone in the world sees the exact same clean page on their screen or when printed!';
-}
-</script>
-<!-- emt_modern_engine -->
+<script>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href*=\"payhip.com\"]"):null;if(a&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:"payhip-click/"+a.href.split("/").pop(),title:"Payhip Click",event:true});}});</script>
+
+
+
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
   <footer style="background:#050811; border-top:1px solid #1e293b; padding:24px 16px; text-align:center; color:#64748b; font-size:11px; margin-top:40px; font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
     <div style="max-width:850px; margin:0 auto; line-height:1.6;">
