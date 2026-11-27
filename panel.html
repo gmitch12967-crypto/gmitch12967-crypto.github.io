@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sovereign Founder Command Hub</title>
+  <meta name="description" content="Dedicated standalone Master Control Panel for Sovereign Tech Founder. Full device authority, tester management, and 1-tap catalog execution.">
+  <link rel="manifest" href="./panel-manifest.json">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./cleaner/icon-192.png">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card-bg: #0f172a;
+      --card-inner: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --emerald: #10b981;
+      --gold: #f59e0b;
+      --rose: #f43f5e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 16px 14px 80px 14px;
+      line-height: 1.5;
+      user-select: none;
+    }
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .header-brand h1 { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: 0.04em; }
+    .header-brand p { font-size: 11px; color: var(--emerald); font-weight: 700; text-transform: uppercase; }
+
+    /* Install Banner */
+    .install-bar {
+      background: linear-gradient(135deg, #0284c7, #10b981);
+      border-radius: 14px; padding: 14px 16px; margin-bottom: 18px;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+    }
+    .install-bar span { font-size: 13.5px; font-weight: 800; color: #fff; display: block; }
+    .install-bar small { font-size: 11px; color: #e0f2fe; }
+    .install-btn {
+      background: #0b1120; color: #34d399; border: 1.5px solid #34d399;
+      padding: 8px 16px; border-radius: 10px; font-weight: 800; font-size: 12px;
+      cursor: pointer; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Founder Card */
+    .founder-card {
+      background: linear-gradient(145deg, #09261a 0%, #0f172a 100%);
+      border: 1.5px solid var(--emerald);
+      border-radius: 14px; padding: 18px; margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+    }
+    .founder-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .founder-name { font-size: 18px; font-weight: 800; color: #fff; }
+    .founder-badge-pill {
+      background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981;
+      padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .founder-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 10px; font-size: 11.5px;
+    }
+    .founder-grid div span { color: var(--text-muted); display: block; font-size: 10px; }
+    .founder-grid div strong { color: #f8fafc; }
+
+    /* Action Grid */
+    .section-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
+    .action-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px; text-decoration: none; color: inherit; display: block;
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .action-card:active { border-color: var(--accent); background: #131d31; transform: scale(0.98); }
+    .action-icon { font-size: 24px; margin-bottom: 6px; }
+    .action-name { font-size: 13px; font-weight: 700; color: #fff; }
+    .action-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Product Launcher List */
+    .product-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .product-row {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: inherit; transition: all 0.15s ease;
+    }
+    .product-row:active { background: #131d31; border-color: var(--emerald); transform: scale(0.99); }
+    .product-info strong { font-size: 13px; color: #fff; display: block; }
+    .product-info span { font-size: 11px; color: var(--text-muted); }
+    .launch-tag {
+      background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 10px; font-weight: 800;
+      padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Modal */
+    .modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(11, 17, 32, 0.88); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 16px; z-index: 99999;
+    }
+    .modal-box {
+      background: #0f172a; border: 1.5px solid var(--accent); border-radius: 18px;
+      padding: 22px; max-width: 400px; width: 100%; text-align: center;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="header">
+    <div class="header-brand">
+      <div>
+        <h1>SOVEREIGN TECH</h1>
+        <p>Founder Mobile Control Panel</p>
+      </div>
+    </div>
+    <div style="font-size:11px; background:#1e293b; color:#34d399; padding:4px 10px; border-radius:999px; border:1px solid #10b981; font-weight:700;">
+      👑 S10+ Master Device
+    </div>
+  </header>
+
+  <!-- PWA Install Banner -->
+  <div id="panelInstallBar" class="install-bar">
+    <div>
+      <span>📲 Install App to S10+ Home Screen</span>
+      <small>Permanent standalone app icon with instant offline access</small>
+    </div>
+    <button id="btnInstallPanel" class="install-btn" onclick="triggerAppInstall()">INSTALL APP</button>
+  </div>
+
+  <!-- Founder Identity Card -->
+  <div class="founder-card">
+    <div class="founder-card-top">
+      <div>
+        <div class="founder-name">Sovereign Founder</div>
+        <div style="font-size:11px; color:#94a3b8;">Principal Software Architect &bull; Master Hardware Authority</div>
+      </div>
+      <span class="founder-badge-pill">FOUNDER PERPETUAL</span>
+    </div>
+
+    <div class="founder-grid">
+      <div><span>Access Scope:</span> <strong>All 29+ Products Free</strong></div>
+      <div><span>Device Status:</span> <strong>S10+ Authenticated</strong></div>
+      <div><span>Active Defenses:</span> <strong>Perpetually Unlocked</strong></div>
+      <div><span>Telemetry:</span> <strong>0 Bps (Airgap Active)</strong></div>
+    </div>
+  </div>
+
+  <!-- Quick Command Grid -->
+  <div class="section-title">
+    <span>⚡</span> Quick Management Controls
+  </div>
+  <div class="action-grid">
+    <div class="action-card" onclick="openTesterModal()">
+      <div class="action-icon">🧪</div>
+      <div class="action-name">Appoint Tester</div>
+      <div class="action-desc">Display QR or text invite link</div>
+    </div>
+    <a href="./badge.html?founder=true&auth=SOVEREIGN-FOUNDER-2026" class="action-card">
+      <div class="action-icon">💻</div>
+      <div class="action-name">Device Pairing</div>
+      <div class="action-desc">Pair Laptop or other screens</div>
+    </a>
+    <a href="https://counter.dev/dashboard.html?user=sovereigntech-hq" target="_blank" rel="noopener" class="action-card">
+      <div class="action-icon">📊</div>
+      <div class="action-name">Live Traffic</div>
+      <div class="action-desc">Real-time visitor count</div>
+    </a>
+    <a href="./checkout.html" class="action-card">
+      <div class="action-icon">🛒</div>
+      <div class="action-name">Express Cart</div>
+      <div class="action-desc">Direct customer checkout</div>
+    </a>
+  </div>
+
+  <!-- Product Suite 1-Tap Launch -->
+  <div class="section-title">
+    <span>🚀</span> Master Product Suite (100% Free Founder Launch)
+  </div>
+  <div class="product-list">
+    <a href="./cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row">
+      <div class="product-info">
+        <strong>Sovereign Care™ Pro Workstation</strong>
+        <span>System Optimizer &bull; Memory Watchdog</span>
+      </div>
+      <span class="launch-tag">OPEN FULL PRO →</span>
+    </a>
+    <a href="./tools/receipt-cleaner/?founder=true" class="product-row">
+      <div class="product-info">
+        <strong>Tax Receipt Privacy Scrubber</strong>
+        <span>Scrub PII &bull; Business Expense Sanitizer</span>
+      </div>
+      <span class="launch-tag">OPEN FULL PRO →</span>
+    </a>
+    <a href="./tools/ats-resume-checker/?founder=true" class="product-row">
+      <div class="product-info">
+        <strong>ATS Resume Keyword Studio</strong>
+        <span>Candidate Privacy &bull; Resume Scorer</span>
+      </div>
+      <span class="launch-tag">OPEN FULL PRO →</span>
+    </a>
+    <a href="./tools/qr-sign-maker/?founder=true" class="product-row">
+      <div class="product-info">
+        <strong>QR &amp; Wi-Fi Sign Maker</strong>
+        <span>Offline Printable Sign Studio</span>
+      </div>
+      <span class="launch-tag">OPEN FULL PRO →</span>
+    </a>
+    <a href="./index.html?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row">
+      <div class="product-info">
+        <strong>Master Product Storefront (All 29 Tools)</strong>
+        <span>Full catalog overview</span>
+      </div>
+      <span class="launch-tag">BROWSE ALL →</span>
+    </a>
+  </div>
+
+  <!-- Appoint Tester Modal -->
+  <div id="testerModal" class="modal">
+    <div class="modal-box">
+      <h3 style="font-size:17px; color:var(--accent); margin-bottom:6px;">🧪 Appoint Authorized Beta Tester</h3>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Hold this screen up for your tester to scan, or copy the invite link:</p>
+      
+      <div style="background:#fff; padding:14px; border-radius:12px; display:inline-block; margin-bottom:14px; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+        <div id="modalTesterQr"></div>
+      </div>
+
+      <button onclick="copyTesterLink()" style="width:100%; background:var(--accent); color:#0b1120; border:none; padding:11px; border-radius:10px; font-weight:800; font-size:13px; margin-bottom:8px; cursor:pointer;">
+        📋 COPY TESTER INVITE LINK
+      </button>
+      <button onclick="closeTesterModal()" style="width:100%; background:transparent; border:1px solid #475569; color:#94a3b8; padding:8px; border-radius:10px; font-size:12px; cursor:pointer;">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <!-- Install Instructions Modal -->
+  <div id="installGuideModal" class="modal">
+    <div class="modal-box" style="text-align:left;">
+      <h3 style="font-size:17px; color:#fff; margin-bottom:10px; text-align:center;">📲 Add Control Panel to S10+</h3>
+      <div style="background:#1e293b; border-radius:10px; padding:12px; margin-bottom:10px; font-size:12px;">
+        <strong style="color:var(--accent); display:block; margin-bottom:4px;">On Samsung Internet:</strong>
+        1. Tap the <strong>3 lines [ ≡ ]</strong> at the bottom-right.<br>
+        2. Tap <strong>"Add page to"</strong>.<br>
+        3. Select <strong>"Home screen"</strong>.
+      </div>
+      <div style="background:#1e293b; border-radius:10px; padding:12px; margin-bottom:14px; font-size:12px;">
+        <strong style="color:var(--emerald); display:block; margin-bottom:4px;">On Google Chrome:</strong>
+        1. Tap the <strong>3 dots [ ⋮ ]</strong> at the top-right.<br>
+        2. Tap <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>.
+      </div>
+      <button onclick="closeInstallGuideModal()" style="width:100%; background:var(--emerald); color:#0b1120; border:none; padding:10px; border-radius:10px; font-weight:800; font-size:13px; cursor:pointer;">
+        Got It! 👍
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Stamp Founder identity permanently into localStorage
+    try {
+      localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
+      localStorage.setItem('sovereign_founder_pin', '2026');
+      const fData = {
+        role: 'FOUNDER',
+        title: 'Founder & Principal Architect',
+        status: 'Active Perpetual Authority',
+        grantedAt: Date.now(),
+        deviceId: 'S10-FOUNDER-MASTER'
+      };
+      localStorage.setItem('sovereign_identity', JSON.stringify(fData));
+      localStorage.setItem('sovereign_badge_data', JSON.stringify({
+        role: 'FOUNDER',
+        title: 'Founder & Principal Architect',
+        authKey: 'SOVEREIGN-FOUNDER-2026',
+        createdAt: Date.now()
+      }));
+    } catch(e) {}
+
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').catch(function() {});
+      });
+    }
+
+    // PWA Installation handling
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      const bar = document.getElementById('panelInstallBar');
+      if (bar) bar.style.display = 'flex';
+    });
+
+    function triggerAppInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function() {
+          deferredPrompt = null;
+        });
+      } else {
+        const modal = document.getElementById('installGuideModal');
+        if (modal) modal.style.display = 'flex';
+      }
+    }
+
+    function closeInstallGuideModal() {
+      const modal = document.getElementById('installGuideModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    // Tester QR Modal
+    function openTesterModal() {
+      const modal = document.getElementById('testerModal');
+      if (modal) modal.style.display = 'flex';
+      const container = document.getElementById('modalTesterQr');
+      if (container) {
+        container.innerHTML = '';
+        const link = window.location.origin + '/index.html?badge=tester&auth=SOVEREIGN-TESTER-INVITE-2026';
+        new QRCode(container, {
+          text: link,
+          width: 180,
+          height: 180,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    }
+
+    function closeTesterModal() {
+      const modal = document.getElementById('testerModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function copyTesterLink() {
+      const link = window.location.origin + '/index.html?badge=tester&auth=SOVEREIGN-TESTER-INVITE-2026';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText("You have been appointed as an Authorized Beta Tester for Sovereign Tech. Tap to activate testing badge: " + link).then(function() {
+          alert("✓ Tester Invite Link Copied to Clipboard!");
+        });
+      } else {
+        prompt("Copy tester invite link:", link);
+      }
+    }
+  </script>
+</body>
+</html>
