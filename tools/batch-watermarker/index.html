@@ -28,7 +28,193 @@
     .status { font-size:0.88rem; color:var(--muted); margin-top:0.75rem; }
   </style>
   <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
+      }
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/YB83I" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($4.99) ↗</a>
+      </div>
+    </div>
+
+    <h1>Bulk Client-Proof Watermarker</h1>
+    <p class="sub"><strong>Step 1:</strong> Type your watermark text. &nbsp;<strong>Step 2:</strong> Pick your style &amp; photos. &nbsp;<strong>Step 3:</strong> Save protected proofs locally — zero Photoshop or subscriptions.</p>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">Watermark Text
+          <input type="text" id="txtWm" value="PROOF — DO NOT COPY" />
+        </label>
+        <label class="field">Style
+          <select id="selStyle">
+            <option value="diag">Tiled Diagonal Across Photo (Strongest)</option>
+            <option value="center">Large Center Stamp</option>
+            <option value="corner">Bottom-Right Corner Stamp</option>
+          </select>
+        </label>
+        <label class="field">Choose Photos (1 or Many)
+          <input type="file" id="fileIn" accept="image/*" multiple />
+        </label>
+      </div>
+      <div class="status" id="status">Free online trial includes 1 watermarked photo download.</div>
+      <div class="results" id="results"></div>
+    </div>
+  </div>
+
+  <script>
+    let freeDownloadsLeft = 1;
+
+    function watermarkImage(file, text, style) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onerror = () => reject(new Error("Could not read file"));
+        r.onload = () => {
+          const img = new Image();
+          img.onerror = () => reject(new Error("Invalid image"));
+          img.onload = () => {
+            const c = document.createElement("canvas");
+            c.width = img.width; c.height = img.height;
+            const ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            const baseSize = Math.max(22, Math.round(Math.min(c.width, c.height) * 0.055));
+            ctx.font = `bold ${baseSize}px sans-serif`;
+            ctx.fillStyle = "rgba(255,255,255,0.42)";
+            ctx.strokeStyle = "rgba(0,0,0,0.28)";
+            ctx.lineWidth = Math.max(2, baseSize * 0.06);
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            if (style === "diag") {
+              ctx.save();
+              ctx.translate(c.width / 2, c.height / 2);
+              ctx.rotate(-Math.PI / 6);
+              const stepX = Math.max(260, ctx.measureText(text).width + 90);
+              const stepY = baseSize * 3.2;
+              for (let y = -c.height; y <= c.height; y += stepY) {
+                for (let x = -c.width; x <= c.width; x += stepX) {
+                  ctx.strokeText(text, x, y);
+                  ctx.fillText(text, x, y);
+                }
+              }
+              ctx.restore();
+            } else if (style === "center") {
+              ctx.strokeText(text, c.width / 2, c.height / 2);
+              ctx.fillText(text, c.width / 2, c.height / 2);
+            } else {
+              ctx.textAlign = "right";
+              ctx.textBaseline = "bottom";
+              ctx.strokeText(text, c.width - 24, c.height - 20);
+              ctx.fillText(text, c.width - 24, c.height - 20);
+            }
+            c.toBlob(blob => resolve(blob), "image/jpeg", 0.9);
+          };
+          img.src = r.result;
+        };
+        r.readAsDataURL(file);
+      });
+    }
+
+    document.getElementById("fileIn").addEventListener("change", async e => {
+      const files = [...e.target.files];
+      if (!files.length) return;
+      const results = document.getElementById("results");
+      results.innerHTML = "";
+      const text = document.getElementById("txtWm").value.trim() || "PROOF";
+      const style = document.getElementById("selStyle").value;
+      document.getElementById("status").textContent = "Applying watermarks locally...";
+
+      for (const f of files) {
+        const blob = await watermarkImage(f, text, style);
+        const url = URL.createObjectURL(blob);
+        const outName = f.name.replace(/\.[^.]+$/, "") + "_proof.jpg";
+        const row = document.createElement("div");
+        row.className = "row";
+        const label = document.createElement("strong");
+        label.textContent = outName;
+        const btn = document.createElement("button");
+        btn.textContent = "Save Proof JPG";
+        btn.addEventListener("click", () => {
+          if (freeDownloadsLeft <= 0) {
+            alert("Your 1 free online trial download is used. Get the Offline Edition ($4.99) for unlimited batch proofs!");
+            return;
+          }
+          const a = document.createElement("a");
+          a.href = url; a.download = outName; a.click();
+          freeDownloadsLeft--;
+        });
+        row.appendChild(label);
+        row.appendChild(btn);
+        results.appendChild(row);
+      }
+      document.getElementById("status").textContent = `${files.length} proof(s) ready!`;
+    });
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "✓ Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
+  });
+})();
+</script>
+
+
 
 
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
