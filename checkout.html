@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -136,6 +136,9 @@
         <a href="/index.html">← Master Storefront</a>
         <a href="/cleaner/">Sovereign Care Pro</a>
         <a href="/terms.html">EULA &amp; Warranty</a>
+        <button onclick="openProductSupportModal()" style="background:rgba(56,189,248,0.14); color:#38bdf8; border:1px solid rgba(56,189,248,0.4); padding:0.35rem 0.75rem; border-radius:8px; font-weight:700; font-size:0.75rem; cursor:pointer; margin-left:10px;">
+          🎧 Product Support &amp; Order Help
+        </button>
       </div>
     </header>
 
@@ -444,6 +447,179 @@
       `;
       grid.appendChild(card);
     });
+  </script>
+  <!-- 🎧 Sovereign Official Customer Product Support & Verification Center -->
+  <div id="productSupportModal" style="display:none; position:fixed; inset:0; background:rgba(11,17,32,0.92); backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:16px; z-index:999999;">
+    <div style="background:#0f172a; border:1.5px solid #38bdf8; border-radius:18px; padding:24px; max-width:480px; width:100%; box-shadow:0 20px 50px rgba(0,0,0,0.85); max-height:92vh; overflow-y:auto; text-align:left;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="font-size:18px; color:#fff; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>🎧</span> Sovereign Product Support Center
+        </h3>
+        <button onclick="closeProductSupportModal()" style="background:none; border:none; color:#94a3b8; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+
+      <p style="font-size:12.5px; color:#cbd5e1; line-height:1.5; margin-bottom:16px;">
+        Need technical help with an app, have questions before purchasing, or need to retrieve a download or license key? Our support team is here to assist. For warranty claims and download recovery, orders are verified against our Payhip merchant ledger.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px; text-transform:uppercase;">Topic / Nature of Issue</label>
+          <select id="suppIssueTopic" style="width:100%; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; outline:none;">
+            <option value="Technical Issue: App Not Working / Glitch">⚠️ Technical Issue: App Not Working / Glitch</option>
+            <option value="Download Issue: Lost File or Link Expired">📦 Download Issue: Lost File or Link Expired</option>
+            <option value="License Key Re-Dispatch / Invalid Key">🔑 License Key Re-Dispatch / Key Help</option>
+            <option value="Product Question / Pre-Purchase Inquiry">❓ Product Question / Pre-Purchase Inquiry</option>
+            <option value="Mobile / S10+ Android Setup Assistance">📱 Mobile / S10+ Android Setup Assistance</option>
+            <option value="Other Assistance">💬 Other Assistance</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px; text-transform:uppercase;">Product Name</label>
+          <select id="suppProduct" style="width:100%; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; outline:none;">
+            <option value="Sovereign Care Pro (Desktop / Web)">Sovereign Care™ Pro (Desktop / Web)</option>
+            <option value="Sovereign Mobile Care AI">Sovereign Mobile Care AI (Android / PWA)</option>
+            <option value="Photo Privacy Cleaner (EXIF / GPS)">Photo Privacy Cleaner (EXIF / GPS)</option>
+            <option value="PDF Tools Suite (Sign, Merge, Encrypt)">PDF Tools Suite (Sign, Merge, Encrypt)</option>
+            <option value="HIPAA / PII Redactor">HIPAA / PII Redactor</option>
+            <option value="General Storefront / Other Tool">General Storefront / Other Tool</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px; text-transform:uppercase;">Payhip Order ID / Transaction # (Optional for Pre-Sale)</label>
+          <input type="text" id="suppOrderId" placeholder="e.g. ord_abc123 (or leave blank if pre-sale question)" style="width:100%; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px; text-transform:uppercase;">Your Email Address</label>
+          <input type="email" id="suppEmail" placeholder="name@example.com" style="width:100%; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; outline:none;">
+        </div>
+
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px; text-transform:uppercase;">Describe Your Question or Issue</label>
+          <textarea id="suppDetails" rows="3" placeholder="Tell us what is happening or what question you have..." style="width:100%; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px 12px; color:#fff; font-size:13px; outline:none; resize:vertical; font-family:inherit;"></textarea>
+        </div>
+      </div>
+
+      <div style="background:rgba(2,132,199,0.1); border:1px solid rgba(56,189,248,0.3); border-radius:10px; padding:10px 12px; font-size:11.5px; color:#93c5fd; margin-bottom:16px; line-height:1.4;">
+        🔒 <strong>Purchase Protection &amp; Direct Engineer Support:</strong> All tickets are routed directly to our engineering desk. Valid customer orders receive priority resolution and warranty replacement files within 24 hours.
+      </div>
+
+      <button onclick="submitProductSupport()" style="width:100%; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; padding:13px; border-radius:10px; font-weight:800; font-size:13.5px; cursor:pointer; box-shadow:0 4px 14px rgba(2,132,199,0.4);">
+        SUBMIT SUPPORT TICKET DIRECTLY &rarr;
+      </button>
+    </div>
+  </div>
+<script>
+// --- Sovereign Founder Privilege & Comprehensive Support Logic ---
+function checkFounderPrivileges() {
+  var isFounder = false;
+  try {
+    if (localStorage.getItem('sovereign_founder_authenticated') === 'true' ||
+        localStorage.getItem('sovereign_pro_license') === 'FOUNDER_LIFETIME' ||
+        window.location.search.includes('founder=true') ||
+        window.location.search.includes('SOVEREIGN-FOUNDER-2026')) {
+      isFounder = true;
+      localStorage.setItem('sovereign_founder_authenticated', 'true');
+      localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
+    }
+  } catch(e) {}
+
+  if (isFounder) {
+    var banner = document.getElementById('founderVipBanner');
+    if (banner) banner.style.display = 'block';
+
+    // Transform Buy buttons into 100% Free Founder Unlocked Launches & Downloads
+    document.querySelectorAll('a[href*="payhip.com/b/"]').forEach(function(btn) {
+      btn.innerHTML = '👑 LAUNCH PRO (FOUNDER UNLOCKED) &rarr;';
+      btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+      btn.style.color = '#fff';
+      btn.style.borderColor = '#34d399';
+      btn.style.boxShadow = '0 0 14px rgba(16,185,129,0.4)';
+      btn.href = '/cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026';
+    });
+  }
+}
+
+function openProductSupportModal() {
+  var m = document.getElementById('productSupportModal');
+  if (m) m.style.display = 'flex';
+}
+function closeProductSupportModal() {
+  var m = document.getElementById('productSupportModal');
+  if (m) m.style.display = 'none';
+}
+
+function submitProductSupport() {
+  var topic = document.getElementById('suppIssueTopic').value;
+  var product = document.getElementById('suppProduct').value;
+  var orderId = document.getElementById('suppOrderId').value.trim() || 'N/A (Pre-Sale / Question)';
+  var email = document.getElementById('suppEmail').value.trim();
+  var details = document.getElementById('suppDetails').value.trim();
+
+  if (!email) {
+    alert('Please enter your email address so our support team can reply to you directly.');
+    return;
+  }
+
+  var subject = encodeURIComponent('[Support Ticket] ' + topic + ' - ' + product);
+  var body = encodeURIComponent(
+    'SOVEREIGN TECH CUSTOMER PRODUCT SUPPORT TICKET\n' +
+    '--------------------------------------------------\n' +
+    'Topic / Issue: ' + topic + '\n' +
+    'Product: ' + product + '\n' +
+    'Payhip Order ID: ' + orderId + '\n' +
+    'Customer Email: ' + email + '\n\n' +
+    'Customer Inquiry / Technical Details:\n' +
+    (details || 'No additional details provided.') + '\n\n' +
+    'Browser User Agent: ' + navigator.userAgent + '\n' +
+    'Timestamp: ' + new Date().toISOString() + '\n' +
+    '--------------------------------------------------\n' +
+    'Note: Orders are verified against Payhip merchant records before issuing replacement keys or download packages.'
+  );
+
+  var mailto = 'mailto:sovereigntech.hq@proton.me?subject=' + subject + '&body=' + body;
+  window.location.href = mailto;
+
+  alert('✓ SUPPORT TICKET COMPILED!\n\nYour message is being sent to sovereigntech.hq@proton.me.\n\nOur engineering team cross-checks orders with Payhip and resolves technical questions directly with you at ' + email + '.');
+  closeProductSupportModal();
+}
+
+window.addEventListener('DOMContentLoaded', checkFounderPrivileges);
+</script>
+  <script>
+  function checkFounderCheckout() {
+    var isFounder = false;
+    try {
+      if (localStorage.getItem('sovereign_founder_authenticated') === 'true' ||
+          localStorage.getItem('sovereign_pro_license') === 'FOUNDER_LIFETIME' ||
+          window.location.search.includes('founder=true') ||
+          window.location.search.includes('SOVEREIGN-FOUNDER-2026')) {
+        isFounder = true;
+      }
+    } catch(e) {}
+
+    if (isFounder) {
+      var cartCard = document.querySelector('.cart-card');
+      if (cartCard) {
+        cartCard.innerHTML = `
+          <div style="background:linear-gradient(135deg, #064e3b, #047857); border:1.5px solid #34d399; border-radius:12px; padding:20px; text-align:center; color:#fff; margin-bottom:16px;">
+            <div style="font-size:24px; margin-bottom:6px;">👑</div>
+            <h2 style="font-size:20px; font-weight:800; color:#fff; margin-bottom:4px;">FOUNDER MASTER AUTHORITY VERIFIED</h2>
+            <p style="font-size:12.5px; color:#a7f3d0; margin-bottom:14px;">You own this entire platform. No payment or credit card is required on this device.</p>
+            <div style="display:flex; flex-direction:column; gap:8px; max-width:360px; margin:0 auto;">
+              <a href="/cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" style="background:#fff; color:#064e3b; padding:12px; border-radius:8px; font-weight:800; font-size:13.5px; text-decoration:none;">⚡ LAUNCH FULL PRO WORKSTATION &rarr;</a>
+              <a href="https://payhip.com/product/download/6zYQJErbzq" style="background:rgba(255,255,255,0.15); border:1px solid #34d399; color:#fff; padding:10px; border-radius:8px; font-weight:700; font-size:12.5px; text-decoration:none;">⬇️ DIRECT STANDALONE .ZIP DOWNLOAD</a>
+              <a href="/panel.html" style="color:#a7f3d0; font-size:12px; text-decoration:underline; margin-top:6px;">Return to S10+ Founder Control Panel</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+  window.addEventListener('DOMContentLoaded', checkFounderCheckout);
   </script>
 </body>
 </html>
