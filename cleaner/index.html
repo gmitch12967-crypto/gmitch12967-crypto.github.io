@@ -303,6 +303,9 @@
       .metrics-row { grid-template-columns: 1fr 1fr 1fr; }
     }
   </style>
+<link rel="manifest" href="/cleaner/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
@@ -330,7 +333,17 @@
   </header>
 
   <!-- Master Workspace Layout -->
-  <main class="app-workspace">
+      <!-- Mobile PWA Standalone Control Panel Install Bar -->
+    <div id="pwaInstallBar" style="display:none; background:linear-gradient(135deg,#0284c7,#0369a1); padding:10px 16px; justify-content:space-between; align-items:center; gap:10px; color:#fff; font-size:12px; font-weight:700;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:16px;">📲</span>
+        <span>Install Sovereign Care Pro Control Panel on Phone</span>
+      </div>
+      <button id="btnPwaInstall" style="background:#fff; color:#0284c7; border:none; padding:6px 14px; border-radius:6px; font-weight:800; cursor:pointer; font-size:11px; white-space:nowrap;">
+        INSTALL APP ICON
+      </button>
+    </div>
+<main class="app-workspace">
 
     <!-- Left Command Rail -->
     <aside class="sidebar-rail">
@@ -976,6 +989,31 @@
     });
   </script>
 <script src="/sovereign-badge.js"></script>
+<script>
+    // --- PWA Standalone Control Panel Installation ---
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      var bar = document.getElementById('pwaInstallBar');
+      if (bar) bar.style.display = 'flex';
+    });
+
+    var btnInstall = document.getElementById('btnPwaInstall');
+    if (btnInstall) {
+      btnInstall.addEventListener('click', async function() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          var choice = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          var bar = document.getElementById('pwaInstallBar');
+          if (bar) bar.style.display = 'none';
+        } else {
+          alert("To install the Sovereign Care Control Panel icon on your phone home screen:\n\n1. Tap your browser menu (the 3 dots at top or bottom)\n2. Tap 'Add to Home screen' or 'Install App'\n\nThis creates the standalone app icon with full offline control panel!");
+        }
+      });
+    }
+</script>
 </body>
 </html>
 
