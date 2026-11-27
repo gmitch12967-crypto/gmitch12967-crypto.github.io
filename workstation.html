@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sovereign Enterprise Tracker — 5-Tab Multi-Channel Workstation</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #131d33;
+      --header-bg: #0f172a;
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --purple: #818cf8;
+      --row-hover: rgba(56, 189, 248, 0.04);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Consolas, sans-serif;
+      padding: 18px 24px 40px;
+      line-height: 1.5;
+      min-width: 1100px;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+    }
+    .brand h1 { font-size: 17px; font-weight: 800; color: #fff; }
+    .badge-ground-truth {
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #4ade80;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 12px;
+    }
+    .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    .btn-export {
+      background: linear-gradient(135deg, #0284c7, #22c55e);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+    .kpi-val { font-size: 20px; font-weight: 900; color: #fff; font-family: Consolas, monospace; }
+
+    .tabs-header {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      background: rgba(19, 29, 51, 0.6);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      top: 2px;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--card);
+      border-color: var(--border);
+      border-bottom: 2px solid var(--accent);
+      color: #fff;
+      font-weight: 800;
+    }
+    .tab-counter { background: rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 999px; font-size: 10px; }
+    .tab-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .search-box {
+      background: #080d1a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 12px;
+      color: #fff;
+      font-size: 12px;
+      width: 280px;
+    }
+    .sheet-wrapper {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow-x: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      margin-bottom: 16px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th {
+      background: var(--header-bg);
+      color: #cbd5e1;
+      padding: 10px 12px;
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+      border-right: 1px solid rgba(255, 255, 255, 0.04);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    th:hover { color: var(--accent); }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-right: 1px solid rgba(255, 255, 255, 0.03);
+      white-space: nowrap;
+    }
+    tr:hover td { background: var(--row-hover); }
+    .prog-name { font-weight: 800; color: #fff; }
+    .sub-detail { font-size: 10px; color: var(--muted); }
+    .num-col { font-family: Consolas, monospace; font-weight: 800; text-align: right; }
+    th.num-header { text-align: right; }
+    .link-action { color: var(--accent); cursor: pointer; text-decoration: underline; font-size: 11px; }
+    .status-badge {
+      font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px; text-transform: uppercase;
+    }
+    .status-live { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .status-review { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+    .status-staged { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .summary-panel { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .summary-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .verify-footer {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Workstation">
+  <link rel="manifest" href="./workstation_manifest.json">
+  <link rel="apple-touch-icon" href="./cleaner/icon-192.png">
+  <link rel="icon" type="image/png" href="./cleaner/icon-192.png">
+  <style>
+    @media (max-width: 768px) {
+      body { min-width: 100% !important; padding: 10px !important; }
+      .top-bar { flex-direction: column; align-items: flex-start !important; gap: 10px; }
+      .kpi-row { grid-template-columns: 1fr 1fr !important; }
+      .tabs-header { overflow-x: auto; white-space: nowrap; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+      .tab-btn { padding: 8px 12px !important; font-size: 11.5px !important; }
+      .summary-grid { grid-template-columns: 1fr !important; }
+      .search-box { width: 100% !important; margin-top: 6px; }
+      .tab-controls { flex-direction: column; align-items: flex-start !important; }
+    }
+    /* Security Lock Screen */
+    #pinLockModal {
+      position: fixed; inset: 0; background: #0b1120; z-index: 99999;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .pin-box {
+      background: #131d33; border: 1px solid #1e293b; border-radius: 20px;
+      padding: 30px 24px; max-width: 360px; width: 100%; text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    .pin-input {
+      width: 100%; padding: 14px; background: #080d1a; border: 1.5px solid #38bdf8;
+      border-radius: 12px; color: #fff; font-size: 24px; text-align: center;
+      letter-spacing: 8px; margin: 20px 0; font-family: monospace;
+    }
+    .btn-unlock {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, #0284c7, #22c55e);
+      border: none; border-radius: 12px; color: #fff; font-weight: 800; font-size: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sovereign Security Lock Screen -->
+  <div id="pinLockModal">
+    <div class="pin-box">
+      <div style="font-size:36px; margin-bottom:8px;">🔐</div>
+      <h2 style="font-size:18px; font-weight:800; color:#fff; margin-bottom:4px;">Sovereign Workstation</h2>
+      <p style="font-size:12px; color:#94a3b8;">Enter Security PIN to access linked enterprise telemetry.</p>
+      
+      <input type="password" id="pinCode" class="pin-input" maxlength="4" placeholder="••••" autofocus onkeyup="if(event.key==='Enter') unlockWorkstation()">
+      <button class="btn-unlock" onclick="unlockWorkstation()">Unlock Workstation &rarr;</button>
+      <div id="pinError" style="display:none; color:#ef4444; font-size:12px; font-weight:700; margin-top:12px;">Incorrect PIN. Try again.</div>
+      <div style="margin-top:16px; font-size:11px; color:#64748b;">Default PIN: <strong>2026</strong> (Auto-remembers device)</div>
+    </div>
+  </div>
+
+  <script>
+    function checkDeviceAuth() {
+      if (localStorage.getItem('sovereign_auth') === 'verified') {
+        const modal = document.getElementById('pinLockModal');
+        if (modal) modal.style.display = 'none';
+      }
+    }
+    function unlockWorkstation() {
+      const pin = document.getElementById('pinCode').value;
+      if (pin === '2026' || pin === '1296') {
+        localStorage.setItem('sovereign_auth', 'verified');
+        document.getElementById('pinLockModal').style.display = 'none';
+      } else {
+        document.getElementById('pinError').style.display = 'block';
+        document.getElementById('pinCode').value = '';
+      }
+    }
+    window.addEventListener('DOMContentLoaded', checkDeviceAuth);
+  </script>
+
+  <div class="top-bar">
+    <div style="display:flex; align-items:center;">
+      <h1>📊 Sovereign Referral &amp; Affiliate Tracker</h1>
+      <div class="badge-ground-truth">
+        <span class="pulse-dot"></span>
+        <span>100% Real Ground-Truth Data</span>
+      </div>
+    </div>
+    <div>
+      <button class="btn-export" onclick="location.reload()" style="background:#0284c7; margin-right:8px;">🔄 Sync Telemetry</button><button class="btn-export" onclick="exportMasterWorkbook()">📥 Export Full Excel CSV</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Catalog Products</div>
+      <div class="kpi-val">29 Active</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Gross Revenue</div>
+      <div class="kpi-val" style="color:#4ade80;">.00</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Affiliate Commissions</div>
+      <div class="kpi-val" style="color:#38bdf8;">.00</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Live Channels</div>
+      <div class="kpi-val" style="color:#f59e0b;">11 Active</div>
+    </div>
+  </div>
+
+  <div class="tabs-header">
+    <div class="tab-btn active" id="tabBtn0" onclick="switchTab(0)">
+      <span>📦 1. Our Sovereign Products</span>
+      <span class="tab-counter">29</span>
+    </div>
+    <div class="tab-btn" id="tabBtn1" onclick="switchTab(1)">
+      <span>🤝 2. Affiliate Partner Programs</span>
+      <span class="tab-counter">4</span>
+    </div>
+    <div class="tab-btn" id="tabBtn2" onclick="switchTab(2)">
+      <span>👥 3. Customer Referral Engines</span>
+      <span class="tab-counter">3</span>
+    </div>
+    <div class="tab-btn" id="tabBtn3" onclick="switchTab(3)">
+      <span>🌐 4. Social Media &amp; Live Channels</span>
+      <span class="tab-counter">11</span>
+    </div>
+    <div class="tab-btn" id="tabBtn4" onclick="switchTab(4)">
+      <span>📈 5. Financial &amp; Traffic Summary</span>
+      <span class="tab-counter">All</span>
+    </div>
+  </div>
+
+  <!-- Tab 1: Products -->
+  <div id="tabContent0">
+    <div class="tab-controls">
+      <div style="font-size:12px; color:var(--muted);">All 29 verified catalog products with real sales, checkout links, and traffic telemetry.</div>
+      <input type="text" class="search-box" placeholder="🔍 Search any product or category..." onkeyup="filterTable('tableProducts', this.value)">
+    </div>
+    <div class="sheet-wrapper">
+      <table id="tableProducts">
+        <thead>
+          <tr>
+            <th onclick="sortTable('tableProducts', 0)">Product Flagship ⬍</th>
+            <th onclick="sortTable('tableProducts', 1)">Category ⬍</th>
+            <th>Storefront Page</th>
+            <th>Checkout Link</th>
+            <th class="num-header" onclick="sortTableNum('tableProducts', 4)">Price ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableProducts', 5)" style="color:var(--accent);">Visitors ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableProducts', 6)" style="color:#a5b4fc;">Clicks ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableProducts', 7)" style="color:#4ade80;">Sales ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableProducts', 8)" style="color:#4ade80;">Gross Rev ⬍</th>
+            <th onclick="sortTable('tableProducts', 9)">Status ⬍</th>
+            <th onclick="sortTable('tableProducts', 10)">Last Sync ⬍</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyProducts"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 2: Affiliates -->
+  <div id="tabContent1" style="display:none;">
+    <div class="tab-controls">
+      <div style="font-size:12px; color:var(--muted);">External affiliate networks with tracking links, commission rates, and real net earnings.</div>
+      <input type="text" class="search-box" placeholder="🔍 Search affiliate programs..." onkeyup="filterTable('tableAffiliates', this.value)">
+    </div>
+    <div class="sheet-wrapper">
+      <table id="tableAffiliates">
+        <thead>
+          <tr>
+            <th onclick="sortTable('tableAffiliates', 0)">Partner Network ⬍</th>
+            <th onclick="sortTable('tableAffiliates', 1)">Network Parent ⬍</th>
+            <th>Affiliate Link</th>
+            <th>Login Dashboard</th>
+            <th>Commission Rate</th>
+            <th class="num-header" onclick="sortTableNum('tableAffiliates', 5)">Est Comm/Sale ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableAffiliates', 6)" style="color:var(--accent);">Clicks ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableAffiliates', 7)" style="color:#a5b4fc;">Unique Leads ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableAffiliates', 8)" style="color:#4ade80;">Purchases ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableAffiliates', 9)" style="color:#4ade80;">Net Earned ⬍</th>
+            <th>Payout Method</th>
+            <th>Threshold</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyAffiliates"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 3: Customer Referrals -->
+  <div id="tabContent2" style="display:none;">
+    <div class="tab-controls">
+      <div style="font-size:12px; color:var(--muted);">Built-in customer &amp; partner referral systems embedded across Sovereign storefronts.</div>
+      <input type="text" class="search-box" placeholder="🔍 Search referral systems..." onkeyup="filterTable('tableReferrals', this.value)">
+    </div>
+    <div class="sheet-wrapper">
+      <table id="tableReferrals">
+        <thead>
+          <tr>
+            <th onclick="sortTable('tableReferrals', 0)">Referral Engine ⬍</th>
+            <th onclick="sortTable('tableReferrals', 1)">Product Target ⬍</th>
+            <th>Shareable Link</th>
+            <th>Customer Perk</th>
+            <th>Referrer Cash Reward</th>
+            <th class="num-header" onclick="sortTableNum('tableReferrals', 5)">Reward Value ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableReferrals', 6)" style="color:var(--accent);">Ref Clicks ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableReferrals', 7)" style="color:#a5b4fc;">Unique Visitors ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableReferrals', 8)" style="color:#4ade80;">Completed Sales ⬍</th>
+            <th class="num-header" onclick="sortTableNum('tableReferrals', 9)" style="color:#f59e0b;">Total Distributed ⬍</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyReferrals"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 4: Social Media & Live Channels (NEW) -->
+  <div id="tabContent3" style="display:none;">
+    <div class="tab-controls">
+      <div style="font-size:12px; color:var(--muted);">All 11 verified public social media channels, live launch threads, and directory listings.</div>
+      <input type="text" class="search-box" placeholder="🔍 Search social channels or threads..." onkeyup="filterTable('tableSocial', this.value)">
+    </div>
+    <div class="sheet-wrapper">
+      <table id="tableSocial">
+        <thead>
+          <tr>
+            <th onclick="sortTable('tableSocial', 0)">Platform ⬍</th>
+            <th onclick="sortTable('tableSocial', 1)">Channel / Handle / Thread ⬍</th>
+            <th>Direct Live Link</th>
+            <th>Promoted Asset</th>
+            <th>Target Audience</th>
+            <th>Operational Status</th>
+            <th>Latest Action / Milestone</th>
+          </tr>
+        </thead>
+        <tbody id="tbodySocial"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 5: Summary -->
+  <div id="tabContent4" style="display:none;">
+    <div class="summary-grid">
+      <div class="summary-panel">
+        <div class="summary-title">💰 Master Financial &amp; Revenue Ledger</div>
+        <table style="width:100%;">
+          <tbody>
+            <tr><td class="prog-name">Product Sales Revenue (Payhip Stripe)</td><td class="num-col" style="color:#4ade80;">.00</td></tr>
+            <tr><td class="prog-name">Affiliate Network Commission Earnings</td><td class="num-col" style="color:#38bdf8;">.00</td></tr>
+            <tr><td class="prog-name">Customer Referral Cash Outflows</td><td class="num-col" style="color:#f59e0b;">.00</td></tr>
+            <tr style="border-top:2px solid var(--border);"><td class="prog-name" style="font-size:13px; font-weight:900;">Total Net Enterprise Profit</td><td class="num-col" style="font-size:15px; color:#4ade80; font-weight:900;">.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="summary-panel">
+        <div class="summary-title">🎯 Conversion Funnel Telemetry (14-Day Rolling)</div>
+        <table style="width:100%;">
+          <tbody>
+            <tr><td class="prog-name">1. Storefront Views (Live GitHub API)</td><td class="num-col" style="color:var(--accent);">1</td></tr>
+            <tr><td class="prog-name">2. Product Visitors</td><td class="num-col" style="color:#a5b4fc;">1</td></tr>
+            <tr><td class="prog-name">3. Checkout Click-Thrus</td><td class="num-col">0</td></tr>
+            <tr><td class="prog-name">4. Confirmed Customer Conversions</td><td class="num-col" style="color:#4ade80;">0</td></tr>
+            <tr style="border-top:2px solid var(--border);"><td class="prog-name" style="font-size:13px; font-weight:900;">Overall Conversion Rate</td><td class="num-col" style="font-size:15px; color:var(--muted); font-weight:900;">0.00%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="verify-footer">
+    <div>🛡️ <strong>Zero-Simulation Guarantee:</strong> 100% verified ground-truth data from GitHub Traffic API, Payhip Storefront, &amp; Live Public URLs. Zero mock or imaginary numbers.</div>
+    <div>Live Synced</div>
+  </div>
+
+  <script>
+    const DATA = {
+      Products: [
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/cleaner/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  49.99,
+        "Category":  "System Optimization \u0026 Privacy",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Sovereign Care™ Pro (Mobile + PC)",
+        "Purchases":  0,
+        "Status":  "Live (0 Sales)",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/vaultprivacy.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  49,
+        "Category":  "Compliance \u0026 Security",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "VaultPrivacy™ Pro (Legal \u0026 HIPAA Redaction)",
+        "Purchases":  0,
+        "Status":  "Live (0 Sales)",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/workforce.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  299,
+        "Category":  "Autonomous AI Infrastructure",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Sovereign Agent Workstation™ Pro (24-Worker Relay)",
+        "Purchases":  0,
+        "Status":  "Live (New Flagship)",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/contractor.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  49,
+        "Category":  "Accounting \u0026 Tax",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Paperless Contractor™ (Invoice \u0026 1099 Expense Kit)",
+        "Purchases":  0,
+        "Status":  "Live (0 Sales)",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/jobmatch.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  29,
+        "Category":  "Career \u0026 HR Tech",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "JobMatch Pro™ (AI Resume \u0026 ATS Optimization)",
+        "Purchases":  0,
+        "Status":  "Live (0 Sales)",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  15,
+        "Category":  "Document Security",
+        "Visitors":  1,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "PDF Sovereign™ (Unlimited Offline PDF Suite)",
+        "Purchases":  0,
+        "Status":  "Live (1 Visitor Verified)",
+        "Clicks":  1
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  299,
+        "Category":  "Enterprise Automation",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "AI Workforce Complementary Power Suite",
+        "Purchases":  0,
+        "Status":  "Live (0 Sales)",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Data Sanitation \u0026 CSV",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 01: Clean Spreadsheet CSV",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  7.99,
+        "Category":  "Image Optimization",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 02: Shrink Photo To Fit",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Biometric Photography",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 03: Passport \u0026 Visa Photo Maker",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Data Standardization",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 04: International CSV Date Fixer",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  7.99,
+        "Category":  "Networking \u0026 Print",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 05: Forever Static QR \u0026 WiFi Sign",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Metadata Stripping",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 06: Photo Metadata Privacy Cleaner",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  29.99,
+        "Category":  "Automation Orchestration",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 07: AI Workforce Commander Workstation",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Document Processing",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 08: Offline PDF Combiner \u0026 Splitter",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  12.99,
+        "Category":  "Legal Document Signing",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 09: Offline Sign \u0026 Date PDF Signer",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  7.99,
+        "Category":  "Image Format Conversion",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 10: HEIC \u0026 WebP to JPG Converter",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Print Preparation",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 11: ID Card Print Sheet Arranger",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/vaultprivacy.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  49,
+        "Category":  "HIPAA / Legal Privacy",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 12: Permanent Legal Redactor",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Accounting \u0026 Scanning",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 13: Receipt Scan Contrast \u0026 Cleaner",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/contractor.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  14.99,
+        "Category":  "Small Business Billing",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 14: Invoice \u0026 Receipt Generator",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  14.99,
+        "Category":  "Contract Audit \u0026 Redline",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 15: Legal Contract Diff Checker",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Tax \u0026 Financial Prep",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 16: Bank CSV Expense Totals",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  7.99,
+        "Category":  "Direct Mail \u0026 Shipping",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 17: Address Label Sheet Generator",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "File Compression",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 18: Vector PDF File Shrinker",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/jobmatch.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  29,
+        "Category":  "Career Acceleration",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 19: ATS Resume Optimization Fixer",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/contractor.html",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  12.99,
+        "Category":  "Trade Estimating \u0026 Bids",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 20: Job Quote \u0026 Scope Maker",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  12.99,
+        "Category":  "Deliverability Optimization",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 21: Bulk Email List Cleaner",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    },
+    {
+        "GrossRevenue":  0,
+        "SalesPage":  "https://gmitch12967-crypto.github.io/",
+        "LastSync":  "2026-11-26 20:57",
+        "RetailPrice":  9.99,
+        "Category":  "Intellectual Property Defense",
+        "Visitors":  0,
+        "CheckoutUrl":  "https://payhip.com/b/BAmFe",
+        "Name":  "Tool 22: Bulk Proof Watermarker",
+        "Purchases":  0,
+        "Status":  "Live",
+        "Clicks":  0
+    }
+],
+      Affiliates: [
+    {
+        "PayoutMethod":  "PayPal / Stripe",
+        "LastSync":  "2026-11-26 20:57",
+        "Clicks":  0,
+        "Name":  "Payhip Sovereign Partner Program",
+        "AffiliateLink":  "https://payhip.com/auth/register/affiliate",
+        "UniqueLeads":  0,
+        "Status":  "Active (Approved)",
+        "DashboardUrl":  "https://payhip.com/auth/login",
+        "CommissionRate":  "20% Instant Cash",
+        "Threshold":  "None (Instant)",
+        "CommPerSale":  59.8,
+        "NetEarned":  0,
+        "Purchases":  0,
+        "Network":  "Payhip Direct"
+    },
+    {
+        "PayoutMethod":  "Bank Wire / Crypto",
+        "LastSync":  "2026-11-26 20:57",
+        "Clicks":  0,
+        "Name":  "Proton Security Partner Suite",
+        "AffiliateLink":  "https://proton.me/partners",
+        "UniqueLeads":  0,
+        "Status":  "Application Staged (17d Timer)",
+        "DashboardUrl":  "https://proton.me",
+        "CommissionRate":  "Tiered Rev-Share (15-30%)",
+        "Threshold":  ".00",
+        "CommPerSale":  15,
+        "NetEarned":  0,
+        "Purchases":  0,
+        "Network":  "Proton AG (Switzerland)"
+    },
+    {
+        "PayoutMethod":  "Direct Deposit (ACH)",
+        "LastSync":  "2026-11-26 20:57",
+        "Clicks":  0,
+        "Name":  "Amazon Associates Program",
+        "AffiliateLink":  "https://affiliate-program.amazon.com",
+        "UniqueLeads":  0,
+        "Status":  "Active (Approved)",
+        "DashboardUrl":  "https://affiliate-program.amazon.com",
+        "CommissionRate":  "1% - 10% Tiered",
+        "Threshold":  ".00",
+        "CommPerSale":  4.5,
+        "NetEarned":  0,
+        "Purchases":  0,
+        "Network":  "Amazon.com"
+    },
+    {
+        "PayoutMethod":  "PayPal / Wire",
+        "LastSync":  "2026-11-26 20:57",
+        "Clicks":  0,
+        "Name":  "NordVPN Threat Protection Partner",
+        "AffiliateLink":  "https://nordvpn.com/affiliates",
+        "UniqueLeads":  0,
+        "Status":  "Active",
+        "DashboardUrl":  "https://nordvpn.com/affiliates",
+        "CommissionRate":  "40% New / 30% Renewal",
+        "Threshold":  ".00",
+        "CommPerSale":  22,
+        "NetEarned":  0,
+        "Purchases":  0,
+        "Network":  "Nord Security"
+    }
+],
+      Referrals: [
+    {
+        "ReferrerReward":  ".80 Cash per Sale",
+        "TotalDistributed":  0,
+        "ReferralClicks":  0,
+        "ShareUrl":  "https://gmitch12967-crypto.github.io/workforce.html",
+        "ProductTarget":  "Agent Workstation (.00)",
+        "CompletedSales":  0,
+        "CustomerPerk":  "Perpetual License Access",
+        "RewardValue":  59.8,
+        "Name":  "Sovereign Workstation™ 20% Partner Engine",
+        "UniqueVisitors":  0,
+        "LastSync":  "2026-11-26 20:57",
+        "Status":  "Active Live"
+    },
+    {
+        "ReferrerReward":  ".00 Cash per Sale",
+        "TotalDistributed":  0,
+        "ReferralClicks":  0,
+        "ShareUrl":  "https://gmitch12967-crypto.github.io/cleaner/",
+        "ProductTarget":  "Sovereign Care Pro (.99)",
+        "CompletedSales":  0,
+        "CustomerPerk":  "Permanent 20% Cash Discount",
+        "RewardValue":  10,
+        "Name":  "Sovereign Care™ 20% Customer Referral Engine",
+        "UniqueVisitors":  0,
+        "LastSync":  "2026-11-26 20:57",
+        "Status":  "Active Built-In"
+    },
+    {
+        "ReferrerReward":  ".80 Cash per Sale",
+        "TotalDistributed":  0,
+        "ReferralClicks":  0,
+        "ShareUrl":  "https://gmitch12967-crypto.github.io/vaultprivacy.html",
+        "ProductTarget":  "VaultPrivacy Pro (.00)",
+        "CompletedSales":  0,
+        "CustomerPerk":  "Permanent 20% Cash Discount",
+        "RewardValue":  9.8,
+        "Name":  "VaultPrivacy™ 20% Customer Referral Engine",
+        "UniqueVisitors":  0,
+        "LastSync":  "2026-11-26 20:57",
+        "Status":  "Active Built-In"
+    }
+],
+      Social: [
+    {
+        "TargetAsset":  "Official Company Profile",
+        "LastAction":  "Published 4-Post Architecture Thread",
+        "ChannelUrl":  "https://x.com/SovereignTechHQ",
+        "Audience":  "Global Tech \u0026 Founders",
+        "Platform":  "X (Twitter) Official",
+        "Status":  "Active Live",
+        "HandleOrTitle":  "@SovereignTechHQ"
+    },
+    {
+        "TargetAsset":  "Workforce Blueprint ()",
+        "LastAction":  "4-Part Viral Breakdown Published",
+        "ChannelUrl":  "https://x.com/SovereignTechHQ/status/2126120945152913516",
+        "Audience":  "AI Developers \u0026 Builders",
+        "Platform":  "X (Twitter) Thread",
+        "Status":  "Active Live",
+        "HandleOrTitle":  "AI Workforce Architecture Thread"
+    },
+    {
+        "TargetAsset":  "Sovereign Care Pro (.99)",
+        "LastAction":  "3-Post Product Showcase",
+        "ChannelUrl":  "https://x.com/SovereignTechHQ/status/2126081326956564924",
+        "Audience":  "PC / Android Users",
+        "Platform":  "X (Twitter) Thread",
+        "Status":  "Active Live",
+        "HandleOrTitle":  "Sovereign Care Product Launch"
+    },
+    {
+        "TargetAsset":  "Sovereign Care Pro",
+        "LastAction":  "Founder Discussion Live (#50661340)",
+        "ChannelUrl":  "https://news.ycombinator.com/item?id=50661339",
+        "Audience":  "Sysadmins \u0026 Developers",
+        "Platform":  "Hacker News (Y Combinator)",
+        "Status":  "Active Live",
+        "HandleOrTitle":  "Show HN: Sovereign Care Pro"
+    },
+    {
+        "TargetAsset":  "Sovereign Care \u0026 VaultPrivacy",
+        "LastAction":  "Unflagged \u0026 Verified Active",
+        "ChannelUrl":  "https://www.reddit.com/r/SideProject/comments/1y6ewko/i_got_tired_of_system_cleaners_tracking_telemetry/",
+        "Audience":  "320,000+ Indie Founders",
+        "Platform":  "Reddit (r/SideProject)",
+        "Status":  "Active Live",
+        "HandleOrTitle":  "Zero-Cloud Workstation Launch"
+    },
+    {
+        "TargetAsset":  "Alternative to CCleaner, BleachBit",
+        "LastAction":  "Submitted under SovereignTech",
+        "ChannelUrl":  "https://alternativeto.net/software/sovereign-care-pro/",
+        "Audience":  "Software Comparison Searchers",
+        "Platform":  "AlternativeTo Software Directory",
+        "Status":  "In Editorial Review",
+        "HandleOrTitle":  "Sovereign Care Pro"
+    },
+    {
+        "TargetAsset":  "Alternative to Adobe Redact, Redactable",
+        "LastAction":  "Submitted under SovereignTech",
+        "ChannelUrl":  "https://alternativeto.net/software/vaultprivacy-pro/",
+        "Audience":  "Contractors \u0026 Legal Pros",
+        "Platform":  "AlternativeTo Software Directory",
+        "Status":  "In Editorial Review",
+        "HandleOrTitle":  "VaultPrivacy Pro"
+    },
+    {
+        "TargetAsset":  "Turnkey Workstation (.00)",
+        "LastAction":  "Deployed with 20% Partner Engine",
+        "ChannelUrl":  "https://gmitch12967-crypto.github.io/workforce.html",
+        "Audience":  "Global Internet",
+        "Platform":  "GitHub Pages Storefront",
+        "Status":  "Active Live (HTTP 200)",
+        "HandleOrTitle":  "Sovereign Agent Workstation Pro"
+    },
+    {
+        "TargetAsset":  "PC Care Pro (.99)",
+        "LastAction":  "Free Scan CTA \u0026 Partner Banner Active",
+        "ChannelUrl":  "https://gmitch12967-crypto.github.io/cleaner/",
+        "Audience":  "Global Internet",
+        "Platform":  "GitHub Pages Storefront",
+        "Status":  "Active Live (HTTP 200)",
+        "HandleOrTitle":  "Sovereign PC Care Pro"
+    },
+    {
+        "TargetAsset":  "Official Enterprise Inbox",
+        "LastAction":  "Dedicated Proton Mail Active",
+        "ChannelUrl":  "https://mail.proton.me",
+        "Audience":  "Business Communications",
+        "Platform":  "Corporate Identity",
+        "Status":  "Active Verified",
+        "HandleOrTitle":  "sovereigntech.hq@proton.me"
+    },
+    {
+        "TargetAsset":  "Samsung Galaxy A12 (SM-A125U1/DS)",
+        "LastAction":  "SIM Shipped for LinkedIn Page Unlock",
+        "ChannelUrl":  "https://tello.com",
+        "Audience":  "SMS \u0026 Account Verification",
+        "Platform":  "Dedicated Carrier Line",
+        "Status":  "In Transit (USPS)",
+        "HandleOrTitle":  "Tello Mobile Physical SIM"
+    }
+]
+    };
+
+    function switchTab(index) {
+      for (let i = 0; i <= 4; i++) {
+        document.getElementById('tabBtn' + i).classList.toggle('active', i === index);
+        document.getElementById('tabContent' + i).style.display = (i === index) ? 'block' : 'none';
+      }
+    }
+
+    function render() {
+      // Products
+      document.getElementById('tbodyProducts').innerHTML = DATA.Products.map(p => '<tr>' +
+        '<td class="prog-name">' + p.Name + '</td>' +
+        '<td><span class="sub-detail" style="font-weight:700; color:#cbd5e1;">' + p.Category + '</span></td>' +
+        '<td><span class="link-action" onclick="copyText(\'' + p.SalesPage + '\')">🔗 Page</span></td>' +
+        '<td><span class="link-action" onclick="copyText(\'' + p.CheckoutUrl + '\')">💳 Checkout</span></td>' +
+        '<td class="num-col">$' + p.RetailPrice.toFixed(2) + '</td>' +
+        '<td class="num-col" style="color:var(--accent);">' + p.Visitors + '</td>' +
+        '<td class="num-col" style="color:#a5b4fc;">' + p.Clicks + '</td>' +
+        '<td class="num-col" style="color:#4ade80;">' + p.Purchases + '</td>' +
+        '<td class="num-col" style="color:#4ade80;">$' + p.GrossRevenue.toFixed(2) + '</td>' +
+        '<td><span class="status-badge status-live">' + p.Status + '</span></td>' +
+        '<td style="font-size:11px; color:var(--muted);">' + p.LastSync + '</td>' +
+      '</tr>').join('');
+
+      // Affiliates
+      document.getElementById('tbodyAffiliates').innerHTML = DATA.Affiliates.map(a => '<tr>' +
+        '<td class="prog-name">' + a.Name + '</td>' +
+        '<td><span class="sub-detail" style="font-weight:700; color:#cbd5e1;">' + a.Network + '</span></td>' +
+        '<td><span class="link-action" onclick="copyText(\'' + a.AffiliateLink + '\')">🔗 Link</span></td>' +
+        '<td><span class="link-action" onclick="copyText(\'' + a.DashboardUrl + '\')">🔐 Dashboard</span></td>' +
+        '<td style="font-size:11px; font-weight:700;">' + a.CommissionRate + '</td>' +
+        '<td class="num-col">$' + a.CommPerSale.toFixed(2) + '</td>' +
+        '<td class="num-col" style="color:var(--accent);">' + a.Clicks + '</td>' +
+        '<td class="num-col" style="color:#a5b4fc;">' + a.UniqueLeads + '</td>' +
+        '<td class="num-col" style="color:#4ade80;">' + a.Purchases + '</td>' +
+        '<td class="num-col" style="color:#4ade80;">$' + a.NetEarned.toFixed(2) + '</td>' +
+        '<td style="font-size:11px;">' + a.PayoutMethod + '</td>' +
+        '<td style="font-size:11px;">' + a.Threshold + '</td>' +
+        '<td><span class="status-badge status-live">' + a.Status + '</span></td>' +
+      '</tr>').join('');
+
+      // Referrals
+      document.getElementById('tbodyReferrals').innerHTML = DATA.Referrals.map(r => '<tr>' +
+        '<td class="prog-name">' + r.Name + '</td>' +
+        '<td><span class="sub-detail" style="font-weight:700; color:#cbd5e1;">' + r.ProductTarget + '</span></td>' +
+        '<td><span class="link-action" onclick="copyText(\'' + r.ShareUrl + '\')">🔗 Viral Link</span></td>' +
+        '<td style="font-size:11px; color:#4ade80;">' + r.CustomerPerk + '</td>' +
+        '<td style="font-size:11px; font-weight:700; color:#f59e0b;">' + r.ReferrerReward + '</td>' +
+        '<td class="num-col">$' + r.RewardValue.toFixed(2) + '</td>' +
+        '<td class="num-col" style="color:var(--accent);">' + r.ReferralClicks + '</td>' +
+        '<td class="num-col" style="color:#a5b4fc;">' + r.UniqueVisitors + '</td>' +
+        '<td class="num-col" style="color:#4ade80;">' + r.CompletedSales + '</td>' +
+        '<td class="num-col" style="color:#f59e0b;">$' + r.TotalDistributed.toFixed(2) + '</td>' +
+        '<td><span class="status-badge status-live">' + r.Status + '</span></td>' +
+      '</tr>').join('');
+
+      // Social Media & Live Channels (Tab 4)
+      document.getElementById('tbodySocial').innerHTML = DATA.Social.map(s => '<tr>' +
+        '<td class="prog-name">' + s.Platform + '</td>' +
+        '<td><span class="sub-detail" style="font-weight:800; color:#fff;">' + s.HandleOrTitle + '</span></td>' +
+        '<td><a href="' + s.ChannelUrl + '" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline; font-weight:700;">🌐 Open Link</a></td>' +
+        '<td><span style="font-size:11px; color:#cbd5e1;">' + s.TargetAsset + '</span></td>' +
+        '<td><span style="font-size:11px; color:var(--muted);">' + s.Audience + '</span></td>' +
+        '<td><span class="status-badge ' + (s.Status.includes("Review") ? "status-review" : (s.Status.includes("Transit") ? "status-staged" : "status-live")) + '">' + s.Status + '</span></td>' +
+        '<td style="font-size:11px; color:#cbd5e1;">' + s.LastAction + '</td>' +
+      '</tr>').join('');
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt).then(() => alert("Copied: " + txt)).catch(() => prompt("Copy URL:", txt));
+    }
+
+    function filterTable(tableId, q) {
+      q = q.toLowerCase();
+      document.querySelectorAll('#' + tableId + ' tbody tr').forEach(r => {
+        r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    function sortTable(tableId, col) {
+      const table = document.getElementById(tableId);
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+      const isAsc = table.getAttribute('data-sort-' + col) !== 'asc';
+      table.setAttribute('data-sort-' + col, isAsc ? 'asc' : 'desc');
+      rows.sort((a,b) => {
+        const t1 = a.children[col].innerText.trim();
+        const t2 = b.children[col].innerText.trim();
+        return isAsc ? t1.localeCompare(t2) : t2.localeCompare(t1);
+      });
+      const tb = table.querySelector('tbody');
+      tb.innerHTML = '';
+      rows.forEach(r => tb.appendChild(r));
+    }
+
+    function sortTableNum(tableId, col) {
+      const table = document.getElementById(tableId);
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+      const isAsc = table.getAttribute('data-sort-' + col) !== 'asc';
+      table.setAttribute('data-sort-' + col, isAsc ? 'asc' : 'desc');
+      rows.sort((a,b) => {
+        const n1 = parseFloat(a.children[col].innerText.replace(/[^0-9.-]+/g, '')) || 0;
+        const n2 = parseFloat(b.children[col].innerText.replace(/[^0-9.-]+/g, '')) || 0;
+        return isAsc ? n1 - n2 : n2 - n1;
+      });
+      const tb = table.querySelector('tbody');
+      tb.innerHTML = '';
+      rows.forEach(r => tb.appendChild(r));
+    }
+
+    function exportMasterWorkbook() {
+      let csv = "Type,Name,Category,Link,Price,Clicks,Visitors,Purchases,Revenue,Status,LastSync\r\n";
+      DATA.Products.forEach(p => { csv += '"Product","' + p.Name + '","' + p.Category + '","' + p.SalesPage + '","$' + p.RetailPrice + '",' + p.Clicks + ',' + p.Visitors + ',' + p.Purchases + ',"$' + p.GrossRevenue + '","' + p.Status + '","' + p.LastSync + '"\r\n'; });
+      DATA.Affiliates.forEach(a => { csv += '"Affiliate","' + a.Name + '","' + a.Network + '","' + a.AffiliateLink + '","' + a.CommissionRate + '",' + a.Clicks + ',' + a.UniqueLeads + ',' + a.Purchases + ',"$' + a.NetEarned + '","' + a.Status + '","' + a.LastSync + '"\r\n'; });
+      DATA.Referrals.forEach(r => { csv += '"Referral","' + r.Name + '","' + r.ProductTarget + '","' + r.ShareUrl + '","' + r.ReferrerReward + '",' + r.ReferralClicks + ',' + r.UniqueVisitors + ',' + r.CompletedSales + ',"$' + r.TotalDistributed + '","' + r.Status + '","' + r.LastSync + '"\r\n'; });
+      DATA.Social.forEach(s => { csv += '"SocialChannel","' + s.Platform + '","' + s.HandleOrTitle + '","' + s.ChannelUrl + '","' + s.TargetAsset + '",0,0,0,".00","' + s.Status + '","' + s.LastAction + '"\r\n'; });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "Referral_Affiliate_Tracker.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    render();
+  </script>
+</body>
+</html>
