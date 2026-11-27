@@ -819,54 +819,6 @@
       const elapsedDays = (Date.now() - parseInt(trialStart)) / MS_PER_DAY;
       return elapsedDays >= TRIAL_DURATION_DAYS;
     }
-    const TRIAL_DURATION_DAYS = 7;
-    const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-    function initSafeguardTrial() {
-      let trialStart = localStorage.getItem('sovereign_safeguard_trial_start');
-      if (!trialStart) {
-        trialStart = Date.now().toString();
-        localStorage.setItem('sovereign_safeguard_trial_start', trialStart);
-      }
-      
-      const elapsedMs = Date.now() - parseInt(trialStart);
-      const elapsedDays = elapsedMs / MS_PER_DAY;
-      const daysLeft = Math.max(0, Math.ceil(TRIAL_DURATION_DAYS - elapsedDays));
-      const isExpired = elapsedDays >= TRIAL_DURATION_DAYS;
-
-      const bannerActive = document.getElementById('trialBannerActive');
-      const bannerExpired = document.getElementById('trialBannerExpired');
-      const daysLeftText = document.getElementById('trialDaysLeftText');
-      const watchdogToggle = document.getElementById('watchdogToggle');
-      const airgapToggle = document.getElementById('airgapToggle');
-      const watchdogBadge = document.getElementById('watchdogStatusBadge');
-      const airgapBadge = document.getElementById('airgapStatusBadge');
-
-      if (isExpired) {
-        if (bannerActive) bannerActive.style.display = 'none';
-        if (bannerExpired) bannerExpired.style.display = 'block';
-        if (watchdogToggle) { watchdogToggle.checked = false; }
-        if (airgapToggle) { airgapToggle.checked = false; }
-        if (watchdogBadge) { watchdogBadge.textContent = 'LOCKED (PRO)'; watchdogBadge.style.color = '#f87171'; watchdogBadge.style.borderColor = 'rgba(239,68,68,0.4)'; watchdogBadge.style.background = 'rgba(239,68,68,0.15)'; }
-        if (airgapBadge) { airgapBadge.textContent = 'LOCKED (PRO)'; airgapBadge.style.color = '#f87171'; airgapBadge.style.borderColor = 'rgba(239,68,68,0.4)'; airgapBadge.style.background = 'rgba(239,68,68,0.15)'; }
-      } else {
-        if (bannerActive) bannerActive.style.display = 'flex';
-        if (bannerExpired) bannerExpired.style.display = 'none';
-        if (daysLeftText) daysLeftText.textContent = daysLeft + (daysLeft === 1 ? ' Day Remaining' : ' Days Remaining') + ' — Active background CPU & memory throttling prevention active.';
-        if (watchdogToggle) watchdogToggle.checked = true;
-        if (airgapToggle) airgapToggle.checked = true;
-        if (watchdogBadge) { watchdogBadge.textContent = 'TRIAL ACTIVE (' + daysLeft + 'd)'; watchdogBadge.style.color = '#38bdf8'; }
-        if (airgapBadge) { airgapBadge.textContent = 'TRIAL ACTIVE (' + daysLeft + 'd)'; airgapBadge.style.color = '#38bdf8'; }
-      }
-    }
-
-    function isTrialExpired() {
-      const trialStart = localStorage.getItem('sovereign_safeguard_trial_start');
-      if (!trialStart) return false;
-      const elapsedDays = (Date.now() - parseInt(trialStart)) / MS_PER_DAY;
-      return elapsedDays >= TRIAL_DURATION_DAYS;
-    }
-
     function handleWatchdogToggle(checked) {
       if (isTrialExpired()) {
         const toggle = document.getElementById('watchdogToggle');
