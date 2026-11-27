@@ -256,41 +256,26 @@
         Google's in-app viewer blocks the installation menu. Tap below to launch directly in your real phone browser:
       </p>
 
-      <!-- Action 1: Default Android Browser Intent -->
-      <a href="intent://gmitch12967-crypto.github.io/panel.html#Intent;scheme=https;action=android.intent.action.VIEW;end" style="display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; padding:13px 14px; border-radius:12px; text-decoration:none; margin-bottom:10px; font-weight:800; font-size:13px; box-shadow:0 4px 14px rgba(2,132,199,0.4);">
+      <!-- Action: 1-Tap Copy Link -->
+      <button onclick="copyPanelUrl()" style="width:100%; display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #0284c7, #10b981); color:#fff; border:none; padding:14px 16px; border-radius:12px; margin-bottom:12px; font-weight:800; font-size:13.5px; cursor:pointer; box-shadow:0 4px 14px rgba(2,132,199,0.4);">
         <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:22px;">🚀</span>
-          <div>
-            <div style="color:#fff;">1-Tap Launch in Phone Browser</div>
-            <div style="font-size:10.5px; color:#e0f2fe; font-weight:500;">Breaks out of Google &amp; enables Home Screen install</div>
+          <span style="font-size:22px;">📋</span>
+          <div style="text-align:left;">
+            <div id="copyBtnTitle" style="color:#fff;">1-Tap Copy Link to Clipboard</div>
+            <div id="copyBtnSub" style="font-size:11px; color:#e0f2fe; font-weight:500;">Copies URL to paste in Samsung Internet / Chrome</div>
           </div>
         </div>
-        <span style="font-size:16px;">&rarr;</span>
-      </a>
+        <span style="font-size:16px;">TAP 📋</span>
+      </button>
 
-      <!-- Action 2: Samsung Internet Direct Intent -->
-      <a href="intent://gmitch12967-crypto.github.io/panel.html#Intent;scheme=https;package=com.sec.android.app.sbrowser;end" style="display:flex; align-items:center; justify-content:space-between; background:#1e293b; border:1px solid #334155; color:#fff; padding:12px 14px; border-radius:12px; text-decoration:none; margin-bottom:10px; font-size:12.5px; font-weight:700;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:20px;">🌐</span>
-          <div>
-            <div style="color:#38bdf8;">Open in Samsung Internet</div>
-            <div style="font-size:10.5px; color:#94a3b8; font-weight:400;">Recommended for Galaxy S10+</div>
-          </div>
-        </div>
-        <span style="color:#38bdf8;">TAP HERE &rarr;</span>
-      </a>
-
-      <!-- Action 3: Google Chrome Direct Intent -->
-      <a href="intent://gmitch12967-crypto.github.io/panel.html#Intent;scheme=https;package=com.android.chrome;end" style="display:flex; align-items:center; justify-content:space-between; background:#1e293b; border:1px solid #334155; color:#fff; padding:12px 14px; border-radius:12px; text-decoration:none; margin-bottom:14px; font-size:12.5px; font-weight:700;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:20px;">⚡</span>
-          <div>
-            <div style="color:#34d399;">Open in Google Chrome</div>
-            <div style="font-size:10.5px; color:#94a3b8; font-weight:400;">Full PWA standalone support</div>
-          </div>
-        </div>
-        <span style="color:#34d399;">TAP HERE &rarr;</span>
-      </a>
+      <!-- Easy 2-Step Guide -->
+      <div style="background:#1e293b; border:1px solid #334155; border-radius:12px; padding:12px 14px; margin-bottom:14px; font-size:12px; line-height:1.5;">
+        <strong style="color:var(--accent); display:block; margin-bottom:6px;">Next: Open in Your Real Phone Browser</strong>
+        1. Tap the <strong>Copy Link</strong> button above.<br>
+        2. Open <strong>Samsung Internet</strong> (purple planet icon) or <strong>Chrome</strong>.<br>
+        3. Tap the address bar at the top, select <strong>Paste</strong> and press Enter.<br>
+        4. Tap <strong>[ ≡ ]</strong> or <strong>[ ⋮ ]</strong> &rarr; <strong>"Add to Home screen"</strong>.
+      </div>
 
       <button onclick="closeInstallGuideModal()" style="width:100%; background:transparent; border:1px solid #475569; color:#94a3b8; padding:8px; border-radius:10px; font-size:12px; cursor:pointer;">
         Close Modal
@@ -350,6 +335,21 @@
     function closeInstallGuideModal() {
       const modal = document.getElementById('installGuideModal');
       if (modal) modal.style.display = 'none';
+    }
+
+    function copyPanelUrl() {
+      const url = "https://gmitch12967-crypto.github.io/panel.html";
+      const t = document.getElementById('copyBtnTitle');
+      const s = document.getElementById('copyBtnSub');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() {
+          if (t) t.textContent = "✓ Link Copied to Clipboard!";
+          if (s) s.textContent = "Now open Samsung Internet & tap Paste";
+          alert("✓ LINK COPIED!\n\n1. Press your phone's Home button\n2. Open Samsung Internet (or Chrome)\n3. Tap the address bar & tap Paste");
+        });
+      } else {
+        prompt("Copy this link:", url);
+      }
     }
 
     // Tester QR Modal
