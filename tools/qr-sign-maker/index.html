@@ -59,10 +59,16 @@
     .sign-card p { color: #475569; font-size: 0.95rem; margin-bottom: 1.2rem; word-break: break-all; }
     .qr-container {
       display: flex; justify-content: center; align-items: center; margin: 0 auto;
-      padding: 12px; background: #fff; border-radius: 12px; width: 260px; height: 260px;
+      padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;
+      width: 284px; height: 284px; box-sizing: border-box;
     }
-    .qr-container img, .qr-container canvas {
+    /* Strictly display exactly ONE QR element (hide canvas, show high-contrast crisp image) */
+    .qr-container canvas {
+      display: none !important;
+    }
+    .qr-container img {
       display: block !important; margin: 0 auto; width: 236px !important; height: 236px !important;
+      image-rendering: -webkit-optimize-contrast; image-rendering: pixelated;
     }
     .sign-note { margin-top: 1rem; font-size: 0.85rem; color: #64748b; font-weight: 600; }
     .badge-verified {
@@ -241,6 +247,19 @@
         colorLight: "#ffffff",
         correctLevel: correctMap[eccVal] || QRCode.CorrectLevel.M
       });
+
+      // Strict Quality Assurance: enforce single image display & hide duplicate canvas
+      setTimeout(function() {
+        var cvs = container.querySelector("canvas");
+        var img = container.querySelector("img");
+        if (img && img.src && img.src.length > 50) {
+          img.style.display = "block";
+          if (cvs) cvs.style.display = "none";
+        } else if (cvs) {
+          cvs.style.display = "block";
+          if (img) img.style.display = "none";
+        }
+      }, 30);
     }
 
     function downloadQrPng() {
@@ -249,7 +268,7 @@
       var canvas = container.querySelector("canvas");
       var src = "";
 
-      if (img && img.src) {
+      if (img && img.src && img.src.indexOf("data:") === 0) {
         src = img.src;
       } else if (canvas) {
         src = canvas.toDataURL("image/png");
@@ -260,7 +279,7 @@
         return;
       }
 
-      // Render high-res 1024x1024 copy on offscreen canvas
+      // Render high-res 1024x1024 copy on offscreen canvas with ISO quiet zone
       var highResCanvas = document.createElement("canvas");
       highResCanvas.width = 1024;
       highResCanvas.height = 1024;
@@ -271,7 +290,8 @@
       qrImg.onload = function() {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, 1024, 1024);
-        ctx.drawImage(qrImg, 64, 64, 896, 896);
+        // Centered with 128px high-contrast quiet zone
+        ctx.drawImage(qrImg, 128, 128, 768, 768);
 
         var a = document.createElement("a");
         a.download = "sovereign-qr-code.png";
