@@ -49,12 +49,25 @@
     try {
       const raw = localStorage.getItem('sovereign_identity');
       if (raw) return JSON.parse(raw);
-      // Legacy fallback
       if (localStorage.getItem('sovereign_pro_license') === 'FOUNDER_LIFETIME') {
         return { role: 'FOUNDER', title: 'Founder & Lead Architect', status: 'Active Perpetual Authority', deviceId: 'FND-LEGACY' };
       }
     } catch(e) {}
     return null;
+  }
+
+  function getCurrentToolSlug() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes('/cleaner/')) return 'cleaner';
+    if (path.includes('vaultprivacy')) return 'vaultprivacy';
+    if (path.includes('contractor')) return 'contractor';
+    
+    // Check if in /tools/
+    const match = path.match(/\/tools\/([^\/]+)/);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return 'cleaner';
   }
 
   // Inject UI Badges when DOM is ready
@@ -157,8 +170,8 @@
               <strong style="color:${isFounder ? '#34d399' : '#f87171'};">${isFounder ? 'Full Company Authority' : 'Restricted (Zero Company PII)'}</strong>
             </div>
             <div style="display:flex; justify-content:space-between;">
-              <span style="color:#94a3b8;">Storefront Target:</span>
-              <strong style="color:#38bdf8;">gmitch12967-crypto.github.io</strong>
+              <span style="color:#94a3b8;">Express Checkout Gateway:</span>
+              <strong style="color:#38bdf8;">Pre-Loaded Cart Enabled</strong>
             </div>
           </div>
 
@@ -199,7 +212,7 @@
                 justify-content: center;
                 gap: 8px;
               ">
-                <span>📢 Share This Tool to Storefront</span>
+                <span>🛒 Share to Direct Pre-Loaded Checkout Cart</span>
               </button>
             </div>
           `}
@@ -239,13 +252,14 @@
       const btnShare = document.getElementById('btnTesterShare');
       if (btnShare) {
         btnShare.addEventListener('click', () => {
-          const storeUrl = window.location.origin + window.location.pathname;
-          const text = "Check out this zero-telemetry offline utility by Sovereign Tech: " + storeUrl + " (Available on the official storefront)";
+          const toolSlug = getCurrentToolSlug();
+          const checkoutUrl = window.location.origin + '/checkout.html?tool=' + toolSlug + '&ref=tester';
+          const text = "Get this verified offline zero-telemetry tool by Sovereign Tech (Pre-loaded in cart with 1-click checkout): " + checkoutUrl;
           if (navigator.share) {
-            navigator.share({ title: document.title, text: text, url: storeUrl }).catch(() => {});
+            navigator.share({ title: document.title, text: text, url: checkoutUrl }).catch(() => {});
           } else {
             navigator.clipboard.writeText(text).then(() => {
-              alert("✓ Storefront Share Link copied to clipboard!\n\nSend this to customers to view and purchase on the official storefront:\n" + storeUrl);
+              alert("✓ Pre-Loaded Checkout Link Copied to Clipboard!\n\nWhen your customer opens this link, the tool is already pre-loaded in their cart with 1-click Apple Pay/Google Pay checkout:\n\n" + checkoutUrl);
             });
           }
         });
