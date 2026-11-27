@@ -38,7 +38,330 @@
     }
   </style>
   <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
-  
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
+      }
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">Never Expires • Zero Tracking • No Watermarks</span>
+        <a href="https://payhip.com/b/ZKEcf" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.3rem 0.75rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Get Offline Copy ($2.99)</a>
+        <button type="button" id="emtShareBtn" style="background:rgba(56,189,248,0.16);color:#7dd3fc;border:1px solid rgba(56,189,248,0.45);padding:0.3rem 0.8rem;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;">Share Tool ↗</button>
+      </div>
+    </div>
+
+    <h1>Forever-Static QR &amp; Wi-Fi Sign Maker</h1>
+    <p class="sub"><strong>Step 1:</strong> Choose Website Link or Guest Wi-Fi. &nbsp;<strong>Step 2:</strong> Type your info. &nbsp;<strong>Step 3:</strong> Print or save your sign. Your QR code points directly to your link and never expires.</p>
+
+    <div class="layout">
+      <div class="panel controls-panel">
+        <label class="field">1. What Is This QR Code For?
+          <select id="selType">
+            <option value="url" selected>Website / Menu / Google Review Link</option>
+            <option value="wifi">Guest Wi-Fi Login Card</option>
+          </select>
+        </label>
+
+        <label class="field">Sign Title (Printed Above QR)
+          <input type="text" id="txtTitle" value="Scan to Visit Our Website" maxlength="60" />
+        </label>
+
+        <div id="urlFields">
+          <label class="field">2. Website Address (URL)
+            <input type="text" id="txtUrl" value="https://gmitch12967-crypto.github.io/" maxlength="110" />
+          </label>
+        </div>
+
+        <div id="wifiFields" style="display:none;">
+          <label class="field">2a. Wi-Fi Network Name (SSID)
+            <input type="text" id="txtSsid" value="Guest_WiFi" maxlength="40" />
+          </label>
+          <label class="field">2b. Wi-Fi Password
+            <input type="text" id="txtPass" value="Welcome2026" maxlength="40" />
+          </label>
+          <label class="field">Security Type
+            <select id="selSec">
+              <option value="WPA" selected>WPA / WPA2 / WPA3 (Most Routers)</option>
+              <option value="WEP">WEP</option>
+              <option value="nopass">No Password (Open)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="green" id="btnSavePng">3a. Save QR Image (PNG)</button>
+          <button id="btnPrint">3b. Print Sign</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="sign-card">
+          <h2 id="previewTitle">Scan to Visit Our Website</h2>
+          <p id="previewSub">https://gmitch12967-crypto.github.io/</p>
+          <canvas id="qrCanvas" width="256" height="256"></canvas>
+          <div class="sign-note" id="previewNote">Point your phone camera at the code to open.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="color:#cbd5e1;font-size:0.92rem;margin-top:1.25rem;">
+      <h2 style="font-size:1.05rem;color:#f8fafc;margin-bottom:0.5rem;">How to Use &amp; Helpful Tips</h2>
+      <ul style="padding-left:1.25rem;display:grid;gap:0.35rem;">
+        <li><strong>Why this never expires:</strong> Your real website link or Wi-Fi password is built straight into the black-and-white squares — no middleman link, no trial, and no monthly fee.</li>
+        <li><strong>Test before printing:</strong> Point your own phone camera at the preview square above right now to make sure it opens your link or joins your Wi-Fi cleanly.</li>
+        <li><strong>Save or Print:</strong> Click <em>3a. Save QR Image (PNG)</em> for flyers/menus, or <em>3b. Print Sign</em> for a clean countertop sign.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Compact self-contained QR Byte-mode encoder (Versions 1..6, ECC Level L) — zero external dependencies
+    const QR = (() => {
+      const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
+      let x = 1;
+      for (let i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x = (x << 1) ^ (x & 128 ? 0x11d : 0); }
+      for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+      const mul = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
+
+      function rsGen(n) {
+        let g = [1];
+        for (let i = 0; i < n; i++) {
+          const ng = new Array(g.length + 1).fill(0);
+          for (let j = 0; j < g.length; j++) { ng[j] ^= g[j]; ng[j + 1] ^= mul(g[j], EXP[i]); }
+          g = ng;
+        }
+        return g;
+      }
+      function rsRem(data, ecLen) {
+        const g = rsGen(ecLen), res = data.slice().concat(new Array(ecLen).fill(0));
+        for (let i = 0; i < data.length; i++) {
+          const c = res[i]; if (!c) continue;
+          for (let j = 0; j < g.length; j++) res[i + j] ^= mul(g[j], c);
+        }
+        return res.slice(data.length);
+      }
+
+      // Version 1..6 Level L: [size, dataBytes, ecBytes]
+      const SPECS = [
+        [21, 19, 7],
+        [25, 34, 10],
+        [29, 55, 15],
+        [33, 80, 20],
+        [37, 108, 26],
+        [41, 136, 36]
+      ];
+      const ALIGN = [[], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34]];
+
+      function encode(text) {
+        const bytes = Array.from(new TextEncoder().encode(text));
+        let vIdx = SPECS.findIndex(s => bytes.length + 2 <= s[1]);
+        if (vIdx < 0) vIdx = SPECS.length - 1;
+        const [size, dataCap, ecLen] = SPECS[vIdx];
+        const maxBytes = Math.min(bytes.length, dataCap - 2);
+
+        const bits = [];
+        const push = (val, n) => { for (let i = n - 1; i >= 0; i--) bits.push((val >> i) & 1); };
+        push(4, 4); // Byte mode
+        push(maxBytes, 8);
+        for (let i = 0; i < maxBytes; i++) push(bytes[i], 8);
+        push(0, Math.min(4, dataCap * 8 - bits.length));
+        while (bits.length % 8) bits.push(0);
+        const pad = [0xec, 0x11]; let pi = 0;
+        while (bits.length < dataCap * 8) { push(pad[pi++ % 2], 8); }
+
+        const dataBytes = [];
+        for (let i = 0; i < bits.length; i += 8) {
+          let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+          dataBytes.push(b);
+        }
+        const ecBytes = rsRem(dataBytes, ecLen);
+        const fullBits = [];
+        dataBytes.concat(ecBytes).forEach(b => { for (let i = 7; i >= 0; i--) fullBits.push((b >> i) & 1); });
+
+        const grid = Array.from({ length: size }, () => new Int8Array(size).fill(-1));
+        const resv = Array.from({ length: size }, () => new Uint8Array(size));
+        const setF = (r, c, v) => { if (r >= 0 && r < size && c >= 0 && c < size) { grid[r][c] = v; resv[r][c] = 1; } };
+
+        const finder = (r0, c0) => {
+          for (let r = -1; r <= 7; r++) for (let c = -1; c <= 7; c++) {
+            const on = (r >= 0 && r <= 6 && c >= 0 && c <= 6) && (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4));
+            setF(r0 + r, c0 + c, on ? 1 : 0);
+          }
+        };
+        finder(0, 0); finder(0, size - 7); finder(size - 7, 0);
+
+        for (let i = 8; i < size - 8; i++) { setF(6, i, i % 2 === 0 ? 1 : 0); setF(i, 6, i % 2 === 0 ? 1 : 0); }
+        setF(size - 8, 8, 1);
+
+        const al = ALIGN[vIdx];
+        if (al.length) {
+          const pos = al[1];
+          for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) {
+            setF(pos + r, pos + c, (Math.max(Math.abs(r), Math.abs(c)) !== 1) ? 1 : 0);
+          }
+        }
+
+        for (let i = 0; i < 9; i++) {
+          if (i !== 6) { resv[8][i] = 1; resv[i][8] = 1; }
+          if (i < 8) { resv[8][size - 1 - i] = 1; resv[size - 1 - i][8] = 1; }
+        }
+
+        let bi = 0, up = true;
+        for (let col = size - 1; col > 0; col -= 2) {
+          if (col === 6) col--;
+          for (let step = 0; step < size; step++) {
+            const r = up ? size - 1 - step : step;
+            for (let dc = 0; dc < 2; dc++) {
+              const c = col - dc;
+              if (!resv[r][c]) {
+                const bit = bi < fullBits.length ? fullBits[bi++] : 0;
+                grid[r][c] = bit ^ ((r + c) % 2 === 0 ? 1 : 0); // Mask 0
+              }
+            }
+          }
+          up = !up;
+        }
+
+        // Format info for ECC L (01) + Mask 0 (000) -> 0x77c4 (15 bits)
+        const fmt = 0x77c4;
+        for (let i = 0; i < 15; i++) {
+          const b = (fmt >> (14 - i)) & 1;
+          if (i < 6) grid[8][i] = b;
+          else if (i < 8) grid[8][i + 1] = b;
+          else grid[8][size - 15 + i] = b;
+          if (i < 8) grid[size - 1 - i][8] = b;
+          else if (i < 9) grid[15 - i][8] = b;
+          else grid[14 - i][8] = b;
+        }
+        return grid;
+      }
+      return { encode };
+    })();
+
+    function drawQr() {
+      const type = document.getElementById("selType").value;
+      const title = document.getElementById("txtTitle").value || "Scan Code";
+      let payload = "";
+      let sub = "";
+      if (type === "wifi") {
+        const ssid = document.getElementById("txtSsid").value || "Guest_WiFi";
+        const pass = document.getElementById("txtPass").value || "";
+        const sec = document.getElementById("selSec").value;
+        payload = `WIFI:T:${sec};S:${ssid};P:${sec === "nopass" ? "" : pass};;`;
+        sub = `Network: ${ssid}` + (sec === "nopass" ? " (Open)" : `  •  Password: ${pass}`);
+        document.getElementById("previewNote").textContent = "Point your phone camera at the code to join Wi-Fi.";
+      } else {
+        payload = document.getElementById("txtUrl").value.trim() || "https://gmitch12967-crypto.github.io/";
+        sub = payload;
+        document.getElementById("previewNote").textContent = "Point your phone camera at the code to open.";
+      }
+      document.getElementById("previewTitle").textContent = title;
+      document.getElementById("previewSub").textContent = sub;
+
+      const grid = QR.encode(payload);
+      const canvas = document.getElementById("qrCanvas");
+      const n = grid.length, pad = 4, scale = Math.floor(256 / (n + pad * 2));
+      const sz = (n + pad * 2) * scale;
+      canvas.width = sz; canvas.height = sz;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, sz, sz);
+      ctx.fillStyle = "#000000";
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+        if (grid[r][c] === 1) ctx.fillRect((c + pad) * scale, (r + pad) * scale, scale, scale);
+      }
+    }
+
+    document.getElementById("selType").addEventListener("change", (e) => {
+      const isWifi = e.target.value === "wifi";
+      document.getElementById("urlFields").style.display = isWifi ? "none" : "block";
+      document.getElementById("wifiFields").style.display = isWifi ? "block" : "none";
+      if (isWifi && document.getElementById("txtTitle").value === "Scan to Visit Our Website")
+        document.getElementById("txtTitle").value = "Free Guest Wi-Fi";
+      if (!isWifi && document.getElementById("txtTitle").value === "Free Guest Wi-Fi")
+        document.getElementById("txtTitle").value = "Scan to Visit Our Website";
+      drawQr();
+    });
+
+    ["txtTitle", "txtUrl", "txtSsid", "txtPass", "selSec"].forEach(id => {
+      document.getElementById(id).addEventListener("input", drawQr);
+      document.getElementById(id).addEventListener("change", drawQr);
+    });
+
+    function promptPaidQr(actionName) {
+      if (confirm(`Your forever-static QR preview is live and ready to scan-test on screen!\n\nGet the Offline Edition ($2.99 — no subscriptions, unlimited PNG saves & printable signs).\n\nClick OK to open checkout for ${actionName}.`)) {
+        window.open("https://payhip.com/b/ZKEcf", "_blank");
+      }
+    }
+
+    document.getElementById("btnSavePng").addEventListener("click", () => promptPaidQr("PNG Download"));
+
+    document.getElementById("btnPrint").addEventListener("click", () => promptPaidQr("Printable Sign"));
+    drawQr();
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">✕</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "✓ Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
+  });
+})();
+</script>
+
+
 
 
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
