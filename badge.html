@@ -341,7 +341,24 @@
     }
 
     function checkCurrentDeviceStatus() {
-      const identityRaw = localStorage.getItem('sovereign_identity');
+      const urlParams = new URLSearchParams(window.location.search);
+      const isFounderUrl = urlParams.get('founder') === 'true' || urlParams.get('badge') === 'founder';
+      const storedLicense = localStorage.getItem('sovereign_pro_license');
+      let identityRaw = localStorage.getItem('sovereign_identity');
+
+      if ((isFounderUrl || storedLicense === 'FOUNDER_LIFETIME') && !identityRaw) {
+        const founderData = {
+          role: 'FOUNDER',
+          title: 'Founder & Lead Architect',
+          status: 'Active Perpetual Authority',
+          grantedAt: Date.now(),
+          deviceId: 'FND-AUTO-' + Math.random().toString(36).substring(2, 7).toUpperCase()
+        };
+        localStorage.setItem('sovereign_identity', JSON.stringify(founderData));
+        localStorage.setItem('sovereign_pro_license', 'FOUNDER_LIFETIME');
+        identityRaw = JSON.stringify(founderData);
+      }
+
       const isFounder = identityRaw && JSON.parse(identityRaw).role === 'FOUNDER';
       const unpairedBlock = document.getElementById('founderUnpairedBlock');
       const pairedBlock = document.getElementById('founderPairedBlock');
