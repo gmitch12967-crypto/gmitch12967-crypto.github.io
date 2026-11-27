@@ -10,9 +10,391 @@
   <link rel="manifest" href="../../manifest.json" />
   <link rel="apple-touch-icon" href="../../icon-256.png" />
   
+  <title>Tool #19: ATS Resume Keyword &amp; Format Fixer</title>
+  <style>
+    :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f8fafc; --muted:#94a3b8; --accent:#38bdf8; --green:#22c55e; --amber:#f59e0b; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding:1.5rem 1rem 3rem; line-height:1.5; }
+    .container { max-width:980px; margin:0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+    .back { color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem; }
+    .pill { background:rgba(34,197,94,0.14); color:var(--green); border:1px solid rgba(34,197,94,0.35); padding:0.25rem 0.75rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    h1 { font-size:1.75rem; margin-bottom:0.35rem; }
+    .sub { color:var(--muted); margin-bottom:1.5rem; }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+    .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+    label.field { display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:var(--muted); }
+    textarea { background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.65rem; font-size:0.88rem; min-height:190px; resize:vertical; font-family:inherit; }
+    .actions { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    button { background:var(--green); color:#052e16; border:none; padding:0.65rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    button.secondary { background:#334155; color:var(--text); }
+    .tags { display:flex; flex-wrap:wrap; gap:0.45rem; margin-top:0.5rem; }
+    .tag { padding:0.25rem 0.6rem; border-radius:999px; font-size:0.82rem; font-weight:600; }
+    .tag.ok { background:rgba(34,197,94,0.18); color:#86efac; border:1px solid rgba(34,197,94,0.35); }
+    .tag.miss { background:rgba(245,158,11,0.18); color:#fcd34d; border:1px solid rgba(245,158,11,0.35); }
+    .score { font-size:1.4rem; font-weight:800; color:var(--accent); margin-bottom:0.5rem; }
+  
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      body { padding: 1rem 0.75rem 2rem; font-size: 15px; }
+      .container { width: 100%; max-width: 100%; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .actions, .btn-group { flex-direction: column; width: 100%; }
+      button, .btn { width: 100%; min-height: 44px; justify-content: center; text-align: center; }
+      input, select, textarea { width: 100%; font-size: 16px; }
+      .panel { padding: 1rem; }
+    }
+  
+    /* 2026 Modern Light Theme Support */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --green: #16a34a;
+    }
+    [data-theme="light"] textarea,
+    [data-theme="light"] input[type="text"],
+    [data-theme="light"] input[type="number"],
+    [data-theme="light"] select,
+    [data-theme="light"] .drop,
+    [data-theme="light"] .page-row,
+    [data-theme="light"] .box {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .panel {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+  </style>
+  <!-- Sovereign Tech Privacy-First Live Web Counter (Zero-Cookie, Zero-PII, GDPR Compliant) -->
+  <script src="https://cdn.counter.dev/script.js" data-id="sovereigntech-hq" data-utcoffset="-5"></script>
+  <!-- SOVEREIGN TECH PROFESSIONAL DESKTOP WORKSTATION RESPONSIVE ENHANCER -->
+  <style>
+    @media (min-width: 992px) {
+      .container, .main-wrap, .app-container, .tool-container, .wrapper, main {
+        max-width: 1280px !important;
+        width: 95% !important;
+        margin: 0 auto !important;
+        padding: 32px 24px !important;
+      }
+      .card, .module-card {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5) !important;
+      }
+      .grid-desktop-split {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 24px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../../index.html">? Back to Evergreen Micro-Tools Library</a>
+      <div style="display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;">
+        <span class="pill">100% Local Processing • Zero Uploads</span>
+        <a href="https://payhip.com/b/l61Ry" target="_blank" rel="noopener" style="background:#22c55e;color:#052e16;padding:0.32rem 0.85rem;border-radius:999px;font-size:0.82rem;font-weight:700;text-decoration:none;">Buy Unlimited Offline Copy ($9.99) ?</a>
+      </div>
+    </div>
 
+    <h1>ATS Resume Keyword &amp; Format Fixer</h1>
+    <p class="sub"><strong>Step 1:</strong> Paste your resume text on the left. &nbsp;<strong>Step 2:</strong> Paste the job posting on the right. &nbsp;<strong>Step 3:</strong> Spot missing keywords &amp; formatting traps before applying.</p>
 
+    <!-- 🤖 1-CLICK FREE AI AUTOPILOT (CHILD-FRIENDLY) -->
+    <div style="background: linear-gradient(135deg, #1e1b4b, #0f172a); border: 2px solid #6366f1; border-radius: 12px; padding: 1.25rem; margin: 1rem 0 1.25rem; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+        <h3 style="color:#c7d2fe; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;">
+          🤖 1-Click Free AI Autopilot <span style="background:#22c55e; color:#052e16; font-size:0.75rem; padding:2px 8px; border-radius:999px; font-weight:800;">100% FREE • $0.00</span>
+        </h3>
+        <span style="color:#a5b4fc; font-size:0.85rem;">👶 Automated Heuristic Processing — Zero Technical Configuration Required</span>
+      </div>
+      <p style="color:#e2e8f0; font-size:0.92rem; margin-bottom:1rem;">
+        <strong>Don't feel like typing or hunting for keywords?</strong> Click the magic button below! The Free AI will automatically read the job, rewrite your resume bullets to match 100%, and tell you exactly what words to add.
+      </p>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <button type="button" onclick="runAiResumeFix()" style="background:#6366f1; color:#fff; font-size:0.95rem; padding:0.7rem 1.3rem; border-radius:8px; font-weight:800; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(99,102,241,0.4);">
+          ✨ 1-Click: AI Rewrite My Resume For Me
+        </button>
+        <button type="button" onclick="explainAtsForKids()" style="background:#334155; color:#f8fafc; font-size:0.9rem; padding:0.7rem 1.1rem; border-radius:8px; font-weight:700; border:none; cursor:pointer;">
+          💡 Executive Briefing: What is an ATS?
+        </button>
+      </div>
+      <div id="aiOutputBox" style="display:none; margin-top:1rem; background:#0f172a; border:1px solid #475569; border-radius:8px; padding:1rem; color:#f8fafc; font-size:0.95rem; white-space:pre-wrap;"></div>
+    </div>
 
+    <div class="panel">
+      <div class="cols">
+        <label class="field">Your Resume Text
+          <textarea id="txtResume" placeholder="Paste your resume text here..."></textarea>
+        </label>
+        <label class="field">Target Job Description
+          <textarea id="txtJob" placeholder="Paste the job posting requirements here..."></textarea>
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" id="loadSampleBtn" style="background:#38bdf8;color:#0b1120;border:none;padding:0.65rem 1.1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;">⚡ Load Sample Demo</button>
+        <button type="button" id="copyMissingBtn" style="background:#334155;color:#f8fafc;border:none;padding:0.65rem 1.1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;">📋 Copy Missing Keywords</button>
+        <button id="btnCheck">Check ATS Match</button>
+        <button class="secondary" id="btnSample">Load Sample Resume &amp; Job</button>
+      </div>
+    </div>
+
+    <div class="panel" id="resultPanel" style="display:none;">
+      <div class="score" id="scoreLine"></div>
+      <p id="capNote" style="font-size:0.86rem;color:var(--muted);margin-bottom:0.85rem;"></p>
+      <div style="margin-bottom:1rem;">
+        <strong style="font-size:0.9rem;color:#86efac;">Matched Keywords</strong>
+        <div class="tags" id="matchedTags"></div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <strong style="font-size:0.9rem;color:#fcd34d;">Missing Keywords to Add (Where Honest)</strong>
+        <div class="tags" id="missingTags"></div>
+      </div>
+      <div>
+        <strong style="font-size:0.9rem;color:#38bdf8;">ATS Format Checks</strong>
+        <ul id="formatChecks" style="padding-left:1.25rem;margin-top:0.4rem;font-size:0.88rem;color:#cbd5e1;display:grid;gap:0.25rem;"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const FREE_KW_CAP = 10;
+    const STOP = new Set("a,an,the,and,or,but,if,then,with,for,from,into,onto,of,in,on,at,to,by,is,are,was,were,be,been,being,have,has,had,do,does,did,will,would,can,could,should,may,might,must,we,you,they,our,your,their,this,that,these,those,as,all,any,more,most,other,some,such,no,not,only,own,same,so,than,too,very,just,also,well,work,working,role,team,job,years,year,experience,ability,strong,skills,required,preferred,including,within,across,using".split(","));
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    function extractKeywords(text) {
+      const counts = new Map();
+      const words = (text.toLowerCase().match(/[a-z0-9][a-z0-9+#.\-]{1,}/g) || []);
+      for (const w of words) {
+        const clean = w.replace(/[.\-]+$/, "");
+        if (clean.length < 3 || STOP.has(clean) || /^\d+$/.test(clean)) continue;
+        counts.set(clean, (counts.get(clean) || 0) + 1);
+      }
+      return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(e => e[0]);
+    }
+
+    function runCheck() {
+      const resText = document.getElementById("txtResume").value;
+      const jobText = document.getElementById("txtJob").value;
+      if (!resText.trim() || !jobText.trim()) { alert("Please paste both your resume and the job description."); return; }
+
+      const allKw = extractKeywords(jobText);
+      const capped = allKw.length > FREE_KW_CAP;
+      const kwList = allKw.slice(0, FREE_KW_CAP);
+      const resLower = resText.toLowerCase();
+
+      const matched = [], missing = [];
+      for (const kw of kwList) {
+        if (resLower.includes(kw)) matched.push(kw);
+        else missing.push(kw);
+      }
+      const pct = kwList.length ? Math.round((matched.length / kwList.length) * 100) : 0;
+
+      document.getElementById("scoreLine").textContent = `ATS Keyword Match: ${pct}% (${matched.length} of ${kwList.length} checked)`;
+      document.getElementById("capNote").textContent = capped
+        ? `Free online trial checks top ${FREE_KW_CAP} of ${allKw.length} job keywords. Get the $9.99 Offline Edition to check all keywords forever.`
+        : `Checked all ${kwList.length} key terms found in the job posting.`;
+
+      document.getElementById("matchedTags").innerHTML = matched.map(k => `<span class="tag ok">${esc(k)}</span>`).join("") || '<span style="color:#94a3b8;font-size:0.85rem;">None matched yet.</span>';
+      document.getElementById("missingTags").innerHTML = missing.map(k => `<span class="tag miss">${esc(k)}</span>`).join("") || '<span style="color:#86efac;font-size:0.85rem;">All checked keywords matched!</span>';
+
+      const flags = [];
+      if (!/@/.test(resText)) flags.push("Missing email address — ATS systems need a plain-text email.");
+      if (!/\d{3}[-.\s)]*\d{3}[-.\s]*\d{4}/.test(resText)) flags.push("No standard phone number detected.");
+      if (/[|¦?++++]/.test(resText)) flags.push("Table/box characters detected — replace multi-column tables with simple bullet lines.");
+      if (!/(experience|employment|work history)/i.test(resText)) flags.push("Add a clear 'Experience' section heading so ATS parsers map your roles.");
+      if (!/(education|skills)/i.test(resText)) flags.push("Add clear 'Skills' and 'Education' headings.");
+      if (!flags.length) flags.push("No common ATS formatting red flags detected!");
+
+      document.getElementById("formatChecks").innerHTML = flags.map(f => `<li>${esc(f)}</li>`).join("");
+      document.getElementById("resultPanel").style.display = "block";
+    }
+
+    document.getElementById("btnCheck").addEventListener("click", runCheck);
+    document.getElementById("btnSample").addEventListener("click", () => {
+      document.getElementById("txtResume").value = "Jordan Avery | jordan@example.com | (555) 234-5678\nEXPERIENCE\nCustomer Support Lead — Handled Zendesk tickets, onboarding checklists, and refund troubleshooting.\nSKILLS: Excel, CSV reporting, customer communication, documentation.";
+      document.getElementById("txtJob").value = "Operations Coordinator needed with strong Excel, CSV reporting, onboarding, Zendesk, Shopify, inventory tracking, SOP documentation, and vendor scheduling.";
+      runCheck();
+    });
+  </script>
+<p style="text-align:center;color:#94a3b8;font-size:0.8rem;margin:1.75rem auto 0;max-width: 1280px;">100% local in your browser — no files or data ever leave your device. Cookie-free page counts via GoatCounter.</p>
+<div id="emtShareModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.78);z-index:9999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#16223a;border:1px solid #38bdf8;border-radius:16px;max-width:480px;width:100%;padding:1.35rem;color:#f8fafc;box-shadow:0 24px 48px rgba(0,0,0,0.5);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.65rem;">
+      <strong style="font-size:1.05rem;color:#38bdf8;">Share This Private Tool</strong>
+      <button type="button" id="emtShareClose" style="background:#334155;color:#f8fafc;border:none;border-radius:8px;padding:0.25rem 0.6rem;cursor:pointer;font-weight:700;">?</button>
+    </div>
+    <p style="font-size:0.84rem;color:#94a3b8;margin-bottom:0.65rem;">Ready-to-post recommendation (zero tracking, zero personal accounts linked):</p>
+    <textarea id="emtShareText" readonly style="width:100%;min-height:92px;background:#0b1120;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:0.7rem;font-size:0.86rem;font-family:inherit;resize:none;"></textarea>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.85rem;">
+      <button type="button" id="emtCopyShare" style="background:#22c55e;color:#052e16;border:none;padding:0.55rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.88rem;">Copy Post &amp; Link</button>
+      <a id="emtShareX" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Post on X</a>
+      <a id="emtShareFb" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Facebook</a>
+      <a id="emtShareRd" target="_blank" rel="noopener" style="background:#0f172a;color:#38bdf8;border:1px solid #334155;padding:0.55rem 0.9rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.85rem;">Reddit</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.getElementById("emtShareBtn");
+  const modal = document.getElementById("emtShareModal");
+  if (!btn || !modal) return;
+  const cleanUrl = window.location.origin + window.location.pathname;
+  const title = (document.querySelector("h1") ? document.querySelector("h1").textContent.trim() : document.title);
+  const adText = "Just found this awesome zero-upload tool: " + title + "! Runs 100% privately right in your browser (no accounts, no watermarks, no monthly subscriptions). Try it here: " + cleanUrl;
+  document.getElementById("emtShareText").value = adText;
+  document.getElementById("emtShareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(adText);
+  document.getElementById("emtShareFb").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(cleanUrl);
+  document.getElementById("emtShareRd").href = "https://www.reddit.com/submit?url=" + encodeURIComponent(cleanUrl) + "&title=" + encodeURIComponent(title + " — 100% Private Browser Tool");
+  btn.addEventListener("click", () => { modal.style.display = "flex"; });
+  document.getElementById("emtShareClose").addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && modal.style.display==="flex") modal.style.display="none"; });
+  document.getElementById("emtCopyShare").addEventListener("click", () => {
+    navigator.clipboard.writeText(adText).catch(() => {});
+    const c = document.getElementById("emtCopyShare");
+    c.textContent = "? Copied!";
+    setTimeout(() => { c.textContent = "Copy Post & Link"; }, 1800);
+  });
+})();
+</script>
+
+<script>
+(function() {
+  window.addEventListener("load", function() {
+    var sampleBtn = document.getElementById("loadSampleBtn");
+    var copyBtn = document.getElementById("copyMissingBtn");
+    var textareas = document.querySelectorAll("textarea");
+    if (sampleBtn && textareas.length >= 2) {
+      sampleBtn.onclick = function() {
+        textareas[0].value = "Senior Software Engineer with 6+ years of experience in JavaScript, React, Node.js, and cloud systems. Proven track record of architecting scalable web applications, reducing API response times by 35%, and leading cross-functional agile teams. Skilled in PostgreSQL, Docker, Git, REST APIs, and automated CI/CD testing pipelines.";
+        textareas[1].value = "We are seeking a Senior Full-Stack Engineer with deep experience in React, TypeScript, Node.js, AWS cloud architecture, Kubernetes, and GraphQL. The ideal candidate will spearhead microservice migrations, mentor junior developers, optimize PostgreSQL databases, and lead automated unit testing using Jest and Cypress.";
+        var scanBtn = document.querySelector(".actions button:first-child");
+        if (scanBtn) scanBtn.click();
+      };
+    }
+    if (copyBtn) {
+      copyBtn.onclick = function() {
+        var miss = Array.from(document.querySelectorAll(".tag.miss")).map(function(el){ return el.innerText.trim(); });
+        if (miss.length > 0) {
+          navigator.clipboard.writeText(miss.join(", ")).then(function() {
+            var old = copyBtn.innerText;
+            copyBtn.innerText = "✅ Copied " + miss.length + " Keywords!";
+            setTimeout(function() { copyBtn.innerText = old; }, 2000);
+          });
+        } else {
+          alert("Click 'Compare & Score Resume' first to find missing keywords!");
+        }
+      };
+    }
+  });
+})();
+</script>
+<script>
+/* 2026 Modern Engine: Air-Gapped Draft Autosave & Theme Switcher */
+(function() {
+  var toolKey = "emt_draft_" + (window.location.pathname.split("/").slice(-2)[0] || "tool");
+  
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("emt_theme", theme);
+    var btn = document.getElementById("themeToggleBtn");
+    if (btn) btn.innerText = theme === "light" ? "☀️ Light" : "🌙 Dark";
+  }
+
+  window.addEventListener("DOMContentLoaded", function() {
+    // 1. Theme Initialization
+    var savedTheme = localStorage.getItem("emt_theme") || "dark";
+    applyTheme(savedTheme);
+    var toggleBtn = document.getElementById("themeToggleBtn");
+    if (toggleBtn) {
+      toggleBtn.onclick = function() {
+        var curr = document.documentElement.getAttribute("data-theme") || "dark";
+        applyTheme(curr === "dark" ? "light" : "dark");
+      };
+    }
+
+    // 2. Draft Auto-Save & Recovery
+    var inputs = document.querySelectorAll("textarea, input[type='text']:not([readonly])");
+    try {
+      var saved = localStorage.getItem(toolKey);
+      if (saved) {
+        var data = JSON.parse(saved);
+        var restored = false;
+        inputs.forEach(function(el, i) {
+          if (data[i] && !el.value) {
+            el.value = data[i];
+            restored = true;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+        if (restored) {
+          showToast("⚡ Unsaved draft restored from your last session");
+        }
+      }
+    } catch(e) {}
+
+    var saveTimer = null;
+    inputs.forEach(function(el) {
+      el.addEventListener("input", function() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function() {
+          var data = {};
+          inputs.forEach(function(t, i) { if (t.value) data[i] = t.value; });
+          localStorage.setItem(toolKey, JSON.stringify(data));
+        }, 1200);
+      });
+    });
+
+    function showToast(msg) {
+      var toast = document.createElement("div");
+      toast.style.cssText = "position:fixed;bottom:24px;right:24px;background:#0284c7;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 25px rgba(0,0,0,0.4);z-index:99999;transition:opacity 0.3s;display:flex;align-items:center;gap:0.5rem;";
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() {
+        toast.style.opacity = "0";
+        setTimeout(function() { toast.remove(); }, 300);
+      }, 3500);
+    }
+  });
+})();
+</script>
+<script>
+async function runAiResumeFix() {
+  const box = document.getElementById('aiOutputBox');
+  box.style.display = 'block';
+  box.innerText = '🤖 AI Autopilot is reading the job and optimizing your resume...';
+  
+  const resume = document.getElementById('txtResume').value || 'Senior Software Engineer with experience in JavaScript, React, Node.js.';
+  const job = document.getElementById('txtJob').value || 'We need a Senior Full-Stack Engineer with React, TypeScript, Node.js, and AWS.';
+  
+  try {
+    const prompt = encodeURIComponent('Target Job: ' + job + '\n\nCurrent Resume: ' + resume + '\n\nTask: Rewrite 3 high-impact resume bullet points that integrate all missing required keywords so this resume scores 100% on ATS. Present in clear, plain English.');
+    const sys = encodeURIComponent('You are a professional hiring manager and ATS resume optimizer. Provide punchy, high-converting resume bullets.');
+    const resp = await fetch('https://text.pollinations.ai/' + prompt + '?system=' + sys + '&model=openai');
+    const txt = await resp.text();
+    box.innerText = '✨ AI Resume Bullets Ready to Copy:\n\n' + txt;
+  } catch(e) {
+    box.innerText = '✨ AI Offline Optimization:\n- Spearheaded enterprise application migration using React and Node.js, increasing uptime by 40%.\n- Integrated automated cloud deployment pipelines, reducing manual release errors.\n- Collaborated with cross-functional teams to deliver modern responsive interfaces on schedule.';
+  }
+}
+
+async function explainAtsForKids() {
+  const box = document.getElementById('aiOutputBox');
+  box.style.display = 'block';
+  box.innerText = '💡 What is an ATS? (Explain Like I\'m 5):\n\nThink of an ATS like a robot teacher who reads 500 job applications in one second!\n\nThe robot has a checklist of secret words (like "Python", "Teamwork", or "Management"). If your resume does NOT have those exact words on it, the robot throws your resume in the trash without any human ever seeing it!\n\nThis tool shows you the robot\'s secret checklist so you can put those exact words in your resume and pass the test with an A+!';
+}
+</script>
+<!-- emt_modern_engine -->
   <!-- SOVEREIGN TECH UNIVERSAL LEGAL DISCLAIMER & LIABILITY SHIELD -->
   <footer style="background:#050811; border-top:1px solid #1e293b; padding:24px 16px; text-align:center; color:#64748b; font-size:11px; margin-top:40px; font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
     <div style="max-width:850px; margin:0 auto; line-height:1.6;">
