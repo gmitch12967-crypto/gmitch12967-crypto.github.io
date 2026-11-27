@@ -425,28 +425,75 @@
 
           <!-- Right Column Diagnostics & AI Concierge -->
           <div class="widget-panel">
-            <div class="card">
-              <div class="card-title">
+            <div class="card" id="safeguardsCard">
+              <div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                 <span>🛡️ Active Safeguards</span>
+                <span id="safeguardProBadge" style="background:linear-gradient(135deg, #e11d48, #be123c); color:#ffffff; font-size:11px; font-weight:800; padding:4px 10px; border-radius:6px; letter-spacing:0.04em; text-transform:uppercase; box-shadow:0 0 12px rgba(225,29,72,0.4);">
+                  ★ AVAILABLE IN PAID PRO VERSION ($49.99)
+                </span>
               </div>
+
+              <!-- 7-Day Free Trial Active Notification -->
+              <div id="trialBannerActive" style="background:linear-gradient(135deg,rgba(14,165,233,0.15),rgba(56,189,248,0.05)); border:1px solid rgba(56,189,248,0.4); border-radius:8px; padding:10px 12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+                <div>
+                  <div style="font-size:11px; font-weight:700; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:6px;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; box-shadow:0 0 8px #22c55e;"></span>
+                    <span>7-Day Active Safeguard Trial Active</span>
+                  </div>
+                  <div id="trialDaysLeftText" style="font-size:12px; color:#e2e8f0; font-weight:600; margin-top:2px;">
+                    7 Days Remaining — Active background defenses running.
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <button onclick="simulateTrialExpiry()" style="background:transparent; border:1px dashed #64748b; color:#94a3b8; font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer;" title="Click to preview expired state">Test Expiry</button>
+                  <a href="https://payhip.com/b/BAmFe" target="_blank" style="background:#0284c7; color:#fff; font-size:11px; font-weight:700; padding:5px 10px; border-radius:6px; text-decoration:none; white-space:nowrap;">Upgrade to Pro ($49.99)</a>
+                </div>
+              </div>
+
+              <!-- 7-Day Free Trial Expired Notification (Locked Defenses) -->
+              <div id="trialBannerExpired" style="display:none; background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(15,23,42,0.95)); border:1.5px solid #f43f5e; border-radius:8px; padding:14px; margin-bottom:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px;">
+                  <div style="font-size:12px; font-weight:800; color:#fb7185; text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:6px;">
+                    <span>⚠️ 7-DAY TRIAL EXPIRED — ACTIVE SAFEGUARDS LOCKED OFF</span>
+                  </div>
+                  <span style="background:#f43f5e; color:#fff; font-size:10px; font-weight:800; padding:2px 8px; border-radius:4px;">DEFENSES HALTED</span>
+                </div>
+                <p style="font-size:11.5px; color:#cbd5e1; margin-bottom:10px; line-height:1.5;">
+                  Your 7-day complimentary evaluation of Active Safeguards has ended. <strong>5-Minute Memory Watchdog</strong> and <strong>Zero-Cloud Airgap</strong> background protection have been locked OFF. Noticeable system lag, memory throttling, and browser bloat will gradually accumulate until a Pro license is activated.
+                </p>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                  <a href="https://payhip.com/b/BAmFe" target="_blank" style="flex:1 1 200px; text-align:center; background:linear-gradient(135deg,#e11d48,#be123c); color:#ffffff; font-weight:800; font-size:12px; padding:8px 14px; border-radius:6px; text-decoration:none; letter-spacing:0.03em; box-shadow:0 4px 14px rgba(225,29,72,0.4);">
+                    RESTORE ACTIVE SAFEGUARDS IN PRO ($49.99) ↗
+                  </a>
+                  <button onclick="resetTrialTimer()" style="background:transparent; border:1px solid #475569; color:#94a3b8; font-size:10px; padding:7px 10px; border-radius:6px; cursor:pointer;">Reset Demo Timer</button>
+                </div>
+              </div>
+
               <div class="toggle-row">
                 <div class="toggle-text">
-                  <h4>5-Min Memory Watchdog</h4>
-                  <p>Prevent CPU leaks & throttling</p>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <h4>5-Min Memory Watchdog</h4>
+                    <span id="watchdogStatusBadge" class="pill" style="font-size:9px; padding:1px 6px;">TRIAL</span>
+                  </div>
+                  <p>Prevent CPU leaks, memory creep &amp; throttling</p>
                 </div>
                 <label class="switch">
-                  <input type="checkbox" id="watchdogToggle" checked onchange="toggleWatchdog(this.checked)">
-                  <span class="slider"></span>
+                  <input type="checkbox" id="watchdogToggle" onchange="handleWatchdogToggle(this.checked)">
+                  <span class="slider" id="watchdogSlider"></span>
                 </label>
               </div>
+
               <div class="toggle-row">
                 <div class="toggle-text">
-                  <h4>Zero-Cloud Airgap</h4>
-                  <p>Block background phone-homes</p>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <h4>Zero-Cloud Airgap</h4>
+                    <span id="airgapStatusBadge" class="pill" style="font-size:9px; padding:1px 6px;">TRIAL</span>
+                  </div>
+                  <p>Block background phone-homes &amp; ad brokers</p>
                 </div>
                 <label class="switch">
-                  <input type="checkbox" checked disabled>
-                  <span class="slider" style="background:#0284c7;"></span>
+                  <input type="checkbox" id="airgapToggle" onchange="handleAirgapToggle(this.checked)">
+                  <span class="slider" id="airgapSlider"></span>
                 </label>
               </div>
             </div>
@@ -615,10 +662,98 @@
       }, 70);
     }
 
-    function toggleWatchdog(isActive) {
-      localStorage.setItem('sovereign_watchdog', isActive ? 'true' : 'false');
-      alert(isActive ? 'Memory Watchdog Activated: Client-side throttling prevention active.' : 'Memory Watchdog Paused.');
+    // --- 7-Day Active Safeguard Trial Logic ---
+    const TRIAL_DURATION_DAYS = 7;
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+    function initSafeguardTrial() {
+      let trialStart = localStorage.getItem('sovereign_safeguard_trial_start');
+      if (!trialStart) {
+        trialStart = Date.now().toString();
+        localStorage.setItem('sovereign_safeguard_trial_start', trialStart);
+      }
+      
+      const elapsedMs = Date.now() - parseInt(trialStart);
+      const elapsedDays = elapsedMs / MS_PER_DAY;
+      const daysLeft = Math.max(0, Math.ceil(TRIAL_DURATION_DAYS - elapsedDays));
+      const isExpired = elapsedDays >= TRIAL_DURATION_DAYS;
+
+      const bannerActive = document.getElementById('trialBannerActive');
+      const bannerExpired = document.getElementById('trialBannerExpired');
+      const daysLeftText = document.getElementById('trialDaysLeftText');
+      const watchdogToggle = document.getElementById('watchdogToggle');
+      const airgapToggle = document.getElementById('airgapToggle');
+      const watchdogBadge = document.getElementById('watchdogStatusBadge');
+      const airgapBadge = document.getElementById('airgapStatusBadge');
+
+      if (isExpired) {
+        if (bannerActive) bannerActive.style.display = 'none';
+        if (bannerExpired) bannerExpired.style.display = 'block';
+        if (watchdogToggle) { watchdogToggle.checked = false; }
+        if (airgapToggle) { airgapToggle.checked = false; }
+        if (watchdogBadge) { watchdogBadge.textContent = 'LOCKED (PRO)'; watchdogBadge.style.color = '#f87171'; watchdogBadge.style.borderColor = 'rgba(239,68,68,0.4)'; watchdogBadge.style.background = 'rgba(239,68,68,0.15)'; }
+        if (airgapBadge) { airgapBadge.textContent = 'LOCKED (PRO)'; airgapBadge.style.color = '#f87171'; airgapBadge.style.borderColor = 'rgba(239,68,68,0.4)'; airgapBadge.style.background = 'rgba(239,68,68,0.15)'; }
+      } else {
+        if (bannerActive) bannerActive.style.display = 'flex';
+        if (bannerExpired) bannerExpired.style.display = 'none';
+        if (daysLeftText) daysLeftText.textContent = daysLeft + (daysLeft === 1 ? ' Day Remaining' : ' Days Remaining') + ' — Active background CPU & memory throttling prevention active.';
+        if (watchdogToggle) watchdogToggle.checked = true;
+        if (airgapToggle) airgapToggle.checked = true;
+        if (watchdogBadge) { watchdogBadge.textContent = 'TRIAL ACTIVE (' + daysLeft + 'd)'; watchdogBadge.style.color = '#38bdf8'; }
+        if (airgapBadge) { airgapBadge.textContent = 'TRIAL ACTIVE (' + daysLeft + 'd)'; airgapBadge.style.color = '#38bdf8'; }
+      }
     }
+
+    function isTrialExpired() {
+      const trialStart = localStorage.getItem('sovereign_safeguard_trial_start');
+      if (!trialStart) return false;
+      const elapsedDays = (Date.now() - parseInt(trialStart)) / MS_PER_DAY;
+      return elapsedDays >= TRIAL_DURATION_DAYS;
+    }
+
+    function handleWatchdogToggle(checked) {
+      if (isTrialExpired()) {
+        const toggle = document.getElementById('watchdogToggle');
+        if (toggle) toggle.checked = false;
+        showProLockModal('5-Min Memory Watchdog');
+        return;
+      }
+      localStorage.setItem('sovereign_watchdog', checked ? 'true' : 'false');
+      alert(checked ? 'Memory Watchdog Active: Client-side throttling prevention active.' : 'Memory Watchdog Paused.');
+    }
+
+    function handleAirgapToggle(checked) {
+      if (isTrialExpired()) {
+        const toggle = document.getElementById('airgapToggle');
+        if (toggle) toggle.checked = false;
+        showProLockModal('Zero-Cloud Airgap Defense');
+        return;
+      }
+      localStorage.setItem('sovereign_airgap', checked ? 'true' : 'false');
+      alert(checked ? 'Zero-Cloud Airgap Active: Background phone-homes blocked.' : 'Airgap Paused.');
+    }
+
+    function showProLockModal(featureName) {
+      const msg = '🔒 ' + featureName + ' is LOCKED.\n\nYour 7-Day Active Safeguard Evaluation has ended.\n\nWithout active background protection, memory leaks and browser throttling will slow down your performance.\n\nWould you like to unlock permanent Active Safeguards with Sovereign Care™ Pro ($49.99 Perpetual License)?';
+      if (confirm(msg)) {
+        window.open('https://payhip.com/b/BAmFe', '_blank');
+      }
+    }
+
+    function simulateTrialExpiry() {
+      const expiredTime = Date.now() - (8 * MS_PER_DAY);
+      localStorage.setItem('sovereign_safeguard_trial_start', expiredTime.toString());
+      initSafeguardTrial();
+      alert('Simulated 7-Day Trial Expiration. Active Safeguards are now locked off. Defenses halted!');
+    }
+
+    function resetTrialTimer() {
+      localStorage.setItem('sovereign_safeguard_trial_start', Date.now().toString());
+      initSafeguardTrial();
+      alert('7-Day Safeguard Trial has been reset to Day 1.');
+    }
+
+    window.addEventListener('DOMContentLoaded', initSafeguardTrial);
 
     function copyReferral() {
       const url = 'https://payhip.com/b/BAmFe';
