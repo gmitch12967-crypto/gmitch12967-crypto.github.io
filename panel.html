@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Sovereign Founder Command Hub</title>
-  <meta name="description" content="Dedicated standalone Master Control Panel for Sovereign Tech Founder. Full device authority, all products unlocked, and 1-tap catalog execution.">
+  <meta name="description" content="Dedicated standalone Master Control Panel for Sovereign Tech Founder. Full device authority, catalog retail pricing, and 100% free owner access.">
   <meta property="og:title" content="Sovereign Founder Command Hub — Sovereign Tech">
-  <meta property="og:description" content="Master Control Panel for Sovereign Tech Founder. Full device authority & all products free.">
+  <meta property="og:description" content="Master Control Panel for Sovereign Tech Founder. Catalog retail pricing with 100% free owner access.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gmitch12967-crypto.github.io/panel.html">
   <meta property="og:image" content="https://gmitch12967-crypto.github.io/cleaner/icon-512.png">
@@ -125,24 +125,38 @@
     .action-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
     /* Product Launcher List */
-    .product-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .product-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
     .product-row {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
-      padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;
-      text-decoration: none; color: inherit; transition: all 0.15s ease;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
+      padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: inherit; transition: all 0.15s ease; flex-wrap: wrap; gap: 10px;
     }
     .product-row:active { background: #131d31; border-color: var(--emerald); transform: scale(0.99); }
-    .product-info strong { font-size: 13px; color: #fff; display: block; }
-    .product-info span { font-size: 11px; color: var(--text-muted); }
+    .product-info { flex: 1; min-width: 200px; }
+    .product-info strong { font-size: 13.5px; color: #fff; display: block; margin-bottom: 2px; }
+    .product-info span { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px; }
+    
+    /* Price display badges */
+    .price-pill-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .retail-badge {
+      font-size: 11px; font-weight: 800; color: #94a3b8; background: #1e293b;
+      padding: 2px 8px; border-radius: 6px; border: 1px solid #334155; font-family: Consolas, monospace;
+    }
+    .founder-free-badge {
+      font-size: 10px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.16);
+      padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.4);
+      letter-spacing: 0.03em;
+    }
+
     .launch-tag {
-      background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 10.5px; font-weight: 800;
-      padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.35);
-      white-space: nowrap; text-align: center;
+      background: linear-gradient(135deg, #059669, #10b981); color: #fff; font-size: 11px; font-weight: 800;
+      padding: 8px 14px; border-radius: 8px; border: 1px solid #34d399;
+      white-space: nowrap; text-align: center; box-shadow: 0 4px 12px rgba(16,185,129,0.3);
     }
     .download-tag {
-      background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 10.5px; font-weight: 800;
-      padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.35);
-      white-space: nowrap; text-align: center;
+      background: linear-gradient(135deg, #0284c7, #38bdf8); color: #0b1120; font-size: 11px; font-weight: 800;
+      padding: 8px 14px; border-radius: 8px; border: 1px solid #38bdf8;
+      white-space: nowrap; text-align: center; box-shadow: 0 4px 12px rgba(56,189,248,0.3);
     }
 
     /* Modals */
@@ -194,10 +208,10 @@
     </div>
 
     <div class="founder-grid">
-      <div><span>Access Scope:</span> <strong>All 29+ Products 100% Free</strong></div>
+      <div><span>Access Scope:</span> <strong>All 29 Products 100% Free</strong></div>
+      <div><span>Pricing View:</span> <strong>Public Retail Tags Visible</strong></div>
       <div><span>Device Status:</span> <strong>S10+ Authenticated</strong></div>
-      <div><span>Active Defenses:</span> <strong>Perpetually Unlocked</strong></div>
-      <div><span>Checkout Gate:</span> <strong>Bypassed (Zero CC Required)</strong></div>
+      <div><span>Payment Prompt:</span> <strong>Bypassed ($0.00 Founder)</strong></div>
     </div>
   </div>
 
@@ -206,7 +220,7 @@
     <div class="privilege-icon">👑</div>
     <div class="privilege-text">
       <strong>Founder Master Authority Active</strong>
-      <span>You have 100% unrestricted free access to every product, desktop download, and mobile tool. Paywalls and credit card forms are permanently disabled for your device.</span>
+      <span>You see the full public retail price for each tool below, but your device is permanently exempted from payment. Tap any product to launch or download 100% free.</span>
     </div>
   </div>
 
@@ -228,7 +242,7 @@
     <a href="https://counter.dev/dashboard.html?user=sovereigntech-hq" target="_blank" rel="noopener" class="action-card">
       <div class="action-icon">📊</div>
       <div class="action-name">Live Traffic</div>
-      <div class="action-desc">Real-time visitor count</div>
+      <div class="action-desc">Real-time visitor analytics</div>
     </a>
     <a href="./index.html?founder=true&auth=SOVEREIGN-FOUNDER-2026" class="action-card">
       <div class="action-icon">🏪</div>
@@ -246,6 +260,10 @@
       <div class="product-info">
         <strong>Sovereign Care™ Pro (Desktop Standalone .ZIP)</strong>
         <span>1-Click PC Cleaner, RAM Purge &amp; Watchdog (.exe package)</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Public Retail: $49.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER ($0)</span>
+        </div>
       </div>
       <span class="download-tag">⬇️ DIRECT DOWNLOAD</span>
     </a>
@@ -253,19 +271,23 @@
       <div class="product-info">
         <strong>Sovereign Care™ Pro (Web Workstation Edition)</strong>
         <span>Full Web Suite with Active Memory Watchdog Unlocked</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Public Retail: $49.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER ($0)</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ OPEN FULL PRO →</span>
+      <span class="launch-tag">⚡ OPEN FULL PRO &rarr;</span>
     </a>
   </div>
 
   <!-- Complete Catalog Header -->
   <div class="section-title">
-    <span>🚀 Complete Sovereign Product Suite (All 29 Tools Unlocked)</span>
+    <span>🚀 Complete Sovereign Product Suite (All 29 Tools)</span>
     <span style="font-size:11px; color:#34d399; font-weight:700;">29 Products</span>
   </div>
 
   <!-- Search & Category Filters -->
-  <input type="text" id="toolSearch" class="search-box" placeholder="🔍 Search any product or tool..." oninput="filterTools()">
+  <input type="text" id="toolSearch" class="search-box" placeholder="🔍 Search any product, tool, or price..." oninput="filterTools()">
   <div class="category-tabs">
     <button class="cat-tab active" onclick="setCategory('all', this)">All Products (29)</button>
     <button class="cat-tab" onclick="setCategory('privacy', this)">System &amp; Privacy</button>
@@ -274,43 +296,63 @@
     <button class="cat-tab" onclick="setCategory('media', this)">Media &amp; Utilities</button>
   </div>
 
-  <!-- Full Products Catalog -->
+  <!-- Full Products Catalog with Public Retail Prices + Free Founder Launch -->
   <div class="product-list" id="productList">
     <!-- System & Privacy -->
     <a href="./cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
       <div class="product-info">
         <strong>Sovereign Care™ Pro Workstation</strong>
         <span>System Optimizer &bull; Memory Purge &bull; Zero-Cloud Airgap</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $49.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/photo-privacy-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
       <div class="product-info">
         <strong>Photo Privacy Cleaner (EXIF &amp; GPS Scrubber)</strong>
         <span>Wipe Camera Metadata, GPS Geotags &amp; Device Serial #s</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/photo-redactor/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
       <div class="product-info">
         <strong>Permanent Photo Privacy Redactor</strong>
         <span>Blackout Sensitive Faces, Badges, Credit Cards &amp; PII</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/heic-jpg-converter/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="privacy">
       <div class="product-info">
         <strong>HEIC &amp; WebP to Clean JPG Converter</strong>
         <span>Fast Offline Photo Converter with Metadata Stripping</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $7.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./guides/windows-pc-privacy-cleanup.html?founder=true" class="product-row" data-cat="privacy">
       <div class="product-info">
         <strong>Windows PC Privacy &amp; Maintenance Field Guide</strong>
         <span>Complete Manual &bull; Zero-Cloud Enterprise Standards</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $14.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
 
     <!-- Business & Finance -->
@@ -318,71 +360,111 @@
       <div class="product-info">
         <strong>HIPAA &amp; Legal PII Redactor</strong>
         <span>Auto-Scrub SSNs, Patient Records, Financial Details &amp; Names</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $49.00</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/receipt-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Tax Receipt Privacy Scrubber</strong>
         <span>Sanitize Expense Slips, Crop Invoices &amp; Redact CC Info</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/ats-resume-checker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>ATS Resume Keyword Studio</strong>
         <span>AI Keyword Density Analyzer &bull; Private Client-Side Scoring</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $29.00</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/invoice-maker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Freelance Invoice &amp; Receipt Generator</strong>
         <span>Zero-Subscription Clean PDF Billing &bull; Tax Auto-Calc</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $14.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/quote-maker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Contractor &amp; Job Quote Estimator</strong>
         <span>Generate Professional Client Estimates in Seconds</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $12.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/bank-csv-summary/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Bank CSV Expense Summary Analyzer</strong>
         <span>Local Offline Bank Statement Totals &bull; Category Tally</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/csv-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Clean Spreadsheet CSV Tool</strong>
         <span>Strip Ghost Rows, Trailing Commas &amp; BOM Headers</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/csv-global-fixer/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>International CSV Delimiter &amp; Date Fixer</strong>
         <span>Convert Semicolons to Commas &bull; Standardize Dates</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/email-list-cleaner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Bulk Email List Sanitizer</strong>
         <span>Deduplicate Leads, Validate Syntax &amp; Remove Spam Traps</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $12.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/text-diff/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="business">
       <div class="product-info">
         <strong>Contract Text Diff Comparator</strong>
         <span>Side-by-Side Redline Diff &bull; Track Contract Clause Changes</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $14.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
 
     <!-- PDF & Documents -->
@@ -390,57 +472,89 @@
       <div class="product-info">
         <strong>Offline PDF Password Protector</strong>
         <span>128-bit AES Local Encryption &bull; Prevent Unauthorized Opens</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $12.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/pdf-combiner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>PDF Combiner &amp; Page Splitter</strong>
         <span>Merge Multiple PDFs into 1 File &bull; Reorder Pages Locally</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/pdf-shrinker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>PDF File Compressor &amp; Shrinker</strong>
         <span>Reduce Large Scans for Email &bull; Zero Quality Loss</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/pdf-signer/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>Offline PDF Signer &amp; Date Stamper</strong>
         <span>Sign Contracts with Touch or Pen &bull; Add Secure Initials</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $12.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/qr-sign-maker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>Forever Static QR &amp; Wi-Fi Sign Maker</strong>
-        <span>Zero-Redirect Printable QR Table Tents &amp; Office Wi-Fi Signs</span>
+        <span>Zero-Redirect Printable QR Table Tents &amp; Wi-Fi Signs</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $7.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/address-label-sheet/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>Peel-and-Stick Address Label Sheet Generator</strong>
         <span>Format 30-up Avery 5160 Labels Instantly</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $7.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/id-card-sheet/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>Official ID Card Print Sheet Formatter</strong>
         <span>Print-Ready Dual-Sided ID Cards on Standard 8.5x11</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/passport-photo/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="document">
       <div class="product-info">
         <strong>Passport &amp; Visa 2x2 Photo Framer</strong>
         <span>Official Biometric 2x2 Inch Crop Grid &bull; Printable Sheet</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
 
     <!-- Media & Utilities -->
@@ -448,36 +562,56 @@
       <div class="product-info">
         <strong>Image Resizer &amp; Megabyte Shrinker</strong>
         <span>Fast Multi-File Batch Compressor for Web &amp; Attachments</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $7.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/batch-watermarker/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
       <div class="product-info">
         <strong>Bulk Proof &amp; Copyright Watermarker</strong>
         <span>Stamp Copyrights &amp; Draft Watermarks on Batches of Photos</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/audio-converter/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
       <div class="product-info">
         <strong>Local Audio Format Converter</strong>
         <span>Convert WAV, MP3, M4A, OGG &bull; Clean In-Browser Transcoding</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $9.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./tools/video-joiner/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
       <div class="product-info">
         <strong>Video Clip Merger &amp; Joiner</strong>
         <span>Combine Short Video Takes into 1 File &bull; Zero Server Uploads</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $12.99</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
     <a href="./endurance/?founder=true&key=SOVEREIGN-FOUNDER-2026" class="product-row" data-cat="media">
       <div class="product-info">
-        <strong>AI Endurance 24-Worker Multi-Agent Hub</strong>
-        <span>Autonomous Relay Engine &bull; Zero Paid Credits Fleet</span>
+        <strong>AI Endurance 24-Worker Multi-Agent Fleet</strong>
+        <span>Autonomous Relay Engine &bull; Zero Paid Credits Cluster</span>
+        <div class="price-pill-row">
+          <span class="retail-badge">Retail: $299.00</span>
+          <span class="founder-free-badge">FREE FOR FOUNDER</span>
+        </div>
       </div>
-      <span class="launch-tag">⚡ UNLOCKED</span>
+      <span class="launch-tag">⚡ LAUNCH PRO</span>
     </a>
   </div>
 
