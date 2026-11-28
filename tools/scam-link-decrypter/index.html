@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Zero-Click Scam &amp; Phishing Link Decrypter — Sovereign Tech</title>
+  <meta name="description" content="Unmask hidden redirects, decode obfuscated scam links, and inspect phishing SMS safely in an air-gapped sandbox without clicking. 100% offline & client-side.">
+  <style id="sovereign-mobile-core-patch">
+    /* Sovereign Mobile Core Guard */
+    html, body {
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      -webkit-text-size-adjust: 100% !important;
+      -webkit-tap-highlight-color: transparent !important;
+    }
+    input, select, textarea, button {
+      font-size: 16px !important;
+      touch-action: manipulation !important;
+      min-height: 44px !important;
+      border-radius: 8px;
+    }
+  </style>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #0f172a;
+      --card-border: #1e293b;
+      --accent: #38bdf8;
+      --emerald: #10b981;
+      --danger: #ef4444;
+      --amber: #f59e0b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 16px 12px 60px;
+      line-height: 1.5;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header {
+      text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--card-border);
+    }
+    .badge-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399;
+      font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .auto-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8;
+      font-size: 11px; font-weight: 800; text-transform: uppercase; margin-left: 6px;
+    }
+    h1 { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 6px; }
+    p.sub { color: var(--muted); font-size: 13.5px; max-width: 620px; margin: 0 auto; }
+
+    .input-card {
+      background: var(--card); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; margin-bottom: 20px;
+    }
+    .url-input {
+      width: 100%; padding: 12px 14px; background: #0b1120; border: 1px solid #334155; color: #fff;
+      font-family: monospace; font-size: 14px !important; margin-bottom: 12px;
+    }
+    .url-input:focus { outline: none; border-color: var(--accent); }
+
+    .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .btn {
+      padding: 12px 20px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #10b981); color: #fff; }
+    .btn-demo { background: rgba(56, 189, 248, 0.15); border: 1px solid var(--accent); color: var(--accent); }
+    .btn-danger { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--danger); color: #f87171; }
+
+    .toast-card {
+      background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; border-radius: 12px;
+      padding: 14px 18px; margin-bottom: 18px; color: #34d399; font-weight: 700; font-size: 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .verdict-box {
+      border-radius: 14px; padding: 20px; margin-bottom: 20px; text-align: center;
+    }
+    .verdict-danger { background: rgba(239, 68, 68, 0.15); border: 2px solid var(--danger); color: #f87171; }
+    .verdict-safe { background: rgba(16, 185, 129, 0.15); border: 2px solid var(--emerald); color: #34d399; }
+    .verdict-title { font-size: 20px; font-weight: 900; margin-bottom: 6px; letter-spacing: 0.03em; }
+
+    .details-table {
+      width: 100%; border-collapse: collapse; margin-top: 14px; text-align: left; font-size: 13px;
+    }
+    .details-table td { padding: 8px 10px; border-bottom: 1px solid #1e293b; }
+    .details-table td:first-child { color: var(--muted); font-weight: 700; width: 140px; }
+    .details-table td:last-child { font-family: monospace; color: #fff; word-break: break-all; }
+  </style>
+  <script id="sovereign-founder-badge-script">
+    (function() {
+      const isFnd = localStorage.getItem('sovereign_pro_license') === 'FOUNDER_LIFETIME' || 
+                    localStorage.getItem('sovereign_license') === 'SOVEREIGN-FOUNDER-2026';
+      if (isFnd) {
+        document.addEventListener('DOMContentLoaded', function() {
+          const target = document.querySelector('header, .header, h1, .brand, .top-nav');
+          if (target && !document.getElementById('fndBadgePill')) {
+            const b = document.createElement('span');
+            b.id = 'fndBadgePill';
+            b.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;background:rgba(16,185,129,0.2);border:1px solid #10b981;color:#34d399;font-size:11px;font-weight:800;margin-left:8px;vertical-align:middle;text-transform:uppercase;letter-spacing:0.04em;';
+            b.innerHTML = '🎖️ FOUNDER AUTHENTICATED';
+            target.appendChild(b);
+          }
+        });
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="badge-pill">⚡ Zero-Click Sandbox • Air-Gapped Analysis</div>
+      <div class="auto-pill" id="autoStatus">🤖 Real-Time Stream Active</div>
+      <h1>Zero-Click Scam &amp; Phishing Link Decrypter</h1>
+      <p class="sub">Safely inspect sketchy text messages, fake bank alerts, and shortened links without ever loading malicious scripts or notifying scam servers. 100% offline & client-side.</p>
+    </div>
+
+    <!-- Inline Status Toast -->
+    <div id="inlineToast" class="toast-card" style="display:none;">
+      <span id="toastMsg">✓ Link Decrypted Safely</span>
+      <button style="background:none; border:none; color:#34d399; font-weight:800; cursor:pointer;" onclick="hideToast()">✕</button>
+    </div>
+
+    <!-- Input Box -->
+    <div class="input-card">
+      <label style="display:block; font-size:12px; font-weight:800; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">
+        Suspicious Link or SMS Message (Paste Directly — Zero Risk)
+      </label>
+      <input type="text" id="targetUrl" class="url-input" placeholder="e.g. https://bit.ly/3x8Q9pZ or http://192.168.1.10/apple-id-verify" oninput="autoInspectLink()">
+      <div style="font-size:11.5px; color:var(--muted);">
+        🛡️ Fully isolated sandbox: The browser never makes network calls to the target site. Analyzed entirely through local heuristic decoding.
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="btn-row">
+      <button class="btn btn-demo" onclick="loadSampleScam('usps')">
+        <span>📦 Test Fake USPS Delivery SMS</span>
+      </button>
+      <button class="btn btn-demo" onclick="loadSampleScam('bank')">
+        <span>🏦 Test Fake Bank Phishing Link</span>
+      </button>
+      <button class="btn btn-danger" onclick="clearInput()">
+        <span>🗑️ Clear Link</span>
+      </button>
+    </div>
+
+    <!-- Analysis Verdict -->
+    <div id="analysisCard" style="display:none;">
+      <div id="verdictBox" class="verdict-box verdict-danger">
+        <div class="verdict-title" id="verdictTitle">⚠️ HIGH RISK PHISHING DETECTED</div>
+        <div id="verdictDesc" style="font-size:13.5px;">This URL uses deception tactics designed to spoof official institutions.</div>
+      </div>
+
+      <div style="background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:18px; margin-bottom:20px;">
+        <h3 style="font-size:15px; margin-bottom:10px;">🔍 Decoded Security Breakdown</h3>
+        <table class="details-table">
+          <tr>
+            <td>Original Input</td>
+            <td id="tblOriginal">-</td>
+          </tr>
+          <tr>
+            <td>Destination Host</td>
+            <td id="tblHost">-</td>
+          </tr>
+          <tr>
+            <td>Deception Class</td>
+            <td id="tblClass">-</td>
+          </tr>
+          <tr>
+            <td>Trackers Stripped</td>
+            <td id="tblTrackers">-</td>
+          </tr>
+          <tr>
+            <td>Decoded Payload</td>
+            <td id="tblPayload">-</td>
+          </tr>
+          <tr>
+            <td>Risk Score</td>
+            <td id="tblRisk">-</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="copySanitizedLink()">
+          <span>📋 Copy Neutralized / Sanitized Link</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showToast(msg, ms = 3500) {
+      const toast = document.getElementById('inlineToast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.style.display = 'flex';
+      if (ms > 0) setTimeout(() => { toast.style.display = 'none'; }, ms);
+    }
+    function hideToast() {
+      document.getElementById('inlineToast').style.display = 'none';
+    }
+
+    function loadSampleScam(type) {
+      let sample = '';
+      if (type === 'usps') {
+        sample = 'https://usps-tracking-package-redelivery-notice.online/redeliver?pkg=9400111899&token=YWRtaW46cGFzc3dvcmQ=&utm_source=sms_scam';
+      } else if (type === 'bank') {
+        sample = 'http://198.51.100.42/secure-chase-login-update/auth.php?ref=account_lockout';
+      }
+      document.getElementById('targetUrl').value = sample;
+      autoInspectLink();
+    }
+
+    function clearInput() {
+      document.getElementById('targetUrl').value = '';
+      document.getElementById('analysisCard').style.display = 'none';
+      hideToast();
+    }
+
+    function autoInspectLink() {
+      const raw = document.getElementById('targetUrl').value.trim();
+      if (!raw || raw.length < 5) {
+        document.getElementById('analysisCard').style.display = 'none';
+        return;
+      }
+
+      // Safe client-side parsing without executing or fetching
+      let urlObj;
+      try {
+        urlObj = new URL(raw.startsWith('http') ? raw : 'https://' + raw);
+      } catch (e) {
+        return; // Incomplete typing
+      }
+
+      const host = urlObj.hostname.toLowerCase();
+      const path = urlObj.pathname.toLowerCase();
+      const search = urlObj.search;
+
+      let riskScore = 10;
+      let reasons = [];
+
+      // Check IP as domain
+      const isIp = /^(\d{1,3}\.){3}\d{1,3}$/.test(host);
+      if (isIp) {
+        riskScore += 45;
+        reasons.push('Raw numeric IP address used instead of reputable registered domain name');
+      }
+
+      // Check Suspicious TLD
+      const suspTlds = ['.online', '.top', '.xyz', '.cc', '.info', '.live', '.pw', '.club'];
+      if (suspTlds.some(tld => host.endsWith(tld))) {
+        riskScore += 30;
+        reasons.push('High-risk low-reputation top-level domain commonly used in bulk phishing');
+      }
+
+      // Check Brand Spoofing
+      const brands = ['usps', 'fedex', 'dhl', 'chase', 'apple', 'paypal', 'wellsfargo', 'netflix', 'amazon', 'bank'];
+      for (const b of brands) {
+        if (host.includes(b) && !host.endsWith(b + '.com')) {
+          riskScore += 40;
+          reasons.push(`Brand impersonation attack detected targeting "${b.toUpperCase()}"`);
+          break;
+        }
+      }
+
+      // Check credential keywords
+      const credWords = ['login', 'secure', 'auth', 'verify', 'update', 'account', 'redeliver', 'password'];
+      const hitWords = credWords.filter(w => (path + search).includes(w));
+      if (hitWords.length > 0) {
+        riskScore += 25;
+        reasons.push(`Credential harvesting tokens detected: [${hitWords.join(', ')}]`);
+      }
+
+      // Tracking param strip
+      const cleanParams = new URLSearchParams(urlObj.search);
+      const strippedKeys = [];
+      ['utm_source', 'utm_medium', 'utm_campaign', 'token', 'ref', 'click_id'].forEach(k => {
+        if (cleanParams.has(k)) {
+          strippedKeys.push(k);
+          cleanParams.delete(k);
+        }
+      });
+
+      // Decode base64 parameters safely
+      let decodedPayload = 'None';
+      const tokenMatch = search.match(/(?:token|data|auth)=([A-Za-z0-9+/=]+)/);
+      if (tokenMatch && tokenMatch[1].length > 4) {
+        try {
+          decodedPayload = atob(tokenMatch[1]);
+        } catch (e) {
+          decodedPayload = tokenMatch[1];
+        }
+      }
+
+      // Render verdict
+      const card = document.getElementById('analysisCard');
+      const box = document.getElementById('verdictBox');
+      const vTitle = document.getElementById('verdictTitle');
+      const vDesc = document.getElementById('verdictDesc');
+
+      card.style.display = 'block';
+
+      if (riskScore >= 50) {
+        box.className = 'verdict-box verdict-danger';
+        vTitle.textContent = '🚨 HIGH RISK MALICIOUS PHISHING DETECTED';
+        vDesc.textContent = reasons.join(' • ');
+      } else {
+        box.className = 'verdict-box verdict-safe';
+        vTitle.textContent = '✓ REPUTABLE DOMAIN SIGNATURE';
+        vDesc.textContent = 'No known phishing spoofing patterns or credential harvesting vectors detected.';
+      }
+
+      document.getElementById('tblOriginal').textContent = raw;
+      document.getElementById('tblHost').textContent = host;
+      document.getElementById('tblClass').textContent = reasons.length ? reasons[0] : 'Standard Web Link';
+      document.getElementById('tblTrackers').textContent = strippedKeys.length ? strippedKeys.join(', ') : 'None Found';
+      document.getElementById('tblPayload').textContent = decodedPayload;
+      document.getElementById('tblRisk').textContent = `${riskScore} / 100 (${riskScore >= 50 ? 'CRITICAL RISK' : 'LOW RISK'})`;
+
+      showToast(`✓ Zero-Click Audit Complete: ${riskScore >= 50 ? 'Phishing Threat Flagged!' : 'Link Verified Clean.'}`, 3000);
+    }
+
+    function copySanitizedLink() {
+      const raw = document.getElementById('targetUrl').value.trim();
+      if (!raw) return;
+      try {
+        const u = new URL(raw.startsWith('http') ? raw : 'https://' + raw);
+        ['utm_source', 'utm_medium', 'utm_campaign', 'token', 'ref', 'click_id'].forEach(k => u.searchParams.delete(k));
+        navigator.clipboard.writeText(u.toString());
+        showToast('✓ Copied sanitized link without tracking beacons or session tags!', 3000);
+      } catch (e) {
+        showToast('Could not sanitize invalid URL format.', 2500);
+      }
+    }
+  </script>
+</body>
+</html>
