@@ -1,19 +1,4 @@
 User-agent: *
-# Commercial Public Tools & Storefront (Allowed)
 Allow: /
-Allow: /cleaner/
-Allow: /tools/
-Allow: /guides/
-Allow: /index.html
-Allow: /checkout.html
-Allow: /terms.html
-
-# Internal Company Apps & Founder Utilities (Strictly Disallowed / No Index)
-Disallow: /panel.html
-Disallow: /panel-manifest.json
-Disallow: /badge.html
-Disallow: /*founder=*
-Disallow: /*badge=*
-Disallow: /*auth=*
 
 Sitemap: https://gmitch12967-crypto.github.io/sitemap.xml
